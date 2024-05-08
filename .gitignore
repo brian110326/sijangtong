@@ -9,6 +9,7 @@ languageServers-log
 .mvn/
 mvnw
 mvnw.cmd
+HELP.md
 
 ### Java ###
 # Compiled class file
