@@ -15,9 +15,6 @@ import groovyjarjarantlr4.runtime.IntStream;
 public class StoreRepositoryTest {
 
     @Autowired
-    private InfoRepository infoRepository;
-
-    @Autowired
     private MemberRepository memberRepository;
 
     @Autowired
