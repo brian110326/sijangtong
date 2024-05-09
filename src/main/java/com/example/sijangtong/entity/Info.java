@@ -1,5 +1,8 @@
 package com.example.sijangtong.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,17 +28,21 @@ public class Info extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "storeinfoid_seq_gen")
     private Long storeInfoId;
 
-    private String storeTel;
+    private String storeTel; // 전화번호
 
-    private String storeTime;
+    private String storeTime; // 영업시간
 
-    private String storeAddress;
+    private String storeAddress; //주소
 
-    private String storeName;
+    private String storeName; // 이름
 
-    private String storeDetail;
+    private String storeDetail; // 매장 상세정보
 
     @OneToOne
     private Store store;
 
+
+
+
+    
 }
