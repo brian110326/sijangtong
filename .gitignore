@@ -10,7 +10,8 @@ languageServers-log
 mvnw
 mvnw.cmd
 HELP.md
-
+pom.xml
+.properties
 ### Java ###
 # Compiled class file
 *.class
