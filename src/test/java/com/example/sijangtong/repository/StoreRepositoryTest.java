@@ -1,5 +1,6 @@
 package com.example.sijangtong.repository;
 
+import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
@@ -12,6 +13,10 @@ import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Order;
+import com.example.sijangtong.entity.OrderItem;
+import com.example.sijangtong.entity.Product;
+import com.example.sijangtong.entity.ProductImg;
+import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 
 import groovy.transform.AutoImplement;
@@ -71,13 +76,89 @@ public class StoreRepositoryTest {
     }
 
     @Test
+    public void insertOrderItemTest() {
+
+        LongStream.rangeClosed(1, 200).forEach(i -> {
+            Product product = Product.builder().productId(i).build();
+            Order order = Order.builder().orderId(i).build();
+
+            OrderItem orderItem = OrderItem.builder()
+                    .product(product)
+                    .order(order)
+                    .orderPrice(25000)
+                    .orderAmount((int) (Math.random() * 15) + 1)
+                    .build();
+            orderItemRepository.save(orderItem);
+        });
+    }
+
+    @Test
     public void insertStoreTest() {
         LongStream.rangeClosed(1, 200).forEach(i -> {
             Store store = Store.builder()
                     .storeCategory(StoreCategory.SEAFOOD)
+                    .storeTel("010-1111-1" + i)
+                    .openTime("6 시에 오픈")
+                    .closeTime("10시에 마감")
+                    .storeAddress("종로")
+                    .storeName("이것은 가계요" + i)
+                    .storeDetail("이 가계는....")
                     .build();
 
             storeRepository.save(store);
+        });
+    }
+
+    @Test
+    public void insertProductTest() {
+
+        LongStream.rangeClosed(1, 200).forEach(i -> {
+            Store store = Store.builder().storeId(i).build();
+            Order order = Order.builder().orderId(i).build();
+
+            Product product = Product.builder()
+                    .pName("재고" + i)
+                    .price(5000)
+                    .amount(20)
+                    .store(store)
+                    .order(order)
+                    .build();
+
+            productRepository.save(product);
+        });
+    }
+
+    @Test
+    public void insertReviewTest() {
+
+        LongStream.rangeClosed(1, 200).forEach(i -> {
+
+            Store store = Store.builder().storeId(i).build();
+            Member member = Member.builder().memberEmail("member" + i + "@naver.com").build();
+
+            Review review = Review.builder()
+                    .text("이 매장에 대한 리뷰는.....")
+                    .grade((int) (Math.random() * 5) + 1)
+                    .store(store)
+                    .member(member)
+                    .build();
+            reviewRepository.save(review);
+        });
+    }
+
+    @Test
+    public void insertProductImgTest() {
+        LongStream.rangeClosed(1, 200).forEach(i -> {
+            Product product = Product.builder().productId(i).build();
+
+            ProductImg productImg = ProductImg.builder()
+                    .uuid(UUID.randomUUID().toString())
+                    .path(null)
+                    .imgName("img" + i + ".jpg")
+                    .product(product)
+                    .build();
+            productImgRepository.save(productImg);
+
         });
     }
 
