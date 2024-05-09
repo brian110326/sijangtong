@@ -1,5 +1,6 @@
 package com.example.sijangtong.repository;
 
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.sijangtong.constant.MemberRole;
 import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.StoreCategory;
+import com.example.sijangtong.entity.Member;
+import com.example.sijangtong.entity.Order;
+import com.example.sijangtong.entity.Store;
 
 import groovy.transform.AutoImplement;
 
@@ -77,20 +81,4 @@ public class StoreRepositoryTest {
         });
     }
 
-    @Test
-    public void insertStoreInfoTest() {
-        LongStream.rangeClosed(1, 200).forEach(i -> {
-            Store store = Store.builder().storeId(i).build();
-            Info info = Info.builder()
-                    .storeTel("010-1111-1" + i)
-                    .storeTime("6시부터 10시까지")
-                    .storeAddress("종로구")
-                    .storeName("매장" + i)
-                    .storeDetail("우리 가계 맛있어요" + i)
-                    .store(store)
-                    .build();
-
-            infoRepository.save(info);
-        });
-    }
 }
