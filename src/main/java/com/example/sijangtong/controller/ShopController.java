@@ -9,14 +9,15 @@ import lombok.extern.log4j.Log4j2;
 
 
 @Controller
+@RequestMapping("/shop")
 @Log4j2
-// @RequestMapping("")
-public class HomeController {
+public class ShopController {
     
-    @GetMapping( value = {"/index"})
-    public void getMethodName() {
-        log.info("기본 화면 요청");
-        
+
+
+    @GetMapping("/list")
+    public void getList() {
+        log.info("리스트 폼 요청");
     }
     
 }
