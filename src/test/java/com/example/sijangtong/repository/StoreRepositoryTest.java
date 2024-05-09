@@ -1,5 +1,8 @@
 package com.example.sijangtong.repository;
 
+import java.util.stream.LongStream;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -31,4 +34,5 @@ public class StoreRepositoryTest {
 
     @Autowired
     private StoreRepository storeRepository;
+
 }
