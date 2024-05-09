@@ -35,4 +35,6 @@ public class Info extends BaseEntity {
 
     private String storeDetail;
 
+    private Store store;
+
 }

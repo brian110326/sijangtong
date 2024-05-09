@@ -11,6 +11,9 @@ mvnw
 mvnw.cmd
 HELP.md
 
+pom.xml
+application.properties
+
 ### Java ###
 # Compiled class file
 *.class

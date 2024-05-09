@@ -46,7 +46,7 @@ public class QStore extends EntityPathBase<Store> {
 
     public QStore(Class<? extends Store> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.info = inits.isInitialized("info") ? new QInfo(forProperty("info")) : null;
+        this.info = inits.isInitialized("info") ? new QInfo(forProperty("info"), inits.get("info")) : null;
     }
 
 }
