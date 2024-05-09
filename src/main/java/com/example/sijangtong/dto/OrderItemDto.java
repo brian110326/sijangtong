@@ -21,7 +21,7 @@ public class OrderItemDto {
 
     private Product product;
 
-    private Order order;
+    private Long orderId;
 
     private int orderPrice; // 주문가격
 
