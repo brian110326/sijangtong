@@ -5,12 +5,18 @@
 */.gitignore
 languageServers-log
 
+
 ## mvn 파일 제외 ##
 .mvn/
 mvnw
 mvnw.cmd
 HELP.md
+<<<<<<< HEAD
+=======
+pom.xml
+application.properties
 
+>>>>>>> main
 pom.xml
 application.properties
 
