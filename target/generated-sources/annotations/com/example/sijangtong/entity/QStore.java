@@ -19,6 +19,10 @@ public class QStore extends EntityPathBase<Store> {
 
     public static final QStore store = new QStore("store");
 
+    public final StringPath closeTime = createString("closeTime");
+
+    public final StringPath openTime = createString("openTime");
+
     public final StringPath storeAddress = createString("storeAddress");
 
     public final EnumPath<com.example.sijangtong.constant.StoreCategory> storeCategory = createEnum("storeCategory", com.example.sijangtong.constant.StoreCategory.class);
@@ -30,8 +34,6 @@ public class QStore extends EntityPathBase<Store> {
     public final StringPath storeName = createString("storeName");
 
     public final StringPath storeTel = createString("storeTel");
-
-    public final StringPath storeTime = createString("storeTime");
 
     public QStore(String variable) {
         super(Store.class, forVariable(variable));

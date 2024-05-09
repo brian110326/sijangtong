@@ -34,7 +34,8 @@ public class Store {
 
     private String storeTel;
 
-    private String storeTime;
+    private String openTime;
+    private String closeTime;
 
     private String storeAddress;
 
