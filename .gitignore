@@ -11,9 +11,12 @@ languageServers-log
 mvnw
 mvnw.cmd
 HELP.md
+<<<<<<< HEAD
+=======
 pom.xml
 application.properties
 
+>>>>>>> main
 pom.xml
 application.properties
 
