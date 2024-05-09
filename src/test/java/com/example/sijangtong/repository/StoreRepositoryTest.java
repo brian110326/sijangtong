@@ -1,24 +1,19 @@
 package com.example.sijangtong.repository;
 
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import com.example.sijangtong.constant.MemberRole;
 import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.StoreCategory;
-import com.example.sijangtong.entity.Info;
-import com.example.sijangtong.entity.Member;
-import com.example.sijangtong.entity.Order;
-import com.example.sijangtong.entity.Store;
+
+import groovy.transform.AutoImplement;
 
 @SpringBootTest
 public class StoreRepositoryTest {
-
-    @Autowired
-    private InfoRepository infoRepository;
 
     @Autowired
     private MemberRepository memberRepository;

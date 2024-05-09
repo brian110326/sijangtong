@@ -14,6 +14,9 @@ HELP.md
 pom.xml
 application.properties
 
+pom.xml
+application.properties
+
 ### Java ###
 # Compiled class file
 *.class
