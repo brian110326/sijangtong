@@ -35,7 +35,4 @@ public class Info extends BaseEntity {
 
     private String storeDetail;
 
-    @OneToOne
-    private Store store;
-
 }

@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.sijangtong.entity.Review;
 
 import groovy.transform.AutoImplement;
+import groovyjarjarantlr4.runtime.IntStream;
 
 @SpringBootTest
 public class StoreRepositoryTest {
