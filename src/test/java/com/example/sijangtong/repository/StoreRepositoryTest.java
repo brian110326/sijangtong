@@ -125,6 +125,18 @@ public class StoreRepositoryTest {
                     .build();
 
             productRepository.save(product);
+
+            int count = (int) (Math.random() * 5) + 1;
+
+            for (int j = 0; j < count; j++) {
+                ProductImg productImg = ProductImg.builder()
+                        .uuid(UUID.randomUUID().toString())
+                        .path(null)
+                        .imgName("img" + i + ".jpg")
+                        .product(product)
+                        .build();
+                productImgRepository.save(productImg);
+            }
         });
     }
 
@@ -143,22 +155,6 @@ public class StoreRepositoryTest {
                     .member(member)
                     .build();
             reviewRepository.save(review);
-        });
-    }
-
-    @Test
-    public void insertProductImgTest() {
-        LongStream.rangeClosed(1, 200).forEach(i -> {
-            Product product = Product.builder().productId(i).build();
-
-            ProductImg productImg = ProductImg.builder()
-                    .uuid(UUID.randomUUID().toString())
-                    .path(null)
-                    .imgName("img" + i + ".jpg")
-                    .product(product)
-                    .build();
-            productImgRepository.save(productImg);
-
         });
     }
 
