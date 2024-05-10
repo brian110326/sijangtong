@@ -15,8 +15,18 @@ public class ShopController {
     
 
 
+    @GetMapping("/storeDetail")
+    public void getDetail() {
+        log.info("디테일 폼 요청");
+    }
+    
     @GetMapping("/list")
     public void getList() {
+        log.info("리스트 폼 요청");
+    }
+    
+    @GetMapping("/read")
+    public void getread() {
         log.info("리스트 폼 요청");
     }
     
