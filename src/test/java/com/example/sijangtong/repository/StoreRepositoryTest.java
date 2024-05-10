@@ -164,6 +164,7 @@ public class StoreRepositoryTest {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 =======
     @Test
@@ -178,3 +179,6 @@ public class StoreRepositoryTest {
 
 }
 >>>>>>> b73339ead377378fefdd1432aef3f8de6e2c2643
+=======
+}
+>>>>>>> dongwan
