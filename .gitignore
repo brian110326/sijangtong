@@ -6,6 +6,8 @@
 languageServers-log
 
 
+
+
 ## mvn 파일 제외 ##
 .mvn/
 mvnw
@@ -13,6 +15,8 @@ mvnw.cmd
 HELP.md
 pom.xml
 application.properties
+target/
+
 
 ### Java ###
 # Compiled class file
@@ -23,6 +27,7 @@ application.properties
 
 # BlueJ files
 *.ctxt
+
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
