@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.sijangtong.constant.MemberRole;
 import com.example.sijangtong.constant.OrderPayment;
+import com.example.sijangtong.constant.RiderStatus;
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Order;
@@ -17,6 +18,7 @@ import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.ProductImg;
 import com.example.sijangtong.entity.Review;
+import com.example.sijangtong.entity.Rider;
 import com.example.sijangtong.entity.Store;
 
 import groovy.transform.AutoImplement;
@@ -44,6 +46,9 @@ public class StoreRepositoryTest {
 
     @Autowired
     private StoreRepository storeRepository;
+
+    @Autowired
+    private RiderRepository riderRepository;
 
     @Test
     public void insertMemberTest() {
