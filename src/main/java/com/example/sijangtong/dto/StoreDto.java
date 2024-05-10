@@ -1,5 +1,8 @@
 package com.example.sijangtong.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.sijangtong.constant.StoreCategory;
 
 import jakarta.persistence.EnumType;
@@ -29,4 +32,7 @@ public class StoreDto {
     private String storeName;
 
     private String storeDetail;
+
+    @Builder.Default
+    private List<StoreDto> storeDtos = new ArrayList<>();
 }

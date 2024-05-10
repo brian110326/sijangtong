@@ -1,5 +1,6 @@
-package com.example.sijangtong.service;
+package com.example.sijangtong.repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -8,11 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.repository.ProductRepository;
+import com.example.sijangtong.repository.StoreImgRepository;
 import com.example.sijangtong.repository.StoreRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -21,17 +24,17 @@ import lombok.RequiredArgsConstructor;
 public class SijangtongServiceTest {
 
     @Autowired
-    private StoreRepository storeRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
+    private StoreImgRepository storeImgRepository;
 
     @Test
     public void storeList() {
-        PageRequest pageRequest = PageRequest.of(0, 10);
-        Page<Object> list = storeRepository.getListPage(pageRequest);
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
 
-        list.forEach(store -> System.out.println(store));
+        Page<Object[]> list = storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("store_id")));
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
+
     }
 
 }
