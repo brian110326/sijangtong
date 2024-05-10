@@ -12,7 +12,9 @@ public interface StoreService {
 
     PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto);
 
-    public default StoreDto entityToDto(Store store, List<StoreImg> storeImgs) {
+    StoreDto getRow(Long storeId);
+
+    public default StoreDto entityToDto(Store store, List<StoreImg> storeImgs, Double avg) {
         StoreDto storeDto = StoreDto.builder().storeId(store.getStoreId())
                 .storeCategory(store.getStoreCategory())
                 .storeTel(store.getStoreTel())
@@ -21,22 +23,10 @@ public interface StoreService {
                 .storeAddress(store.getStoreAddress())
                 .storeName(store.getStoreName())
                 .storeDetail(store.getStoreDetail())
+                .gradeAvg(avg != null ? avg : 0.0d)
                 .build();
 
         return storeDto;
     }
 
-    public default Store dtoToEntity(StoreDto storeDto) {
-        Store store = Store.builder().storeId(storeDto.getStoreId())
-                .storeCategory(storeDto.getStoreCategory())
-                .storeTel(storeDto.getStoreTel())
-                .openTime(storeDto.getOpenTime())
-                .closeTime(storeDto.getCloseTime())
-                .storeAddress(storeDto.getStoreAddress())
-                .storeName(storeDto.getStoreName())
-                .storeDetail(storeDto.getStoreDetail())
-                .build();
-
-        return store;
-    }
 }

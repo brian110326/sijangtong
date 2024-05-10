@@ -33,6 +33,8 @@ public class StoreDto {
 
     private String storeDetail;
 
+    private double gradeAvg;
+
     @Builder.Default
     private List<StoreDto> storeDtos = new ArrayList<>();
 }
