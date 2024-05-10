@@ -161,12 +161,15 @@ public class StoreRepositoryTest {
                     .build();
             reviewRepository.save(review);
         });
+<<<<<<< HEAD
     }
 
 <<<<<<< HEAD
 <<<<<<< HEAD
-}
 =======
+    
+>>>>>>> 1602c32f64aed7770e867fb63d7a7812c0a201f8
+}
     @Test
     public void riderInsertTest() {
         LongStream.rangeClosed(1, 100).forEach(i -> {
@@ -178,7 +181,10 @@ public class StoreRepositoryTest {
     }
 
 }
+<<<<<<< HEAD
 >>>>>>> b73339ead377378fefdd1432aef3f8de6e2c2643
 =======
 }
 >>>>>>> dongwan
+=======
+>>>>>>> 1602c32f64aed7770e867fb63d7a7812c0a201f8
