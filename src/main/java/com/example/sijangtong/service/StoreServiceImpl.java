@@ -79,7 +79,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     @Transactional
     public Long removeStore(Long storeId) {
-        Store store = storeRepository.findById(200L).get();
+        Store store = storeRepository.findById(storeId).get();
         Product product = productRepository.findByStore(store).get(0);
         Review review = reviewRepository.findByStore(store).get(0);
         Order order = orderRepository.findByReview(review);

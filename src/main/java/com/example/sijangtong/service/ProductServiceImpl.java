@@ -13,11 +13,14 @@ import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ProductDto;
 import com.example.sijangtong.dto.StoreDto;
+import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.ProductImg;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
+import com.example.sijangtong.repository.OrderItemRepository;
 import com.example.sijangtong.repository.ProductImgRepository;
+import com.example.sijangtong.repository.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +29,10 @@ import lombok.RequiredArgsConstructor;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductImgRepository productImgRepository;
+
+    private final ProductRepository productRepository;
+
+    private final OrderItemRepository orderItemRepository;
 
     @Override
     public PageResultDto<ProductDto, Object[]> getProductList(PageRequestDto pageRequestDto, Long storeId) {
@@ -48,6 +55,22 @@ public class ProductServiceImpl implements ProductService {
         List<ProductImg> list = result.stream().map(en -> (ProductImg) en[1]).collect(Collectors.toList());
 
         return entityToDto(product, list);
+    }
+
+    @Override
+    public Long removeProduct(Long productId) {
+        Product product = productRepository.findById(productId).get();
+        OrderItem orderItem = orderItemRepository.findByProduct(product);
+
+        productImgRepository.deleteByProduct(product);
+
+        // product 삭제 시 orderItem안 product항목만 null로 설정
+        orderItem.setProduct(null);
+
+        productRepository.delete(product);
+
+        // ex) return 값이 Long 이유 : 200번 삭제성공 alert창(예시)
+        return product.getProductId();
     }
 
 }
