@@ -7,14 +7,12 @@
 <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
 <!-- Core theme CSS (includes Bootstrap)-->
 <link th:href="@{/css/list.css}" rel="stylesheet" />
-<style>
-</style>
 
 </th:block>
   <div layout:fragment="content" class=" px-6 mx-auto grid">
     
     <div class="row">
-        <div class="">
+        <div class="col-lg-8">
             <!-- Post content-->
             <header class="bg-gray-100 py-5">
                 <div class="container px-4 px-lg-5 my-5 ">
@@ -32,7 +30,7 @@
                         <area th:href="@{/shop/list?금천구}" shape="poly" coords="140,340,156,350,175,354,176,364,183,374,186,385,193,391,194,398,182,410,167,407,157,386,152,378,151,362,142,351"  alt="금천구">
                         <area th:href="@{/shop/list?노원구}" shape="poly" coords="364,24,390,14,397,24,412,24,410,32,407,44,410,54,409,63,400,69,404,78,414,90,428,94,432,107,422,115,420,124,410,126,404,124,392,130,379,133,364,127,360,116,356,106,361,100,375,92,375,72,368,60,361,46,368,33"  alt="노원구">
                         <area th:href="@{/shop/list?도봉구}" shape="poly" coords="305,18,313,3,327,6,333,18,346,19,359,25,354,40,359,54,366,66,367,79,366,92,357,92,349,101,334,90,318,78,320,64,326,47,316,40"  alt="도봉구">
-                        <area th:href="@{/shop/list동대문구}" shape="poly" coords="386,155,380,164,384,174,385,184,395,194,391,204,389,218,371,213,360,202,347,194,335,196,341,182,351,171,366,163" alt="동대문구">
+                        <area th:href="@{/shop/list?동대문구}" shape="poly" coords="386,155,380,164,384,174,385,184,395,194,391,204,389,218,371,213,360,202,347,194,335,196,341,182,351,171,366,163" alt="동대문구">
                         <area th:href="@{/shop/list?동작구}" shape="poly" coords="206,295,224,292,240,296,260,303,269,310,274,321,273,338,268,350,256,345,252,326,241,324,228,323,218,323,199,328,174,334"  alt="동작구">
                         <area th:href="@{/shop/list?마포구}" shape="poly" coords="160,178,169,200,184,208,195,214,199,230,212,235,236,233,245,234,238,250,227,258,216,254,193,250,171,234,155,222,138,212,129,200,139,193,144,179" alt="마포구">
                         <area th:href="@{/shop/list?서대문구}" shape="poly" coords="225,156,239,165,241,176,241,189,243,204,245,210,245,220,228,228,208,225,203,214,194,208,181,196,187,187,209,182,217,170"  alt="서대문구">
@@ -49,8 +47,13 @@
                         <area th:href="@{/shop/list?중량구}" shape="poly" coords="393,142,407,132,419,138,432,132,439,136,442,144,440,158,442,166,435,174,431,185,429,192,420,200,409,204,402,202,404,191,399,176,391,171,389,165,398,156"  alt="중랑구">
                     </map>
                 </figure>
+            <header class="bg-dark py-5">
+                <div class="container px-4 px-lg-5 my-5">
+                    <div class="text-center text-white">
+                        <h1 class="display-4 fw-bolder">Shop in style</h1>
+                        <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                    </div>
                 </div>
-            </header>
             <!-- Section-->
             <section class="py-5">
                 <div class="container px-4 px-lg-5 mt-5">
@@ -265,7 +268,7 @@
 
 <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script th:src="@{/js/list.js}"></script>
+<script th:src="@{/list.js}"></script>
 </th:block>
     
 </html>

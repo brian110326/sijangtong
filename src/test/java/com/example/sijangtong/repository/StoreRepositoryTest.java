@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.sijangtong.constant.MemberRole;
 import com.example.sijangtong.constant.OrderPayment;
+import com.example.sijangtong.constant.RiderStatus;
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Order;
@@ -17,7 +18,9 @@ import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.ProductImg;
 import com.example.sijangtong.entity.Review;
+import com.example.sijangtong.entity.Rider;
 import com.example.sijangtong.entity.Store;
+import com.example.sijangtong.entity.StoreImg;
 
 import groovy.transform.AutoImplement;
 
@@ -44,6 +47,12 @@ public class StoreRepositoryTest {
 
     @Autowired
     private StoreRepository storeRepository;
+
+    @Autowired
+    private StoreImgRepository storeImgRepository;
+
+    @Autowired
+    private RiderRepository riderRepository;
 
     @Test
     public void insertMemberTest() {
@@ -106,7 +115,23 @@ public class StoreRepositoryTest {
                     .build();
 
             storeRepository.save(store);
+
+            int count = (int) (Math.random() * 5) + 1;
+
+            for (int j = 0; j < count; j++) {
+                StoreImg storeImg = StoreImg.builder().stUuid(UUID.randomUUID().toString())
+                        .stPath(null)
+                        .stImgName("stImg" + i + ".jpg").store(store).build();
+
+                storeImgRepository.save(storeImg);
+            }
+
         });
+    }
+
+    @Test
+    public void insertStoreImgTest() {
+
     }
 
     @Test
@@ -155,6 +180,17 @@ public class StoreRepositoryTest {
                     .member(member)
                     .build();
             reviewRepository.save(review);
+        });
+    
+}
+    
+    @Test
+    public void riderInsertTest() {
+        LongStream.rangeClosed(1, 100).forEach(i -> {
+            Rider rider = Rider.builder().riderId(i).riderName("Rider" + i).riderTel("010-1234-5678")
+                    .riderStatus(RiderStatus.DELIVERING).build();
+
+            riderRepository.save(rider);
         });
     }
 
