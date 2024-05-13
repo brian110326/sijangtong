@@ -14,6 +14,8 @@ public interface StoreService {
 
     StoreDto getRow(Long storeId);
 
+    Long removeStore(Long storeId);
+
     public default StoreDto entityToDto(Store store, List<StoreImg> storeImgs, Double avg) {
         StoreDto storeDto = StoreDto.builder().storeId(store.getStoreId())
                 .storeCategory(store.getStoreCategory())

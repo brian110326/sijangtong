@@ -23,7 +23,6 @@ public interface ProductService {
                 .price(product.getPrice())
                 .amount(product.getAmount())
                 .storeId(product.getStore().getStoreId())
-                .orderId(product.getOrder().getOrderId())
                 .build();
 
         return productDto;

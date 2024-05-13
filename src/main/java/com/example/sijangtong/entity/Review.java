@@ -1,11 +1,13 @@
 package com.example.sijangtong.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,4 +37,8 @@ public class Review extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+
+    @OneToOne
+    private Order order;
+
 }
