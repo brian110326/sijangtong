@@ -16,6 +16,8 @@ public interface ProductService {
 
     ProductDto getProductRow(Long productId);
 
+    Long removeProduct(Long productId);
+
     public default ProductDto entityToDto(Product product, List<ProductImg> productImgs) {
         ProductDto productDto = ProductDto.builder()
                 .productId(product.getProductId())

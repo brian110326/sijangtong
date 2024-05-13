@@ -14,6 +14,7 @@ import org.springframework.test.annotation.Commit;
 
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.entity.Order;
+import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
@@ -115,6 +116,23 @@ public class SijangtongServiceTest {
         orderRepository.delete(order);
 
         storeRepository.delete(store);
+    }
+
+    @Test
+    @Commit
+    @Transactional
+    public void deleteProduct() {
+        Product product = productRepository.findById(199L).get();
+        OrderItem orderItem = orderItemRepository.findByProduct(product);
+        // System.out.println(product);
+        // System.out.println(orderItem);
+
+        productImgRepository.deleteByProduct(product);
+
+        // product 삭제 시 orderItem안 product항목만 null
+        orderItem.setProduct(null);
+
+        productRepository.delete(product);
     }
 
 }
