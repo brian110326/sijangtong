@@ -1,5 +1,8 @@
 package com.example.sijangtong.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.sijangtong.constant.StoreCategory;
 
 import jakarta.persistence.EnumType;
@@ -19,6 +22,19 @@ public class StoreDto {
 
     private StoreCategory storeCategory;
 
-    // StoreInfo와의 관계
-    private Long storeInfoId;
+    private String storeTel;
+
+    private String openTime;
+    private String closeTime;
+
+    private String storeAddress;
+
+    private String storeName;
+
+    private String storeDetail;
+
+    private double gradeAvg;
+
+    @Builder.Default
+    private List<StoreDto> storeDtos = new ArrayList<>();
 }

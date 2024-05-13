@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+  
+<th:block layout:fragment="css">
+
+<link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
+<!-- Core theme CSS (includes Bootstrap)-->
+<link th:href="@{/css/detail.css}" rel="stylesheet" />
+
+</th:block>
+  <div layout:fragment="content" class="container px-6 mx-auto grid">
+    
+    <div class="container">
+        <div class="row">
+            <!-- Blog entries-->
+            <div class="">
+                <!-- Featured blog post-->
+                <div class="card mb-4">
+                    <a href="#!"><img class="card-img-top" src="https://dummyimage.com/1200x550/dee2e6/6c757d.jpg" alt="..." title=""/></a>
+                    <div class="card-body">
+                        <div class="small text-muted">January 1, 2023</div>
+                        <h2 class="card-title">전통시장 이름....</h2>
+                        <p class="card-text">전통시장 설명...</p>
+                        <a class="btn btn-primary" href="#!">Read more →</a>
+                    </div>
+                </div>
+                <!-- Nested row for non-featured blog posts-->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!-- Blog post-->
+                        <div class="card mb-4">
+                            <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="" title=""/></a>
+                            <div class="card-body">
+                                <h2 class="card-title h4" id="product">상품1</h2>
+                                <p class="card-text">상품에 대한 설명</p>
+                                <a class="btn btn-primary"  th:href="@{/shop/buyitem}">구매</a>
+                            </div>
+                        </div>
+                        <!-- Blog post-->
+                        <div class="card mb-4">
+                            <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                            <div class="card-body">    
+                                <h2 class="card-title h4" id="product">상품1</h2>
+                                <p class="card-text">상품에 대한 설령</p>
+                                <a class="btn btn-primary"  th:href="@{/shop/buyitem}">구매</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- Blog post-->
+                        <div class="card mb-4">
+                            <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                            <div class="card-body">
+                                <h2 class="card-title h4" id="product">상품1</h2>
+                                <p class="card-text">상품에 대한 설령</p>
+                                <a class="btn btn-primary"  th:href="@{/shop/buyitem}">구매</a>
+                            </div>
+                        </div>
+                        <!-- Blog post-->
+                        <div class="card mb-4">
+                            <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                            <div class="card-body">
+                                <h2 class="card-title h4" id="product">상품1</h2>
+                                <p class="card-text">상품에 대한 설령</p>
+                                <a class="btn btn-primary"  th:href="@{/shop/buyitem}">구매</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination-->
+                <nav aria-label="Pagination">
+                    <hr class="my-0" />
+                    <ul class="pagination justify-content-center my-4">
+                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
+                        <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#!">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#!">3</a></li>
+                        <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#!">15</a></li>
+                        <li class="page-item"><a class="page-link" href="#!">Older</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+<th:block layout:fragment="script">
+
+
+
+<script href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script th:src="@{/js/detail.js}"></script>
+</th:block>
+    
+</html>

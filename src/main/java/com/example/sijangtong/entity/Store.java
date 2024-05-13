@@ -32,7 +32,14 @@ public class Store {
     @Enumerated(EnumType.STRING)
     private StoreCategory storeCategory;
 
-    // store를 기준으로 info 조회가능
-    @OneToOne(mappedBy = "store")
-    private Info info;
+    private String storeTel;
+
+    private String openTime;
+    private String closeTime;
+
+    private String storeAddress;
+
+    private String storeName;
+
+    private String storeDetail;
 }
