@@ -13,10 +13,20 @@ import org.springframework.stereotype.Service;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.StoreDto;
+import com.example.sijangtong.entity.Order;
+import com.example.sijangtong.entity.Product;
+import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
+import com.example.sijangtong.repository.OrderItemRepository;
+import com.example.sijangtong.repository.OrderRepository;
+import com.example.sijangtong.repository.ProductImgRepository;
+import com.example.sijangtong.repository.ProductRepository;
+import com.example.sijangtong.repository.ReviewRepository;
 import com.example.sijangtong.repository.StoreImgRepository;
+import com.example.sijangtong.repository.StoreRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,6 +34,18 @@ import lombok.RequiredArgsConstructor;
 public class StoreServiceImpl implements StoreService {
 
     private final StoreImgRepository storeImgRepository;
+
+    private final ReviewRepository reviewRepository;
+
+    private final ProductRepository productRepository;
+
+    private final StoreRepository storeRepository;
+
+    private final OrderRepository orderRepository;
+
+    private final OrderItemRepository orderItemRepository;
+
+    private final ProductImgRepository productImgRepository;
 
     @Override
     public PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto) {
@@ -52,6 +74,28 @@ public class StoreServiceImpl implements StoreService {
         List<StoreImg> list = result.stream().map(arr -> (StoreImg) arr[1]).collect(Collectors.toList());
 
         return entityToDto(store, list, avg);
+    }
+
+    @Override
+    @Transactional
+    public Long removeStore(Long storeId) {
+        Store store = storeRepository.findById(200L).get();
+        Product product = productRepository.findByStore(store).get(0);
+        Review review = reviewRepository.findByStore(store).get(0);
+        Order order = orderRepository.findByReview(review);
+
+        reviewRepository.deleteByStore(store);
+        storeImgRepository.deleteByStore(store);
+
+        orderItemRepository.deleteByProduct(product);
+        productImgRepository.deleteByProduct(product);
+
+        productRepository.deleteByStore(store);
+        orderRepository.delete(order);
+
+        storeRepository.delete(store);
+
+        return store.getStoreId();
     }
 
 }

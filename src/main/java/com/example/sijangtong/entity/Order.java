@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.example.sijangtong.constant.OrderPayment;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -21,7 +23,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = "member")
+@ToString(exclude = { "member", "review" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orders")
@@ -41,4 +43,7 @@ public class Order extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+
+    @OneToOne(mappedBy = "order")
+    private Review review;
 }
