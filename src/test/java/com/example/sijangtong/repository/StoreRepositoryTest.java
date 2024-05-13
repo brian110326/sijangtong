@@ -181,8 +181,9 @@ public class StoreRepositoryTest {
                     .build();
             reviewRepository.save(review);
         });
-    }
-
+    
+}
+    
     @Test
     public void riderInsertTest() {
         LongStream.rangeClosed(1, 100).forEach(i -> {
