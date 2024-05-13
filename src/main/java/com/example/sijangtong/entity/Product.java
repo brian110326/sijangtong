@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = { "store", "order" })
+@ToString(exclude = { "store" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -35,6 +35,4 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Order order;
 }

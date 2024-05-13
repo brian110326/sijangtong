@@ -87,15 +87,16 @@ public class StoreRepositoryTest {
     @Test
     public void insertOrderItemTest() {
 
-        LongStream.rangeClosed(1, 200).forEach(i -> {
-            Product product = Product.builder().productId(i).build();
+        LongStream.rangeClosed(2, 200).forEach(i -> {
             Order order = Order.builder().orderId(i).build();
+            Product product = Product.builder().productId(i).build();
 
             OrderItem orderItem = OrderItem.builder()
                     .product(product)
                     .order(order)
                     .orderPrice(25000)
                     .orderAmount((int) (Math.random() * 15) + 1)
+
                     .build();
             orderItemRepository.save(orderItem);
         });
@@ -139,14 +140,12 @@ public class StoreRepositoryTest {
 
         LongStream.rangeClosed(1, 200).forEach(i -> {
             Store store = Store.builder().storeId(i).build();
-            Order order = Order.builder().orderId(i).build();
 
             Product product = Product.builder()
                     .pName("재고" + i)
                     .price(5000)
                     .amount(20)
                     .store(store)
-                    .order(order)
                     .build();
 
             productRepository.save(product);
