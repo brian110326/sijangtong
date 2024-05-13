@@ -30,4 +30,8 @@ public class ShopController {
         log.info("리스트 폼 요청");
     }
     
+    @GetMapping("/buyitem")
+    public void getbuyItem() {
+        log.info("구매 폼 요청");
+    }
 }
