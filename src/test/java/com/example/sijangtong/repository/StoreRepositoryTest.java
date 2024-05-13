@@ -20,6 +20,7 @@ import com.example.sijangtong.entity.ProductImg;
 import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Rider;
 import com.example.sijangtong.entity.Store;
+import com.example.sijangtong.entity.StoreImg;
 
 import groovy.transform.AutoImplement;
 
@@ -46,6 +47,9 @@ public class StoreRepositoryTest {
 
     @Autowired
     private StoreRepository storeRepository;
+
+    @Autowired
+    private StoreImgRepository storeImgRepository;
 
     @Autowired
     private RiderRepository riderRepository;
@@ -111,7 +115,23 @@ public class StoreRepositoryTest {
                     .build();
 
             storeRepository.save(store);
+
+            int count = (int) (Math.random() * 5) + 1;
+
+            for (int j = 0; j < count; j++) {
+                StoreImg storeImg = StoreImg.builder().stUuid(UUID.randomUUID().toString())
+                        .stPath(null)
+                        .stImgName("stImg" + i + ".jpg").store(store).build();
+
+                storeImgRepository.save(storeImg);
+            }
+
         });
+    }
+
+    @Test
+    public void insertStoreImgTest() {
+
     }
 
     @Test
