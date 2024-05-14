@@ -6,7 +6,7 @@
 
 <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
 <!-- Core theme CSS (includes Bootstrap)-->
-<link th:href="@{/css/detail.css}" rel="stylesheet" />
+<!-- <link th:href="@{/css/detail.css}" rel="stylesheet" /> -->
 
 </th:block>
   <div layout:fragment="content" class="container px-6 mx-auto grid">
@@ -22,7 +22,7 @@
                         <div class="small text-muted">January 1, 2023</div>
                         <h2 class="card-title">전통시장 이름....</h2>
                         <p class="card-text">전통시장 설명...</p>
-                        <a class="btn btn-primary" href="#!">Read more →</a>
+                        <a class="btn btn-primary" th:href="@{/shop/read}">Read more →</a>
                     </div>
                 </div>
                 <!-- Nested row for non-featured blog posts-->

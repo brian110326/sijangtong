@@ -35,15 +35,30 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script th:src="@{/assets/js/init-alpine.js}"></script>
 
+    <link href="img/favicon.ico" rel="icon" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+
+    <!-- Libraries Stylesheet -->
+    <link th:href="@{/lib/animate/animate.min.css}" rel="stylesheet" />
+    <link th:href="@{/lib/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link th:href="@{/css/header.css}" rel="stylesheet" />
+
     <th:block layout:fragment="css"></th:block>
   </head>
 
   <body>
-    <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900">
       <!-- Desktop sidebar -->
-      <aside th:replace="~{/fragments/side::side}"></aside>
       <div class="flex flex-col flex-1 w-full">
-        <header th:replace="~{/fragments/header::header}"></header>
+        <header th:replace="~{/fragments/header}"></header>
         <main class="h-full overflow-y-auto">
           <!-- 본문 내용 들어올 영역-->
           <div layout:fragment="content"></div>
@@ -63,9 +78,12 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script> -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/lib/easing/easing.min.js}"></script>
+    <script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
     <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
-    
+    <script th:src="@{/js/header.js}"></script>
     <!-- <script th:src="@{/js/search.js}"></script> -->
-    
   </body>
 </html>
