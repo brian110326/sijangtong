@@ -178,4 +178,14 @@ public class SijangtongServiceTest {
         reviewRepository.deleteById(199L);
     }
 
+    @Test
+    public void getOrderList() {
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
+        Page<Object[]> result = orderRepository.getOrderList(requestDto.getPageable(Sort.by("orderId")), 84L);
+
+        for (Object[] objects : result) {
+            System.out.println(Arrays.toString(objects));
+        }
+    }
+
 }

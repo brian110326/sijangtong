@@ -38,6 +38,8 @@ public class QOrder extends EntityPathBase<Order> {
 
     public final EnumPath<com.example.sijangtong.constant.OrderPayment> orderPayment = createEnum("orderPayment", com.example.sijangtong.constant.OrderPayment.class);
 
+    public final QRider rider;
+
     public final QStore store;
 
     public QOrder(String variable) {
@@ -59,6 +61,7 @@ public class QOrder extends EntityPathBase<Order> {
     public QOrder(Class<? extends Order> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
+        this.rider = inits.isInitialized("rider") ? new QRider(forProperty("rider")) : null;
         this.store = inits.isInitialized("store") ? new QStore(forProperty("store")) : null;
     }
 

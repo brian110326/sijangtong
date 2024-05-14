@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = "member")
+@ToString(exclude = { "member", "rider", "store" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orders")
@@ -47,5 +47,8 @@ public class Order extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Rider rider;
 
 }

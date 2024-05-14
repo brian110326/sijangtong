@@ -9,10 +9,11 @@ import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
+import com.example.sijangtong.repository.orderTotal.OrderOrderItemMemberRiderProductRepository;
 
 import java.util.List;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long>, OrderOrderItemMemberRiderProductRepository {
 
     List<Order> findByStore(Store store);
 
