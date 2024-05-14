@@ -1,10 +1,12 @@
 package com.example.sijangtong.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.StoreDto;
+import com.example.sijangtong.dto.StoreImgDto;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
 
@@ -27,6 +29,14 @@ public interface StoreService {
                 .storeDetail(store.getStoreDetail())
                 .gradeAvg(avg != null ? avg : 0.0d)
                 .build();
+
+        List<StoreImgDto> storeImgDtos = storeImgs.stream().map(storeImg -> {
+            return StoreImgDto.builder().storeImgId(storeImg.getStoreImgId()).stUuid(storeImg.getStUuid())
+                    .stImgName(storeImg.getStImgName()).stPath(storeImg.getStPath())
+                    .build();
+        }).collect(Collectors.toList());
+
+        storeDto.setStoreImgDtos(storeImgDtos);
 
         return storeDto;
     }
