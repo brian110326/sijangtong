@@ -9,7 +9,7 @@ import com.example.sijangtong.entity.Store;
 
 public interface StoreImgStoreRepository {
     
-    Page<Object[]> getTotalList(Pageable pageable);
+    Page<Object[]> getTotalList( Pageable pageable);
 
     List<Object[]> getStoreRow(Long storeId);
 
