@@ -1,5 +1,7 @@
 package com.example.sijangtong.repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -12,6 +14,8 @@ import com.example.sijangtong.constant.MemberRole;
 import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.RiderStatus;
 import com.example.sijangtong.constant.StoreCategory;
+import com.example.sijangtong.dto.ProductDto;
+import com.example.sijangtong.dto.ProductImgDto;
 import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.OrderItem;
@@ -23,6 +27,7 @@ import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
 
 import groovy.transform.AutoImplement;
+import jakarta.transaction.Transactional;
 
 @SpringBootTest
 public class StoreRepositoryTest {
@@ -180,9 +185,9 @@ public class StoreRepositoryTest {
                     .build();
             reviewRepository.save(review);
         });
-    
-}
-    
+
+    }
+
     @Test
     public void riderInsertTest() {
         LongStream.rangeClosed(1, 100).forEach(i -> {
@@ -191,6 +196,30 @@ public class StoreRepositoryTest {
 
             riderRepository.save(rider);
         });
+    }
+
+    @Transactional
+    @Test
+    public void insertProductTest1() {
+
+        Product product = new Product();
+        product.setAmount(10);
+        product.setPName("테스트상품");
+        product.setPrice(1000);
+        product.setStore(Store.builder().storeId(10L).build());
+
+        productRepository.save(product);
+
+        ProductImg productImg = ProductImg.builder()
+
+                .uuid("테스트 uuid")
+                .imgName("테스트 이미지이름")
+                .path("테스트 패스")
+                .product(Product.builder().productId(205L).build())
+                .build();
+
+        productImgRepository.save(productImg);
+
     }
 
 }

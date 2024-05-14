@@ -36,5 +36,5 @@ public class StoreDto {
     private double gradeAvg;
 
     @Builder.Default
-    private List<StoreDto> storeDtos = new ArrayList<>();
+    private List<StoreImgDto> storeImgDtos = new ArrayList<>();
 }

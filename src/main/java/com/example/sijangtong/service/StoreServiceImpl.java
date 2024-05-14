@@ -3,6 +3,7 @@ package com.example.sijangtong.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,9 @@ import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
 import com.example.sijangtong.repository.StoreImgRepository;
+import com.example.sijangtong.repository.StoreRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 public class StoreServiceImpl implements StoreService {
 
     private final StoreImgRepository storeImgRepository;
+
+    private final StoreRepository storeRepository;
 
     @Override
     public PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto) {
@@ -52,6 +57,41 @@ public class StoreServiceImpl implements StoreService {
         List<StoreImg> list = result.stream().map(arr -> (StoreImg) arr[1]).collect(Collectors.toList());
 
         return entityToDto(store, list, avg);
+    }
+
+    @Transactional
+    @Override
+    public Long storeInsert(StoreDto storeDto) {
+        Map<String, Object> entityMap = dtoToentity(storeDto);
+
+        // 스토어 삽입
+        Store store = (Store) entityMap.get("store");
+        storeRepository.save(store);
+
+        // 스토어 이미지 삽입
+        List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
+        storeImgs.forEach(image -> storeImgRepository.save(image));
+
+        return store.getStoreId();
+
+    }
+
+    @Transactional
+    @Override
+    public Long storeUpdate(StoreDto storeDto) {
+        Map<String, Object> entityMap = dtoToentity(storeDto);
+
+        // 기존 스토어 이미지 제거
+        Store store = (Store) entityMap.get("store");
+        storeImgRepository.deleteBystore(store);
+        storeRepository.save(store);
+
+        // 스토어 이미지 삽입
+        List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
+        storeImgs.forEach(image -> storeImgRepository.save(image));
+
+        return store.getStoreId();
+
     }
 
 }

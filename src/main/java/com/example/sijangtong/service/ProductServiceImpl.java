@@ -2,6 +2,7 @@ package com.example.sijangtong.service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,9 @@ import com.example.sijangtong.entity.ProductImg;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
 import com.example.sijangtong.repository.ProductImgRepository;
+import com.example.sijangtong.repository.ProductRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -26,6 +29,8 @@ import lombok.RequiredArgsConstructor;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductImgRepository productImgRepository;
+
+    private final ProductRepository productRepository;
 
     @Override
     public PageResultDto<ProductDto, Object[]> getProductList(PageRequestDto pageRequestDto, Long storeId) {
@@ -49,5 +54,43 @@ public class ProductServiceImpl implements ProductService {
 
         return entityToDto(product, list);
     }
+
+    @Override
+    public void productRemove(Long productId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'productRemove'");
+    }
+
+    @Transactional
+    @Override
+    public Long productInsert(ProductDto productDto) {
+
+        Map<String, Object> entityMap = dtoToEntity(productDto);
+
+        System.out.println("product" + entityMap.get("product"));
+        System.out.println("imgList" + entityMap.get("imgList"));
+
+        // 상품 삽입
+        Product product = (Product) entityMap.get("product");
+        productRepository.save(product);
+
+        // 상품 이미지 삽입
+        List<ProductImg> productImgs = (List<ProductImg>) entityMap.get("imgList");
+        productImgs.forEach(image -> productImgRepository.save(image));
+
+        return product.getProductId();
+
+    }
+
+    // @Transactional
+    // @Override
+    // public void productRemove(Long productId) {
+    // Product product = Product.builder().productId(productId).build();
+
+    // productImgRepository.deleteByProduct(product);
+
+    // productRepository.deleteById(productId);
+
+    // }
 
 }
