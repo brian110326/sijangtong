@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
+import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.OrderItem;
@@ -65,6 +66,18 @@ public class SijangtongServiceTest {
     // }
 
     // }
+
+    @Test
+    public void getStoreListByCategory() {
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
+        Page<Object[]> list = storeImgRepository.getTotalListByCategory(requestDto.getPageable(Sort.by("storeId")),
+                StoreCategory.SEAFOOD);
+
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
+
+    }
 
     @Test
     public void getStoreRow() {

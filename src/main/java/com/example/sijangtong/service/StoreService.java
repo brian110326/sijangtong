@@ -3,6 +3,7 @@ package com.example.sijangtong.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.StoreDto;
@@ -13,6 +14,9 @@ import com.example.sijangtong.entity.StoreImg;
 public interface StoreService {
 
     PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto);
+
+    PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
+            StoreCategory storeCategory);
 
     StoreDto getRow(Long storeId);
 

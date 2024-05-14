@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
+import java.util.List;
+import com.example.sijangtong.constant.StoreCategory;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
