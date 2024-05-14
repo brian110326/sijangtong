@@ -22,8 +22,6 @@ public interface ProductService {
 
     PageResultDto<ProductDto, Object[]> getProductList(PageRequestDto pageRequestDto, Long storeId);
 
-    void productRemove(Long productId);
-
     Long productInsert(ProductDto productDto);
 
     ProductDto getProductRow(Long productId);

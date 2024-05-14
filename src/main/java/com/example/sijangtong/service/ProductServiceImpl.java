@@ -59,13 +59,6 @@ public class ProductServiceImpl implements ProductService {
         return entityToDto(product, list);
     }
 
-    @Override
-
-    public void productRemove(Long productId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'productRemove'");
-    }
-
     @Transactional
     @Override
     public Long productInsert(ProductDto productDto) {
@@ -87,17 +80,7 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    // @Transactional
-    // @Override
-    // public void productRemove(Long productId) {
-    // Product product = Product.builder().productId(productId).build();
-
-    // productImgRepository.deleteByProduct(product);
-
-    // productRepository.deleteById(productId);
-
-    // }
-
+    @Override
     public Long removeProduct(Long productId) {
         Product product = productRepository.findById(productId).get();
         OrderItem orderItem = orderItemRepository.findByProduct(product);
