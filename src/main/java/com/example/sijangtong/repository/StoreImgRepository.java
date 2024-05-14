@@ -11,6 +11,9 @@ import com.example.sijangtong.entity.StoreImg;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
 
 public interface StoreImgRepository extends JpaRepository<StoreImg, Long>, StoreImgStoreRepository {
+    @Modifying
+    @Query("delete from StoreImg si where si.store = :store")
+    void deleteBystore(Store store);
 
     @Modifying
     @Query("delete from StoreImg si where si.store = :store")

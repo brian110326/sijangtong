@@ -28,8 +28,6 @@ public class ProductDto {
 
     private Long storeId;
 
-    private Long orderId;
-
     // 1개의 product에 여러장의 productimg
     // product를 기준으로 productimg를 찾을 수도 있으니
     @Builder.Default
