@@ -84,6 +84,16 @@ public class SijangtongServiceTest {
     }
 
     @Test
+    public void reviewList() {
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
+        Page<Object[]> list = reviewRepository.getReviewList(requestDto.getPageable(Sort.by("reviewId")), 198L);
+
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
+    }
+
+    @Test
     public void getProductRow() {
         List<Object[]> list = productImgRepository.getProductRow(7L);
 
@@ -133,6 +143,21 @@ public class SijangtongServiceTest {
         orderItem.setProduct(null);
 
         productRepository.delete(product);
+    }
+
+    @Test
+    public void getReviewListByStore() {
+        // store에 대한 reviewlist 보여주기
+        Store store = Store.builder().storeId(199L).build();
+
+        List<Review> list = reviewRepository.findByStore(store);
+
+        list.forEach(review -> System.out.println(review));
+    }
+
+    @Test
+    public void deleteReview() {
+        reviewRepository.deleteById(199L);
     }
 
 }
