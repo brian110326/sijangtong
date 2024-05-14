@@ -38,4 +38,11 @@ public class ReviewServiceImpl implements ReviewService {
         return new PageResultDto<>(result, fn);
     }
 
+    @Override
+    public Long removeReview(Long reviewId) {
+        reviewRepository.deleteById(reviewId);
+
+        return reviewId;
+    }
+
 }

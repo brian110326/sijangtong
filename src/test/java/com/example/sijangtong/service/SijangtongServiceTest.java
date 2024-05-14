@@ -155,4 +155,9 @@ public class SijangtongServiceTest {
         list.forEach(review -> System.out.println(review));
     }
 
+    @Test
+    public void deleteReview() {
+        reviewRepository.deleteById(199L);
+    }
+
 }

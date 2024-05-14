@@ -12,6 +12,8 @@ import com.example.sijangtong.entity.Store;
 public interface ReviewService {
     PageResultDto<ReviewDto, Object[]> getReviewList(PageRequestDto pageRequestDto, Long storeId);
 
+    Long removeReview(Long reviewId);
+
     public default ReviewDto entityToDto(Store store, Product product, Review review, Order order) {
         ReviewDto reviewDto = ReviewDto.builder().reviewId(review.getReviewId())
                 .text(review.getText())
