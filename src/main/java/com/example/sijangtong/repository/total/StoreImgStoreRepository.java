@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.example.sijangtong.entity.Store;
 
 public interface StoreImgStoreRepository {
+    
     Page<Object[]> getTotalList(Pageable pageable);
 
     List<Object[]> getStoreRow(Long storeId);

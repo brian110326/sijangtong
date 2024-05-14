@@ -67,10 +67,10 @@
     </div>
     <!-- 검색에서 사용할 폼 -->
     <form th:action="@{list}" method="get" id="searchForm">
-      <input type="hidden" name="page" value="1" />
-      <input type="hidden" name="size" value="10" />
-      <input type="hidden" name="type" value="t" />
-      <input type="hidden" name="keyword" value="" />
+      <input type="hidden" name="page" th:value="${requestDto.page}" />
+      <input type="hidden" name="size" th:value="${requestDto.size}" />
+      <input type="hidden" name="type" th:value="${requestDto.type}"/>
+      <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
     </form>
 
     <!-- <script
