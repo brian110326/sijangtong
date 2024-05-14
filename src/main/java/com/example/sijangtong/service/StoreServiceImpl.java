@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.StoreDto;
@@ -51,7 +52,7 @@ public class StoreServiceImpl implements StoreService {
     public PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto) {
         Page<Object[]> result = storeImgRepository
                 .getTotalList(pageRequestDto.getType(), pageRequestDto.getKeyword(),
-                        pageRequestDto.getPageable(Sort.by("store_id").descending()));
+                        pageRequestDto.getPageable(Sort.by("storeId").descending()));
 
         Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
                 (List<StoreImg>) Arrays.asList((StoreImg) en[1]), (Double) en[2]));
@@ -97,6 +98,19 @@ public class StoreServiceImpl implements StoreService {
         storeRepository.delete(store);
 
         return store.getStoreId();
+    }
+
+    @Override
+    public PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
+            StoreCategory storeCategory) {
+
+        Page<Object[]> result = storeImgRepository
+                .getTotalListByCategory(pageRequestDto.getPageable(Sort.by("storeId")), storeCategory);
+
+        Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
+                (List<StoreImg>) Arrays.asList((StoreImg) en[1]), (Double) en[2]));
+
+        return new PageResultDto<>(result, fn);
     }
 
 }
