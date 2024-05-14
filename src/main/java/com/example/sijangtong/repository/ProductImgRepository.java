@@ -13,7 +13,4 @@ public interface ProductImgRepository extends JpaRepository<ProductImg, Long>, P
     @Query("delete from ProductImg pi where pi.product = :product")
     void deleteByProduct(Product product);
 
-    @Modifying
-    @Query("delete from ProductImg pi where pi.product = :product")
-    void deleteByProduct(Product product);
 }
