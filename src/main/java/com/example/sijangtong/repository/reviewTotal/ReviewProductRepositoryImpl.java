@@ -16,34 +16,28 @@ import com.example.sijangtong.entity.Review;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPQLQuery;
 
-public class ReviewStoreProductOrderRepositoryImpl extends QuerydslRepositorySupport
-        implements ReviewStoreProductOrderRepository {
+public class ReviewProductRepositoryImpl extends QuerydslRepositorySupport
+        implements ReviewProductRepository {
 
-    public ReviewStoreProductOrderRepositoryImpl() {
+    public ReviewProductRepositoryImpl() {
         super(Review.class);
 
     }
 
     @Override
-    public Page<Object[]> getReviewList(Pageable pageable, Long storeId) {
+    public Page<Object[]> getReviewList(Pageable pageable, Long productId) {
         QReview review = QReview.review;
-        QStore store = QStore.store;
         QProduct product = QProduct.product;
-        QOrder order = QOrder.order;
 
-        // SELECT s.*,p.*,r.*, o.*
+        // SELECT *
         // FROM REVIEW r
-        // LEFT JOIN STORE s ON r.STORE_STORE_ID = s.STORE_ID
-        // LEFT JOIN PRODUCT p ON r.STORE_STORE_ID = p.STORE_STORE_ID
-        // LEFT JOIN ORDERS o ON o.ORDER_ID = r.ORDER_ORDER_ID
-        // WHERE s.STORE_ID = 199;
+        // LEFT JOIN PRODUCT p ON r.PRODUCT_PRODUCT_ID = p.PRODUCT_ID
+        // WHERE p.PRODUCT_ID = 199;
 
         JPQLQuery<Review> query = from(review);
-        query.leftJoin(store).on(review.store.eq(store));
-        query.leftJoin(product).on(review.store.eq(product.store));
-        query.leftJoin(order).on(review.order.eq(order));
+        query.leftJoin(product).on(review.product.eq(product));
 
-        JPQLQuery<Tuple> tuple = query.select(store, product, review, order).where(store.storeId.eq(storeId));
+        JPQLQuery<Tuple> tuple = query.select(product, review).where(review.product.eq(product));
 
         // 페이지 처리
         tuple.offset(pageable.getOffset());

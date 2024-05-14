@@ -24,7 +24,7 @@ public class ReviewDto {
     private int grade;
 
     // Store와의 관계
-    private Long storeId;
+    private Long productId;
 
     // 멤버와의 관계
     private String memberEmail;

@@ -25,7 +25,9 @@ public class OrderDto {
 
     private OrderPayment orderPayment;
 
-    private Member member;
+    private String memberEmail;
+
+    private Long storeId;
 
     private LocalDateTime createdDate;
 

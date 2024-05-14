@@ -31,15 +31,13 @@ public class StoreImgStoreRepositoryImpl extends QuerydslRepositorySupport imple
     }
 
     @Override
-    public Page<Object[]> getTotalList(String type, String keyword, Pageable pageable) {
+    public Page<Object[]> getTotalList(Pageable pageable) {
 
         QStoreImg storeImg = QStoreImg.storeImg;
         QStore store = QStore.store;
         QReview review = QReview.review;
 
         // SELECT s.STORE_ID ,s.STORE_NAME ,si.ST_PATH ,si.ST_UUID ,si.ST_IMG_NAME,
-        // (SELECT AVG(r.grade) FROM REVIEW r WHERE r.store_store_id = s.STORE_ID) AS
-        // grade_avg
         // FROM STORE_IMG si
         // LEFT JOIN STORE s ON si.STORE_STORE_ID = s.STORE_ID
         // WHERE si.STORE_IMG_ID IN
@@ -50,22 +48,21 @@ public class StoreImgStoreRepositoryImpl extends QuerydslRepositorySupport imple
         query.leftJoin(store).on(storeImg.store.eq(store));
 
         JPQLQuery<Tuple> tuple = query
-                .select(store, storeImg,
-                        (JPAExpressions.select(review.grade.avg()).from(review).where(review.store.eq(store))))
+                .select(store, storeImg)
                 .where(storeImg.storeImgId.in(JPAExpressions.select(storeImg.storeImgId.min()).from(storeImg)
                         .groupBy(storeImg.store)));
 
         // 검색 조건
-        BooleanBuilder builder = new BooleanBuilder();
-        builder.and(store.storeId.gt(0L));
+        // BooleanBuilder builder = new BooleanBuilder();
+        // builder.and(store.storeId.gt(0L));
 
-        BooleanBuilder conditionBuilder = new BooleanBuilder();
-        if (type.contains("t")) {
-            conditionBuilder.or(store.storeName.contains(keyword));
-        }
+        // BooleanBuilder conditionBuilder = new BooleanBuilder();
+        // if (type.contains("t")) {
+        // conditionBuilder.or(store.storeName.contains(keyword));
+        // }
 
-        builder.and(conditionBuilder);
-        tuple.where(builder);
+        // builder.and(conditionBuilder);
+        // tuple.where(builder);
 
         // 페이지 나누기
         // sort 지정
@@ -93,8 +90,6 @@ public class StoreImgStoreRepositoryImpl extends QuerydslRepositorySupport imple
     public List<Object[]> getStoreRow(Long storeId) {
 
         // SELECT s.STORE_ID ,s.STORE_NAME ,si.ST_PATH ,si.ST_UUID ,si.ST_IMG_NAME,
-        // (SELECT AVG(r.grade) FROM REVIEW r WHERE r.store_store_id = s.STORE_ID) AS
-        // grade_avg
         // FROM STORE_IMG si
         // LEFT JOIN STORE s ON si.STORE_STORE_ID = s.STORE_ID
         // WHERE s.STORE_ID = 282;
@@ -107,8 +102,7 @@ public class StoreImgStoreRepositoryImpl extends QuerydslRepositorySupport imple
         query.leftJoin(store).on(storeImg.store.eq(store));
 
         JPQLQuery<Tuple> tuple = query
-                .select(store, storeImg,
-                        (JPAExpressions.select(review.grade.avg()).from(review).where(review.store.eq(store))))
+                .select(store, storeImg)
                 .where(store.storeId.eq(storeId));
 
         List<Tuple> result = tuple.fetch();
@@ -118,16 +112,14 @@ public class StoreImgStoreRepositoryImpl extends QuerydslRepositorySupport imple
     }
 
     @Override
-    public Page<Object[]> getTotalListByCategory(String type, String keyword, Pageable pageable,
+    public Page<Object[]> getTotalListByCategory(Pageable pageable,
             StoreCategory storeCategory) {
         QStoreImg storeImg = QStoreImg.storeImg;
         QStore store = QStore.store;
         QReview review = QReview.review;
 
         // SELECT s.STORE_ID ,s.STORE_NAME, s.STORE_CATEGORY ,si.ST_PATH ,si.ST_UUID
-        // ,si.ST_IMG_NAME,
-        // (SELECT AVG(r.grade) FROM REVIEW r WHERE r.store_store_id = s.STORE_ID) AS
-        // grade_avg
+        // ,si.ST_IMG_NAME
         // FROM STORE_IMG si
         // LEFT JOIN STORE s ON si.STORE_STORE_ID = s.STORE_ID
         // WHERE si.STORE_IMG_ID IN
@@ -138,22 +130,21 @@ public class StoreImgStoreRepositoryImpl extends QuerydslRepositorySupport imple
         query.leftJoin(store).on(storeImg.store.eq(store));
 
         JPQLQuery<Tuple> tuple = query
-                .select(store, storeImg,
-                        (JPAExpressions.select(review.grade.avg()).from(review).where(review.store.eq(store))))
+                .select(store, storeImg)
                 .where(storeImg.storeImgId.in(JPAExpressions.select(storeImg.storeImgId.min()).from(storeImg)
                         .groupBy(storeImg.store)).and(store.storeCategory.eq(storeCategory)));
 
         // 검색 조건
-        BooleanBuilder builder = new BooleanBuilder();
-        builder.and(store.storeId.gt(0L));
+        // BooleanBuilder builder = new BooleanBuilder();
+        // builder.and(store.storeId.gt(0L));
 
-        BooleanBuilder conditionBuilder = new BooleanBuilder();
-        if (type.contains("t")) {
-            conditionBuilder.or(store.storeName.contains(keyword));
-        }
+        // BooleanBuilder conditionBuilder = new BooleanBuilder();
+        // if (type.contains("t")) {
+        // conditionBuilder.or(store.storeName.contains(keyword));
+        // }
 
-        builder.and(conditionBuilder);
-        tuple.where(builder);
+        // builder.and(conditionBuilder);
+        // tuple.where(builder);
 
         // 페이지 나누기
         // sort 지정
@@ -178,7 +169,7 @@ public class StoreImgStoreRepositoryImpl extends QuerydslRepositorySupport imple
     }
 
     @Override
-    public Page<Object[]> getTotalListByAddress(String type, String keyword, Pageable pageable, String storeAddress) {
+    public Page<Object[]> getTotalListByAddress(Pageable pageable, String storeAddress) {
         // SELECT s.STORE_ID ,s.STORE_NAME, s.STORE_ADDRESS ,si.ST_PATH ,si.ST_UUID
         // ,si.ST_IMG_NAME,
         // (SELECT AVG(r.grade) FROM REVIEW r WHERE r.store_store_id = s.STORE_ID) AS
@@ -197,22 +188,21 @@ public class StoreImgStoreRepositoryImpl extends QuerydslRepositorySupport imple
         query.leftJoin(store).on(storeImg.store.eq(store));
 
         JPQLQuery<Tuple> tuple = query
-                .select(store, storeImg,
-                        (JPAExpressions.select(review.grade.avg()).from(review).where(review.store.eq(store))))
+                .select(store, storeImg)
                 .where(storeImg.storeImgId.in(JPAExpressions.select(storeImg.storeImgId.min()).from(storeImg)
                         .groupBy(storeImg.store)).and(store.storeAddress.eq(storeAddress)));
 
         // 검색 조건
-        BooleanBuilder builder = new BooleanBuilder();
-        builder.and(store.storeId.gt(0L));
+        // BooleanBuilder builder = new BooleanBuilder();
+        // builder.and(store.storeId.gt(0L));
 
-        BooleanBuilder conditionBuilder = new BooleanBuilder();
-        if (type.contains("t")) {
-            conditionBuilder.or(store.storeName.contains(keyword));
-        }
+        // BooleanBuilder conditionBuilder = new BooleanBuilder();
+        // if (type.contains("t")) {
+        // conditionBuilder.or(store.storeName.contains(keyword));
+        // }
 
-        builder.and(conditionBuilder);
-        tuple.where(builder);
+        // builder.and(conditionBuilder);
+        // tuple.where(builder);
 
         // 페이지 나누기
         // sort 지정

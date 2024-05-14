@@ -54,49 +54,43 @@ public class SijangtongServiceTest {
     @Autowired
     private OrderRepository orderRepository;
 
-    // @Test
-    // public void storeList() {
-    // PageRequestDto requestDto =
-    // PageRequestDto.builder().size(10).page(1).build();
+    @Test
+    public void storeList() {
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
 
-    // Page<Object[]> list =
-    // storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
-    // for (Object[] objects : list) {
-    // System.out.println(Arrays.toString(objects));
-    // }
+        Page<Object[]> list = storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
 
-    // }
+    }
 
-    // @Test
-    // public void getStoreListByCategory() {
-    // PageRequestDto requestDto =
-    // PageRequestDto.builder().size(10).page(1).build();
-    // Page<Object[]> list =
-    // storeImgRepository.getTotalListByCategory(requestDto.getPageable(Sort.by("storeId")),
-    // StoreCategory.SEAFOOD);
+    @Test
+    public void getStoreListByCategory() {
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
+        Page<Object[]> list = storeImgRepository.getTotalListByCategory(requestDto.getPageable(Sort.by("storeId")),
+                StoreCategory.SEAFOOD);
 
-    // for (Object[] objects : list) {
-    // System.out.println(Arrays.toString(objects));
-    // }
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
 
-    // }
+    }
 
-    // @Test
-    // public void getStoreListByAddress() {
-    // PageRequestDto requestDto =
-    // PageRequestDto.builder().size(10).page(1).build();
-    // Page<Object[]> list =
-    // storeImgRepository.getTotalListByAddress(requestDto.getPageable(Sort.by("storeId")),
-    // "종로");
+    @Test
+    public void getStoreListByAddress() {
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
+        Page<Object[]> list = storeImgRepository.getTotalListByAddress(requestDto.getPageable(Sort.by("storeId")),
+                "종로");
 
-    // for (Object[] objects : list) {
-    // System.out.println(Arrays.toString(objects));
-    // }
-    // }
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
+    }
 
     @Test
     public void getStoreRow() {
-        List<Object[]> list = storeImgRepository.getStoreRow(282L);
+        List<Object[]> list = storeImgRepository.getStoreRow(200L);
 
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
@@ -116,7 +110,7 @@ public class SijangtongServiceTest {
     @Test
     public void reviewList() {
         PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = reviewRepository.getReviewList(requestDto.getPageable(Sort.by("reviewId")), 198L);
+        Page<Object[]> list = reviewRepository.getReviewList(requestDto.getPageable(Sort.by("reviewId")), 1L);
 
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
@@ -136,24 +130,19 @@ public class SijangtongServiceTest {
     @Commit
     @Transactional
     public void deleteStoreTest() {
-        Store store = storeRepository.findById(200L).get();
+        Store store = storeRepository.findById(199L).get();
         Product product = productRepository.findByStore(store).get(0);
-        Review review = reviewRepository.findByStore(store).get(0);
-        Order order = orderRepository.findByReview(review);
+        Review review = reviewRepository.findByProduct(product).get(0);
+        OrderItem orderItem = orderItemRepository.findByProduct(product).get(0);
 
-        // System.out.println(store);
-        // System.out.println(product);
-        // System.out.println(review);
-        // System.out.println(order);
-
-        reviewRepository.deleteByStore(store);
+        reviewRepository.deleteByProduct(product);
         storeImgRepository.deleteByStore(store);
 
         orderItemRepository.deleteByProduct(product);
         productImgRepository.deleteByProduct(product);
 
         productRepository.deleteByStore(store);
-        orderRepository.delete(order);
+        orderRepository.deleteByStore(store);
 
         storeRepository.delete(store);
     }
@@ -162,25 +151,24 @@ public class SijangtongServiceTest {
     @Commit
     @Transactional
     public void deleteProduct() {
-        Product product = productRepository.findById(199L).get();
-        OrderItem orderItem = orderItemRepository.findByProduct(product);
-        // System.out.println(product);
-        // System.out.println(orderItem);
+        Product product = productRepository.findById(198L).get();
+        List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
 
         productImgRepository.deleteByProduct(product);
 
-        // product 삭제 시 orderItem안 product항목만 null
-        orderItem.setProduct(null);
+        // product 삭제 시 orderItem안 product항목만 null로 설정
+        orderItems.forEach(orderItem -> orderItem.setProduct(null));
+        reviewRepository.deleteByProduct(product);
 
         productRepository.delete(product);
     }
 
     @Test
-    public void getReviewListByStore() {
+    public void getReviewListByProduct() {
         // store에 대한 reviewlist 보여주기
-        Store store = Store.builder().storeId(199L).build();
+        Product product = Product.builder().productId(1L).build();
 
-        List<Review> list = reviewRepository.findByStore(store);
+        List<Review> list = reviewRepository.findByProduct(product);
 
         list.forEach(review -> System.out.println(review));
     }
