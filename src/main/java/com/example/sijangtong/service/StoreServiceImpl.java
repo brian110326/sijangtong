@@ -50,7 +50,12 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto) {
         Page<Object[]> result = storeImgRepository
-                .getTotalList(pageRequestDto.getPageable(Sort.by("storeId").descending()));
+<<<<<<< HEAD
+                .getTotalList(pageRequestDto.getPageable(Sort.by("store_id").descending()));
+=======
+                .getTotalList(pageRequestDto.getType(), pageRequestDto.getKeyword(),
+                        pageRequestDto.getPageable(Sort.by("store_id").descending()));
+>>>>>>> 50a9ce7d418bc8fe3264f6aacd6ab493666f6d71
 
         Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
                 (List<StoreImg>) Arrays.asList((StoreImg) en[1]), (Double) en[2]));
