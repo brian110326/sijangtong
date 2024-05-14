@@ -42,13 +42,6 @@ public class UploadController {
     @Value("${com.example.upload.path}")
     private String uploadPath;
 
-    // fetch ==> @RestController
-
-    @GetMapping("/ex1")
-    public void getMethodName() {
-        log.info("upload form 요청");
-    }
-
     @PostMapping("/uploadAjax")
     public ResponseEntity<List<UploadResultDto>> postUpload(MultipartFile[] uploadFiles) {
 

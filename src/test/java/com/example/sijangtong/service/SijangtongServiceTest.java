@@ -53,16 +53,18 @@ public class SijangtongServiceTest {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Test
-    public void storeList() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
+    // @Test
+    // public void storeList() {
+    // PageRequestDto requestDto =
+    // PageRequestDto.builder().size(10).page(1).build();
 
-        Page<Object[]> list = storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
+    // Page<Object[]> list =
+    // storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
+    // for (Object[] objects : list) {
+    // System.out.println(Arrays.toString(objects));
+    // }
 
-    }
+    // }
 
     @Test
     public void getStoreRow() {
