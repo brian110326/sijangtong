@@ -69,17 +69,32 @@ public class SijangtongServiceTest {
 
     // }
 
-    @Test
-    public void getStoreListByCategory() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = storeImgRepository.getTotalListByCategory(requestDto.getPageable(Sort.by("storeId")),
-                StoreCategory.SEAFOOD);
+    // @Test
+    // public void getStoreListByCategory() {
+    // PageRequestDto requestDto =
+    // PageRequestDto.builder().size(10).page(1).build();
+    // Page<Object[]> list =
+    // storeImgRepository.getTotalListByCategory(requestDto.getPageable(Sort.by("storeId")),
+    // StoreCategory.SEAFOOD);
 
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
+    // for (Object[] objects : list) {
+    // System.out.println(Arrays.toString(objects));
+    // }
 
-    }
+    // }
+
+    // @Test
+    // public void getStoreListByAddress() {
+    // PageRequestDto requestDto =
+    // PageRequestDto.builder().size(10).page(1).build();
+    // Page<Object[]> list =
+    // storeImgRepository.getTotalListByAddress(requestDto.getPageable(Sort.by("storeId")),
+    // "종로");
+
+    // for (Object[] objects : list) {
+    // System.out.println(Arrays.toString(objects));
+    // }
+    // }
 
     @Test
     public void getStoreRow() {

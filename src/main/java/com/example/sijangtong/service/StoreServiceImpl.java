@@ -106,7 +106,20 @@ public class StoreServiceImpl implements StoreService {
             StoreCategory storeCategory) {
 
         Page<Object[]> result = storeImgRepository
-                .getTotalListByCategory(pageRequestDto.getPageable(Sort.by("storeId")), storeCategory);
+                .getTotalListByCategory(pageRequestDto.getType(), pageRequestDto.getKeyword(),
+                        pageRequestDto.getPageable(Sort.by("storeId")), storeCategory);
+
+        Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
+                (List<StoreImg>) Arrays.asList((StoreImg) en[1]), (Double) en[2]));
+
+        return new PageResultDto<>(result, fn);
+    }
+
+    @Override
+    public PageResultDto<StoreDto, Object[]> getStoreListByAddress(PageRequestDto pageRequestDto, String storeAddress) {
+        Page<Object[]> result = storeImgRepository.getTotalListByAddress(pageRequestDto.getType(),
+                pageRequestDto.getKeyword(), pageRequestDto.getPageable(Sort.by("storeId")),
+                storeAddress);
 
         Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
                 (List<StoreImg>) Arrays.asList((StoreImg) en[1]), (Double) en[2]));

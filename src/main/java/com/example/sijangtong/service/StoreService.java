@@ -22,6 +22,9 @@ public interface StoreService {
     PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
             StoreCategory storeCategory);
 
+    PageResultDto<StoreDto, Object[]> getStoreListByAddress(PageRequestDto pageRequestDto,
+            String storeAddress);
+
     StoreDto getRow(Long storeId);
 
     Long removeStore(Long storeId);
