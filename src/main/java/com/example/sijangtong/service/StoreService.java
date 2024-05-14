@@ -2,7 +2,9 @@ package com.example.sijangtong.service;
 
 import java.util.HashMap;
 import java.util.List;
+
 import java.util.Map;
+
 import java.util.stream.Collectors;
 
 import com.example.sijangtong.dto.PageRequestDto;
@@ -18,9 +20,7 @@ public interface StoreService {
 
     StoreDto getRow(Long storeId);
 
-    Long storeInsert(StoreDto storeDto);
-
-    Long storeUpdate(StoreDto storeDto);
+    Long removeStore(Long storeId);
 
     public default StoreDto entityToDto(Store store, List<StoreImg> storeImgs, Double avg) {
         StoreDto storeDto = StoreDto.builder().storeId(store.getStoreId())
@@ -33,6 +33,14 @@ public interface StoreService {
                 .storeDetail(store.getStoreDetail())
                 .gradeAvg(avg != null ? avg : 0.0d)
                 .build();
+
+        List<StoreImgDto> storeImgDtos = storeImgs.stream().map(storeImg -> {
+            return StoreImgDto.builder().storeImgId(storeImg.getStoreImgId()).stUuid(storeImg.getStUuid())
+                    .stImgName(storeImg.getStImgName()).stPath(storeImg.getStPath())
+                    .build();
+        }).collect(Collectors.toList());
+
+        storeDto.setStoreImgDtos(storeImgDtos);
 
         return storeDto;
     }

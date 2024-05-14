@@ -15,4 +15,7 @@ public interface StoreImgRepository extends JpaRepository<StoreImg, Long>, Store
     @Query("delete from StoreImg si where si.store = :store")
     void deleteBystore(Store store);
 
+    @Modifying
+    @Query("delete from StoreImg si where si.store = :store")
+    void deleteByStore(Store store);
 }

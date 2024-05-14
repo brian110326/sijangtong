@@ -1,5 +1,6 @@
 package com.example.sijangtong.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = { "store" })
+@ToString(exclude = "store")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

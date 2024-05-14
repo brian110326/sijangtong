@@ -14,8 +14,16 @@ import org.springframework.stereotype.Service;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.StoreDto;
+import com.example.sijangtong.entity.Order;
+import com.example.sijangtong.entity.Product;
+import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
+import com.example.sijangtong.repository.OrderItemRepository;
+import com.example.sijangtong.repository.OrderRepository;
+import com.example.sijangtong.repository.ProductImgRepository;
+import com.example.sijangtong.repository.ProductRepository;
+import com.example.sijangtong.repository.ReviewRepository;
 import com.example.sijangtong.repository.StoreImgRepository;
 import com.example.sijangtong.repository.StoreRepository;
 
@@ -28,12 +36,23 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreImgRepository storeImgRepository;
 
+    private final ReviewRepository reviewRepository;
+
+    private final ProductRepository productRepository;
+
     private final StoreRepository storeRepository;
+
+    private final OrderRepository orderRepository;
+
+    private final OrderItemRepository orderItemRepository;
+
+    private final ProductImgRepository productImgRepository;
 
     @Override
     public PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto) {
         Page<Object[]> result = storeImgRepository
-                .getTotalList(pageRequestDto.getPageable(Sort.by("store_id").descending()));
+                .getTotalList(pageRequestDto.getType(), pageRequestDto.getKeyword(),
+                        pageRequestDto.getPageable(Sort.by("store_id").descending()));
 
         Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
                 (List<StoreImg>) Arrays.asList((StoreImg) en[1]), (Double) en[2]));
@@ -59,39 +78,26 @@ public class StoreServiceImpl implements StoreService {
         return entityToDto(store, list, avg);
     }
 
-    @Transactional
     @Override
-    public Long storeInsert(StoreDto storeDto) {
-        Map<String, Object> entityMap = dtoToentity(storeDto);
+    @Transactional
+    public Long removeStore(Long storeId) {
+        Store store = storeRepository.findById(storeId).get();
+        Product product = productRepository.findByStore(store).get(0);
+        Review review = reviewRepository.findByStore(store).get(0);
+        Order order = orderRepository.findByReview(review);
 
-        // 스토어 삽입
-        Store store = (Store) entityMap.get("store");
-        storeRepository.save(store);
+        reviewRepository.deleteByStore(store);
+        storeImgRepository.deleteByStore(store);
 
-        // 스토어 이미지 삽입
-        List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
-        storeImgs.forEach(image -> storeImgRepository.save(image));
+        orderItemRepository.deleteByProduct(product);
+        productImgRepository.deleteByProduct(product);
+
+        productRepository.deleteByStore(store);
+        orderRepository.delete(order);
+
+        storeRepository.delete(store);
 
         return store.getStoreId();
-
-    }
-
-    @Transactional
-    @Override
-    public Long storeUpdate(StoreDto storeDto) {
-        Map<String, Object> entityMap = dtoToentity(storeDto);
-
-        // 기존 스토어 이미지 제거
-        Store store = (Store) entityMap.get("store");
-        storeImgRepository.deleteBystore(store);
-        storeRepository.save(store);
-
-        // 스토어 이미지 삽입
-        List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
-        storeImgs.forEach(image -> storeImgRepository.save(image));
-
-        return store.getStoreId();
-
     }
 
 }

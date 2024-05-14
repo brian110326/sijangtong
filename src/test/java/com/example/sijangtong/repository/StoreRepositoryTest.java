@@ -136,11 +136,6 @@ public class StoreRepositoryTest {
     }
 
     @Test
-    public void insertStoreImgTest() {
-
-    }
-
-    @Test
     public void insertProductTest() {
 
         LongStream.rangeClosed(1, 200).forEach(i -> {
@@ -176,12 +171,14 @@ public class StoreRepositoryTest {
 
             Store store = Store.builder().storeId(i).build();
             Member member = Member.builder().memberEmail("member" + i + "@naver.com").build();
+            Order order = Order.builder().orderId(i).build();
 
             Review review = Review.builder()
                     .text("이 매장에 대한 리뷰는.....")
                     .grade((int) (Math.random() * 5) + 1)
                     .store(store)
                     .member(member)
+                    .order(order)
                     .build();
             reviewRepository.save(review);
         });
