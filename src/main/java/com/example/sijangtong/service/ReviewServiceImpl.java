@@ -45,4 +45,20 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewId;
     }
 
+    @Override
+    public Long updateReview(ReviewDto reviewDto) {
+        Review updatedReview = reviewRepository.save(dtoToEntity(reviewDto));
+
+        return updatedReview.getReviewId();
+    }
+
+    @Override
+    public Long createReview(ReviewDto reviewDto) {
+        Review review = dtoToEntity(reviewDto);
+
+        Review newReview = reviewRepository.save(review);
+
+        return newReview.getReviewId();
+    }
+
 }
