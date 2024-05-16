@@ -13,8 +13,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDto {
@@ -27,6 +27,10 @@ public class ProductDto {
     private int amount;
 
     private Long storeId;
+
+    private Long orderId;
+
+    private double avg;
 
     // 1개의 product에 여러장의 productimg
     // product를 기준으로 productimg를 찾을 수도 있으니
