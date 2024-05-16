@@ -45,7 +45,9 @@ public class ReviewProductRepositoryImpl extends QuerydslRepositorySupport
 
         List<Tuple> result = tuple.fetch();
 
-        return new PageImpl<>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()));
+        long count = tuple.fetchCount();
+
+        return new PageImpl<>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()), pageable, count);
     }
 
 }

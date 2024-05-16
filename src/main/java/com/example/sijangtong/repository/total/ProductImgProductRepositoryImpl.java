@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import com.example.sijangtong.entity.ProductImg;
 import com.example.sijangtong.entity.QProduct;
 import com.example.sijangtong.entity.QProductImg;
+import com.example.sijangtong.entity.QReview;
 import com.example.sijangtong.entity.QStore;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPAExpressions;
@@ -26,7 +27,8 @@ public class ProductImgProductRepositoryImpl extends QuerydslRepositorySupport i
     @Override
     public Page<Object[]> getProductList(Pageable pageable, Long storeId) {
 
-        // SELECT pi.*,p.*
+        // SELECT pi.*,p.*, (SELECT AVG(r.grade) FROM REVIEW r WHERE
+        // r.product_product_id = p.PRODUCT_ID) AS grade
         // FROM PRODUCT_IMG pi
         // LEFT JOIN PRODUCT p on pi.PRODUCT_PRODUCT_ID = p.PRODUCT_ID
         // WHERE pi.IMG_ID IN
@@ -36,12 +38,15 @@ public class ProductImgProductRepositoryImpl extends QuerydslRepositorySupport i
         QProduct product = QProduct.product;
         QProductImg productImg = QProductImg.productImg;
         QStore store = QStore.store;
+        QReview review = QReview.review;
 
         JPQLQuery<ProductImg> query = from(productImg);
 
         query.leftJoin(product).on(productImg.product.eq(product));
 
-        JPQLQuery<Tuple> tuple = query.select(product, productImg, store)
+        JPQLQuery<Tuple> tuple = query
+                .select(product, productImg, store,
+                        (JPAExpressions.select(review.grade.avg()).from(review).where(review.product.eq(product))))
                 .where(productImg.imgId.in(
                         JPAExpressions.select(productImg.imgId.min()).from(productImg).groupBy(productImg.product))
                         .and(product.store.storeId.eq(storeId)));
@@ -52,25 +57,32 @@ public class ProductImgProductRepositoryImpl extends QuerydslRepositorySupport i
 
         List<Tuple> result = tuple.fetch();
 
-        return new PageImpl<>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()));
+        long count = tuple.fetchCount();
+
+        return new PageImpl<>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()), pageable, count);
     }
 
     @Override
     public List<Object[]> getProductRow(Long productId) {
 
-        // SELECT pi.*,p.*
+        // SELECT pi.*,p.*, (SELECT AVG(r.grade) FROM REVIEW r WHERE
+        // r.product_product_id = p.PRODUCT_ID) AS grade
         // FROM PRODUCT_IMG pi
         // LEFT JOIN PRODUCT p on pi.PRODUCT_PRODUCT_ID = p.PRODUCT_ID
         // WHERE p.PRODUCT_ID = 44 AND p.STORE_STORE_ID = 44;
 
         QProduct product = QProduct.product;
         QProductImg productImg = QProductImg.productImg;
+        QReview review = QReview.review;
+        QStore store = QStore.store;
 
         JPQLQuery<ProductImg> query = from(productImg);
 
         query.leftJoin(product).on(productImg.product.eq(product));
 
-        JPQLQuery<Tuple> tuple = query.select(product, productImg)
+        JPQLQuery<Tuple> tuple = query
+                .select(product, productImg, store,
+                        (JPAExpressions.select(review.grade.avg()).from(review).where(review.product.eq(product))))
                 .where(product.productId.eq(productId));
 
         List<Tuple> result = tuple.fetch();
