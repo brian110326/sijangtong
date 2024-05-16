@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ReviewDto;
+import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Review;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @Log4j2
 @RestController
@@ -40,11 +42,10 @@ public class ReviewComtroller {
 
     // 스토어 하나의 전체 리뷰 가져오기
     @GetMapping("/{storeId}/all")
-    public ResponseEntity<List<ReviewDto>> getReviews(@PathVariable("storeId") PageRequestDto pageRequestDto,
-            Long storeId) {
+    public ResponseEntity<PageResultDto<StoreDto, Store>> reviewList(@PathVariable("storeId") Long storeId) {
         log.info("전체 리뷰 요청");
 
-        return new ResponseEntity<>(reviewService.getReviewList(pageRequestDto, storeId));
+        return new ResponseEntity<>(reviewService.getReviewList(, storeId), HttpStatus.OK);
     }
 
     // 리뷰 등록
@@ -53,13 +54,15 @@ public class ReviewComtroller {
         log.info("리뷰 등록 {}", reviewDto);
 
         Long reviewId = reviewService.createReview(reviewDto);
-        return new ResponseEntity<Long>(reviewId, HttpStatus.OK);
+
+        return new ResponseEntity<>(reviewId, HttpStatus.OK);
     }
 
     // 리뷰 삭제
     @DeleteMapping("/{storeId}/{reviewId}")
-    public ResponseEntity<Long> removeReview(@PathVariable("reviewId") Long reviewId, Long memberEmail) {
-        log.info("리뷰 삭제 {}", memberEmail);
+    public ResponseEntity<Long> deleteReview(@PathVariable("reviewId") Long reviewId, String memberEmail) {
+        log.info("리뷰 삭제 {}", reviewId);
+
         reviewService.removeReview(reviewId);
         return new ResponseEntity<>(reviewId, HttpStatus.OK);
     }
