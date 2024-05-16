@@ -41,12 +41,15 @@ public class ReviewComtroller {
     private final ReviewService reviewService;
 
     // 스토어 하나의 전체 리뷰 가져오기
-    @GetMapping("/{storeId}/all")
-    public ResponseEntity<PageResultDto<StoreDto, Store>> reviewList(@PathVariable("storeId") Long storeId) {
-        log.info("전체 리뷰 요청");
+    // @GetMapping("/{storeId}/all")
+    // public ResponseEntity<PageResultDto<StoreDto, Store>>
+    // reviewList(@PathVariable("storeId") Long storeId, @RequestBody PageRequestDto
+    // requestDto) {
+    // log.info("전체 리뷰 요청");
 
-        return new ResponseEntity<>(reviewService.getReviewList(, storeId), HttpStatus.OK);
-    }
+    // return new ResponseEntity<>(reviewService.getReviewList(requestDto, storeId),
+    // HttpStatus.OK);
+    // }
 
     // 리뷰 등록
     @PostMapping("/{storeId}")

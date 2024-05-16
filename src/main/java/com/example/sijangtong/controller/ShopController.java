@@ -37,7 +37,7 @@ public class ShopController {
     public void getList(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, Model model) {
 
         log.info("리스트 폼 요청");
-        // model.addAttribute("result", service.getStoreList(pageRequestDto));
+        model.addAttribute("result", service.getStoreList(pageRequestDto));
     }
 
     @GetMapping("/home")
