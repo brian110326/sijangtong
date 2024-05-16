@@ -20,7 +20,7 @@ public interface ProductService {
 
     Long removeProduct(Long productId);
 
-    public default ProductDto entityToDto(Product product, List<ProductImg> productImgs) {
+    public default ProductDto entityToDto(Product product, List<ProductImg> productImgs, Store store, Double avg) {
         ProductDto productDto = ProductDto.builder()
                 .productId(product.getProductId())
                 .pName(product.getPName())

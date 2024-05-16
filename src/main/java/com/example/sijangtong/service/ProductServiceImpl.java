@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
                 storeId);
 
         Function<Object[], ProductDto> fn = (en -> entityToDto((Product) en[0],
-                (List<ProductImg>) Arrays.asList((ProductImg) en[1])));
+                (List<ProductImg>) Arrays.asList((ProductImg) en[1]), (Store) en[2], (Double) en[3]));
 
         return new PageResultDto<>(result, fn);
 
@@ -58,7 +58,11 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductImg> list = result.stream().map(en -> (ProductImg) en[1]).collect(Collectors.toList());
 
-        return entityToDto(product, list);
+        Store store = (Store) result.get(0)[2];
+
+        Double avg = (Double) result.get(0)[3];
+
+        return entityToDto(product, list, store, avg);
     }
 
     @Override
