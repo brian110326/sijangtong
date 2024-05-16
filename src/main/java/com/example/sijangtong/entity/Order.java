@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = { "member", "review" })
+@ToString(exclude = { "member", "rider", "store" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orders")
@@ -44,6 +45,10 @@ public class Order extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @OneToOne(mappedBy = "order")
-    private Review review;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Store store;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Rider rider;
+
 }

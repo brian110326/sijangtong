@@ -16,6 +16,7 @@ import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.entity.Order;
+import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
@@ -30,101 +31,105 @@ import com.example.sijangtong.repository.StoreRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
 
-    private final StoreImgRepository storeImgRepository;
+        private final StoreImgRepository storeImgRepository;
 
-    private final ReviewRepository reviewRepository;
+        private final ReviewRepository reviewRepository;
 
-    private final ProductRepository productRepository;
+        private final ProductRepository productRepository;
 
-    private final StoreRepository storeRepository;
+        private final StoreRepository storeRepository;
 
-    private final OrderRepository orderRepository;
+        private final OrderRepository orderRepository;
 
-    private final OrderItemRepository orderItemRepository;
+        private final OrderItemRepository orderItemRepository;
 
-    private final ProductImgRepository productImgRepository;
+        private final ProductImgRepository productImgRepository;
 
-    @Override
-    public PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto) {
-        Page<Object[]> result = storeImgRepository
-                .getTotalList(pageRequestDto.getType(), pageRequestDto.getKeyword(),
-                        pageRequestDto.getPageable(Sort.by("storeId").descending()));
+        @Override
+        public PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto) {
 
-        Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
-                (List<StoreImg>) Arrays.asList((StoreImg) en[1]), (Double) en[2]));
+                log.info("pageRequestDto  " + pageRequestDto);
 
-        return new PageResultDto<>(result, fn);
-    }
+                Page<Object[]> result = storeImgRepository
+                                .getTotalList(pageRequestDto.getPageable(Sort.by("storeId").descending()));
 
-    @Override
-    public StoreDto getRow(Long storeId) {
-        List<Object[]> result = storeImgRepository.getStoreRow(storeId);
+                Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
+                                (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
 
-        Store store = (Store) result.get(0)[0];
-        Double avg = (Double) result.get(0)[2];
+                return new PageResultDto<>(result, fn);
+        }
 
-        // List<StoreImg> list = new ArrayList<>();
-        // result.forEach(arr -> {
-        // StoreImg storeImg = (StoreImg) arr[1];
-        // list.add(storeImg);
-        // });
+        @Override
+        public StoreDto getRow(Long storeId) {
+                List<Object[]> result = storeImgRepository.getStoreRow(storeId);
 
-        List<StoreImg> list = result.stream().map(arr -> (StoreImg) arr[1]).collect(Collectors.toList());
+                Store store = (Store) result.get(0)[0];
 
-        return entityToDto(store, list, avg);
-    }
+                // List<StoreImg> list = new ArrayList<>();
+                // result.forEach(arr -> {
+                // StoreImg storeImg = (StoreImg) arr[1];
+                // list.add(storeImg);
+                // });
 
-    @Override
-    @Transactional
-    public Long removeStore(Long storeId) {
-        Store store = storeRepository.findById(storeId).get();
-        Product product = productRepository.findByStore(store).get(0);
-        Review review = reviewRepository.findByStore(store).get(0);
-        Order order = orderRepository.findByReview(review);
+                List<StoreImg> list = result.stream().map(arr -> (StoreImg) arr[1]).collect(Collectors.toList());
 
-        reviewRepository.deleteByStore(store);
-        storeImgRepository.deleteByStore(store);
+                return entityToDto(store, list);
+        }
 
-        orderItemRepository.deleteByProduct(product);
-        productImgRepository.deleteByProduct(product);
+        @Override
+        @Transactional
+        public Long removeStore(Long storeId) {
+                Store store = storeRepository.findById(storeId).get();
+                Product product = productRepository.findByStore(store).get(0);
+                Review review = reviewRepository.findByProduct(product).get(0);
+                OrderItem orderItem = orderItemRepository.findByProduct(product).get(0);
 
-        productRepository.deleteByStore(store);
-        orderRepository.delete(order);
+                reviewRepository.deleteByProduct(product);
+                storeImgRepository.deleteByStore(store);
 
-        storeRepository.delete(store);
+                orderItemRepository.deleteByProduct(product);
+                productImgRepository.deleteByProduct(product);
 
-        return store.getStoreId();
-    }
+                productRepository.deleteByStore(store);
+                orderRepository.deleteByStore(store);
 
-    @Override
-    public PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
-            StoreCategory storeCategory) {
+                storeRepository.delete(store);
 
-        Page<Object[]> result = storeImgRepository
-                .getTotalListByCategory(pageRequestDto.getType(), pageRequestDto.getKeyword(),
-                        pageRequestDto.getPageable(Sort.by("storeId")), storeCategory);
+                return store.getStoreId();
+        }
 
-        Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
-                (List<StoreImg>) Arrays.asList((StoreImg) en[1]), (Double) en[2]));
+        @Override
+        public PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
+                        StoreCategory storeCategory) {
 
-        return new PageResultDto<>(result, fn);
-    }
+                Page<Object[]> result = storeImgRepository
+                                .getTotalListByCategory(
+                                                pageRequestDto.getPageable(Sort.by("storeId")), storeCategory);
 
-    @Override
-    public PageResultDto<StoreDto, Object[]> getStoreListByAddress(PageRequestDto pageRequestDto, String storeAddress) {
-        Page<Object[]> result = storeImgRepository.getTotalListByAddress(pageRequestDto.getType(),
-                pageRequestDto.getKeyword(), pageRequestDto.getPageable(Sort.by("storeId")),
-                storeAddress);
+                Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
+                                (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
 
-        Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
-                (List<StoreImg>) Arrays.asList((StoreImg) en[1]), (Double) en[2]));
+                return new PageResultDto<>(result, fn);
+        }
 
-        return new PageResultDto<>(result, fn);
-    }
+        @Override
+        public PageResultDto<StoreDto, Object[]> getStoreListByAddress(PageRequestDto pageRequestDto,
+                        String storeAddress) {
+                Page<Object[]> result = storeImgRepository.getTotalListByAddress(
+                                pageRequestDto.getPageable(Sort.by("storeId")),
+                                storeAddress);
+
+                Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
+                                (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
+
+                return new PageResultDto<>(result, fn);
+        }
 
 }

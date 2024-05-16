@@ -32,8 +32,8 @@ public class ReviewServiceImpl implements ReviewService {
         Page<Object[]> result = reviewRepository.getReviewList(pageRequestDto.getPageable(Sort.by("reviewId")),
                 storeId);
 
-        Function<Object[], ReviewDto> fn = (en -> entityToDto((Store) en[0], (Product) en[1], (Review) en[2],
-                (Order) en[3]));
+        Function<Object[], ReviewDto> fn = (en -> entityToDto((Product) en[0],
+                (Review) en[1]));
 
         return new PageResultDto<>(result, fn);
     }

@@ -79,10 +79,12 @@ public class StoreRepositoryTest {
 
         LongStream.rangeClosed(1, 200).forEach(i -> {
             Member member = Member.builder().memberEmail("member" + i + "@naver.com").build();
+            Store store = Store.builder().storeId(i).build();
             Order order = Order.builder()
                     .orderAddress("강동구")
                     .orderPayment(OrderPayment.CASH)
                     .member(member)
+                    .store(store)
                     .build();
 
             orderRepository.save(order);
@@ -169,16 +171,15 @@ public class StoreRepositoryTest {
 
         LongStream.rangeClosed(1, 200).forEach(i -> {
 
-            Store store = Store.builder().storeId(i).build();
             Member member = Member.builder().memberEmail("member" + i + "@naver.com").build();
-            Order order = Order.builder().orderId(i).build();
+            Product product = Product.builder().productId(i).build();
 
             Review review = Review.builder()
                     .text("이 매장에 대한 리뷰는.....")
                     .grade((int) (Math.random() * 5) + 1)
-                    .store(store)
+                    .product(product)
                     .member(member)
-                    .order(order)
+                    .product(product)
                     .build();
             reviewRepository.save(review);
         });
