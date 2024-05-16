@@ -121,7 +121,11 @@
               </button>
               <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
-                  <a th:href='@{list(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}' class="nav-item nav-link active">시장 목록</a>
+                  <a
+                    th:href="@{list(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                    class="nav-item nav-link active"
+                    >시장 목록</a
+                  >
                   <a th:href="@{/shop/read}" class="nav-item nav-link">시장 정보</a>
                   <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
