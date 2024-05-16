@@ -14,18 +14,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
+import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Review;
+import com.example.sijangtong.entity.Rider;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.repository.OrderItemRepository;
 import com.example.sijangtong.repository.OrderRepository;
 import com.example.sijangtong.repository.ProductImgRepository;
 import com.example.sijangtong.repository.ProductRepository;
 import com.example.sijangtong.repository.ReviewRepository;
+import com.example.sijangtong.repository.RiderRepository;
 import com.example.sijangtong.repository.StoreImgRepository;
 import com.example.sijangtong.repository.StoreRepository;
 
@@ -55,6 +58,9 @@ public class SijangtongServiceTest {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private RiderRepository riderRepository;
 
     // @Test
     // public void storeList() {
@@ -190,6 +196,36 @@ public class SijangtongServiceTest {
             System.out.println(Arrays.toString(objects));
         }
 
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void deleteOrderTest() {
+        Order order = Order.builder().orderId(84L).build();
+
+        orderItemRepository.deleteByOrder(order);
+        orderRepository.delete(order);
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void updateOrderTest() {
+        orderRepository.updatePayment(OrderPayment.CREDIT_CARD, 1L);
+    }
+
+    @Test
+    public void getRider() {
+        Rider rider = riderRepository.getRider();
+        System.out.println(rider);
+    }
+
+    @Test
+    @Commit
+    @Transactional
+    public void updateAmount() {
+        orderItemRepository.updateAmount(33, 1L);
     }
 
 }
