@@ -5,16 +5,19 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.sijangtong.entity.Order;
+import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Review;
+import com.example.sijangtong.entity.Store;
+import com.example.sijangtong.repository.orderTotal.OrderOrderItemMemberRiderProductRepository;
+
 import java.util.List;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long>, OrderOrderItemMemberRiderProductRepository {
+
+    List<Order> findByStore(Store store);
 
     @Modifying
-    @Query("delete from Order o where o.review = :review")
-    void deleteByReview(Review review);
-
-    Order findByReview(Review review);
-
+    @Query("delete from Order o where o.store = :store")
+    void deleteByStore(Store store);
 }

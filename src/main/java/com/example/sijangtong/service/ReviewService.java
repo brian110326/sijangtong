@@ -19,11 +19,11 @@ public interface ReviewService {
 
     Long createReview(ReviewDto reviewDto);
 
-    public default ReviewDto entityToDto(Store store, Product product, Review review, Order order) {
+    public default ReviewDto entityToDto(Product product, Review review) {
         ReviewDto reviewDto = ReviewDto.builder().reviewId(review.getReviewId())
                 .text(review.getText())
                 .grade(review.getGrade())
-                .storeId(review.getStore().getStoreId())
+                .productId(review.getProduct().getProductId())
                 .memberEmail(review.getMember().getMemberEmail())
                 .memberNickname(review.getMember().getMemberNickname())
                 .createdDate(review.getCreatedDate())
@@ -35,18 +35,18 @@ public interface ReviewService {
     }
 
     public default Review dtoToEntity(ReviewDto reviewDto) {
-        Store store = Store.builder().storeId(reviewDto.getStoreId()).build();
-        Member member = Member.builder().memberEmail(reviewDto.getMemberEmail()).build();
+        Member member = Member.builder().memberEmail(reviewDto.getMemberEmail())
+                .memberNickname(reviewDto.getMemberNickname()).build();
 
-        Review review = Review.builder().reviewId(reviewDto.getReviewId())
-                .text(reviewDto.getText())
-                .grade(reviewDto.getGrade())
-                .store(store)
-                .member(member)
-                .build();
+        Product product = Product.builder().productId(reviewDto.getProductId()).build();
+
+        Review review = Review.builder().reviewId(reviewDto.getReviewId()).text(reviewDto.getText())
+                .grade(reviewDto.getGrade()).member(member).product(product).build();
+
         review.setCreatedDate(reviewDto.getCreatedDate());
         review.setLastModifiedDate(reviewDto.getLastModifiedDate());
 
         return review;
     }
+
 }

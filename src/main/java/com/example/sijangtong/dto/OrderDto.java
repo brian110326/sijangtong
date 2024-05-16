@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.entity.Member;
+import com.example.sijangtong.entity.Rider;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -25,7 +26,11 @@ public class OrderDto {
 
     private OrderPayment orderPayment;
 
-    private Member member;
+    private String memberEmail;
+
+    private Long storeId;
+
+    private Rider rider;
 
     private LocalDateTime createdDate;
 
