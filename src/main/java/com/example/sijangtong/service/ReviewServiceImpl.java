@@ -28,9 +28,9 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Override
-    public PageResultDto<ReviewDto, Object[]> getReviewList(PageRequestDto pageRequestDto, Long storeId) {
+    public PageResultDto<ReviewDto, Object[]> getReviewList(PageRequestDto pageRequestDto, Long productId) {
         Page<Object[]> result = reviewRepository.getReviewList(pageRequestDto.getPageable(Sort.by("reviewId")),
-                storeId);
+                productId);
 
         Function<Object[], ReviewDto> fn = (en -> entityToDto((Product) en[0],
                 (Review) en[1]));
