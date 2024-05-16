@@ -14,6 +14,7 @@ import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.repository.StoreRepository;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
+import com.example.sijangtong.service.ProductService;
 import com.example.sijangtong.service.StoreService;
 import com.example.sijangtong.service.StoreServiceImpl;
 
@@ -27,9 +28,11 @@ import lombok.extern.log4j.Log4j2;
 public class ShopController {
 
     private final StoreService service;
+    private final ProductService productService;
 
     @GetMapping("/storeDetail")
-    public void getDetail(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+    public void getDetail(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, Long storeId, Model model) {
+        model.addAttribute("result", productService.getProductList(pageRequestDto, storeId));
         log.info("디테일 폼 요청");
     }
 
