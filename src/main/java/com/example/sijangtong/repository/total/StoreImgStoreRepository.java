@@ -10,11 +10,9 @@ import com.example.sijangtong.entity.Store;
 
 public interface StoreImgStoreRepository {
 
-    Page<Object[]> getTotalList(Pageable pageable);
+    Page<Object[]> getTotalList(String type, String keyword, Pageable pageable);
 
     Page<Object[]> getTotalListByCategory(Pageable pageable, StoreCategory storeCategory);
-
-    Page<Object[]> getTotalListByAddress(Pageable pageable, String storeAddress);
 
     List<Object[]> getStoreRow(Long storeId);
 

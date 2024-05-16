@@ -47,9 +47,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Long updateReview(ReviewDto reviewDto) {
-        Review updatedReview = reviewRepository.save(dtoToEntity(reviewDto));
+        reviewRepository.updateReview(reviewDto.getText(), reviewDto.getGrade(), reviewDto.getReviewId());
 
-        return updatedReview.getReviewId();
+        return reviewDto.getReviewId();
     }
 
     @Override

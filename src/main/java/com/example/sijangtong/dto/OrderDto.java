@@ -1,6 +1,8 @@
 package com.example.sijangtong.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.entity.Member;
@@ -31,6 +33,9 @@ public class OrderDto {
     private Long storeId;
 
     private Rider rider;
+
+    @Builder.Default
+    private List<OrderItemDto> orderItemDtos = new ArrayList<>();
 
     private LocalDateTime createdDate;
 
