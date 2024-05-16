@@ -13,39 +13,38 @@ import com.example.sijangtong.entity.StoreImg;
 
 public interface StoreService {
 
-    PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto);
+        PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto);
 
-    PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
-            StoreCategory storeCategory);
+        PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
+                        StoreCategory storeCategory);
 
-    PageResultDto<StoreDto, Object[]> getStoreListByAddress(PageRequestDto pageRequestDto,
-            String storeAddress);
+        PageResultDto<StoreDto, Object[]> getStoreListByAddress(PageRequestDto pageRequestDto,
+                        String storeAddress);
 
-    StoreDto getRow(Long storeId);
+        StoreDto getRow(Long storeId);
 
-    Long removeStore(Long storeId);
+        Long removeStore(Long storeId);
 
-    public default StoreDto entityToDto(Store store, List<StoreImg> storeImgs, Double avg) {
-        StoreDto storeDto = StoreDto.builder().storeId(store.getStoreId())
-                .storeCategory(store.getStoreCategory())
-                .storeTel(store.getStoreTel())
-                .openTime(store.getOpenTime())
-                .closeTime(store.getCloseTime())
-                .storeAddress(store.getStoreAddress())
-                .storeName(store.getStoreName())
-                .storeDetail(store.getStoreDetail())
-                .gradeAvg(avg != null ? avg : 0.0d)
-                .build();
+        public default StoreDto entityToDto(Store store, List<StoreImg> storeImgs) {
+                StoreDto storeDto = StoreDto.builder().storeId(store.getStoreId())
+                                .storeCategory(store.getStoreCategory())
+                                .storeTel(store.getStoreTel())
+                                .openTime(store.getOpenTime())
+                                .closeTime(store.getCloseTime())
+                                .storeAddress(store.getStoreAddress())
+                                .storeName(store.getStoreName())
+                                .storeDetail(store.getStoreDetail())
+                                .build();
 
-        List<StoreImgDto> storeImgDtos = storeImgs.stream().map(storeImg -> {
-            return StoreImgDto.builder().storeImgId(storeImg.getStoreImgId()).stUuid(storeImg.getStUuid())
-                    .stImgName(storeImg.getStImgName()).stPath(storeImg.getStPath())
-                    .build();
-        }).collect(Collectors.toList());
+                List<StoreImgDto> storeImgDtos = storeImgs.stream().map(storeImg -> {
+                        return StoreImgDto.builder().storeImgId(storeImg.getStoreImgId()).stUuid(storeImg.getStUuid())
+                                        .stImgName(storeImg.getStImgName()).stPath(storeImg.getStPath())
+                                        .build();
+                }).collect(Collectors.toList());
 
-        storeDto.setStoreImgDtos(storeImgDtos);
+                storeDto.setStoreImgDtos(storeImgDtos);
 
-        return storeDto;
-    }
+                return storeDto;
+        }
 
 }

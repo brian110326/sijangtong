@@ -86,6 +86,9 @@ public class SijangtongServiceTest {
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
         }
+
+        System.out.println("number" + list.getNumber());
+        System.out.println("total" + list.getTotalPages());
     }
 
     @Test
