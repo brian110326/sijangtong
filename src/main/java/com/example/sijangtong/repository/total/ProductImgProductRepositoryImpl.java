@@ -6,14 +6,21 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.ProductImg;
 import com.example.sijangtong.entity.QProduct;
 import com.example.sijangtong.entity.QProductImg;
 import com.example.sijangtong.entity.QReview;
 import com.example.sijangtong.entity.QStore;
+import com.example.sijangtong.entity.Store;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 
@@ -25,7 +32,7 @@ public class ProductImgProductRepositoryImpl extends QuerydslRepositorySupport i
     }
 
     @Override
-    public Page<Object[]> getProductList(Pageable pageable, Long storeId) {
+    public Page<Object[]> getProductList(String type, String keyword, Pageable pageable, Long storeId) {
 
         // SELECT pi.*,p.*, (SELECT AVG(r.grade) FROM REVIEW r WHERE
         // r.product_product_id = p.PRODUCT_ID) AS grade
@@ -50,6 +57,32 @@ public class ProductImgProductRepositoryImpl extends QuerydslRepositorySupport i
                 .where(productImg.imgId.in(
                         JPAExpressions.select(productImg.imgId.min()).from(productImg).groupBy(productImg.product))
                         .and(product.store.storeId.eq(storeId)));
+
+        // 검색 조건
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(product.productId.gt(0L));
+
+        BooleanBuilder conditionBuilder = new BooleanBuilder();
+        // pn : productname
+        if (type.equals("pn")) {
+            conditionBuilder.or(product.pName.contains(keyword));
+        }
+
+        builder.and(conditionBuilder);
+        tuple.where(builder);
+
+        // 페이지 나누기
+        // sort 지정
+        // 정렬기준이 1개가 아니라 기준이 계속 변경될 때 대비용
+        Sort sort = pageable.getSort();
+        sort.stream().forEach(order -> {
+            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+            String prop = order.getProperty();
+
+            // 어떤 클래스를 기준으로 sort할것인지
+            PathBuilder<Product> orderByExpression = new PathBuilder<>(Product.class, "product");
+            tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
+        });
 
         // 페이지 처리
         tuple.offset(pageable.getOffset());

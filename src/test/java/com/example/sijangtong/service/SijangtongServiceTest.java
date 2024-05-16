@@ -54,70 +54,48 @@ public class SijangtongServiceTest {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Test
-    public void storeList() {
+    // @Test
+    // public void storeList() {
 
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(3).build();
+    // PageRequestDto requestDto =
+    // PageRequestDto.builder().size(10).page(3).build();
 
-        Page<Object[]> list = storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
+    // Page<Object[]> list =
+    // storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
+    // for (Object[] objects : list) {
+    // System.out.println(Arrays.toString(objects));
+    // }
 
-        System.out.println("number " + list.getNumber());
-        System.out.println("total " + list.getTotalPages());
-        System.out.println("TotalElements " + list.getTotalElements());
-        System.out.println("size " + list.getSize());
-        // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
-        System.out.println("getOffset " + list.getPageable().getOffset());
+    // System.out.println("number " + list.getNumber());
+    // System.out.println("total " + list.getTotalPages());
+    // System.out.println("TotalElements " + list.getTotalElements());
+    // System.out.println("size " + list.getSize());
+    // // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
+    // System.out.println("getOffset " + list.getPageable().getOffset());
 
-    }
-
-    @Test
-    public void getStoreListByCategory() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = storeImgRepository.getTotalListByCategory(requestDto.getPageable(Sort.by("storeId")),
-                StoreCategory.SEAFOOD);
-
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
-
-    }
-
-    @Test
-    public void getStoreListByAddress() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = storeImgRepository.getTotalListByAddress(requestDto.getPageable(Sort.by("storeId")),
-                "종로");
-
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
-
-        System.out.println("number" + list.getNumber());
-        System.out.println("total" + list.getTotalPages());
-        System.out.println("TotalElements" + list.getTotalElements());
-    }
+    // }
 
     @Test
     public void getStoreRow() {
-        List<Object[]> list = storeImgRepository.getStoreRow(200L);
+        List<Object[]> list = storeImgRepository.getStoreRow(40L);
 
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
         }
     }
 
-    @Test
-    public void productList() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = productImgRepository.getProductList(requestDto.getPageable(Sort.by("productId")), 44L);
+    // @Test
+    // public void productList() {
+    // PageRequestDto requestDto =
+    // PageRequestDto.builder().size(10).page(1).build();
+    // Page<Object[]> list =
+    // productImgRepository.getProductList(requestDto.getPageable(Sort.by("productId")),
+    // 44L);
 
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
-    }
+    // for (Object[] objects : list) {
+    // System.out.println(Arrays.toString(objects));
+    // }
+    // }
 
     @Test
     public void reviewList() {
@@ -198,6 +176,18 @@ public class SijangtongServiceTest {
         for (Object[] objects : result) {
             System.out.println(Arrays.toString(objects));
         }
+    }
+
+    @Test
+    public void getStoreListByCategory() {
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
+        Page<Object[]> list = storeImgRepository.getTotalListByCategory(
+                requestDto.getPageable(Sort.by("storeId").descending()),
+                StoreCategory.SEAFOOD);
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
+
     }
 
 }

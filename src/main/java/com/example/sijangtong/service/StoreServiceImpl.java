@@ -57,7 +57,8 @@ public class StoreServiceImpl implements StoreService {
                 log.info("pageRequestDto  " + pageRequestDto);
 
                 Page<Object[]> result = storeImgRepository
-                                .getTotalList(pageRequestDto.getPageable(Sort.by("storeId").descending()));
+                                .getTotalList(pageRequestDto.getType(), pageRequestDto.getKeyword(),
+                                                pageRequestDto.getPageable(Sort.by("storeId").descending()));
 
                 Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
                                 (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
@@ -107,23 +108,9 @@ public class StoreServiceImpl implements StoreService {
         @Override
         public PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
                         StoreCategory storeCategory) {
-
                 Page<Object[]> result = storeImgRepository
-                                .getTotalListByCategory(
-                                                pageRequestDto.getPageable(Sort.by("storeId")), storeCategory);
-
-                Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
-                                (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
-
-                return new PageResultDto<>(result, fn);
-        }
-
-        @Override
-        public PageResultDto<StoreDto, Object[]> getStoreListByAddress(PageRequestDto pageRequestDto,
-                        String storeAddress) {
-                Page<Object[]> result = storeImgRepository.getTotalListByAddress(
-                                pageRequestDto.getPageable(Sort.by("storeId")),
-                                storeAddress);
+                                .getTotalListByCategory(pageRequestDto.getPageable(Sort.by("storeId").descending()),
+                                                storeCategory);
 
                 Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
                                 (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
