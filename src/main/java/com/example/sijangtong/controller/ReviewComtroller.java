@@ -43,9 +43,10 @@ public class ReviewComtroller {
     // 스토어 하나의 전체 리뷰 가져오기
     @GetMapping("/{storeId}/all")
     public ResponseEntity<PageResultDto<StoreDto, Store>> reviewList(@PathVariable("storeId") Long storeId) {
-        log.info("전체 리뷰 요청");
+        log.info("전체 리뷰 요청 {}", storeId);
 
-        return new ResponseEntity<>(reviewService.getReviewList(, storeId), HttpStatus.OK);
+        PageResultDto<ReviewDto, Review> reviewList = reviewService.getReviewList(storeId);
+        return new ResponseEntity<>(reviewList, HttpStatus.OK);
     }
 
     // 리뷰 등록
@@ -53,9 +54,8 @@ public class ReviewComtroller {
     public ResponseEntity<Long> postMethodName(@RequestBody ReviewDto reviewDto) {
         log.info("리뷰 등록 {}", reviewDto);
 
-        Long reviewId = reviewService.createReview(reviewDto);
+     
 
-        return new ResponseEntity<>(reviewId, HttpStatus.OK);
     }
 
     // 리뷰 삭제
