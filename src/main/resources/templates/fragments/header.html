@@ -132,11 +132,11 @@
                       >구매 목록 <i class="fa fa-angle-down mt-1"></i
                     ></a>
                     <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                      <a href="#" class="dropdown-item">카트 목록</a>
-                      <a href="#" class="dropdown-item">구매 확정</a>
+                      <a th:href="@{/shop/buyitemlist}" class="dropdown-item">카트 목록</a>
+                      <a th:href="@{/shop/cart}" class="dropdown-item">구매 확정</a>
                     </div>
                   </div>
-                  <a href="contact.html" class="nav-item nav-link">고객 문의</a>
+                  <a th:href="@{/shop/contact}" class="nav-item nav-link">고객 문의</a>
                 </div>
                 <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                   <a href="" class="btn px-0">
