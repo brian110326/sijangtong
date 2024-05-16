@@ -40,33 +40,40 @@ public class ReviewComtroller {
 
     private final ReviewService reviewService;
 
-    // 스토어 하나의 전체 리뷰 가져오기
-    @GetMapping("/{storeId}")
-    public ResponseEntity<List<ReviewDto>> getReview(@PathVariable("storeId") Long storeId) {
-        log.info("전체 리스트 {}", storeId);
+    // 물건 하나의 전체 리뷰 가져오기
+    @GetMapping("/{productId}/all")
+    public ResponseEntity<List<ReviewDto>> getreview(@PathVariable("productId") Long productId) {
 
-        PageResultDto<ReviewDto, Object[]> result = reviewService.getReviewList(null, storeId);
-
-    return new ResponseEntity<List<ReviewDto>>(HttpStatusCode.OK)
-        
+        return new ResponseEntity<>(reviewService.getReviewList(productId), HttpStatus.OK);
     }
 
-    // 리뷰 등록
-    @PostMapping("/{storeId}")
+    // 리뷰 등록 (확인완료)
+    @PostMapping("/{productId}")
     public ResponseEntity<Long> postMethodName(@RequestBody ReviewDto reviewDto) {
         log.info("리뷰 등록 {}", reviewDto);
 
+        Long reviewId = reviewService.createReview(reviewDto);
+        return new ResponseEntity<Long>(reviewId, HttpStatus.OK);
+
     }
 
-    // 리뷰 삭제
-    @DeleteMapping("/{storeId}/{reviewId}")
+    // 리뷰 삭제 (확인완료)
+    @DeleteMapping("/{productId}/{reviewId}")
     public ResponseEntity<Long> deleteReview(@PathVariable("reviewId") Long reviewId, String memberEmail) {
-        log.info("리뷰 삭제 {}", reviewId);
+        log.info("리뷰 삭제 {}", memberEmail);
 
         reviewService.removeReview(reviewId);
         return new ResponseEntity<>(reviewId, HttpStatus.OK);
     }
 
-    // 리뷰 수정
+    // 리뷰 수정 : 수정이 아니라 인서트가 됨...
+    @PutMapping("{productId}/{reviewId}")
+    public ResponseEntity<Long> putMethodName(@PathVariable("reviewId") Long reviewId,
+            @RequestBody ReviewDto reviewDto) {
+        log.info("리뷰 수정 {}", reviewDto);
 
+        reviewService.updateReview(reviewDto);
+
+        return new ResponseEntity<>(reviewId, HttpStatus.OK);
+    }
 }
