@@ -140,30 +140,32 @@ public class StoreRepositoryTest {
     @Test
     public void insertProductTest() {
 
-        LongStream.rangeClosed(1, 200).forEach(i -> {
+        LongStream.rangeClosed(8, 200).forEach(i -> {
             Store store = Store.builder().storeId(i).build();
-
-            Product product = Product.builder()
-                    .pName("재고" + i)
-                    .price(5000)
-                    .amount(20)
-                    .store(store)
-                    .build();
-
-            productRepository.save(product);
-
-            int count = (int) (Math.random() * 5) + 1;
-
-            for (int j = 0; j < count; j++) {
-                ProductImg productImg = ProductImg.builder()
-                        .uuid(UUID.randomUUID().toString())
-                        .path(null)
-                        .imgName("img" + i + ".jpg")
-                        .product(product)
+            LongStream.rangeClosed(1, 50).forEach(j -> {
+                Product product = Product.builder()
+                        .pName("재고" + i)
+                        .price(5000)
+                        .amount(20)
+                        .store(store)
                         .build();
-                productImgRepository.save(productImg);
-            }
+                productRepository.save(product);
+
+                int count = (int) (Math.random() * 5) + 1;
+
+                for (int k = 0; k < count; k++) {
+                    ProductImg productImg = ProductImg.builder()
+                            .uuid(UUID.randomUUID().toString())
+                            .path(null)
+                            .imgName("img" + k + ".jpg")
+                            .product(product)
+                            .build();
+                    productImgRepository.save(productImg);
+                }
+
+            });
         });
+
     }
 
     @Test
