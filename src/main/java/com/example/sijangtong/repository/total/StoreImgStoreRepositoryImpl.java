@@ -77,13 +77,19 @@ public class StoreImgStoreRepositoryImpl extends QuerydslRepositorySupport imple
             tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
         });
 
+        System.out.println("pageable getOffset " + pageable.getOffset());
+        System.out.println("pageable getPageNumber " + pageable.getPageNumber());
+        System.out.println("pageable getPageSize " + pageable.getPageSize());
+
         // 페이지 처리
         tuple.offset(pageable.getOffset());
         tuple.limit(pageable.getPageSize());
 
         List<Tuple> result = tuple.fetch();
 
-        return new PageImpl<>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()));
+        long count = tuple.fetchCount();
+
+        return new PageImpl<>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()), pageable, count);
     }
 
     @Override

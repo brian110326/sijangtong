@@ -56,12 +56,20 @@ public class SijangtongServiceTest {
 
     @Test
     public void storeList() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
+
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(3).build();
 
         Page<Object[]> list = storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
         }
+
+        System.out.println("number " + list.getNumber());
+        System.out.println("total " + list.getTotalPages());
+        System.out.println("TotalElements " + list.getTotalElements());
+        System.out.println("size " + list.getSize());
+        // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
+        System.out.println("getOffset " + list.getPageable().getOffset());
 
     }
 
@@ -89,6 +97,7 @@ public class SijangtongServiceTest {
 
         System.out.println("number" + list.getNumber());
         System.out.println("total" + list.getTotalPages());
+        System.out.println("TotalElements" + list.getTotalElements());
     }
 
     @Test

@@ -30,7 +30,9 @@ import com.example.sijangtong.repository.StoreRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
@@ -51,6 +53,9 @@ public class StoreServiceImpl implements StoreService {
 
         @Override
         public PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto) {
+
+                log.info("pageRequestDto  " + pageRequestDto);
+
                 Page<Object[]> result = storeImgRepository
                                 .getTotalList(pageRequestDto.getPageable(Sort.by("storeId").descending()));
 
