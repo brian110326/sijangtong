@@ -56,9 +56,4 @@ public class ShopController {
         log.info("구매 폼 요청");
     }
 
-    @GetMapping("/review")
-    public void getreview() {
-        log.info("리뷰 폼 요청");
-    }
-
 }

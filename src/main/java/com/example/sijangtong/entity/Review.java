@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = { "store", "member" })
+@ToString(exclude = { "member", "product" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -33,12 +33,9 @@ public class Review extends BaseEntity {
     private int grade;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Store store;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @OneToOne
-    private Order order;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Product product;
 
 }

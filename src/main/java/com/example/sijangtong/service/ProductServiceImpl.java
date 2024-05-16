@@ -17,11 +17,13 @@ import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.ProductImg;
+import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
 import com.example.sijangtong.repository.OrderItemRepository;
 import com.example.sijangtong.repository.ProductImgRepository;
 import com.example.sijangtong.repository.ProductRepository;
+import com.example.sijangtong.repository.ReviewRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     private final OrderItemRepository orderItemRepository;
+
+    private final ReviewRepository reviewRepository;
 
     @Override
     public PageResultDto<ProductDto, Object[]> getProductList(PageRequestDto pageRequestDto, Long storeId) {
@@ -83,12 +87,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Long removeProduct(Long productId) {
         Product product = productRepository.findById(productId).get();
-        OrderItem orderItem = orderItemRepository.findByProduct(product);
+        List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
 
         productImgRepository.deleteByProduct(product);
 
         // product 삭제 시 orderItem안 product항목만 null로 설정
-        orderItem.setProduct(null);
+        orderItems.forEach(orderItem -> orderItem.setProduct(null));
+        reviewRepository.deleteByProduct(product);
 
         productRepository.delete(product);
 
