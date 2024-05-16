@@ -76,11 +76,16 @@ public class StoreRepositoryTest {
         LongStream.rangeClosed(1, 200).forEach(i -> {
             Member member = Member.builder().memberEmail("member" + i + "@naver.com").build();
             Store store = Store.builder().storeId(i).build();
+            Rider rider = Rider.builder().riderId(i).riderName("Rider" + i).riderTel("010-1234-5678")
+                    .riderStatus(RiderStatus.DELIVERING).build();
+
+            riderRepository.save(rider);
             Order order = Order.builder()
                     .orderAddress("강동구")
                     .orderPayment(OrderPayment.CASH)
                     .member(member)
                     .store(store)
+                    .rider(rider)
                     .build();
 
             orderRepository.save(order);
