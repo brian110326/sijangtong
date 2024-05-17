@@ -119,7 +119,6 @@ public class StoreServiceImpl implements StoreService {
                 return new PageResultDto<>(result, fn);
         }
 
-        
         @Transactional
         @Override
         public Long storeInsert(StoreDto storeDto) {
@@ -144,7 +143,7 @@ public class StoreServiceImpl implements StoreService {
 
                 // 기존 스토어 이미지 제거
                 Store store = (Store) entityMap.get("store");
-                storeImgRepository.deleteBystore(store);
+                storeImgRepository.deleteByStore(store);
                 storeRepository.save(store);
 
                 // 스토어 이미지 삽입
@@ -154,6 +153,5 @@ public class StoreServiceImpl implements StoreService {
                 return store.getStoreId();
 
         }
-
 
 }
