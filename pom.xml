@@ -48,14 +48,15 @@
 			<artifactId>thymeleaf-layout-dialect</artifactId>			
 		</dependency>	
 		<!-- thymeleaf 에서 스프링시큐리티 태그 사용 -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>			
-		</dependency>	
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency> -->
+		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
