@@ -11,7 +11,7 @@ import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 
 public interface ReviewService {
-    PageResultDto<ReviewDto, Object[]> getReviewList(PageRequestDto pageRequestDto, Long storeId);
+    PageResultDto<ReviewDto, Object[]> getReviewList(PageRequestDto pageRequestDto, Long productId);
 
     Long removeReview(Long reviewId);
 

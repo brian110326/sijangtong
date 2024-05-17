@@ -17,6 +17,10 @@ import org.springframework.test.annotation.Commit;
 import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
+import com.example.sijangtong.dto.ProductDto;
+import com.example.sijangtong.dto.ProductImgDto;
+import com.example.sijangtong.dto.StoreDto;
+import com.example.sijangtong.dto.StoreImgDto;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
@@ -227,5 +231,83 @@ public class SijangtongServiceTest {
     public void updateAmount() {
         orderItemRepository.updateAmount(33, 1L);
     }
+
+    // @Test
+    // public void insertProductTest() {
+
+    // List<ProductImgDto> imgList = new ArrayList<>();
+    // ProductImgDto productImgDto = ProductImgDto.builder()
+    // .uuid("테스트 uuid")
+    // .imgName("테스트 이미지이름123")
+    // .path("테스트 패스")
+    // .build();
+    // imgList.add(productImgDto);
+
+    // ProductDto productDto = new ProductDto();
+    // productDto.setAmount(10);
+    // productDto.setPName("테스트상품");
+    // productDto.setPrice(1000);
+    // productDto.setStoreId(10L);
+    // productDto.setProductImgDtos(imgList);
+
+    // productServiceImpl.productInsert(productDto);
+
+    // }
+
+    //
+    //
+    //
+    // @Test
+    // public void insetStoreTest() {
+    // List<StoreImgDto> imgList = new ArrayList<>();
+    // StoreImgDto storeImgDto = StoreImgDto.builder()
+    // .stUuid("테스트 uuid")
+    // .stImgName("테스트 이미지 이름123")
+    // .stPath("테스트 패스")
+    // .build();
+    // imgList.add(storeImgDto);
+
+    // StoreDto storeDto = new StoreDto();
+    // storeDto.setStoreCategory(StoreCategory.CLOTH);
+    // storeDto.setOpenTime("테스트 오픈");
+    // storeDto.setCloseTime("테스트 영업종료");
+    // storeDto.setStoreAddress("솔데스크");
+    // storeDto.setStoreName("테스트 가게 이름");
+    // storeDto.setStoreDetail("테스트 스토어 디테일");
+    // storeDto.setGradeAvg(4.1);
+    // storeDto.setStoreTel("01053859803");
+    // storeDto.setStoreImgDtos(imgList);
+
+    // storeServiceImpl.storeInsert(storeDto);
+
+    // }
+
+    // @Test
+    // public void updateStoreTest() {
+
+    // List<StoreImgDto> imgList = new ArrayList<>();
+    // StoreImgDto storeImgDto = StoreImgDto.builder()
+
+    // .stUuid(" 4수정 테스트 uuid")
+    // .stImgName(" 4수정 테스트 이미지 이름123")
+    // .stPath("4수정 테스트 패스")
+    // .build();
+    // imgList.add(storeImgDto);
+
+    // StoreDto storeDto = new StoreDto();
+    // storeDto.setStoreId(203L);
+    // storeDto.setStoreCategory(StoreCategory.CLOTH);
+    // storeDto.setOpenTime(" 4수정테스트 오픈");
+    // storeDto.setCloseTime(" 4수정테스트 영업종료");
+    // storeDto.setStoreAddress(" 4수정솔데스크");
+    // storeDto.setStoreName("4 수정테스트 가게 이름");
+    // storeDto.setStoreDetail(" 4수정테스트 스토어 디테일");
+    // storeDto.setGradeAvg(1.0);
+    // storeDto.setStoreTel("4수정 01053859803");
+    // storeDto.setStoreImgDtos(imgList);
+
+    // storeServiceImpl.storeUpdate(storeDto);
+
+    // }
 
 }

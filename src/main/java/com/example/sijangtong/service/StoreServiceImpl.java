@@ -119,4 +119,41 @@ public class StoreServiceImpl implements StoreService {
                 return new PageResultDto<>(result, fn);
         }
 
+        
+        @Transactional
+        @Override
+        public Long storeInsert(StoreDto storeDto) {
+                Map<String, Object> entityMap = dtoToentity(storeDto);
+
+                // 스토어 삽입
+                Store store = (Store) entityMap.get("store");
+                storeRepository.save(store);
+
+                // 스토어 이미지 삽입
+                List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
+                storeImgs.forEach(image -> storeImgRepository.save(image));
+
+                return store.getStoreId();
+
+        }
+
+        @Transactional
+        @Override
+        public Long storeUpdate(StoreDto storeDto) {
+                Map<String, Object> entityMap = dtoToentity(storeDto);
+
+                // 기존 스토어 이미지 제거
+                Store store = (Store) entityMap.get("store");
+                storeImgRepository.deleteBystore(store);
+                storeRepository.save(store);
+
+                // 스토어 이미지 삽입
+                List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
+                storeImgs.forEach(image -> storeImgRepository.save(image));
+
+                return store.getStoreId();
+
+        }
+
+
 }
