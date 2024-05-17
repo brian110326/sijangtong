@@ -26,9 +26,9 @@ public class QReview extends EntityPathBase<Review> {
 
     public final QMember member;
 
-    public final NumberPath<Long> reviewId = createNumber("reviewId", Long.class);
+    public final QProduct product;
 
-    public final QStore store;
+    public final NumberPath<Long> reviewId = createNumber("reviewId", Long.class);
 
     public final StringPath text = createString("text");
 
@@ -51,7 +51,7 @@ public class QReview extends EntityPathBase<Review> {
     public QReview(Class<? extends Review> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
-        this.store = inits.isInitialized("store") ? new QStore(forProperty("store")) : null;
+        this.product = inits.isInitialized("product") ? new QProduct(forProperty("product"), inits.get("product")) : null;
     }
 
 }

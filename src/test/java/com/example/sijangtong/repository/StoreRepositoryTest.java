@@ -169,24 +169,25 @@ public class StoreRepositoryTest {
         });
     }
 
-    @Test
-    public void insertReviewTest() {
+    // @Test
+    // public void insertReviewTest() {
 
-        LongStream.rangeClosed(1, 200).forEach(i -> {
+    // LongStream.rangeClosed(1, 200).forEach(i -> {
 
-            Store store = Store.builder().storeId(i).build();
-            Member member = Member.builder().memberEmail("member" + i + "@naver.com").build();
+    // Store store = Store.builder().storeId(i).build();
+    // Member member = Member.builder().memberEmail("member" + i +
+    // "@naver.com").build();
 
-            Review review = Review.builder()
-                    .text("이 매장에 대한 리뷰는.....")
-                    .grade((int) (Math.random() * 5) + 1)
-                    .store(store)
-                    .member(member)
-                    .build();
-            reviewRepository.save(review);
-        });
+    // Review review = Review.builder()
+    // .text("이 매장에 대한 리뷰는.....")
+    // .grade((int) (Math.random() * 5) + 1)
+    // .store(store)
+    // .member(member)
+    // .build();
+    // reviewRepository.save(review);
+    // });
 
-    }
+    // }
 
     @Test
     public void riderInsertTest() {
@@ -196,30 +197,6 @@ public class StoreRepositoryTest {
 
             riderRepository.save(rider);
         });
-    }
-
-    @Transactional
-    @Test
-    public void insertProductTest1() {
-
-        Product product = new Product();
-        product.setAmount(10);
-        product.setPName("테스트상품");
-        product.setPrice(1000);
-        product.setStore(Store.builder().storeId(10L).build());
-
-        productRepository.save(product);
-
-        ProductImg productImg = ProductImg.builder()
-
-                .uuid("테스트 uuid")
-                .imgName("테스트 이미지이름")
-                .path("테스트 패스")
-                .product(Product.builder().productId(205L).build())
-                .build();
-
-        productImgRepository.save(productImg);
-
     }
 
 }

@@ -1,11 +1,13 @@
 package com.example.sijangtong.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = { "store", "member" })
+@ToString(exclude = { "member", "product" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -31,8 +33,9 @@ public class Review extends BaseEntity {
     private int grade;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Store store;
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member member;
+    private Product product;
+
 }

@@ -32,34 +32,31 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-    @Override
-    public PageResultDto<ProductDto, Object[]> getProductList(PageRequestDto pageRequestDto, Long storeId) {
-        Page<Object[]> result = productImgRepository.getProductList(pageRequestDto.getPageable(Sort.by("productId")),
-                storeId);
+    // @Override
+    // public PageResultDto<ProductDto, Object[]> getProductList(PageRequestDto
+    // pageRequestDto, Long storeId) {
+    // Page<Object[]> result =
+    // productImgRepository.getProductList(pageRequestDto.getPageable(Sort.by("productId")),
+    // storeId);
 
-        Function<Object[], ProductDto> fn = (en -> entityToDto((Product) en[0],
-                (List<ProductImg>) Arrays.asList((ProductImg) en[1])));
+    // Function<Object[], ProductDto> fn = (en -> entityToDto((Product) en[0],
+    // (List<ProductImg>) Arrays.asList((ProductImg) en[1])));
 
-        return new PageResultDto<>(result, fn);
+    // return new PageResultDto<>(result, fn);
 
-    }
+    // }
 
-    @Override
-    public ProductDto getProductRow(Long productId) {
-        List<Object[]> result = productImgRepository.getProductRow(productId);
+    // @Override
+    // public ProductDto getProductRow(Long productId) {
+    // List<Object[]> result = productImgRepository.getProductRow(productId);
 
-        Product product = (Product) result.get(0)[0];
+    // Product product = (Product) result.get(0)[0];
 
-        List<ProductImg> list = result.stream().map(en -> (ProductImg) en[1]).collect(Collectors.toList());
+    // List<ProductImg> list = result.stream().map(en -> (ProductImg)
+    // en[1]).collect(Collectors.toList());
 
-        return entityToDto(product, list);
-    }
-
-    @Override
-    public void productRemove(Long productId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'productRemove'");
-    }
+    // return entityToDto(product, list);
+    // }
 
     @Transactional
     @Override
@@ -82,15 +79,24 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    // @Transactional
-    // @Override
-    // public void productRemove(Long productId) {
-    // Product product = Product.builder().productId(productId).build();
+    @Transactional
+    @Override
+    public Long productUpdate(ProductDto productDto) {
 
-    // productImgRepository.deleteByProduct(product);
+        // dto ==> entity
+        Map<String, Object> entityMap = dtoToEntity(productDto);
 
-    // productRepository.deleteById(productId);
+        Product product = (Product) entityMap.get("product");
+        productImgRepository.deleteByProduct(product);
 
-    // }
+        // movie image 삽입
+        List<ProductImg> productImgs = (List<ProductImg>) entityMap.get("imgList");
+        productImgs.forEach(image -> productImgRepository.save(image));
+
+        productRepository.save(product);
+
+        return product.getProductId();
+
+    }
 
 }
