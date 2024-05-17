@@ -3,10 +3,11 @@ package com.example.sijangtong.entity;
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
 import com.querydsl.core.types.dsl.*;
-import com.querydsl.core.types.Path;
 
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
+import com.querydsl.core.types.Path;
+
 
 /**
  * QStore is a Querydsl query type for Store
@@ -24,8 +25,7 @@ public class QStore extends EntityPathBase<Store> {
 
     public final StringPath storeAddress = createString("storeAddress");
 
-    public final EnumPath<com.example.sijangtong.constant.StoreCategory> storeCategory = createEnum("storeCategory",
-            com.example.sijangtong.constant.StoreCategory.class);
+    public final EnumPath<com.example.sijangtong.constant.StoreCategory> storeCategory = createEnum("storeCategory", com.example.sijangtong.constant.StoreCategory.class);
 
     public final StringPath storeDetail = createString("storeDetail");
 
@@ -46,4 +46,6 @@ public class QStore extends EntityPathBase<Store> {
     public QStore(PathMetadata metadata) {
         super(Store.class, metadata);
     }
+
 }
+
