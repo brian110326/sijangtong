@@ -68,6 +68,23 @@ public class ProductServiceImpl implements ProductService {
         return entityToDto(product, list, store, avg);
     }
 
+    @Override
+    public Long removeProduct(Long productId) {
+        Product product = productRepository.findById(productId).get();
+        List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
+
+        productImgRepository.deleteByProduct(product);
+
+        // product 삭제 시 orderItem안 product항목만 null로 설정
+        orderItems.forEach(orderItem -> orderItem.setProduct(null));
+        reviewRepository.deleteByProduct(product);
+
+        productRepository.delete(product);
+
+        // ex) return 값이 Long 이유 : 200번 삭제성공 alert창(예시)
+        return product.getProductId();
+    }
+
     @Transactional
     @Override
     public Long productInsert(ProductDto productDto) {
@@ -89,21 +106,24 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Transactional
     @Override
-    public Long removeProduct(Long productId) {
-        Product product = productRepository.findById(productId).get();
-        List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
+    public Long productUpdate(ProductDto productDto) {
 
+        // dto ==> entity
+        Map<String, Object> entityMap = dtoToEntity(productDto);
+
+        Product product = (Product) entityMap.get("product");
         productImgRepository.deleteByProduct(product);
 
-        // product 삭제 시 orderItem안 product항목만 null로 설정
-        orderItems.forEach(orderItem -> orderItem.setProduct(null));
-        reviewRepository.deleteByProduct(product);
+        // movie image 삽입
+        List<ProductImg> productImgs = (List<ProductImg>) entityMap.get("imgList");
+        productImgs.forEach(image -> productImgRepository.save(image));
 
-        productRepository.delete(product);
+        productRepository.save(product);
 
-        // ex) return 값이 Long 이유 : 200번 삭제성공 alert창(예시)
         return product.getProductId();
+
     }
 
 }

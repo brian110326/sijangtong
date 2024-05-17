@@ -17,6 +17,10 @@ import org.springframework.test.annotation.Commit;
 import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
+import com.example.sijangtong.dto.ProductDto;
+import com.example.sijangtong.dto.ProductImgDto;
+import com.example.sijangtong.dto.StoreDto;
+import com.example.sijangtong.dto.StoreImgDto;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
@@ -61,6 +65,12 @@ public class SijangtongServiceTest {
 
     @Autowired
     private RiderRepository riderRepository;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private StoreService storeService;
 
     // @Test
     // public void storeList() {
@@ -228,55 +238,80 @@ public class SijangtongServiceTest {
         orderItemRepository.updateAmount(33, 1L);
     }
 
+    // 5월 17 일 확인 완료
     @Test
     public void insertProductTest() {
 
         List<ProductImgDto> imgList = new ArrayList<>();
         ProductImgDto productImgDto = ProductImgDto.builder()
-                .uuid("테스트 uuid")
-                .imgName("테스트 이미지이름123")
-                .path("테스트 패스")
+                .uuid("테스트 메인")
+                .imgName("메인 이미지이름1234")
+                .path("메인 패스1")
                 .build();
         imgList.add(productImgDto);
 
         ProductDto productDto = new ProductDto();
-        productDto.setAmount(10);
-        productDto.setPName("테스트상품");
-        productDto.setPrice(1000);
+        productDto.setAmount(10000);
+        productDto.setPName("메인");
+        productDto.setPrice(100000);
         productDto.setStoreId(10L);
         productDto.setProductImgDtos(imgList);
 
-        productServiceImpl.productInsert(productDto);
+        productService.productInsert(productDto);
 
     }
 
-    //
-    //
-    //
+    // 5월 17 일 확인 완료
+    @Test
+    public void updateProduct() {
+
+        List<ProductImgDto> imgList = new ArrayList<>();
+        ProductImgDto productImgDto = ProductImgDto.builder()
+                .uuid("메인 업데이트")
+                .imgName("메인 업데이트")
+                .path("메인 패스 업데이트")
+                .build();
+        imgList.add(productImgDto);
+
+        ProductDto productDto = new ProductDto();
+        productDto.setAmount(123);
+        productDto.setPName("메인");
+        productDto.setPrice(1000);
+        productDto.setStoreId(10L);
+        productDto.setProductId(220L);
+        productDto.setProductImgDtos(imgList);
+
+        productService.productUpdate(productDto);
+
+    }
+
+    // 5월 17 일 확인 완료
     @Test
     public void insetStoreTest() {
         List<StoreImgDto> imgList = new ArrayList<>();
         StoreImgDto storeImgDto = StoreImgDto.builder()
-                .stUuid("테스트 uuid")
-                .stImgName("테스트 이미지 이름123")
-                .stPath("테스트 패스")
+                .stUuid("메인 uuid")
+                .stImgName("메인 이미지 이름123")
+                .stPath("메인 패스")
                 .build();
         imgList.add(storeImgDto);
 
         StoreDto storeDto = new StoreDto();
         storeDto.setStoreCategory(StoreCategory.CLOTH);
-        storeDto.setOpenTime("테스트 오픈");
-        storeDto.setCloseTime("테스트 영업종료");
-        storeDto.setStoreAddress("솔데스크");
-        storeDto.setStoreName("테스트 가게 이름");
-        storeDto.setStoreDetail("테스트 스토어 디테일");
+        storeDto.setOpenTime("메인 오픈");
+        storeDto.setCloseTime("메인 영업종료");
+        storeDto.setStoreAddress("메인");
+        storeDto.setStoreName("메인 가게 이름");
+        storeDto.setStoreDetail("메인 스토어 디테일");
         storeDto.setGradeAvg(4.1);
-        storeDto.setStoreTel("01053859803");
+        storeDto.setStoreTel("메인");
         storeDto.setStoreImgDtos(imgList);
 
-        storeServiceImpl.storeInsert(storeDto);
+        storeService.storeInsert(storeDto);
 
     }
+
+    // 5월 17 일 확인 완료
 
     @Test
     public void updateStoreTest() {
@@ -284,25 +319,25 @@ public class SijangtongServiceTest {
         List<StoreImgDto> imgList = new ArrayList<>();
         StoreImgDto storeImgDto = StoreImgDto.builder()
 
-                .stUuid(" 4수정 테스트 uuid")
-                .stImgName(" 4수정 테스트 이미지 이름123")
-                .stPath("4수정 테스트 패스")
+                .stUuid(" 메인 업데이트 테스트 uuid")
+                .stImgName(" 메인업데이트테스트 이미지 이름123")
+                .stPath("메인  업데이트테스트 패스")
                 .build();
         imgList.add(storeImgDto);
 
         StoreDto storeDto = new StoreDto();
-        storeDto.setStoreId(203L);
+        storeDto.setStoreId(207L);
         storeDto.setStoreCategory(StoreCategory.CLOTH);
-        storeDto.setOpenTime(" 4수정테스트 오픈");
-        storeDto.setCloseTime(" 4수정테스트 영업종료");
-        storeDto.setStoreAddress(" 4수정솔데스크");
-        storeDto.setStoreName("4 수정테스트 가게 이름");
-        storeDto.setStoreDetail(" 4수정테스트 스토어 디테일");
+        storeDto.setOpenTime(" 메인  업데이트오픈");
+        storeDto.setCloseTime(" 메인  업데이트영업종료");
+        storeDto.setStoreAddress(" 메인 업데이트");
+        storeDto.setStoreName("4 메인  업데이트가게 이름");
+        storeDto.setStoreDetail(" 메인  업데이트스토어 디테일");
         storeDto.setGradeAvg(1.0);
-        storeDto.setStoreTel("4수정 01053859803");
+        storeDto.setStoreTel("메인 업데이트 01053859803");
         storeDto.setStoreImgDtos(imgList);
 
-        storeServiceImpl.storeUpdate(storeDto);
+        storeService.storeUpdate(storeDto);
 
     }
 
