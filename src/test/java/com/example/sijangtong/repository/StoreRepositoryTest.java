@@ -145,7 +145,7 @@ public class StoreRepositoryTest {
     @Test
     public void insertProductTest() {
 
-        LongStream.rangeClosed(8, 200).forEach(i -> {
+        LongStream.rangeClosed(1, 200).forEach(i -> {
             Store store = Store.builder().storeId(i).build();
             LongStream.rangeClosed(1, 50).forEach(j -> {
                 Product product = Product.builder()
