@@ -22,13 +22,11 @@ public interface StoreService {
         PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
                         StoreCategory storeCategory);
 
-        PageResultDto<StoreDto, Object[]> getStoreListByAddress(PageRequestDto pageRequestDto,
-                        String storeAddress);
-
         StoreDto getRow(Long storeId);
 
         Long removeStore(Long storeId);
 
+        // store의 list를 보여주기 위한 dto변환
         public default StoreDto entityToDto(Store store, List<StoreImg> storeImgs) {
                 StoreDto storeDto = StoreDto.builder().storeId(store.getStoreId())
                                 .storeCategory(store.getStoreCategory())

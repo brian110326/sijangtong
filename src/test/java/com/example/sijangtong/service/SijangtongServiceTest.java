@@ -14,18 +14,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
+import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Review;
+import com.example.sijangtong.entity.Rider;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.repository.OrderItemRepository;
 import com.example.sijangtong.repository.OrderRepository;
 import com.example.sijangtong.repository.ProductImgRepository;
 import com.example.sijangtong.repository.ProductRepository;
 import com.example.sijangtong.repository.ReviewRepository;
+import com.example.sijangtong.repository.RiderRepository;
 import com.example.sijangtong.repository.StoreImgRepository;
 import com.example.sijangtong.repository.StoreRepository;
 
@@ -56,70 +59,51 @@ public class SijangtongServiceTest {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Test
-    public void storeList() {
+    @Autowired
+    private RiderRepository riderRepository;
 
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(3).build();
+    // @Test
+    // public void storeList() {
 
-        Page<Object[]> list = storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
+    // PageRequestDto requestDto =
+    // PageRequestDto.builder().size(10).page(3).build();
 
-        System.out.println("number " + list.getNumber());
-        System.out.println("total " + list.getTotalPages());
-        System.out.println("TotalElements " + list.getTotalElements());
-        System.out.println("size " + list.getSize());
-        // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
-        System.out.println("getOffset " + list.getPageable().getOffset());
+    // Page<Object[]> list =
+    // storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
+    // for (Object[] objects : list) {
+    // System.out.println(Arrays.toString(objects));
+    // }
 
-    }
+    // System.out.println("number " + list.getNumber());
+    // System.out.println("total " + list.getTotalPages());
+    // System.out.println("TotalElements " + list.getTotalElements());
+    // System.out.println("size " + list.getSize());
+    // // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
+    // System.out.println("getOffset " + list.getPageable().getOffset());
 
-    @Test
-    public void getStoreListByCategory() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = storeImgRepository.getTotalListByCategory(requestDto.getPageable(Sort.by("storeId")),
-                StoreCategory.SEAFOOD);
-
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
-
-    }
-
-    @Test
-    public void getStoreListByAddress() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = storeImgRepository.getTotalListByAddress(requestDto.getPageable(Sort.by("storeId")),
-                "종로");
-
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
-
-        System.out.println("number" + list.getNumber());
-        System.out.println("total" + list.getTotalPages());
-        System.out.println("TotalElements" + list.getTotalElements());
-    }
+    // }
 
     @Test
     public void getStoreRow() {
-        List<Object[]> list = storeImgRepository.getStoreRow(200L);
+        List<Object[]> list = storeImgRepository.getStoreRow(40L);
 
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
         }
     }
 
-    @Test
-    public void productList() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = productImgRepository.getProductList(requestDto.getPageable(Sort.by("productId")), 44L);
+    // @Test
+    // public void productList() {
+    // PageRequestDto requestDto =
+    // PageRequestDto.builder().size(10).page(1).build();
+    // Page<Object[]> list =
+    // productImgRepository.getProductList(requestDto.getPageable(Sort.by("productId")),
+    // 44L);
 
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
-    }
+    // for (Object[] objects : list) {
+    // System.out.println(Arrays.toString(objects));
+    // }
+    // }
 
     @Test
     public void reviewList() {
@@ -200,6 +184,48 @@ public class SijangtongServiceTest {
         for (Object[] objects : result) {
             System.out.println(Arrays.toString(objects));
         }
+    }
+
+    @Test
+    public void getStoreListByCategory() {
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
+        Page<Object[]> list = storeImgRepository.getTotalListByCategory(
+                requestDto.getPageable(Sort.by("storeId").descending()),
+                StoreCategory.SEAFOOD);
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
+
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void deleteOrderTest() {
+        Order order = Order.builder().orderId(84L).build();
+
+        orderItemRepository.deleteByOrder(order);
+        orderRepository.delete(order);
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void updateOrderTest() {
+        orderRepository.updatePayment(OrderPayment.CREDIT_CARD, 1L);
+    }
+
+    @Test
+    public void getRider() {
+        Rider rider = riderRepository.getRider();
+        System.out.println(rider);
+    }
+
+    @Test
+    @Commit
+    @Transactional
+    public void updateAmount() {
+        orderItemRepository.updateAmount(33, 1L);
     }
 
 }

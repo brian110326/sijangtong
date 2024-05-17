@@ -42,7 +42,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PageResultDto<ProductDto, Object[]> getProductList(PageRequestDto pageRequestDto, Long storeId) {
-        Page<Object[]> result = productImgRepository.getProductList(pageRequestDto.getPageable(Sort.by("productId")),
+        Page<Object[]> result = productImgRepository.getProductList(pageRequestDto.getType(),
+                pageRequestDto.getKeyword(), pageRequestDto.getPageable(Sort.by("productId")),
                 storeId);
 
         Function<Object[], ProductDto> fn = (en -> entityToDto((Product) en[0],

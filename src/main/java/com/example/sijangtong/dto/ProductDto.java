@@ -29,8 +29,6 @@ public class ProductDto {
 
     private Long storeId;
 
-    private Long orderId;
-
     private double avg;
 
     // 1개의 product에 여러장의 productimg

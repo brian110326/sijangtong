@@ -21,4 +21,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewPro
     @Query("select r from Review r where r.product = :product")
     List<Review> findByProduct(Product product);
 
+    @Modifying
+    @Query("update Review r set r.text = :text, r.grade = :grade where r.reviewId = :reviewId ")
+    void updateReview(String text, int grade, Long reviewId);
+
 }
