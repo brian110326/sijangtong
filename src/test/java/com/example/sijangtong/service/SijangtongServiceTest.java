@@ -228,4 +228,11 @@ public class SijangtongServiceTest {
         orderItemRepository.updateAmount(33, 1L);
     }
 
+    @Test
+    @Commit
+    @Transactional
+    public void updateReviewTest() {
+        reviewRepository.updateReview("New Text22222!!", 4, 1L);
+    }
+
 }
