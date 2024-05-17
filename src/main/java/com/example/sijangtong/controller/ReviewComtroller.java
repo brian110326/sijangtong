@@ -13,6 +13,7 @@ import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.service.ReviewService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -26,6 +27,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,11 +43,14 @@ public class ReviewComtroller {
     private final ReviewService reviewService;
 
     // 물건 하나의 전체 리뷰 가져오기
-    // @GetMapping("/{productId}/all")
+    // @GetMapping("/{productId}/reviews")
     // public ResponseEntity<List<ReviewDto>> getreview(@PathVariable("productId")
-    // Long productId) {
+    // Long productId,
+    // PageRequestDto pageRequestDto) {
 
-    // return new ResponseEntity<>(reviewService.getReviewList(productId),
+    // return new
+    // ResponseEntity<List<ReviewDto>>(reviewService.getReviewList(pageRequestDto.getPage(),
+    // productId),
     // HttpStatus.OK);
     // }
 
@@ -68,7 +73,7 @@ public class ReviewComtroller {
         return new ResponseEntity<>(reviewId, HttpStatus.OK);
     }
 
-    // 리뷰 수정 : 수정이 아니라 인서트가 됨...
+    // 리뷰 수정 : 동작은 됨 db반영 안됨
     @PutMapping("{productId}/{reviewId}")
     public ResponseEntity<Long> putMethodName(@PathVariable("reviewId") Long reviewId,
             @RequestBody ReviewDto reviewDto) {
