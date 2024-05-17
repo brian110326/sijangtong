@@ -46,6 +46,7 @@ public class ReviewComtroller {
     @GetMapping("/{productId}/reviews")
     public ResponseEntity<List<ReviewDto>> getreview(@PathVariable("productId") Long productId,
             PageRequestDto pageRequestDto) {
+        log.info("전체 리스트 요청");
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
