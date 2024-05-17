@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/review")
 @RequiredArgsConstructor
-public class ReviewComtroller {
+public class ReviewController {
 
     private final ReviewService reviewService;
 
