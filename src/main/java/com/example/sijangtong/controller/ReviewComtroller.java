@@ -43,16 +43,12 @@ public class ReviewComtroller {
     private final ReviewService reviewService;
 
     // 물건 하나의 전체 리뷰 가져오기
-    // @GetMapping("/{productId}/reviews")
-    // public ResponseEntity<List<ReviewDto>> getreview(@PathVariable("productId")
-    // Long productId,
-    // PageRequestDto pageRequestDto) {
+    @GetMapping("/{productId}/reviews")
+    public ResponseEntity<List<ReviewDto>> getreview(@PathVariable("productId") Long productId,
+            PageRequestDto pageRequestDto) {
 
-    // return new
-    // ResponseEntity<List<ReviewDto>>(reviewService.getReviewList(pageRequestDto.getPage(),
-    // productId),
-    // HttpStatus.OK);
-    // }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     // 리뷰 등록 (확인완료)
     @PostMapping("/{productId}")
