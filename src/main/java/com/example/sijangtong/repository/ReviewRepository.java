@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Review;
@@ -19,6 +20,10 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewPro
     @Modifying
     @Query("delete from Review r where r.product = :product")
     void deleteByProduct(Product product);
+
+    @Modifying
+    @Query("delete from Review r where r.member = :member")
+    void deleteByMember(Member member);
 
     @Query("select r from Review r where r.product = :product")
     List<Review> findByProduct(Product product);
