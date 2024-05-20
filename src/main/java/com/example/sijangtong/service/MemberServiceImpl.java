@@ -9,11 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import com.example.sijangtong.constant.MemberRole;
-
-=======
->>>>>>> main
 // import org.springframework.security.core.userdetails.UserDetails;
 // import org.springframework.security.core.userdetails.UserDetailsService;
 // import
@@ -104,7 +100,6 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
                 .memberAddress(memberDto.getMemberAddress()).memberNickname(memberDto.getMemberNickname())
 
                 .memberPwd(passwordEncoder.encode(memberDto.getMemberPwd())).memberRole(MemberRole.MEMBER)
-
 
                 .build();
 
