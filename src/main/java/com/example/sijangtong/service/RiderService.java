@@ -4,20 +4,35 @@ import com.example.sijangtong.dto.RiderDto;
 import com.example.sijangtong.entity.Rider;
 
 public interface RiderService {
+  // 라이더 추가
+  Long createRider(RiderDto riderDto);
+  // 라이더 정보 업데이트
+  Long riderUpdate(RiderDto riderDto);
+  // 라이더 삭제
+  void deleteRideer(Long riderid);
 
-    Long createRider();
+  // 라이더 조회
+  public RiderDto riderRead(Long riderid);
 
-    public default RiderDto entityToDto(Rider rider) {
+  public default RiderDto entityToDto(Rider rider) {
+    return RiderDto
+      .builder()
+      .riderId(rider.getRiderId())
+      .riderName(rider.getRiderName())
+      .riderTel(rider.getRiderTel())
+      .riderStatus(rider.getRiderStatus())
+      .build();
+  }
 
-        return RiderDto.builder()
-                .riderId(rider.getRiderId())
-                .riderName(rider.getRiderName())
-                .riderTel(rider.getRiderTel())
-                .riderStatus(rider.getRiderStatus()).build();
+  public default Rider dtoToEntity(RiderDto riderDto) {
+    Rider rider = Rider
+      .builder()
+      .riderId(riderDto.getRiderId())
+      .riderName(riderDto.getRiderName())
+      .riderTel(riderDto.getRiderTel())
+      .riderStatus(riderDto.getRiderStatus())
+      .build();
 
-    }
-
-
-    public defau
-
+    return rider;
+  }
 }

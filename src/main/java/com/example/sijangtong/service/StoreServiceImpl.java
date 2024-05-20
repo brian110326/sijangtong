@@ -1,16 +1,5 @@
 package com.example.sijangtong.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
@@ -28,145 +17,84 @@ import com.example.sijangtong.repository.ProductRepository;
 import com.example.sijangtong.repository.ReviewRepository;
 import com.example.sijangtong.repository.StoreImgRepository;
 import com.example.sijangtong.repository.StoreRepository;
-
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
 
-        private final StoreImgRepository storeImgRepository;
+  private final StoreImgRepository storeImgRepository;
 
-        private final ReviewRepository reviewRepository;
+  private final ReviewRepository reviewRepository;
 
-        private final ProductRepository productRepository;
+  private final ProductRepository productRepository;
 
-        private final StoreRepository storeRepository;
+  private final StoreRepository storeRepository;
 
-        private final OrderRepository orderRepository;
+  private final OrderRepository orderRepository;
 
-        private final OrderItemRepository orderItemRepository;
+  private final OrderItemRepository orderItemRepository;
 
-        private final ProductImgRepository productImgRepository;
+  private final ProductImgRepository productImgRepository;
 
-        // @Override
-        // public PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto
-        // pageRequestDto) {
+  @Transactional
+  @Override
+  public Long storeInsert(StoreDto storeDto) {
+    Map<String, Object> entityMap = dtoToentity(storeDto);
 
-        // log.info("pageRequestDto " + pageRequestDto);
+    // 스토어 삽입
+    Store store = (Store) entityMap.get("store");
+    storeRepository.save(store);
 
-        // Page<Object[]> result = storeImgRepository
-        // .getTotalList(pageRequestDto.getType(), pageRequestDto.getKeyword(),
-        // pageRequestDto.getPageable(Sort.by("storeId").descending()));
+    // 스토어 이미지 삽입
+    List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
+    storeImgs.forEach(image -> storeImgRepository.save(image));
 
-        // Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
-        // (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
+    return store.getStoreId();
+  }
 
-        // return new PageResultDto<>(result, fn);
-        // }
+  @Transactional
+  @Override
+  public Long storeUpdate(StoreDto storeDto) {
+    Map<String, Object> entityMap = dtoToentity(storeDto);
 
-        // @Override
-        // public StoreDto getRow(Long storeId) {
-        // List<Object[]> result = storeImgRepository.getStoreRow(storeId);
+    // 기존 스토어 이미지 제거
+    Store store = (Store) entityMap.get("store");
+    storeImgRepository.deleteBystore(store);
+    storeRepository.save(store);
 
-        // Store store = (Store) result.get(0)[0];
+    // 스토어 이미지 삽입
+    List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
+    storeImgs.forEach(image -> storeImgRepository.save(image));
 
-        // // List<StoreImg> list = new ArrayList<>();
-        // // result.forEach(arr -> {
-        // // StoreImg storeImg = (StoreImg) arr[1];
-        // // list.add(storeImg);
-        // // });
+    return store.getStoreId();
+  }
 
-        // List<StoreImg> list = result.stream().map(arr -> (StoreImg)
-        // arr[1]).collect(Collectors.toList());
+  @Override
+  public PageResultDto<StoreDto, Object[]> getStoreList(
+    PageRequestDto pageRequestDto
+  ) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException(
+      "Unimplemented method 'getStoreList'"
+    );
+  }
 
-        // return entityToDto(store, list);
-        // }
-
-        // @Override
-        // @Transactional
-        // public Long removeStore(Long storeId) {
-        // Store store = storeRepository.findById(storeId).get();
-        // Product product = productRepository.findByStore(store).get(0);
-        // Review review = reviewRepository.findByProduct(product).get(0);
-        // OrderItem orderItem = orderItemRepository.findByProduct(product).get(0);
-
-        // reviewRepository.deleteByProduct(product);
-        // storeImgRepository.deleteByStore(store);
-
-        // orderItemRepository.deleteByProduct(product);
-        // productImgRepository.deleteByProduct(product);
-
-        // productRepository.deleteByStore(store);
-        // orderRepository.deleteByStore(store);
-
-        // storeRepository.delete(store);
-
-        // return store.getStoreId();
-        // }
-
-        // @Override
-        // public PageResultDto<StoreDto, Object[]>
-        // getStoreListByCategory(PageRequestDto pageRequestDto,
-        // StoreCategory storeCategory) {
-        // Page<Object[]> result = storeImgRepository
-        // .getTotalListByCategory(pageRequestDto.getPageable(Sort.by("storeId").descending()),
-        // storeCategory);
-
-        // Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
-        // (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
-
-        // return new PageResultDto<>(result, fn);
-        // }
-
-        @Transactional
-        @Override
-        public Long storeInsert(StoreDto storeDto) {
-                Map<String, Object> entityMap = dtoToentity(storeDto);
-
-                // 스토어 삽입
-                Store store = (Store) entityMap.get("store");
-                storeRepository.save(store);
-
-                // 스토어 이미지 삽입
-                List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
-                storeImgs.forEach(image -> storeImgRepository.save(image));
-
-                return store.getStoreId();
-
-        }
-
-        @Transactional
-        @Override
-        public Long storeUpdate(StoreDto storeDto) {
-                Map<String, Object> entityMap = dtoToentity(storeDto);
-
-                // 기존 스토어 이미지 제거
-                Store store = (Store) entityMap.get("store");
-                storeImgRepository.deleteBystore(store);
-                storeRepository.save(store);
-
-                // 스토어 이미지 삽입
-                List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
-                storeImgs.forEach(image -> storeImgRepository.save(image));
-
-                return store.getStoreId();
-
-        }
-
-        @Override
-        public PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getStoreList'");
-        }
-
-        @Override
-        public StoreDto getRow(Long storeId) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getRow'");
-        }
-
+  @Override
+  public StoreDto getRow(Long storeId) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getRow'");
+  }
 }
