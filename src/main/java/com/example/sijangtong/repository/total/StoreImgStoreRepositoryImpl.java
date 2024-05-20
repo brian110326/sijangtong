@@ -65,6 +65,9 @@ public class StoreImgStoreRepositoryImpl extends QuerydslRepositorySupport imple
         } else if (type.equals("a")) {
             // a : address
             conditionBuilder.or(store.storeAddress.contains(keyword));
+        } else if (type.equals("ct")) {
+            // ct : categories
+            conditionBuilder.or(store.storeCategory.in(StoreCategory.valueOf(keyword)));
         }
 
         builder.and(conditionBuilder);
