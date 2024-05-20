@@ -26,9 +26,11 @@
 // authorize -> authorize
 // // 로그인 전 허용 화면 및 static 폴더
 // .requestMatchers("/", "/assets/**", "/css/**", "/image/**", "/js/**",
-// "/lib/**").permitAll()
+// "/lib/**")
+// .permitAll()
 // .requestMatchers("/shop/list", "/shop/read", "/shop/home",
-// "/shop/storeDetail").permitAll()
+// "/shop/storeDetail")
+// .permitAll()
 // // UploadController : 이미지 보여주기
 // .requestMatchers("/upload/display").permitAll()
 // .requestMatchers("/member/register").permitAll());
