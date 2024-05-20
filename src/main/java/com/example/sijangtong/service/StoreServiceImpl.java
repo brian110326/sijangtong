@@ -106,18 +106,19 @@ public class StoreServiceImpl implements StoreService {
                 return store.getStoreId();
         }
 
-        @Override
-        public PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
-                        StoreCategory storeCategory) {
-                Page<Object[]> result = storeImgRepository
-                                .getTotalListByCategory(pageRequestDto.getPageable(Sort.by("storeId").descending()),
-                                                storeCategory);
+        // @Override
+        // public PageResultDto<StoreDto, Object[]>
+        // getStoreListByCategory(PageRequestDto pageRequestDto,
+        // StoreCategory storeCategory) {
+        // Page<Object[]> result = storeImgRepository
+        // .getTotalListByCategory(pageRequestDto.getPageable(Sort.by("storeId").descending()),
+        // storeCategory);
 
-                Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
-                                (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
+        // Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
+        // (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
 
-                return new PageResultDto<>(result, fn);
-        }
+        // return new PageResultDto<>(result, fn);
+        // }
 
         @Transactional
         @Override

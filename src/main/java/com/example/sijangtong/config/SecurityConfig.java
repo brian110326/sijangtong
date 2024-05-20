@@ -16,35 +16,37 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+// @Bean
+// SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests(
-                authorize -> authorize
-                        // 로그인 전 허용 화면 및 static 폴더
-                        .requestMatchers("/", "/assets/**", "/css/**", "/image/**", "/js/**",
-                                "/lib/**")
-                        .permitAll()
-                        .requestMatchers("/shop/list", "/shop/read", "/shop/home",
-                                "/shop/storeDetail", "/shop/buyitem", "/shop/buyitemlist", "/shop/cart")
-                        .permitAll()
-                        // UploadController : 이미지 보여주기
-                        .requestMatchers("/upload/display").permitAll()
-                        .requestMatchers("/member/register").permitAll());
+// http.authorizeHttpRequests(
+// authorize -> authorize
+// // 로그인 전 허용 화면 및 static 폴더
+// .requestMatchers("/", "/assets/**", "/css/**", "/image/**", "/js/**",
+// "/lib/**")
+// .permitAll()
+// .requestMatchers("/shop/list", "/shop/read", "/shop/home",
+// "/shop/storeDetail")
+// .permitAll()
+// // UploadController : 이미지 보여주기
+// .requestMatchers("/upload/display").permitAll()
+// .requestMatchers("/member/register").permitAll());
 
-        http.formLogin(login -> login.loginPage("/member/login").permitAll()
-                .defaultSuccessUrl("/shop/list", true));
+// http.formLogin(login -> login.loginPage("/member/login").permitAll()
+// .defaultSuccessUrl("/shop/list", true));
 
-        http.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                .logoutSuccessUrl("/"));
+// http.logout(logout -> logout.logoutRequestMatcher(new
+// AntPathRequestMatcher("/member/logout"))
+// .logoutSuccessUrl("/"));
 
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
+// http.sessionManagement(session ->
+// session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 
-        return http.build();
-    }
+// return http.build();
+// }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-}
+// @Bean
+// PasswordEncoder passwordEncoder() {
+// return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+// }
+// }

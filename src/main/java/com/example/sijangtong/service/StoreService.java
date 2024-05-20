@@ -19,8 +19,9 @@ public interface StoreService {
 
         PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto);
 
-        PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
-                        StoreCategory storeCategory);
+        // PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto
+        // pageRequestDto,
+        // StoreCategory storeCategory);
 
         StoreDto getRow(Long storeId);
 
