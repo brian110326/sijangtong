@@ -2,6 +2,7 @@ package com.example.sijangtong.service;
 
 import java.util.List;
 
+import com.example.sijangtong.constant.MemberRole;
 import com.example.sijangtong.dto.MemberDto;
 import com.example.sijangtong.dto.UpdatedPasswordDto;
 import com.example.sijangtong.entity.Member;
@@ -38,7 +39,7 @@ public interface MemberService {
         Member member = Member.builder().memberEmail(memberDto.getMemberEmail())
                 .memberAddress(memberDto.getMemberAddress()).memberNickname(memberDto.getMemberNickname())
                 .memberPwd(memberDto.getMemberPwd())
-                .memberRole(memberDto.getMemberRole())
+                .memberRole(MemberRole.MEMBER)
                 .build();
 
         return member;
