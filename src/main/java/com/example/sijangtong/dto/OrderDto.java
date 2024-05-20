@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +36,8 @@ public class OrderDto {
   private List<OrderItemDto> orderItemDtos = new ArrayList<>();
 
   private Member member;
+
+  private OrderPayment orderPayment;
 
   private LocalDateTime createdDate;
 
