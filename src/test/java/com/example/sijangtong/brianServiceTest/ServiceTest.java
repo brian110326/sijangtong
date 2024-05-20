@@ -245,4 +245,20 @@ public class ServiceTest {
         orderItemRepository.updateAmount(33, 1L);
     }
 
+    @Test
+    @Transactional
+    @Commit
+    public void updateNicknameTest() {
+
+        memberRepository.updateNickname("Brian", "member1@naver.com");
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void updateAddressTest() {
+
+        memberRepository.updateAddress("NYC", "member1@naver.com");
+    }
+
 }
