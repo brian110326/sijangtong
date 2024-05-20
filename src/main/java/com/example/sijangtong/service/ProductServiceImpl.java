@@ -1,15 +1,5 @@
 package com.example.sijangtong.service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ProductDto;
@@ -24,106 +14,129 @@ import com.example.sijangtong.repository.OrderItemRepository;
 import com.example.sijangtong.repository.ProductImgRepository;
 import com.example.sijangtong.repository.ProductRepository;
 import com.example.sijangtong.repository.ReviewRepository;
-
 import jakarta.transaction.Transactional;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductImgRepository productImgRepository;
+  private final ProductImgRepository productImgRepository;
 
-    private final ProductRepository productRepository;
+  private final ProductRepository productRepository;
 
-    private final OrderItemRepository orderItemRepository;
+  private final OrderItemRepository orderItemRepository;
 
-    private final ReviewRepository reviewRepository;
+  private final ReviewRepository reviewRepository;
 
-    @Override
-    public PageResultDto<ProductDto, Object[]> getProductList(PageRequestDto pageRequestDto, Long storeId) {
-        Page<Object[]> result = productImgRepository.getProductList(pageRequestDto.getType(),
-                pageRequestDto.getKeyword(), pageRequestDto.getPageable(Sort.by("productId")),
-                storeId);
+  @Override
+  public PageResultDto<ProductDto, Object[]> getProductList(
+    PageRequestDto pageRequestDto,
+    Long storeId
+  ) {
+    Page<Object[]> result = productImgRepository.getProductList(
+      pageRequestDto.getType(),
+      pageRequestDto.getKeyword(),
+      pageRequestDto.getPageable(Sort.by("productId")),
+      storeId
+    );
 
-        Function<Object[], ProductDto> fn = (en -> entityToDto((Product) en[0],
-                (List<ProductImg>) Arrays.asList((ProductImg) en[1]), (Store) en[2], (Double) en[3]));
+    Function<Object[], ProductDto> fn =
+      (
+        en ->
+          entityToDto(
+            (Product) en[0],
+            (List<ProductImg>) Arrays.asList((ProductImg) en[1]),
+            (Store) en[2],
+            (Double) en[3]
+          )
+      );
 
-        return new PageResultDto<>(result, fn);
+    return new PageResultDto<>(result, fn);
+  }
 
-    }
+  @Override
+  public ProductDto getProductRow(Long productId) {
+    List<Object[]> result = productImgRepository.getProductRow(productId);
 
-    @Override
-    public ProductDto getProductRow(Long productId) {
-        List<Object[]> result = productImgRepository.getProductRow(productId);
+    Product product = (Product) result.get(0)[0];
 
-        Product product = (Product) result.get(0)[0];
+    List<ProductImg> list = result
+      .stream()
+      .map(en -> (ProductImg) en[1])
+      .collect(Collectors.toList());
 
-        List<ProductImg> list = result.stream().map(en -> (ProductImg) en[1]).collect(Collectors.toList());
+    Store store = (Store) result.get(0)[2];
 
-        Store store = (Store) result.get(0)[2];
+    Double avg = (Double) result.get(0)[3];
 
-        Double avg = (Double) result.get(0)[3];
+    return entityToDto(product, list, store, avg);
+  }
 
-        return entityToDto(product, list, store, avg);
-    }
+  @Override
+  public Long removeProduct(Long productId) {
+    Product product = productRepository.findById(productId).get();
+    List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
 
-    @Override
-    public Long removeProduct(Long productId) {
-        Product product = productRepository.findById(productId).get();
-        List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
+    productImgRepository.deleteByProduct(product);
 
-        productImgRepository.deleteByProduct(product);
+    // product 삭제 시 orderItem안 product항목만 null로 설정
+    orderItems.forEach(orderItem -> orderItem.setProduct(null));
+    reviewRepository.deleteByProduct(product);
 
-        // product 삭제 시 orderItem안 product항목만 null로 설정
-        orderItems.forEach(orderItem -> orderItem.setProduct(null));
-        reviewRepository.deleteByProduct(product);
+    productRepository.delete(product);
 
-        productRepository.delete(product);
+    // ex) return 값이 Long 이유 : 200번 삭제성공 alert창(예시)
+    return product.getProductId();
+  }
 
-        // ex) return 값이 Long 이유 : 200번 삭제성공 alert창(예시)
-        return product.getProductId();
-    }
+  @Transactional
+  @Override
+  public Long productInsert(ProductDto productDto) {
+    Map<String, Object> entityMap = dtoToEntity(productDto);
 
-    @Transactional
-    @Override
-    public Long productInsert(ProductDto productDto) {
+    System.out.println("product" + entityMap.get("product"));
+    System.out.println("imgList" + entityMap.get("imgList"));
 
-        Map<String, Object> entityMap = dtoToEntity(productDto);
+    // 상품 삽입
+    Product product = (Product) entityMap.get("product");
+    productRepository.save(product);
 
-        System.out.println("product" + entityMap.get("product"));
-        System.out.println("imgList" + entityMap.get("imgList"));
+    // 상품 이미지 삽입
+    List<ProductImg> productImgs = (List<ProductImg>) entityMap.get("imgList");
+    productImgs.forEach(image -> productImgRepository.save(image));
 
-        // 상품 삽입
-        Product product = (Product) entityMap.get("product");
-        productRepository.save(product);
+    return product.getProductId();
+  }
 
-        // 상품 이미지 삽입
-        List<ProductImg> productImgs = (List<ProductImg>) entityMap.get("imgList");
-        productImgs.forEach(image -> productImgRepository.save(image));
+  @Transactional
+  @Override
+  public Long productUpdate(ProductDto productDto) {
+    // dto ==> entity
+    Map<String, Object> entityMap = dtoToEntity(productDto);
 
-        return product.getProductId();
+    Product product = (Product) entityMap.get("product");
+    productImgRepository.deleteByProduct(product);
 
-    }
+    // movie image 삽입
+    List<ProductImg> productImgs = (List<ProductImg>) entityMap.get("imgList");
+    productImgs.forEach(image -> productImgRepository.save(image));
 
-    @Transactional
-    @Override
-    public Long productUpdate(ProductDto productDto) {
+    productRepository.save(product);
 
-        // dto ==> entity
-        Map<String, Object> entityMap = dtoToEntity(productDto);
-
-        Product product = (Product) entityMap.get("product");
-        productImgRepository.deleteByProduct(product);
-
-        // movie image 삽입
-        List<ProductImg> productImgs = (List<ProductImg>) entityMap.get("imgList");
-        productImgs.forEach(image -> productImgRepository.save(image));
-
-        productRepository.save(product);
-
-        return product.getProductId();
-
-    }
-
+    return product.getProductId();
+  }
 }
+// 주문 자체는 살려놔야 한다 주문 번호등 주문 아이템등등
+// 해당 오더를 할당 받는다고 해도 사실상 할당 받는다는 것은
+// 오더 테이블에 라이더 아이디 값이 추가되는 것 뿐임
+// 그렇다면 그 오더테이블에 라이더 아이디 컬럼 값을 다시 null 로 만들면 되는 것이다
+// 해야 할 것 정리 : 오더 엔티티에 컬럼 하나 추가 1) ENUM 클래스로 만들고
