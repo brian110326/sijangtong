@@ -20,14 +20,17 @@ import com.example.sijangtong.entity.Store;
 
 public interface ProductService {
 
+    // 상품 리스트 보여주기
     PageResultDto<ProductDto, Object[]> getProductList(PageRequestDto pageRequestDto, Long storeId);
 
     Long productInsert(ProductDto productDto);
 
     Long productUpdate(ProductDto productDto);
 
+    // 상품 상세조회
     ProductDto getProductRow(Long productId);
 
+    // 상품 삭제
     Long removeProduct(Long productId);
 
     public default ProductDto entityToDto(Product product, List<ProductImg> productImgs, Store store, Double avg) {
