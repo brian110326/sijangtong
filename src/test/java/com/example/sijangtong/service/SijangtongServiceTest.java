@@ -14,18 +14,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
+import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
+import com.example.sijangtong.dto.ProductDto;
+import com.example.sijangtong.dto.ProductImgDto;
+import com.example.sijangtong.dto.StoreDto;
+import com.example.sijangtong.dto.StoreImgDto;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Review;
+import com.example.sijangtong.entity.Rider;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.repository.OrderItemRepository;
 import com.example.sijangtong.repository.OrderRepository;
 import com.example.sijangtong.repository.ProductImgRepository;
 import com.example.sijangtong.repository.ProductRepository;
 import com.example.sijangtong.repository.ReviewRepository;
+import com.example.sijangtong.repository.RiderRepository;
 import com.example.sijangtong.repository.StoreImgRepository;
 import com.example.sijangtong.repository.StoreRepository;
 
@@ -56,70 +63,57 @@ public class SijangtongServiceTest {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Test
-    public void storeList() {
+    @Autowired
+    private RiderRepository riderRepository;
 
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(3).build();
+    @Autowired
+    private ProductService productService;
 
-        Page<Object[]> list = storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
+    @Autowired
+    private StoreService storeService;
 
-        System.out.println("number " + list.getNumber());
-        System.out.println("total " + list.getTotalPages());
-        System.out.println("TotalElements " + list.getTotalElements());
-        System.out.println("size " + list.getSize());
-        // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
-        System.out.println("getOffset " + list.getPageable().getOffset());
+    // @Test
+    // public void storeList() {
 
-    }
+    // PageRequestDto requestDto =
+    // PageRequestDto.builder().size(10).page(3).build();
 
-    @Test
-    public void getStoreListByCategory() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = storeImgRepository.getTotalListByCategory(requestDto.getPageable(Sort.by("storeId")),
-                StoreCategory.SEAFOOD);
+    // Page<Object[]> list =
+    // storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
+    // for (Object[] objects : list) {
+    // System.out.println(Arrays.toString(objects));
+    // }
 
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
+    // System.out.println("number " + list.getNumber());
+    // System.out.println("total " + list.getTotalPages());
+    // System.out.println("TotalElements " + list.getTotalElements());
+    // System.out.println("size " + list.getSize());
+    // // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
+    // System.out.println("getOffset " + list.getPageable().getOffset());
 
-    }
-
-    @Test
-    public void getStoreListByAddress() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = storeImgRepository.getTotalListByAddress(requestDto.getPageable(Sort.by("storeId")),
-                "종로");
-
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
-
-        System.out.println("number" + list.getNumber());
-        System.out.println("total" + list.getTotalPages());
-        System.out.println("TotalElements" + list.getTotalElements());
-    }
+    // }
 
     @Test
     public void getStoreRow() {
-        List<Object[]> list = storeImgRepository.getStoreRow(200L);
+        List<Object[]> list = storeImgRepository.getStoreRow(40L);
 
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
         }
     }
 
-    @Test
-    public void productList() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = productImgRepository.getProductList(requestDto.getPageable(Sort.by("productId")), 44L);
+    // @Test
+    // public void productList() {
+    // PageRequestDto requestDto =
+    // PageRequestDto.builder().size(10).page(1).build();
+    // Page<Object[]> list =
+    // productImgRepository.getProductList(requestDto.getPageable(Sort.by("productId")),
+    // 44L);
 
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
-    }
+    // for (Object[] objects : list) {
+    // System.out.println(Arrays.toString(objects));
+    // }
+    // }
 
     @Test
     public void reviewList() {
@@ -200,6 +194,151 @@ public class SijangtongServiceTest {
         for (Object[] objects : result) {
             System.out.println(Arrays.toString(objects));
         }
+    }
+
+    @Test
+    public void getStoreListByCategory() {
+        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
+        Page<Object[]> list = storeImgRepository.getTotalListByCategory(
+                requestDto.getPageable(Sort.by("storeId").descending()),
+                StoreCategory.SEAFOOD);
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
+
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void deleteOrderTest() {
+        Order order = Order.builder().orderId(84L).build();
+
+        orderItemRepository.deleteByOrder(order);
+        orderRepository.delete(order);
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void updateOrderTest() {
+        orderRepository.updatePayment(OrderPayment.CREDIT_CARD, 1L);
+    }
+
+    @Test
+    public void getRider() {
+        Rider rider = riderRepository.getRider();
+        System.out.println(rider);
+    }
+
+    @Test
+    @Commit
+    @Transactional
+    public void updateAmount() {
+        orderItemRepository.updateAmount(33, 1L);
+    }
+
+    // 5월 17 일 확인 완료
+    @Test
+    public void insertProductTest() {
+
+        List<ProductImgDto> imgList = new ArrayList<>();
+        ProductImgDto productImgDto = ProductImgDto.builder()
+                .uuid("테스트 메인")
+                .imgName("메인 이미지이름1234")
+                .path("메인 패스1")
+                .build();
+        imgList.add(productImgDto);
+
+        ProductDto productDto = new ProductDto();
+        productDto.setAmount(10000);
+        productDto.setPName("메인");
+        productDto.setPrice(100000);
+        productDto.setStoreId(10L);
+        productDto.setProductImgDtos(imgList);
+
+        productService.productInsert(productDto);
+
+    }
+
+    // 5월 17 일 확인 완료
+    @Test
+    public void updateProduct() {
+
+        List<ProductImgDto> imgList = new ArrayList<>();
+        ProductImgDto productImgDto = ProductImgDto.builder()
+                .uuid("메인 업데이트")
+                .imgName("메인 업데이트")
+                .path("메인 패스 업데이트")
+                .build();
+        imgList.add(productImgDto);
+
+        ProductDto productDto = new ProductDto();
+        productDto.setAmount(123);
+        productDto.setPName("메인");
+        productDto.setPrice(1000);
+        productDto.setStoreId(10L);
+        productDto.setProductId(220L);
+        productDto.setProductImgDtos(imgList);
+
+        productService.productUpdate(productDto);
+
+    }
+
+    // 5월 17 일 확인 완료
+    @Test
+    public void insetStoreTest() {
+        List<StoreImgDto> imgList = new ArrayList<>();
+        StoreImgDto storeImgDto = StoreImgDto.builder()
+                .stUuid("메인 uuid")
+                .stImgName("메인 이미지 이름123")
+                .stPath("메인 패스")
+                .build();
+        imgList.add(storeImgDto);
+
+        StoreDto storeDto = new StoreDto();
+        storeDto.setStoreCategory(StoreCategory.CLOTH);
+        storeDto.setOpenTime("메인 오픈");
+        storeDto.setCloseTime("메인 영업종료");
+        storeDto.setStoreAddress("메인");
+        storeDto.setStoreName("메인 가게 이름");
+        storeDto.setStoreDetail("메인 스토어 디테일");
+        storeDto.setGradeAvg(4.1);
+        storeDto.setStoreTel("메인");
+        storeDto.setStoreImgDtos(imgList);
+
+        storeService.storeInsert(storeDto);
+
+    }
+
+    // 5월 17 일 확인 완료
+
+    @Test
+    public void updateStoreTest() {
+
+        List<StoreImgDto> imgList = new ArrayList<>();
+        StoreImgDto storeImgDto = StoreImgDto.builder()
+
+                .stUuid(" 메인 업데이트 테스트 uuid")
+                .stImgName(" 메인업데이트테스트 이미지 이름123")
+                .stPath("메인  업데이트테스트 패스")
+                .build();
+        imgList.add(storeImgDto);
+
+        StoreDto storeDto = new StoreDto();
+        storeDto.setStoreId(207L);
+        storeDto.setStoreCategory(StoreCategory.CLOTH);
+        storeDto.setOpenTime(" 메인  업데이트오픈");
+        storeDto.setCloseTime(" 메인  업데이트영업종료");
+        storeDto.setStoreAddress(" 메인 업데이트");
+        storeDto.setStoreName("4 메인  업데이트가게 이름");
+        storeDto.setStoreDetail(" 메인  업데이트스토어 디테일");
+        storeDto.setGradeAvg(1.0);
+        storeDto.setStoreTel("메인 업데이트 01053859803");
+        storeDto.setStoreImgDtos(imgList);
+
+        storeService.storeUpdate(storeDto);
+
     }
 
 }

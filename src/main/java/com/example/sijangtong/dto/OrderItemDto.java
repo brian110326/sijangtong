@@ -1,6 +1,8 @@
 package com.example.sijangtong.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.Product;
@@ -19,7 +21,8 @@ import lombok.NoArgsConstructor;
 public class OrderItemDto {
     private Long id;
 
-    private Product product;
+    @Builder.Default
+    private List<ProductDto> productDtos = new ArrayList<>();
 
     private Long orderId;
 

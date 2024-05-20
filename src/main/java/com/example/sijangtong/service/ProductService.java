@@ -24,6 +24,8 @@ public interface ProductService {
 
     Long productInsert(ProductDto productDto);
 
+    Long productUpdate(ProductDto productDto);
+
     ProductDto getProductRow(Long productId);
 
     Long removeProduct(Long productId);
@@ -53,6 +55,7 @@ public interface ProductService {
         Map<String, Object> entityMap = new HashMap<>();
 
         Product product = new Product();
+        product.setProductId(dto.getProductId());
         product.setPName(dto.getPName());
         product.setAmount(dto.getAmount());
         product.setPrice(dto.getPrice());
@@ -65,10 +68,10 @@ public interface ProductService {
         if (productImgDtos != null && productImgDtos.size() > 0) {
             List<ProductImg> productImgs = productImgDtos.stream().map(pDto -> {
                 ProductImg productImg = ProductImg.builder()
+                        .product(product)
                         .imgName(pDto.getImgName())
                         .uuid(pDto.getUuid())
                         .path(pDto.getPath())
-                        .product(product)
                         .build();
                 return productImg;
             }).collect(Collectors.toList());

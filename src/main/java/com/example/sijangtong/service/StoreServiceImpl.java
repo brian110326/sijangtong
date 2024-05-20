@@ -58,7 +58,8 @@ public class StoreServiceImpl implements StoreService {
                 log.info("pageRequestDto  " + pageRequestDto);
 
                 Page<Object[]> result = storeImgRepository
-                                .getTotalList(pageRequestDto.getPageable(Sort.by("storeId").descending()));
+                                .getTotalList(pageRequestDto.getType(), pageRequestDto.getKeyword(),
+                                                pageRequestDto.getPageable(Sort.by("storeId").descending()));
 
                 Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
                                 (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
@@ -108,10 +109,9 @@ public class StoreServiceImpl implements StoreService {
         @Override
         public PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
                         StoreCategory storeCategory) {
-
                 Page<Object[]> result = storeImgRepository
-                                .getTotalListByCategory(
-                                                pageRequestDto.getPageable(Sort.by("storeId")), storeCategory);
+                                .getTotalListByCategory(pageRequestDto.getPageable(Sort.by("storeId").descending()),
+                                                storeCategory);
 
                 Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
                                 (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
@@ -119,17 +119,39 @@ public class StoreServiceImpl implements StoreService {
                 return new PageResultDto<>(result, fn);
         }
 
+        @Transactional
         @Override
-        public PageResultDto<StoreDto, Object[]> getStoreListByAddress(PageRequestDto pageRequestDto,
-                        String storeAddress) {
-                Page<Object[]> result = storeImgRepository.getTotalListByAddress(
-                                pageRequestDto.getPageable(Sort.by("storeId")),
-                                storeAddress);
+        public Long storeInsert(StoreDto storeDto) {
+                Map<String, Object> entityMap = dtoToentity(storeDto);
 
-                Function<Object[], StoreDto> fn = (en -> entityToDto((Store) en[0],
-                                (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
+                // 스토어 삽입
+                Store store = (Store) entityMap.get("store");
+                storeRepository.save(store);
 
-                return new PageResultDto<>(result, fn);
+                // 스토어 이미지 삽입
+                List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
+                storeImgs.forEach(image -> storeImgRepository.save(image));
+
+                return store.getStoreId();
+
+        }
+
+        @Transactional
+        @Override
+        public Long storeUpdate(StoreDto storeDto) {
+                Map<String, Object> entityMap = dtoToentity(storeDto);
+
+                // 기존 스토어 이미지 제거
+                Store store = (Store) entityMap.get("store");
+                storeImgRepository.deleteByStore(store);
+                storeRepository.save(store);
+
+                // 스토어 이미지 삽입
+                List<StoreImg> storeImgs = (List<StoreImg>) entityMap.get("imgList");
+                storeImgs.forEach(image -> storeImgRepository.save(image));
+
+                return store.getStoreId();
+
         }
 
 }

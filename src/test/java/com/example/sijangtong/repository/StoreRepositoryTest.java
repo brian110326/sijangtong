@@ -80,11 +80,16 @@ public class StoreRepositoryTest {
         LongStream.rangeClosed(1, 200).forEach(i -> {
             Member member = Member.builder().memberEmail("member" + i + "@naver.com").build();
             Store store = Store.builder().storeId(i).build();
+            Rider rider = Rider.builder().riderId(i).riderName("Rider" + i).riderTel("010-1234-5678")
+                    .riderStatus(RiderStatus.DELIVERING).build();
+
+            riderRepository.save(rider);
             Order order = Order.builder()
                     .orderAddress("강동구")
                     .orderPayment(OrderPayment.CASH)
                     .member(member)
                     .store(store)
+                    .rider(rider)
                     .build();
 
             orderRepository.save(order);
@@ -140,7 +145,7 @@ public class StoreRepositoryTest {
     @Test
     public void insertProductTest() {
 
-        LongStream.rangeClosed(8, 200).forEach(i -> {
+        LongStream.rangeClosed(1, 200).forEach(i -> {
             Store store = Store.builder().storeId(i).build();
             LongStream.rangeClosed(1, 50).forEach(j -> {
                 Product product = Product.builder()
@@ -166,6 +171,34 @@ public class StoreRepositoryTest {
             });
         });
 
+    }
+
+    @Test
+    public void insertProductTestssss() {
+        // 임시 사용
+        LongStream.rangeClosed(1, 200).forEach(i -> {
+            Store store = Store.builder().storeId(i).build();
+            Product product = Product.builder()
+                    .pName("재고" + i)
+                    .price(5000)
+                    .amount(20)
+                    .store(store)
+                    .build();
+            productRepository.save(product);
+
+            int count = (int) (Math.random() * 5) + 1;
+
+            for (int k = 0; k < count; k++) {
+                ProductImg productImg = ProductImg.builder()
+                        .uuid(UUID.randomUUID().toString())
+                        .path(null)
+                        .imgName("img" + k + ".jpg")
+                        .product(product)
+                        .build();
+                productImgRepository.save(productImg);
+            }
+
+        });
     }
 
     @Test

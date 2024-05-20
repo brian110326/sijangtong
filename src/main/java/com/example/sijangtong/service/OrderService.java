@@ -1,9 +1,14 @@
 package com.example.sijangtong.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.sijangtong.dto.OrderDto;
+import com.example.sijangtong.dto.OrderItemDto;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ProductDto;
+import com.example.sijangtong.dto.StoreImgDto;
 import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.OrderItem;
@@ -16,11 +21,16 @@ public interface OrderService {
 
     Long removeOrder(Long orderId);
 
+    Long removeOrderItem(Long orderItemId);
+
     Long updateOrder(OrderDto orderDto);
+
+    void updateOrderAmount(OrderItemDto orderItemDto);
 
     Long createOrder(OrderDto orderDto);
 
-    public default OrderDto entityToDto(Order order, OrderItem orderItem, Rider rider, Member member, Product product,
+    public default OrderDto entityToDto(Order order, List<OrderItem> orderItems, Rider rider, Member member,
+            List<Product> products,
             Store store) {
         OrderDto orderDto = OrderDto.builder().orderId(order.getOrderId())
                 .orderAddress(order.getOrderAddress())
@@ -31,6 +41,24 @@ public interface OrderService {
                 .createdDate(order.getCreatedDate())
                 .lastModifiedDate(order.getLastModifiedDate())
                 .build();
+
+        List<ProductDto> productDtos = products.stream().map(product -> {
+            return ProductDto.builder().productId(product.getProductId()).pName(product.getPName())
+                    .price(product.getPrice()).amount(product.getAmount()).storeId(product.getStore().getStoreId())
+                    .build();
+        }).collect(Collectors.toList());
+
+        List<OrderItemDto> orderItemDtos = orderItems.stream().map(orderItem -> {
+            return OrderItemDto.builder().id(orderItem.getId()).productDtos(productDtos)
+                    .orderId(orderItem.getOrder().getOrderId())
+                    // orderPrice는 주문수량 * product의 원가격
+                    .orderPrice(orderItem.getOrderPrice())
+                    .orderAmount(orderItem.getOrderAmount()).build();
+        }).collect(Collectors.toList());
+
+        orderDto.setOrderItemDtos(orderItemDtos);
+
+        // 하나의 주문에 여러개의 orderItem, orderItem 안에 여러개의 product존재
 
         return orderDto;
     }

@@ -22,13 +22,15 @@ public interface StoreService {
         PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto pageRequestDto,
                         StoreCategory storeCategory);
 
-        PageResultDto<StoreDto, Object[]> getStoreListByAddress(PageRequestDto pageRequestDto,
-                        String storeAddress);
-
         StoreDto getRow(Long storeId);
 
         Long removeStore(Long storeId);
 
+        Long storeInsert(StoreDto storeDto);
+
+        Long storeUpdate(StoreDto storeDto);
+
+        // store의 list를 보여주기 위한 dto변환
         public default StoreDto entityToDto(Store store, List<StoreImg> storeImgs) {
                 StoreDto storeDto = StoreDto.builder().storeId(store.getStoreId())
                                 .storeCategory(store.getStoreCategory())
@@ -49,6 +51,40 @@ public interface StoreService {
                 storeDto.setStoreImgDtos(storeImgDtos);
 
                 return storeDto;
+        }
+
+        public default Map<String, Object> dtoToentity(StoreDto storeDto) {
+                Map<String, Object> entityMap = new HashMap<>();
+
+                Store store = Store.builder()
+                                .storeId(storeDto.getStoreId())
+                                .storeCategory(storeDto.getStoreCategory())
+                                .storeTel(storeDto.getStoreTel())
+                                .openTime(storeDto.getOpenTime())
+                                .closeTime(storeDto.getCloseTime())
+                                .storeAddress(storeDto.getStoreAddress())
+                                .storeName(storeDto.getStoreName())
+                                .storeDetail(storeDto.getStoreDetail()).build();
+
+                entityMap.put("store", store);
+
+                List<StoreImgDto> storeImgDtos = storeDto.getStoreImgDtos();
+
+                if (storeImgDtos != null && storeImgDtos.size() > 0) {
+                        List<StoreImg> storeImgs = storeImgDtos.stream().map(sDto -> {
+                                StoreImg storeImg = StoreImg.builder()
+                                                .stImgName(sDto.getStImgName())
+                                                .stUuid(sDto.getStUuid())
+                                                .stPath(sDto.getStPath())
+                                                .store(store)
+                                                .build();
+                                return storeImg;
+                        }).collect(Collectors.toList());
+
+                        entityMap.put("imgList", storeImgs);
+                }
+
+                return entityMap;
         }
 
 }
