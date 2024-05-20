@@ -1,14 +1,13 @@
 package com.example.sijangtong.dto;
 
-import java.time.LocalDateTime;
-
 import com.example.sijangtong.constant.OrderPayment;
+import com.example.sijangtong.constant.RiderOrdercancel;
 import com.example.sijangtong.entity.Member;
-
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,15 +18,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDto {
-    private Long orderId;
 
-    private String orderAddress;
+  private Long orderId;
 
-    private OrderPayment orderPayment;
+  private String orderAddress;
 
-    private Member member;
+  private OrderPayment orderPayment;
 
-    private LocalDateTime createdDate;
+  private Member member;
 
-    private LocalDateTime lastModifiedDate;
+  private LocalDateTime createdDate;
+
+  private RiderOrdercancel ordercancel;
+
+  private LocalDateTime lastModifiedDate;
 }

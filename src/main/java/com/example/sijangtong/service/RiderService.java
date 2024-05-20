@@ -1,5 +1,6 @@
 package com.example.sijangtong.service;
 
+import com.example.sijangtong.dto.OrderDto;
 import com.example.sijangtong.dto.RiderDto;
 import com.example.sijangtong.entity.Rider;
 
@@ -12,7 +13,10 @@ public interface RiderService {
   void deleteRideer(Long riderid);
 
   // 라이더 조회
-  public RiderDto riderRead(Long riderid);
+  RiderDto riderRead(Long riderid);
+
+  // 라이더측 오더 취소
+  OrderDto riderOrderCancel(OrderDto orderDto);
 
   public default RiderDto entityToDto(Rider rider) {
     return RiderDto

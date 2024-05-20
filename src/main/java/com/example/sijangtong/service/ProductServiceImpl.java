@@ -66,3 +66,8 @@ public class ProductServiceImpl implements ProductService {
     return product.getProductId();
   }
 }
+// 주문 자체는 살려놔야 한다 주문 번호등 주문 아이템등등
+// 해당 오더를 할당 받는다고 해도 사실상 할당 받는다는 것은
+// 오더 테이블에 라이더 아이디 값이 추가되는 것 뿐임
+// 그렇다면 그 오더테이블에 라이더 아이디 컬럼 값을 다시 null 로 만들면 되는 것이다
+// 해야 할 것 정리 : 오더 엔티티에 컬럼 하나 추가 1) ENUM 클래스로 만들고
