@@ -34,6 +34,9 @@ public class SecurityConfig {
                 // shop 혹은 product 변경 및 삭제 권한은 ADMIN만
                 // .requestMatchers(수정 및 삭제 페이지 파일).hasRole("ADMIN")
 
+                // 그 외 모든 권한 통제
+                // .anyRequest().authenticated());
+
                 http.formLogin(login -> login.loginPage("/member/login").permitAll()
                                 .defaultSuccessUrl("/shop/list", true));
 
