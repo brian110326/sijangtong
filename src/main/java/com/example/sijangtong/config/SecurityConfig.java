@@ -19,6 +19,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+<<<<<<< HEAD
         http.authorizeHttpRequests(
                 authorize -> authorize
                         // 로그인 전 허용 화면 및 static 폴더
@@ -31,6 +32,20 @@ public class SecurityConfig {
                         // UploadController : 이미지 보여주기
                         .requestMatchers("/upload/display").permitAll()
                         .requestMatchers("/member/register").permitAll());
+=======
+// http.authorizeHttpRequests(
+// authorize -> authorize
+// // 로그인 전 허용 화면 및 static 폴더
+// .requestMatchers("/", "/assets/**", "/css/**", "/image/**", "/js/**",
+// "/lib/**")
+// .permitAll()
+// .requestMatchers("/shop/list", "/shop/read", "/shop/home",
+// "/shop/storeDetail")
+// .permitAll()
+// // UploadController : 이미지 보여주기
+// .requestMatchers("/upload/display").permitAll()
+// .requestMatchers("/member/register").permitAll());
+>>>>>>> main
 
         http.formLogin(login -> login.loginPage("/member/login").permitAll()
                 .defaultSuccessUrl("/shop/list", true));
