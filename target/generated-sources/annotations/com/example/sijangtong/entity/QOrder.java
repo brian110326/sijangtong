@@ -40,6 +40,8 @@ public class QOrder extends EntityPathBase<Order> {
 
     public final QRider rider;
 
+    public final EnumPath<com.example.sijangtong.constant.RiderOrdercancel> riderOrdercancel = createEnum("riderOrdercancel", com.example.sijangtong.constant.RiderOrdercancel.class);
+
     public final QStore store;
 
     public QOrder(String variable) {

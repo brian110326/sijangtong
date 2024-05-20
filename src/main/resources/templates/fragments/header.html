@@ -20,8 +20,18 @@
               <!-- 로그인 정보 -->
               <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
               <div class="dropdown-menu dropdown-menu-right">
-                <a th:href="@{/member/login}" class="dropdown-item" type="button">Sign in</a>
-                <a th:href="@{/member/register}" class="dropdown-item" type="button">Sign up</a>
+                <a
+                  th:href="@{login(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                  class="dropdown-item"
+                  type="button"
+                  >Sign in</a
+                >
+                <a
+                  th:href="@{register(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                  class="dropdown-item"
+                  type="button"
+                  >Register</a
+                >
               </div>
             </div>
             <div class="btn-group mx-2">
@@ -101,12 +111,12 @@
               style="width: calc(100% - 30px); z-index: 999"
             >
               <div class="navbar-nav w-100">
-                <a href="" class="nav-item nav-link">SEAFOOD</a>
-                <a href="" class="nav-item nav-link">CROPS</a>
-                <a href="" class="nav-item nav-link">CLOTH</a>
-                <a href="" class="nav-item nav-link">ANIMAL_PRODUCT</a>
-                <a href="" class="nav-item nav-link">SIDEDISH</a>
-                <a href="" class="nav-item nav-link">MAINDISH</a>
+                <a th:href="@{list(page=${requestDto.page},type='ct', keyword='SEAFOOD')}" class="nav-item nav-link">SEAFOOD</a>
+                <a th:href="@{list(page=${requestDto.page},type='ct', keyword='CROPS')}" class="nav-item nav-link">CROPS</a>
+                <a th:href="@{list(page=${requestDto.page},type='ct', keyword='CLOTH')}" class="nav-item nav-link">CLOTH</a>
+                <a th:href="@{list(page=${requestDto.page},type='ct', keyword='ANIMAL_PRODUCT')}" class="nav-item nav-link">ANIMAL_PRODUCT</a>
+                <a th:href="@{list(page=${requestDto.page},type='ct', keyword='SIDEDISH')}" class="nav-item nav-link">SIDEDISH</a>
+                <a th:href="@{list(page=${requestDto.page},type='ct', keyword='MAINDISH')}" class="nav-item nav-link">MAINDISH</a>
               </div>
             </nav>
           </div>

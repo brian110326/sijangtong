@@ -51,8 +51,10 @@ public class ShopController {
 
     @GetMapping("/home")
     public void getHome(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, Model model) {
+        Long storeId = StoreId();
+        log.info("홈 요청", productService.getProductList(pageRequestDto, storeId));
 
-        log.info("홈 요청");
+        model.addAttribute("result", productService.getProductList(pageRequestDto, storeId));
     }
 
     @GetMapping("/read")
@@ -81,6 +83,10 @@ public class ShopController {
     @GetMapping("/cart")
     public void getCart(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("구매 폼 요청");
+    }
+
+    private long StoreId() {
+        return new Double(((Math.random() * 198) + 1)).longValue();
     }
 
 }
