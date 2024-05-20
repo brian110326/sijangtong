@@ -26,8 +26,7 @@ public class MemberReviewRepositoryImpl extends QuerydslRepositorySupport implem
         // FROM ORDERS o
         // JOIN ORDER_ITEM oi ON o.ORDER_ID = oi.ORDER_ORDER_ID
         // JOIN "MEMBER" m ON m.MEMBER_EMAIL = o.MEMBER_MEMBER_EMAIL
-        // WHERE oi.PRODUCT_PRODUCT_ID IN (SELECT p.product_id FROM PRODUCT p WHERE
-        // p.product_id = 60))
+        // WHERE oi.PRODUCT_PRODUCT_ID = 60
 
         // 특정 제품을 구매한 member만 reivew를 달 수 있음
         // review를 달 수 있는 member의 list를 뽑아오기
@@ -42,8 +41,7 @@ public class MemberReviewRepositoryImpl extends QuerydslRepositorySupport implem
         JPQLQuery<Member> tuple = query.select(member).where(
                 member.memberEmail.in((JPAExpressions.select(order.member.memberEmail).from(order).join(orderItem)
                         .on(orderItem.order.eq(order)).join(member).on(order.member.eq(member))
-                        .where(orderItem.product.productId.in((JPAExpressions.select(product.productId).from(product)
-                                .where(product.productId.eq(productId))))))));
+                        .where(orderItem.product.productId.eq(productId)))));
 
         List<Member> members = tuple.fetch();
 
