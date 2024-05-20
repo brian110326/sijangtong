@@ -17,14 +17,17 @@ import com.example.sijangtong.entity.StoreImg;
 
 public interface StoreService {
 
+        // store list 보여주기
         PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto);
 
         // PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto
         // pageRequestDto,
         // StoreCategory storeCategory);
 
+        // store 상세조회
         StoreDto getRow(Long storeId);
 
+        // store 삭제
         Long removeStore(Long storeId);
 
         Long storeInsert(StoreDto storeDto);

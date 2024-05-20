@@ -14,6 +14,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
+
 public class AuthMemberDto extends User {
 
     private MemberDto memberDto;
@@ -28,6 +29,7 @@ public class AuthMemberDto extends User {
                 List.of(new SimpleGrantedAuthority("ROLE_" + memberDto.getMemberRole())));
 
         this.memberDto = memberDto;
+
     }
 
 }

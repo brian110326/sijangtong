@@ -17,16 +17,23 @@ import com.example.sijangtong.entity.Rider;
 import com.example.sijangtong.entity.Store;
 
 public interface OrderService {
+
+    // 주문 리스트 보여주기
     PageResultDto<OrderDto, Object[]> getOrderList(PageRequestDto pageRequestDto, Long storeId);
 
+    // 주문 취소(고객이)
     Long removeOrder(Long orderId);
 
+    // 주문 자체 취소가 아닌 주문 안에 주문아이템만 삭제
     Long removeOrderItem(Long orderItemId);
 
+    // 주문의 결제방식을 수정
     Long updateOrder(OrderDto orderDto);
 
+    // 주문아이템의 주문 수량 변경
     void updateOrderAmount(OrderItemDto orderItemDto);
 
+    // 주문하기
     Long createOrder(OrderDto orderDto);
 
     public default OrderDto entityToDto(Order order, List<OrderItem> orderItems, Rider rider, Member member,

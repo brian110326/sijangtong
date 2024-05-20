@@ -11,12 +11,17 @@ import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 
 public interface ReviewService {
+
+    // review list 보여주기
     PageResultDto<ReviewDto, Object[]> getReviewList(PageRequestDto pageRequestDto, Long productId);
 
+    // review 삭제
     Long removeReview(Long reviewId);
 
+    // review의 text, grade 수정
     Long updateReview(ReviewDto reviewDto);
 
+    // review 등록
     Long createReview(ReviewDto reviewDto);
 
     public default ReviewDto entityToDto(Product product, Review review) {

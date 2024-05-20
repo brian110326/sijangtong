@@ -19,9 +19,9 @@ public class RiderRepositoryAllocateImpl extends QuerydslRepositorySupport imple
     public Rider getRider() {
         // SELECT *
         // FROM RIDER r
-        // WHERE r.RIDER_STATUS = 'DELIVERING'
+        // WHERE r.RIDER_STATUS = 'WAITING'
         // AND r.RIDER_ID IN
-        // (SELECT MIN(r2.rider_id) FROM RIDER r2 WHERE r.RIDER_STATUS = 'DELIVERING');
+        // (SELECT MIN(r2.rider_id) FROM RIDER r2 WHERE r.RIDER_STATUS = 'WAITING');
 
         QRider rider = QRider.rider;
 
