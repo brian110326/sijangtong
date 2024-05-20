@@ -1,207 +1,186 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
   <th:block layout:fragment="css">
-    
-  <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-.container{
-  max-width: 700px;
-  width: 100%;
-  background-color: #fff;
-  padding: 25px 30px;
-  border-radius: 5px;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
-}
-.container .title{
-  font-size: 25px;
-  font-weight: 500;
-  position: relative;
-}
-.container .title::before{
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  width: 30px;
-  border-radius: 5px;
-  background: linear-gradient(135deg, #ffcb0d, #3D464D);
-}
-.content form .user-details{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 20px 0 12px 0;
-}
-form .user-details .input-box{
-  margin-bottom: 15px;
-  width: calc(100% / 2 - 20px);
-}
-form .input-box span.details{
-  display: block;
-  font-weight: 500;
-  margin-bottom: 5px;
-}
-.user-details .input-box input{
-  height: 45px;
-  width: 100%;
-  outline: none;
-  font-size: 16px;
-  border-radius: 5px;
-  padding-left: 15px;
-  border: 1px solid #ccc;
-  border-bottom-width: 2px;
-  transition: all 0.3s ease;
-}
-.user-details .input-box input:focus,
-.user-details .input-box input:valid{
-  border-color: #ffcb0d;
-}
- form .gender-details .gender-title{
-  font-size: 20px;
-  font-weight: 500;
- }
- form .category{
-   display: flex;
-   width: 80%;
-   margin: 14px 0 ;
-   justify-content: space-between;
- }
- form .category label{
-   display: flex;
-   align-items: center;
-   cursor: pointer;
- }
- form .category label .dot{
-  height: 18px;
-  width: 18px;
-  border-radius: 50%;
-  margin-right: 10px;
-  background: #d9d9d9;
-  border: 5px solid transparent;
-  transition: all 0.3s ease;
-}
- #dot-1:checked ~ .category label .one,
- #dot-2:checked ~ .category label .two,
- #dot-3:checked ~ .category label .three{
-   background: #ffcb0d;
-   border-color: #d9d9d9;
- }
- form input[type="radio"]{
-   display: none;
- }
- form .button{
-   height: 45px;
-   margin: 35px 0
- }
- form .button input{
-   height: 100%;
-   width: 100%;
-   border-radius: 5px;
-   border: none;
-   color: #fff;
-   font-size: 18px;
-   font-weight: 500;
-   letter-spacing: 1px;
-   cursor: pointer;
-   transition: all 0.3s ease;
-   background: linear-gradient(135deg, #ffcb0d, #3D464D);
- }
- form .button input:hover{
-  /* transform: scale(0.99); */
-  background: linear-gradient(135deg, #ffcb0d, #3D464D);
-  }
- @media(max-width: 584px){
- .container{
-  max-width: 100%;
-}
-form .user-details .input-box{
-    margin-bottom: 15px;
-    width: 100%;
-  }
-  form .category{
-    width: 100%;
-  }
-  .content form .user-details{
-    max-height: 300px;
-    overflow-y: scroll;
-  }
-  .user-details::-webkit-scrollbar{
-    width: 5px;
-  }
-  }
-  @media(max-width: 459px){
-  .container .content .category{
-    flex-direction: column;
-  }
-}
-If you face any difficulties wh
-
-
-  </style>
-</th:block>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+      .container {
+        max-width: 700px;
+        width: 100%;
+        background-color: #fff;
+        padding: 25px 30px;
+        border-radius: 5px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+      .container .title {
+        font-size: 25px;
+        font-weight: 500;
+        position: relative;
+      }
+      .container .title::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 30px;
+        border-radius: 5px;
+        background: linear-gradient(135deg, #3d464d, #ffcb0d);
+      }
+      .content form .user-details {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 20px 0 12px 0;
+      }
+      form .user-details .input-box {
+        margin-bottom: 15px;
+        width: calc(100% / 2 - 20px);
+      }
+      form .input-box span.details {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+      .user-details .input-box input {
+        height: 45px;
+        width: 100%;
+        outline: none;
+        font-size: 16px;
+        border-radius: 5px;
+        padding-left: 15px;
+        border: 1px solid #ccc;
+        border-bottom-width: 2px;
+        transition: all 0.3s ease;
+      }
+      .user-details .input-box input:focus,
+      .user-details .input-box input:valid {
+        border-color: #ffcb0d;
+      }
+      form .gender-details .gender-title {
+        font-size: 20px;
+        font-weight: 500;
+      }
+      form .category {
+        display: flex;
+        width: 80%;
+        margin: 14px 0;
+        justify-content: space-between;
+      }
+      form .category label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+      form .category label .dot {
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+        margin-right: 10px;
+        background: #d9d9d9;
+        border: 5px solid transparent;
+        transition: all 0.3s ease;
+      }
+      #dot-1:checked ~ .category label .one,
+      #dot-2:checked ~ .category label .two,
+      #dot-3:checked ~ .category label .three {
+        background: #ffcb0d;
+        border-color: #d9d9d9;
+      }
+      form input[type="radio"] {
+        display: none;
+      }
+      form .button {
+        height: 45px;
+        margin: 35px 0;
+      }
+      form .button input {
+        height: 100%;
+        width: 100%;
+        border-radius: 5px;
+        border: none;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #3d464d, #ffcb0d);
+      }
+      form .button input:hover {
+        /* transform: scale(0.99); */
+        background: linear-gradient(135deg, #3d464d, #ffcb0d);
+      }
+      @media (max-width: 584px) {
+        .container {
+          max-width: 100%;
+        }
+        form .user-details .input-box {
+          margin-bottom: 15px;
+          width: 100%;
+        }
+        form .category {
+          width: 100%;
+        }
+        .content form .user-details {
+          max-height: 300px;
+          overflow-y: scroll;
+        }
+        .user-details::-webkit-scrollbar {
+          width: 5px;
+        }
+      }
+      @media (max-width: 459px) {
+        .container .content .category {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </th:block>
 
   <div class="flex items-center p-6 bg-gray-50 dark:bg-gray-900" layout:fragment="content" style="min-height: 80vh">
     <div class="container">
       <div class="title">Registration</div>
       <div class="content">
-        <form action="#">
+        <form
+          th:action="@{register(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+          method="post"
+          th:object="${memberDto}"
+        >
           <div class="user-details">
             <div class="input-box">
-              <span class="details">Full Name</span>
-              <input type="text" placeholder="Enter your name" required>
+              <span class="details">유저 아이디</span>
+              <input type="email" placeholder="이메일을 입력해 주세요" name="memberEmail" th:value="${memberDto.memberEmail}" />
+              <div th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}" class="text-danger"></div>
+              <div th:if="${error}" class="text-danger small" th:text="${error}"></div>
             </div>
             <div class="input-box">
-              <span class="details">Username</span>
-              <input type="text" placeholder="Enter your username" required>
+              <span class="details">닉네임</span>
+              <input type="text" placeholder="닉네임을 입력해 주세요" name="memberNickname" th:value="${memberDto.memberNickname}" />
+              <div th:if="${#fields.hasErrors('memberNickname')}" th:errors="*{memberNickname}" class="text-danger"></div>
+              <div th:if="${error}" class="text-danger small" th:text="${error}"></div>
             </div>
             <div class="input-box">
-              <span class="details">Email</span>
-              <input type="text" placeholder="Enter your email" required>
+              <span class="details">주소</span>
+              <input type="text" placeholder="현재 주소를 입력해 주세요( ~구 입력)" name="memberAddress" th:value="${memberDto.memberAddress}" />
+              <div th:if="${#fields.hasErrors('memberAddress')}" th:errors="*{memberAddress}" class="text-danger"></div>
+              <div th:if="${error}" class="text-danger small" th:text="${error}"></div>
             </div>
             <div class="input-box">
-              <span class="details">Phone Number</span>
-              <input type="text" placeholder="Enter your number" required>
-            </div>
-            <div class="input-box">
-              <span class="details">Password</span>
-              <input type="text" placeholder="Enter your password" required>
-            </div>
-            <div class="input-box">
-              <span class="details">Confirm Password</span>
-              <input type="text" placeholder="Confirm your password" required>
-            </div>
-          </div>
-          <div class="gender-details">
-            <input type="radio" name="gender" id="dot-1">
-            <input type="radio" name="gender" id="dot-2">
-            <input type="radio" name="gender" id="dot-3">
-            <span class="gender-title">Gender</span>
-            <div class="category">
-              <label for="dot-1">
-              <span class="dot one"></span>
-              <span class="gender">Male</span>
-            </label>
-            <label for="dot-2">
-              <span class="dot two"></span>
-              <span class="gender">Female</span>
-            </label>
-            <label for="dot-3">
-              <span class="dot three"></span>
-              <span class="gender">Prefer not to say</span>
-              </label>
+              <span class="details">비밀번호</span>
+              <input type="password" placeholder="Enter your password" name="memberPwd" th:value="${memberDto.memberPwd}" />
+              <div th:if="${#fields.hasErrors('memberPwd')}" th:errors="*{memberPwd}" class="text-danger"></div>
+              <div th:if="${error}" class="text-danger small" th:text="${error}"></div>
             </div>
           </div>
           <div class="button">
-            <input type="submit" value="Register">
+            <input type="submit" value="Register" />
           </div>
         </form>
+        <div class="signup-link">
+          이미 가입 하셨나요? <a th:href="@{login(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}">로그인</a>
+        </div>
       </div>
+    </div>
   </div>
 
-  <th:block layout:fragment="script">
-    <script>
-      const email = "[[${email}]]";
-      if (email) alert(email + " 님 회원가입이 완료되었습니다.");
-    </script>
-  </th:block>
+  <th:block layout:fragment="script"> </th:block>
 </html>

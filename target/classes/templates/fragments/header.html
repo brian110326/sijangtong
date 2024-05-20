@@ -21,16 +21,25 @@
               <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
               <div class="dropdown-menu dropdown-menu-right">
                 <a
+                  sec:authorize="!isAuthenticated()"
                   th:href="@{login(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
                   class="dropdown-item"
                   type="button"
-                  >Sign in</a
+                  >로그인</a
                 >
                 <a
-                  th:href="@{register(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                  sec:authorize="isAuthenticated()"
+                  th:href="@{/member/logout(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
                   class="dropdown-item"
                   type="button"
-                  >Register</a
+                  >로그아웃</a
+                >
+                <a
+                  sec:authorize="isAuthenticated()"
+                  th:href="@{/member/profile(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                  class="dropdown-item"
+                  type="button"
+                  >프로필</a
                 >
               </div>
             </div>
@@ -69,7 +78,7 @@
       </div>
       <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
         <div class="col-lg-4">
-          <a th:href="@{home(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}" class="text-decoration-none">
+          <a th:href="@{/shop/home(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}" class="text-decoration-none">
             <span class="h1 text-uppercase text-white bg-dark px-2">SiJangTong</span>
             <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Market</span>
           </a>
@@ -137,7 +146,7 @@
                     >시장 목록</a
                   >
                   <a th:href="@{/shop/read}" class="nav-item nav-link">시장 정보</a>
-                  <div class="nav-item dropdown">
+                  <div class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
                       >구매 목록 <i class="fa fa-angle-down mt-1"></i
                     ></a>

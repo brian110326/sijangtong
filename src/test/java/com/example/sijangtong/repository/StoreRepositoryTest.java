@@ -9,6 +9,7 @@ import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.sijangtong.constant.MemberRole;
 import com.example.sijangtong.constant.OrderPayment;
@@ -31,6 +32,9 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 public class StoreRepositoryTest {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -61,12 +65,12 @@ public class StoreRepositoryTest {
 
     @Test
     public void insertMemberTest() {
-        IntStream.rangeClosed(1, 200).forEach(i -> {
+        IntStream.rangeClosed(201, 206).forEach(i -> {
             Member member = Member.builder()
                     .memberEmail("member" + i + "@naver.com")
                     .memberNickname("이것은 닉네임..")
                     .memberAddress("종로")
-                    .memberPwd("1111")
+                    .memberPwd(passwordEncoder.encode("1111"))
                     .memberRole(MemberRole.MEMBER)
                     .build();
 

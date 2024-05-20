@@ -1,80 +1,159 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
-  <th:block layout:fragment="css"> </th:block>
+  <th:block layout:fragment="css">
+    <style>
+      ::selection {
+        background: #4158d0;
+        color: #fff;
+      }
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+      .wrapper {
+        width: 380px;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+      }
+      .wrapper .title {
+        font-size: 35px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 100px;
+        color: #fff;
+        user-select: none;
+        border-radius: 15px 15px 0 0;
+        background: linear-gradient(135deg, #3d464d, #ffcb0d);
+      }
+      .wrapper form {
+        padding: 10px 30px 50px 30px;
+      }
+      .wrapper form .field {
+        height: 50px;
+        width: 100%;
+        margin-top: 20px;
+        position: relative;
+      }
+      .wrapper form .field input {
+        height: 100%;
+        width: 100%;
+        outline: none;
+        font-size: 17px;
+        padding-left: 20px;
+        border: 1px solid lightgrey;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+      }
+      .wrapper form .field input:focus,
+      form .field input:valid {
+        border-color: #ffcb0d;
+      }
+      .wrapper form .field label {
+        position: absolute;
+        top: 50%;
+        left: 20px;
+        color: #999999;
+        font-weight: 400;
+        font-size: 17px;
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+      form .field input:focus ~ label,
+      form .field input:valid ~ label {
+        top: 0%;
+        font-size: 16px;
+        color: #ffcb0d;
+        background: #fff;
+        transform: translateY(-50%);
+      }
+      form .content {
+        display: flex;
+        width: 100%;
+        height: 50px;
+        font-size: 16px;
+        align-items: center;
+        justify-content: space-around;
+      }
+      form .content .checkbox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      form .content input {
+        width: 15px;
+        height: 15px;
+        background: red;
+      }
+      form .content label {
+        color: #262626;
+        user-select: none;
+        padding-left: 5px;
+      }
+      form .content .pass-link {
+        color: "";
+      }
+      form .field input[type="submit"] {
+        color: #fff;
+        border: none;
+        padding-left: 0;
+        margin-top: -10px;
+        font-size: 20px;
+        font-weight: 500;
+        cursor: pointer;
+        background: linear-gradient(135deg, #3d464d, #ffcb0d);
+        transition: all 0.3s ease;
+      }
+      form .field input[type="submit"]:active {
+        transform: scale(0.95);
+      }
+      form .signup-link {
+        color: #262626;
+        margin-top: 20px;
+        text-align: center;
+      }
+      form .pass-link a,
+      form .signup-link a {
+        color: #ffcb0d;
+        text-decoration: none;
+      }
+      form .pass-link a:hover,
+      form .signup-link a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </th:block>
 
-  <div class="flex items-center p-6 bg-gray-50 dark:bg-gray-900" layout:fragment="content" style="min-height: 80vh">
-    <div class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
-      <div class="flex flex-col overflow-y-auto md:flex-row">
-        <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
-          <div class="w-full">
-            <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Create account</h1>
-            <form th:action="@{register}" method="post" >
-              <label class="block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Email</span>
-                <input
-                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="이메일"
-                  name="email"
-                  
-                />
-                <!-- <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
-                <div th:if="${error}" class="text-danger small" th:text="${error}"></div> -->
-              </label>
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Password</span>
-                <input
-                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="비밀번호"
-                  type="password"
-                  name="password"
-               
-                />
-                <!-- <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></div> -->
-              </label>
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400"> Nickname </span>
-                <input
-                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="닉네임"
-                  type="text"
-                  name="nickname"
-                  
-                />
-                <!-- <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="text-danger"></div> -->
-              </label>
-
-              <div class="flex mt-6 text-sm">
-                <label class="flex items-center dark:text-gray-400">
-                  <input
-                    type="checkbox"
-                    class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                  />
-                  <span class="ml-2">
-                    I agree to the
-                    <span class="underline">privacy policy</span>
-                  </span>
-                </label>
-              </div>
-
-              <!-- You should use a button here, as the anchor is only used for the example  -->
-              <button
-                class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                type="submit"
-              >
-                Create account
-              </button>
-            </form>
-
-            <hr class="my-8" />
-
-            <p class="mt-4">
-              <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline" th:href="@{login}">
-                Already have an account? Login
-              </a>
-            </p>
+  <div class="container flex items-center bg-gray-50 dark:bg-gray-900" layout:fragment="content" style="margin-right: 80px; margin-top: 80px">
+    <div class="wrapper center">
+      <div class="title">Login Form</div>
+      <form th:action="@{login}" method="post">
+        <div class="field">
+          <input type="text" name="username" required />
+          <label>Email Address</label>
+        </div>
+        <div class="field">
+          <input type="password" name="password" required />
+          <label>Password</label>
+        </div>
+        <div class="content">
+          <div class="checkbox">
+            <input type="checkbox" id="remember-me" />
+            <label for="remember-me">Remember me</label>
+          </div>
+          <div class="pass-link">
+            <a href="#">Forgot password?</a>
           </div>
         </div>
-      </div>
+        <div class="field">
+          <input type="submit" value="Login" />
+        </div>
+        <div class="signup-link">
+          Not a member? <a th:href="@{register(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}">Signup now</a>
+        </div>
+      </form>
     </div>
   </div>
-  <th:block layout:fragment="script"> </th:block>
+  <th:block layout:fragment="script">
+    <script>
+      const email = "[[${email}]]";
+      if (email) alert(email + " 님 회원가입이 완료되었습니다.");
+    </script>
+  </th:block>
 </html>
