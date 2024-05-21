@@ -297,10 +297,7 @@
                           <input type="submit" value="프로필 정보 수정" />
                         </div>
                       </form>
-                      <div class="signup-link">
-                        탈퇴 하시겠습니까?
-                        <a th:href="@{leave(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}">탈퇴</a>
-                      </div>
+                      <div class="signup-link" data-bs-toggle="modal" data-bs-target="#leaveModal">탈퇴 하시겠습니까?</div>
                     </div>
                   </div>
                 </div>
@@ -310,6 +307,40 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="leaveModal" tabindex="-1" aria-labelledby="leaveModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="title">계정 탈퇴</div>
+          </div>
+          <div class="modal-body">
+            <div class="content">
+              <form th:action="@{leave(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}" method="post">
+                <div class="user-details">
+                  <div class="input-box">
+                    <span class="details"> 계정 입력</span>
+                    <input type="email" placeholder="현재 비번 입력" name="memberEmail" />
+                  </div>
+                  <div class="input-box">
+                    <span class="details">비번 입력</span>
+                    <input type="password" placeholder=" 비밀번호 입력" name="memberPwd" />
+                  </div>
+                </div>
+                <div class="text-danger small" th:if="${param.error}">이메일이나 비밀번호를 확인해 주세요</div>
+                <div class="button">
+                  <input type="submit" value="계정 탈퇴" />
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <th:block layout:fragment="script"> </th:block>
+  <th:block layout:fragment="script">
+    <script th:src="@{/js/profile.js}"></script>
+  </th:block>
 </html>
