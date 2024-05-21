@@ -26,15 +26,21 @@ const reviewLoad = () => {
             </p>
           </div>
         </div>`;
-        if (`${review.memberEmail}` == user)
-          result += `<div>;
-          <button type="submit" class="btn btn-primary btn-sm">수정</button>
-          <button type="submit" class="btn btn-danger btn-sm">삭제</button>
-        </div>`;
+        if (`${review.memberEmail}` == user) {
+          result += `<div>
+            <button type="submit" class="btn btn-primary btn-sm">수정</button>
+            <button type="submit" class="btn btn-danger btn-sm">삭제</button>
+          </div>`;
+        }
         result += `</div>`;
       });
+      document.getElementById("reviews-container").innerHTML = result; // Update the DOM
+    })
+    .catch((error) => {
+      console.error("리뷰작성 실패", error);
     });
 };
+
 reviewLoad();
 
 const reviewForm = document.querySelector(".review-form");
