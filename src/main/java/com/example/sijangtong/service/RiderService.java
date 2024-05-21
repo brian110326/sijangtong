@@ -16,7 +16,7 @@ public interface RiderService {
   RiderDto riderRead(Long riderid);
 
   // 라이더측 오더 취소
-  OrderDto riderOrderCancel(OrderDto orderDto);
+  void riderOrderCancel(OrderDto orderDto);
 
   public default RiderDto entityToDto(Rider rider) {
     return RiderDto
