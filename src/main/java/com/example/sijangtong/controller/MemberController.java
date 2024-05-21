@@ -18,6 +18,7 @@ import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.UpdatedPasswordDto;
 import com.example.sijangtong.service.MemberService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -80,6 +81,26 @@ public class MemberController {
         service.nickNameUpdate(updateMemberDto);
         return "redirect:/member/profile";
 
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("leave")
+    public void getLeave(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+        log.info("계정 삭제 폼 요청");
+    }
+
+    @PostMapping("/leave")
+    public String postLeave(MemberDto leaveMemberDto, RedirectAttributes rttr, HttpSession session) {
+        log.info("회원탈퇴 {}", leaveMemberDto);
+
+        try {
+            service.memberWithdrawal(leaveMemberDto);
+        } catch (Exception e) {
+            rttr.addFlashAttribute("error", "이메일이나 비밀번호를 확인해 주세요");
+        }
+        session.invalidate();
+
+        return "redirect:/";
     }
 
 }
