@@ -37,9 +37,11 @@ public class OrderDto {
 
   private Member member;
 
-  private LocalDateTime createdDate;
+  private OrderPayment orderPayment;
 
-  private RiderOrdercancel ordercancel;
+  private LocalDateTime createdDate;
+  // 라이더측 배달 취소 사유
+  private RiderOrdercancel riderOrdercancel;
 
   private OrderPayment orderPayment;
 
