@@ -43,7 +43,5 @@ public class OrderDto {
   // 라이더측 배달 취소 사유
   private RiderOrdercancel riderOrdercancel;
 
-  private OrderPayment orderPayment;
-
   private LocalDateTime lastModifiedDate;
 }
