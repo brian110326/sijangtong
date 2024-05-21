@@ -44,8 +44,7 @@ reviewForm.addEventListener("submit", (e) => {
   const text = reviewForm.querySelector("#text");
   const memberNickname = reviewForm.querySelector("#mamberNickname");
   const mamberEmail = reviewForm.querySelector("#mamberEmail");
-
-  const reviewId = reviewForm.querySelector("#revirwId");
+  const reviewId = reviewForm.querySelector("#reviewId");
 
   const body = {
     productId: productId,
@@ -55,6 +54,7 @@ reviewForm.addEventListener("submit", (e) => {
     memberNickname: memberNickname.value,
   };
 
+  // 등록
   if (!reviewId.value) {
     fetch(`review/${productId}`, {
       headers: {
@@ -76,6 +76,7 @@ reviewForm.addEventListener("submit", (e) => {
         reviewLoad();
       });
   } else {
+    // 수정
     fetch(`/review/${productId}/${reviewId.value}`, {
       headers: {
         "content-type": "application/json",
