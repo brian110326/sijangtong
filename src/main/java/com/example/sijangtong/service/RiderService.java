@@ -18,26 +18,26 @@ public interface RiderService {
   RiderDto riderRead(Long riderid);
 
   // 라이더측 오더 취소
-  // OrderDto riderOrderCancel(OrderDto orderDto);
+  void riderOrderCancel(OrderDto orderDto);
 
   public default RiderDto entityToDto(Rider rider) {
     return RiderDto
-        .builder()
-        .riderId(rider.getRiderId())
-        .riderName(rider.getRiderName())
-        .riderTel(rider.getRiderTel())
-        .riderStatus(rider.getRiderStatus())
-        .build();
+      .builder()
+      .riderId(rider.getRiderId())
+      .riderName(rider.getRiderName())
+      .riderTel(rider.getRiderTel())
+      .riderStatus(rider.getRiderStatus())
+      .build();
   }
 
   public default Rider dtoToEntity(RiderDto riderDto) {
     Rider rider = Rider
-        .builder()
-        .riderId(riderDto.getRiderId())
-        .riderName(riderDto.getRiderName())
-        .riderTel(riderDto.getRiderTel())
-        .riderStatus(riderDto.getRiderStatus())
-        .build();
+      .builder()
+      .riderId(riderDto.getRiderId())
+      .riderName(riderDto.getRiderName())
+      .riderTel(riderDto.getRiderTel())
+      .riderStatus(riderDto.getRiderStatus())
+      .build();
 
     return rider;
   }

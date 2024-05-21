@@ -1,18 +1,25 @@
 package com.example.sijangtong.service;
 
+import com.example.sijangtong.constant.RiderOrdercancel;
 import com.example.sijangtong.constant.RiderStatus;
+import com.example.sijangtong.dto.OrderDto;
 import com.example.sijangtong.dto.RiderDto;
 import com.example.sijangtong.entity.Rider;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 
 @SpringBootTest
 public class SionTest {
 
   @Autowired
   private RiderService riderService;
+
+  @Autowired
+  private OrderService orderService;
 
   // 라이더 생성 테스트 5월 20일 정상 작동 완료
   @Test
@@ -50,5 +57,17 @@ public class SionTest {
   public void riderReadTest() {
     RiderDto result = riderService.riderRead(1L);
     System.out.println(result);
+  }
+
+  @Commit
+  @Test
+  public void riderOrdercancelTest() {
+    OrderDto orderDto = OrderDto
+      .builder()
+      .orderId(3l)
+      .riderOrdercancel(RiderOrdercancel.ACCIDENT)
+      .build();
+
+    riderService.riderOrderCancel(orderDto);
   }
 }
