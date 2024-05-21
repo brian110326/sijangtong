@@ -1,6 +1,7 @@
 package com.example.sijangtong.controller;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ public class ShopController {
     private final StoreService service;
     private final ProductService productService;
 
+    // 상품 리스트
     @GetMapping("/storeDetail")
     public void getDetail(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long storeId,
             Model model,
@@ -42,6 +44,7 @@ public class ShopController {
 
     }
 
+    // 스토어 리스트
     @GetMapping("/list")
     public void getList(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, Model model) {
 
@@ -59,9 +62,10 @@ public class ShopController {
 
     @GetMapping("/read")
     public void getread(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
-        log.info("리스트 폼 요청");
+        log.info("설명 폼 요청");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/buyitem")
     public void getbuyItem(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long productId,
             Model model) {
@@ -75,16 +79,19 @@ public class ShopController {
         log.info("문의 사항 폼 요청");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/buyitemlist")
     public void getBuyItemList(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("장바구니 폼 요청");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/cart")
     public void getCart(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("구매 폼 요청");
     }
 
+    // 리스트에 무작위로 뿌리는 추천 상품을 위한 sorid 뽑기
     private long StoreId() {
         return new Double(((Math.random() * 198) + 1)).longValue();
     }

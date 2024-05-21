@@ -28,9 +28,8 @@ public class SecurityConfig {
                                                                 "/lib/**")
                                                 .permitAll()
                                                 .requestMatchers("/shop/list", "/shop/read", "/shop/home",
-                                                                "/shop/storeDetail", "/shop/buyitem",
-                                                                "/shop/buyitemlist", "/shop/contact",
-                                                                "/shop/cart", "/auth")
+                                                                "/shop/storeDetail",
+                                                                "/shop/contact", "/auth")
                                                 .permitAll()
                                                 // UploadController : 이미지 보여주기
                                                 .requestMatchers("/upload/display").permitAll()

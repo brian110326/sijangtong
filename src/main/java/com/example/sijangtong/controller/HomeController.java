@@ -49,9 +49,4 @@ public class HomeController {
         log.info("접근 제한");
     }
 
-    @GetMapping("/error")
-    public String Error(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
-        log.info("404");
-        return "/except/url404";
-    }
 }
