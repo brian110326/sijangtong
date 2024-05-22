@@ -1,5 +1,8 @@
 package com.example.sijangtong.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,7 @@ import com.example.sijangtong.service.StoreServiceImpl;
 import groovyjarjarpicocli.CommandLine.Parameters;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequestMapping("/shop")
@@ -57,9 +61,66 @@ public class ShopController {
         model.addAttribute("result", productService.getProductList(pageRequestDto, storeId));
     }
 
-    @GetMapping("/read")
-    public void getread(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
-        log.info("리스트 폼 요청");
+    @GetMapping({ "/read", "/modify" })
+    public void getread(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long storeId,
+            Model model) {
+
+        log.info("store 상세보기/수정 폼 요청");
+        StoreDto storeDto = service.getRow(storeId);
+        model.addAttribute("storeDto", storeDto);
+        model.addAttribute("storeId", storeId);
+
+        List<String> districts = Arrays.asList("강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작",
+                "마포", "서대문", "서초", "성동", "성북", "송파", "양천", "영등포", "용산", "은평", "종로", "중구", "중랑");
+        model.addAttribute("districts", districts);
+    }
+
+    @PostMapping("/remove")
+    public String postRemove(Long storeId, @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+            RedirectAttributes rttr) {
+        Long removedStoreId = service.removeStore(storeId);
+
+        rttr.addFlashAttribute("msg", removedStoreId);
+        rttr.addAttribute("page", pageRequestDto.getPage());
+        rttr.addAttribute("type", pageRequestDto.getType());
+        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+        return "redirect:/shop/list";
+    }
+
+    @PostMapping("/pRemove")
+    public String postProductRemove(Long productId, Long storeId,
+            @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+            RedirectAttributes rttr) {
+        Long removedProductId = productService.removeProduct(productId);
+
+        rttr.addFlashAttribute("pMsg", removedProductId);
+        rttr.addAttribute("storeId", storeId);
+        rttr.addAttribute("page", pageRequestDto.getPage());
+        rttr.addAttribute("type", pageRequestDto.getType());
+        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+        return "redirect:/shop/storeDetail";
+    }
+
+    @PostMapping("/modify")
+    public String postStoreModify(StoreDto updateStoreDto, Long storeId,
+            @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+            RedirectAttributes rttr) {
+
+        log.info("updateStoreDto : {}", updateStoreDto);
+
+        // service 수정 => 다시 test해보기
+        Long updatedStoreId = service.storeUpdate(updateStoreDto);
+
+        rttr.addFlashAttribute("upMsg", updatedStoreId);
+
+        rttr.addAttribute("storeId", storeId);
+        rttr.addAttribute("page", pageRequestDto.getPage());
+        rttr.addAttribute("type", pageRequestDto.getType());
+        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+        return "redirect:/shop/read";
     }
 
     @GetMapping("/buyitem")
