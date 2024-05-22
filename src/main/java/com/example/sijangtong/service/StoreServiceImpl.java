@@ -153,6 +153,7 @@ public class StoreServiceImpl implements StoreService {
     // 기존 스토어 이미지 제거
     Store store = (Store) entityMap.get("store");
     storeImgRepository.deleteByStore(store);
+
     storeRepository.save(store);
 
     // 스토어 이미지 삽입
