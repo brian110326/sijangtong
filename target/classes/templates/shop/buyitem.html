@@ -100,7 +100,7 @@
                   </button>
                 </div>
               </div>
-              <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+              <button id="addCart" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
             </div>
             <div class="d-flex pt-2">
               <strong class="text-dark mr-2">Share on:</strong>
@@ -193,20 +193,24 @@
                           </p>
                         </div>
                       </div>
+                      <div>
+                        <button type="submit" class="btn btn-primary btn-sm">수정</button>
+                        <button type="submit" class="btn btn-danger btn-sm">삭제</button>
+                      </div>
                     </div> -->
                   </div>
                   <!-- 리뷰 작성 폼 -->
                   <div class="col-md-6">
                     <form th:action="@{/review/}" method="post" class="review-form">
                       <input type="hidden" name="reviewId" id="reviewId" />
-                      <input type="hidden" name="memberNickname" id="memberNickname" />
-                      <input type="hidden" name="memberEmail" id="memberEmail" />
+                      <input type="hidden" name="memberNickname" id="memberNickname" th:value="${#authentication.principal.memberDto.memberNickname}"/>
+                      <input type="hidden" name="memberEmail" id="memberEmail" th:value="${#authentication.principal.memberDto.memberEmail}"/>
                       <h4 class="mb-4">Leave a review</h4>
                       <small>Your email address will not be published. Required fields are marked *</small>
                       <div class="d-flex my-3">
                         <p class="mb-0 mr-2 ReviewStar">Your Rating * :</p>
                           <!-- 별 모양으로 대체 -->
-                          <div class="starrr "></div>
+                          <div class="starrr"></div>
                       </div>
                       <div class="form-group">
                         <label for="message">Your Review *</label>
@@ -214,14 +218,14 @@
                       </div>
                       <div class="form-group">
                         <label for="name">Your Name *</label>
-                        <input type="text" class="form-control" id="memberNickname" />
+                        <input type="text" class="form-control" id="memberNickname" readonly th:value="${#authentication.principal.memberDto.memberNickname}"/>
                       </div>
                       <div class="form-group">
                         <label for="email">Your Email *</label>
-                        <input type="email" class="form-control" id="memberEmail" />
+                        <input type="email" class="form-control" id="memberEmail" readonly th:value="${#authentication.principal.memberDto.memberEmail}"/>
                       </div>
                       <div class="form-group mb-0">
-                        <input type="submit" value="Leave Your Review" class="btn btn-primary px-3" />
+                        <button type="submit" class="btn btn-primary btn-sm">Leave Your Review</button>
                       </div>
                     </form>
                   </div>
@@ -375,6 +379,11 @@
   </div>
 
   <th:block layout:fragment="script">
+    <script>
+      // add  
+
+    </script>
     <script th:href="@{/js/buyitem.js}"></script>
+    <script th:href="@{/jd/review.js}"></script>
   </th:block>
 </html>
