@@ -1,6 +1,9 @@
 package com.example.sijangtong.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 
@@ -13,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.sijangtong.dto.AuthMemberDto;
 import com.example.sijangtong.dto.MemberDto;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.UpdatedPasswordDto;
 import com.example.sijangtong.service.MemberService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -78,8 +83,37 @@ public class MemberController {
 
         service.addressUpdate(updateMemberDto);
         service.nickNameUpdate(updateMemberDto);
+
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        AuthMemberDto authMemberDto = (AuthMemberDto) authentication.getPrincipal();
+        authMemberDto.getMemberDto().setMemberNickname(updateMemberDto.getMemberNickname());
+        authMemberDto.getMemberDto().setMemberAddress(updateMemberDto.getMemberAddress());
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         return "redirect:/member/profile";
 
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("leave")
+    public void getLeave(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+        log.info("계정 삭제 폼 요청");
+    }
+
+    @PostMapping("/leave")
+    public String postLeave(MemberDto leaveMemberDto, RedirectAttributes rttr, HttpSession session) {
+        log.info("회원탈퇴 {}", leaveMemberDto);
+
+        try {
+            service.memberWithdrawal(leaveMemberDto);
+        } catch (Exception e) {
+            rttr.addFlashAttribute("error", "이메일이나 비밀번호를 확인해 주세요");
+        }
+        session.invalidate();
+
+        return "redirect:/";
     }
 
 }

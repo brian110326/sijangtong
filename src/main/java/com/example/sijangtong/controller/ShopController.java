@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,7 @@ public class ShopController {
     private final StoreService service;
     private final ProductService productService;
 
+    // 상품 리스트
     @GetMapping("/storeDetail")
     public void getDetail(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long storeId,
             Model model,
@@ -46,6 +48,7 @@ public class ShopController {
 
     }
 
+    // 스토어 리스트
     @GetMapping("/list")
     public void getList(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, Model model) {
 
@@ -61,68 +64,12 @@ public class ShopController {
         model.addAttribute("result", productService.getProductList(pageRequestDto, storeId));
     }
 
-    @GetMapping({ "/read", "/modify" })
-    public void getread(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long storeId,
-            Model model) {
-
-        log.info("store 상세보기/수정 폼 요청");
-        StoreDto storeDto = service.getRow(storeId);
-        model.addAttribute("storeDto", storeDto);
-        model.addAttribute("storeId", storeId);
-
-        List<String> districts = Arrays.asList("강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작",
-                "마포", "서대문", "서초", "성동", "성북", "송파", "양천", "영등포", "용산", "은평", "종로", "중구", "중랑");
-        model.addAttribute("districts", districts);
+    @GetMapping("/read")
+    public void getread(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+        log.info("설명 폼 요청");
     }
 
-    @PostMapping("/remove")
-    public String postRemove(Long storeId, @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-            RedirectAttributes rttr) {
-        Long removedStoreId = service.removeStore(storeId);
-
-        rttr.addFlashAttribute("msg", removedStoreId);
-        rttr.addAttribute("page", pageRequestDto.getPage());
-        rttr.addAttribute("type", pageRequestDto.getType());
-        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
-
-        return "redirect:/shop/list";
-    }
-
-    @PostMapping("/pRemove")
-    public String postProductRemove(Long productId, Long storeId,
-            @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-            RedirectAttributes rttr) {
-        Long removedProductId = productService.removeProduct(productId);
-
-        rttr.addFlashAttribute("pMsg", removedProductId);
-        rttr.addAttribute("storeId", storeId);
-        rttr.addAttribute("page", pageRequestDto.getPage());
-        rttr.addAttribute("type", pageRequestDto.getType());
-        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
-
-        return "redirect:/shop/storeDetail";
-    }
-
-    @PostMapping("/modify")
-    public String postStoreModify(StoreDto updateStoreDto, Long storeId,
-            @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-            RedirectAttributes rttr) {
-
-        log.info("updateStoreDto : {}", updateStoreDto);
-
-        // service 수정 => 다시 test해보기
-        Long updatedStoreId = service.storeUpdate(updateStoreDto);
-
-        rttr.addFlashAttribute("upMsg", updatedStoreId);
-
-        rttr.addAttribute("storeId", storeId);
-        rttr.addAttribute("page", pageRequestDto.getPage());
-        rttr.addAttribute("type", pageRequestDto.getType());
-        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
-
-        return "redirect:/shop/read";
-    }
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/buyitem")
     public void getbuyItem(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long productId,
             Model model) {
@@ -136,16 +83,19 @@ public class ShopController {
         log.info("문의 사항 폼 요청");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/buyitemlist")
     public void getBuyItemList(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("장바구니 폼 요청");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/cart")
     public void getCart(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("구매 폼 요청");
     }
 
+    // 리스트에 무작위로 뿌리는 추천 상품을 위한 sorid 뽑기
     private long StoreId() {
         return new Double(((Math.random() * 198) + 1)).longValue();
     }

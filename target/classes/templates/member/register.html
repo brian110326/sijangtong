@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
   <th:block layout:fragment="css">
     <style>
@@ -138,7 +139,7 @@
 
   <div class="flex items-center p-6 bg-gray-50 dark:bg-gray-900" layout:fragment="content" style="min-height: 80vh">
     <div class="container">
-      <div class="title">Registration</div>
+      <div class="title">회원 가입</div>
       <div class="content">
         <form
           th:action="@{register(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
@@ -160,19 +161,19 @@
             </div>
             <div class="input-box">
               <span class="details">주소</span>
-              <input type="text" placeholder="현재 주소를 입력해 주세요( ~구 입력)" name="memberAddress" th:value="${memberDto.memberAddress}" />
+              <input type="text" placeholder="주소를 입력해 주세요( ~구 입력)" name="memberAddress" th:value="${memberDto.memberAddress}" />
               <div th:if="${#fields.hasErrors('memberAddress')}" th:errors="*{memberAddress}" class="text-danger"></div>
               <div th:if="${error}" class="text-danger small" th:text="${error}"></div>
             </div>
             <div class="input-box">
               <span class="details">비밀번호</span>
-              <input type="password" placeholder="Enter your password" name="memberPwd" th:value="${memberDto.memberPwd}" />
+              <input type="password" placeholder="비밀번호" name="memberPwd" th:value="${memberDto.memberPwd}" />
               <div th:if="${#fields.hasErrors('memberPwd')}" th:errors="*{memberPwd}" class="text-danger"></div>
               <div th:if="${error}" class="text-danger small" th:text="${error}"></div>
             </div>
           </div>
           <div class="button">
-            <input type="submit" value="Register" />
+            <input type="submit" value="회원 가입" />
           </div>
         </form>
         <div class="signup-link">
