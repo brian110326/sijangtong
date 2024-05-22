@@ -1,6 +1,10 @@
 package com.example.sijangtong.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +26,7 @@ import com.example.sijangtong.service.StoreServiceImpl;
 import groovyjarjarpicocli.CommandLine.Parameters;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequestMapping("/shop")
@@ -32,6 +37,7 @@ public class ShopController {
     private final StoreService service;
     private final ProductService productService;
 
+    // 상품 리스트
     @GetMapping("/storeDetail")
     public void getDetail(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long storeId,
             Model model,
@@ -42,6 +48,7 @@ public class ShopController {
 
     }
 
+    // 스토어 리스트
     @GetMapping("/list")
     public void getList(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, Model model) {
 
@@ -57,11 +64,29 @@ public class ShopController {
         model.addAttribute("result", productService.getProductList(pageRequestDto, storeId));
     }
 
-    @GetMapping("/read")
-    public void getread(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
-        log.info("리스트 폼 요청");
+    @GetMapping({ "/read", "/modify" })
+    public void getread(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long storeId,
+            Model model) {
+        log.info("설명 폼 요청");
+        StoreDto storeDto = service.getRow(storeId);
+
+        model.addAttribute("storeDto", storeDto);
+
     }
 
+    @PostMapping("/remove")
+    public String postStoreRemove(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, Long storeId,
+            RedirectAttributes rttr) {
+        Long removedStoreId = service.removeStore(storeId);
+
+        rttr.addAttribute("page", pageRequestDto.getPage());
+        rttr.addAttribute("type", pageRequestDto.getType());
+        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+        return "redirect:/store/list";
+
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/buyitem")
     public void getbuyItem(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long productId,
             Model model) {
@@ -75,16 +100,19 @@ public class ShopController {
         log.info("문의 사항 폼 요청");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/buyitemlist")
     public void getBuyItemList(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("장바구니 폼 요청");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/cart")
     public void getCart(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("구매 폼 요청");
     }
 
+    // 리스트에 무작위로 뿌리는 추천 상품을 위한 sorid 뽑기
     private long StoreId() {
         return new Double(((Math.random() * 198) + 1)).longValue();
     }

@@ -24,8 +24,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 public class StoreImgStoreRepositoryImpl
-  extends QuerydslRepositorySupport
-  implements StoreImgStoreRepository {
+    extends QuerydslRepositorySupport
+    implements StoreImgStoreRepository {
 
   public StoreImgStoreRepositoryImpl() {
     super(StoreImg.class);
@@ -33,10 +33,9 @@ public class StoreImgStoreRepositoryImpl
 
   @Override
   public Page<Object[]> getTotalList(
-    String type,
-    String keyword,
-    Pageable pageable
-  ) {
+      String type,
+      String keyword,
+      Pageable pageable) {
     QStoreImg storeImg = QStoreImg.storeImg;
     QStore store = QStore.store;
     QReview review = QReview.review;
@@ -52,15 +51,13 @@ public class StoreImgStoreRepositoryImpl
     query.leftJoin(store).on(storeImg.store.eq(store));
 
     JPQLQuery<Tuple> tuple = query
-      .select(store, storeImg)
-      .where(
-        storeImg.storeImgId.in(
-          JPAExpressions
-            .select(storeImg.storeImgId.min())
-            .from(storeImg)
-            .groupBy(storeImg.store)
-        )
-      );
+        .select(store, storeImg)
+        .where(
+            storeImg.storeImgId.in(
+                JPAExpressions
+                    .select(storeImg.storeImgId.min())
+                    .from(storeImg)
+                    .groupBy(storeImg.store)));
 
     // 검색 조건
     BooleanBuilder builder = new BooleanBuilder();
@@ -76,8 +73,7 @@ public class StoreImgStoreRepositoryImpl
     } else if (type.equals("ct")) {
       // ct : categories
       conditionBuilder.or(
-        store.storeCategory.in(StoreCategory.valueOf(keyword))
-      );
+          store.storeCategory.in(StoreCategory.valueOf(keyword)));
     }
 
     builder.and(conditionBuilder);
@@ -88,20 +84,18 @@ public class StoreImgStoreRepositoryImpl
     // 정렬기준이 1개가 아니라 기준이 계속 변경될 때 대비용
     Sort sort = pageable.getSort();
     sort
-      .stream()
-      .forEach(order -> {
-        Order direction = order.isAscending() ? Order.ASC : Order.DESC;
-        String prop = order.getProperty();
+        .stream()
+        .forEach(order -> {
+          Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+          String prop = order.getProperty();
 
-        // 어떤 클래스를 기준으로 sort할것인지
-        PathBuilder<Store> orderByExpression = new PathBuilder<>(
-          Store.class,
-          "store"
-        );
-        tuple.orderBy(
-          new OrderSpecifier(direction, orderByExpression.get(prop))
-        );
-      });
+          // 어떤 클래스를 기준으로 sort할것인지
+          PathBuilder<Store> orderByExpression = new PathBuilder<>(
+              Store.class,
+              "store");
+          tuple.orderBy(
+              new OrderSpecifier(direction, orderByExpression.get(prop)));
+        });
 
     // System.out.println("pageable getOffset " + pageable.getOffset());
     // System.out.println("pageable getPageNumber " + pageable.getPageNumber());
@@ -116,10 +110,9 @@ public class StoreImgStoreRepositoryImpl
     long count = tuple.fetchCount();
 
     return new PageImpl<>(
-      result.stream().map(t -> t.toArray()).collect(Collectors.toList()),
-      pageable,
-      count
-    );
+        result.stream().map(t -> t.toArray()).collect(Collectors.toList()),
+        pageable,
+        count);
   }
 
   @Override
@@ -140,8 +133,8 @@ public class StoreImgStoreRepositoryImpl
     query.leftJoin(product).on(product.store.eq(store));
 
     JPQLQuery<Tuple> tuple = query
-      .select(store, storeImg, product)
-      .where(store.storeId.eq(storeId));
+        .select(store, storeImg, product)
+        .where(store.storeId.eq(storeId));
 
     List<Tuple> result = tuple.fetch();
 
@@ -150,9 +143,8 @@ public class StoreImgStoreRepositoryImpl
 
   @Override
   public Page<Object[]> getTotalListByCategory(
-    Pageable pageable,
-    StoreCategory storeCategory
-  ) {
+      Pageable pageable,
+      StoreCategory storeCategory) {
     // SELECT *
     // FROM STORE_IMG si
     // LEFT JOIN STORE s ON si.STORE_STORE_ID = s.STORE_ID
@@ -169,17 +161,15 @@ public class StoreImgStoreRepositoryImpl
     query.leftJoin(store).on(storeImg.store.eq(store));
 
     JPQLQuery<Tuple> tuple = query
-      .select(store, storeImg)
-      .where(
-        storeImg.storeImgId
-          .in(
-            JPAExpressions
-              .select(storeImg.storeImgId.min())
-              .from(storeImg)
-              .groupBy(storeImg.store)
-          )
-          .and(store.storeCategory.eq(storeCategory))
-      );
+        .select(store, storeImg)
+        .where(
+            storeImg.storeImgId
+                .in(
+                    JPAExpressions
+                        .select(storeImg.storeImgId.min())
+                        .from(storeImg)
+                        .groupBy(storeImg.store))
+                .and(store.storeCategory.eq(storeCategory)));
 
     // 페이지 처리
     tuple.offset(pageable.getOffset());
@@ -190,9 +180,8 @@ public class StoreImgStoreRepositoryImpl
     long count = tuple.fetchCount();
 
     return new PageImpl<>(
-      result.stream().map(t -> t.toArray()).collect(Collectors.toList()),
-      pageable,
-      count
-    );
+        result.stream().map(t -> t.toArray()).collect(Collectors.toList()),
+        pageable,
+        count);
   }
 }

@@ -102,7 +102,7 @@ public class ServiceTest {
 
     @Test
     public void getStoreRow() {
-        List<Object[]> list = storeImgRepository.getStoreRow(40L);
+        List<Object[]> list = storeImgRepository.getStoreRow(200L);
 
         for (Object[] objects : list) {
             System.out.println(Arrays.toString(objects));
