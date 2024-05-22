@@ -21,16 +21,25 @@
               <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
               <div class="dropdown-menu dropdown-menu-right">
                 <a
-                  th:href="@{login(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                  sec:authorize="!isAuthenticated()"
+                  th:href="@{/member/login(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
                   class="dropdown-item"
                   type="button"
-                  >Sign in</a
+                  >로그인</a
                 >
                 <a
-                  th:href="@{register(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                  sec:authorize="isAuthenticated()"
+                  th:href="@{/member/logout(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
                   class="dropdown-item"
                   type="button"
-                  >Register</a
+                  >로그아웃</a
+                >
+                <a
+                  sec:authorize="isAuthenticated()"
+                  th:href="@{/member/profile(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                  class="dropdown-item"
+                  type="button"
+                  >프로필</a
                 >
               </div>
             </div>
@@ -53,34 +62,36 @@
               </div>
             </div>
           </div>
-          <div class="d-inline-flex align-items-center d-block d-lg-none">
-            <a href="" class="btn px-0 ml-2">
-              <i class="fas fa-heart text-dark"></i>
-              <!-- 즐겨찾기 폼 -->
-              <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px">0</span>
-            </a>
-            <a href="" class="btn px-0 ml-2">
-              <!-- 장바구니 갯수 표현 -->
-              <i class="fas fa-shopping-cart text-dark"></i>
-              <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px">0</span>
-            </a>
+          <div sec:authorize="isAuthenticated()">
+            <div class="d-inline-flex align-items-center d-block d-lg-none">
+              <a href="" class="btn px-0 ml-2">
+                <i class="fas fa-heart text-dark"></i>
+                <!-- 즐겨찾기 폼 -->
+                <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px">0</span>
+              </a>
+              <a href="" class="btn px-0 ml-2">
+                <!-- 장바구니 갯수 표현 -->
+                <i class="fas fa-shopping-cart text-dark"></i>
+                <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px">0</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
       <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
         <div class="col-lg-4">
-          <a th:href="@{home(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}" class="text-decoration-none">
+          <a th:href="@{/shop/home(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}" class="text-decoration-none">
             <span class="h1 text-uppercase text-white bg-dark px-2">SiJangTong</span>
             <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Market</span>
           </a>
         </div>
         <div class="col-lg-4 col-6 text-left">
-          <form action="">
+          <form th:action="@{search}" method="get" class="search-btn">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search for products" />
+              <input type="text" class="form-control" placeholder="Search for products" th:value="${requestDto.keyword}" />
               <div class="input-group-append">
                 <span class="input-group-text bg-transparent text-primary">
-                  <i class="fa fa-search"></i>
+                  <button type="submit" class="search"><i class="fa fa-search"></i></button>
                 </span>
               </div>
             </div>
@@ -137,7 +148,7 @@
                     >시장 목록</a
                   >
                   <a th:href="@{/shop/read}" class="nav-item nav-link">시장 정보</a>
-                  <div class="nav-item dropdown">
+                  <div class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
                       >구매 목록 <i class="fa fa-angle-down mt-1"></i
                     ></a>
@@ -148,7 +159,7 @@
                   </div>
                   <a th:href="@{/shop/contact}" class="nav-item nav-link">고객 문의</a>
                 </div>
-                <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
+                <div sec:authorize="isAuthenticated()" class="navbar-nav ml-auto py-0 d-none d-lg-block">
                   <a href="" class="btn px-0">
                     <i class="fas fa-heart text-primary"></i>
                     <!-- 찜 목록 -->

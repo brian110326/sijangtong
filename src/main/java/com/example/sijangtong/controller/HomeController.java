@@ -1,10 +1,14 @@
 package com.example.sijangtong.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.sijangtong.dto.PageRequestDto;
@@ -28,6 +32,21 @@ public class HomeController {
         rttr.addAttribute("type", requestDto.getType());
         rttr.addAttribute("keyword", requestDto.getKeyword());
         return "redirect:/shop/home";
+    }
+
+    @ResponseBody
+    @GetMapping("/auth")
+    public Authentication getAuthenticationInfo() {
+
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+
+        return authentication;
+    }
+
+    @GetMapping("/access-denied")
+    public void accessDenied(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+        log.info("접근 제한");
     }
 
 }

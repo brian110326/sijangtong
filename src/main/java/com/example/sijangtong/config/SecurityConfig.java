@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.example.sijangtong.handler.CustomeAccessDeniedHandler;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -26,13 +28,13 @@ public class SecurityConfig {
                                                                 "/lib/**")
                                                 .permitAll()
                                                 .requestMatchers("/shop/list", "/shop/read", "/shop/home",
-                                                                "/shop/storeDetail")
+                                                                "/shop/storeDetail",
+                                                                "/shop/contact", "/auth")
                                                 .permitAll()
                                                 // UploadController : 이미지 보여주기
                                                 .requestMatchers("/upload/display").permitAll()
-                                                .requestMatchers("/member/register").permitAll());
-                // shop 혹은 product 변경 및 삭제 권한은 ADMIN만
-                // .requestMatchers(수정 및 삭제 페이지 파일).hasRole("ADMIN")
+                                                .requestMatchers("/member/register").permitAll()
+                                                .anyRequest().authenticated());
 
                 http.formLogin(login -> login.loginPage("/member/login").permitAll()
                                 .defaultSuccessUrl("/shop/list", true));
@@ -42,6 +44,8 @@ public class SecurityConfig {
 
                 http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 
+                http.exceptionHandling(exception -> exception.accessDeniedHandler(customeAccessDeniedHandler()));
+
                 return http.build();
         }
 
@@ -49,4 +53,10 @@ public class SecurityConfig {
         PasswordEncoder passwordEncoder() {
                 return PasswordEncoderFactories.createDelegatingPasswordEncoder();
         }
+
+        @Bean
+        CustomeAccessDeniedHandler customeAccessDeniedHandler() {
+                return new CustomeAccessDeniedHandler();
+        }
+
 }

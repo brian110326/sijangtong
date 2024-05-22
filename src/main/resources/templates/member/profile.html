@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+  <th:block layout:fragment="css">
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+      .container {
+        max-width: 1200px;
+        width: 100%;
+        background-color: #fff;
+        padding: 25px 30px;
+        border-radius: 5px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+      .container .title {
+        font-size: 25px;
+        font-weight: 500;
+        position: relative;
+      }
+      .container .title::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 30px;
+        border-radius: 5px;
+        background: linear-gradient(135deg, #3d464d, #ffcb0d);
+      }
+      .content form .user-details {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 20px 0 12px 0;
+      }
+      form .user-details .input-box {
+        margin-bottom: 15px;
+        width: calc(100% / 2 - 20px);
+      }
+      form .input-box span.details {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+      .user-details .input-box input {
+        height: 45px;
+        width: 100%;
+        outline: none;
+        font-size: 16px;
+        border-radius: 5px;
+        padding-left: 15px;
+        border: 1px solid #ccc;
+        border-bottom-width: 2px;
+        transition: all 0.3s ease;
+      }
+      .user-details .input-box input:focus,
+      .user-details .input-box input:valid {
+        border-color: #ffcb0d;
+      }
+      form .gender-details .gender-title {
+        font-size: 20px;
+        font-weight: 500;
+      }
+      form .category {
+        display: flex;
+        width: 80%;
+        margin: 14px 0;
+        justify-content: space-between;
+      }
+      form .category label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+      form .category label .dot {
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+        margin-right: 10px;
+        background: #d9d9d9;
+        border: 5px solid transparent;
+        transition: all 0.3s ease;
+      }
+      #dot-1:checked ~ .category label .one,
+      #dot-2:checked ~ .category label .two,
+      #dot-3:checked ~ .category label .three {
+        background: #ffcb0d;
+        border-color: #d9d9d9;
+      }
+      form input[type="radio"] {
+        display: none;
+      }
+      form .button {
+        height: 45px;
+        margin: 35px 0;
+      }
+      form .button input {
+        height: 100%;
+        width: 100%;
+        border-radius: 5px;
+        border: none;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #3d464d, #ffcb0d);
+      }
+      form .button input:hover {
+        /* transform: scale(0.99); */
+        background: linear-gradient(135deg, #3d464d, #ffcb0d);
+      }
+      @media (max-width: 584px) {
+        .container {
+          max-width: 100%;
+        }
+        form .user-details .input-box {
+          margin-bottom: 15px;
+          width: 100%;
+        }
+        form .category {
+          width: 100%;
+        }
+        .content form .user-details {
+          max-height: 300px;
+          overflow-y: scroll;
+        }
+        .user-details::-webkit-scrollbar {
+          width: 5px;
+        }
+      }
+      @media (max-width: 459px) {
+        .container .content .category {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </th:block>
+
+  <div class="flex items-center p-6 bg-gray-50 dark:bg-gray-900" layout:fragment="content" style="min-height: 70vh">
+    <div class="container-fluid bg-gray-50 dark:bg-gray-90">
+      <div class="cover">
+        <div class="cover-layer">
+          <div class="container web-portion">
+            <div class="row top-det">
+              <div class="col-md-4">
+                <div class="profil-det-img d-flex">
+                  <div class="pd">
+                    <h2 th:text=" '닉네임 : '+${#authentication.principal.memberDto.memberNickname}"></h2>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 eml-mob">
+                <ul>
+                  <li><i class="fas fa-envelope"></i><i th:text="${#authentication.name}"></i></li>
+                  <li><i class="fas fa-phone-square"></i> <i> 010-1234-1234</i></li>
+                </ul>
+              </div>
+              <div class="col-md-4 d-flex map-mark">
+                <i class="fas fa-map-marker-alt"></i>
+                <p th:text="${#authentication.principal.memberDto.memberAddress}"></p>
+              </div>
+            </div>
+            <div class="nav-detail">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"
+                    >주문 내역</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"
+                    >프로필 수정</a
+                  >
+                </li>
+              </ul>
+
+              <div class="tab-content" id="myTabContent">
+                <!-- 주문 내역 -->
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <div class="container">
+                    <div class="col-md-8 home-dat">
+                      <div class="detal-jumbo">
+                        <h3>안녕하세요</h3>
+                        <p>시장통 멤버 등급</p>
+                      </div>
+                      <div class="links">
+                        <div class="row">
+                          <div class="col-xl-6 col-md-12">
+                            <ul class="btn-link">
+                              <li>
+                                <a href=""><i class="fas fa-paper-plane"></i> Hire Me</a>
+                              </li>
+                              <li>
+                                <a href=""><i class="fas fa-cloud-download-alt"></i> Download Resume</a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="col-xl-6 col-md-12">
+                            <ul class="social-link">
+                              <li><i class="fab fa-facebook-f"></i></li>
+                              <li><i class="fab fa-twitter"></i></li>
+                              <li><i class="fab fa-pinterest-p"></i></li>
+                              <li><i class="fab fa-linkedin-in"></i></li>
+                              <li><i class="fab fa-linkedin-in"></i></li>
+                              <li><i class="fab fa-youtube"></i></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="jumbo-address">
+                        <div class="row no-margin">
+                          <div class="col-lg-6 no-padding">
+                            <table class="addrss-list">
+                              <tbody>
+                                <tr>
+                                  <th>Position</th>
+                                  <td>Freelance</td>
+                                </tr>
+                                <tr>
+                                  <th>Nationality</th>
+                                  <td>American</td>
+                                </tr>
+                                <tr>
+                                  <th>Date of birth</th>
+                                  <td>09-06-1989</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col-lg-6 no-padding">
+                            <table class="addrss-list">
+                              <tbody>
+                                <tr>
+                                  <th>Experiance</th>
+                                  <td>5+ Years</td>
+                                </tr>
+                                <tr>
+                                  <th>Website</th>
+                                  <td>www.yourdomain.com</td>
+                                </tr>
+                                <tr>
+                                  <th>Languages</th>
+                                  <td>English,French,Germany</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- 프로필 수정부분 -->
+                <div class="tab-pane fade profile-tab" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                  <div class="container">
+                    <div class="title">정보 수정</div>
+                    <div class="content">
+                      <form
+                        th:action="@{/member/edit/all(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                        method="post"
+                        id="change_form"
+                      >
+                        <input type="hidden" name="memberEmail" th:value="${#authentication.name}" />
+                        <div class="user-details">
+                          <div class="input-box">
+                            <span class="details">기존 닉네임</span>
+                            <input type="text" name="oldmemberNickname" th:value="${#authentication.principal.memberDto.memberNickname}" readonly />
+                          </div>
+                          <div class="input-box">
+                            <span class="details"> 변경할 닉네임</span>
+                            <input type="text" placeholder="닉네임을 입력해 주세요" name="memberNickname" />
+                          </div>
+                          <div class="input-box">
+                            <span class="details"> 기존 주소</span>
+                            <input
+                              type="text"
+                              placeholder="현재 주소를 입력해 주세요( ~구 입력)"
+                              name="oldmemberAddress"
+                              th:value="${#authentication.principal.memberDto.memberAddress}"
+                              readonly
+                            />
+                          </div>
+                          <div class="input-box">
+                            <span class="details">변경 주소</span>
+                            <input type="tex" placeholder="새로운 주소지 입력" name="memberAddress" />
+                          </div>
+                          <div class="input-box">
+                            <span class="details"> 현재 비번</span>
+                            <input type="password" placeholder="현재 비번 입력" name="currentPwd" />
+                            <div class="text-danger small" th:if="${error}" th:text="${error}"></div>
+                          </div>
+                          <div class="input-box">
+                            <span class="details">변경 할 비번</span>
+                            <input type="password" placeholder="변경 비밀번호 입력" name="newPwd" />
+                          </div>
+                        </div>
+                        <div class="button" name="edit_button">
+                          <input type="submit" value="프로필 정보 수정" />
+                        </div>
+                      </form>
+                      <div class="signup-link" data-bs-toggle="modal" data-bs-target="#leaveModal">탈퇴 하시겠습니까?</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="leaveModal" tabindex="-1" aria-labelledby="leaveModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="title">계정 탈퇴</div>
+          </div>
+          <div class="modal-body">
+            <div class="content">
+              <form th:action="@{leave(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}" method="post">
+                <div class="user-details">
+                  <div class="input-box">
+                    <span class="details"> 계정 입력</span>
+                    <input type="email" placeholder="현재 비번 입력" name="memberEmail" />
+                  </div>
+                  <div class="input-box">
+                    <span class="details">비번 입력</span>
+                    <input type="password" placeholder=" 비밀번호 입력" name="memberPwd" />
+                  </div>
+                </div>
+                <div class="text-danger small" th:if="${param.error}">이메일이나 비밀번호를 확인해 주세요</div>
+                <div class="button">
+                  <input type="submit" value="계정 탈퇴" />
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <th:block layout:fragment="script">
+    <script>
+      // 기존 주소, 닉네임 저장 변수
+      var addr = "[[${#authentication.principal.memberDto.memberAddress}]]";
+      var nickName = "[[${#authentication.principal.memberDto.memberNickname}]]";
+    </script>
+    <script th:src="@{/js/profile.js}"></script>
+  </th:block>
+</html>

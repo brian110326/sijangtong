@@ -50,6 +50,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link th:href="@{/css/header.css}" rel="stylesheet" />
+    <link th:href="@{/css/starrr.css}" rel="stylesheet" />
 
     <th:block layout:fragment="css"></th:block>
   </head>
@@ -66,11 +67,12 @@
       </div>
     </div>
     <!-- 검색에서 사용할 폼 -->
-    <form th:action="@{list}" method="get" id="searchForm">
+    <form th:action="@{storeDetail}" method="get" id="searchForm">
       <input type="hidden" name="page" th:value="${requestDto.page}" />
       <input type="hidden" name="size" th:value="${requestDto.size}" />
       <input type="hidden" name="type" th:value="${requestDto.type}" />
       <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
+      <input type="hidden" name="storeId" th:value="${storeId}" />
     </form>
     <div th:replace="~{/fragments/footer :: footer}"></div>
     <!-- <script
@@ -78,13 +80,29 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script> -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script th:src="@{/lib/easing/easing.min.js}"></script>
+    <script th:src="@{/js/starrr.js}"></script>
     <script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
     <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/js/header.js}"></script>
+
+    <script>
+      $(".search-btn").hide();
+      storeId = "[[${storeId}]]";
+      // 별 보여주기
+      let grade = 0;
+
+      $(".starrr").starrr({
+        rating: grade, // 처음에 보여줄 값
+        change: function (e, value) {
+          console.log("new rating is " + value);
+          grade = value;
+        },
+      });
+    </script>
     <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/header.js}"></script>
     <!-- <script th:src="@{/js/search.js}"></script> -->
   </body>
 </html>

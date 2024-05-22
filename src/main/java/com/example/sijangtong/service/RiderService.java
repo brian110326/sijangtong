@@ -7,8 +7,10 @@ import com.example.sijangtong.entity.Rider;
 public interface RiderService {
   // 라이더 추가
   Long createRider(RiderDto riderDto);
+
   // 라이더 정보 업데이트
   Long riderUpdate(RiderDto riderDto);
+
   // 라이더 삭제
   void deleteRideer(Long riderid);
 
