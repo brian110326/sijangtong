@@ -1,6 +1,9 @@
 package com.example.sijangtong.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.sijangtong.dto.AuthMemberDto;
 import com.example.sijangtong.dto.MemberDto;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.UpdatedPasswordDto;
@@ -79,6 +83,15 @@ public class MemberController {
 
         service.addressUpdate(updateMemberDto);
         service.nickNameUpdate(updateMemberDto);
+
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        AuthMemberDto authMemberDto = (AuthMemberDto) authentication.getPrincipal();
+        authMemberDto.getMemberDto().setMemberNickname(updateMemberDto.getMemberNickname());
+        authMemberDto.getMemberDto().setMemberAddress(updateMemberDto.getMemberAddress());
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         return "redirect:/member/profile";
 
     }

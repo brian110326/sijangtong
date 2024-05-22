@@ -259,6 +259,7 @@
                       <form
                         th:action="@{/member/edit/all(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
                         method="post"
+                        id="change_form"
                       >
                         <input type="hidden" name="memberEmail" th:value="${#authentication.name}" />
                         <div class="user-details">
@@ -294,7 +295,7 @@
                             <input type="password" placeholder="변경 비밀번호 입력" name="newPwd" />
                           </div>
                         </div>
-                        <div class="button">
+                        <div class="button" name="edit_button">
                           <input type="submit" value="프로필 정보 수정" />
                         </div>
                       </form>
@@ -342,6 +343,11 @@
     </div>
   </div>
   <th:block layout:fragment="script">
+    <script>
+      // 기존 주소, 닉네임 저장 변수
+      var addr = "[[${#authentication.principal.memberDto.memberAddress}]]";
+      var nickName = "[[${#authentication.principal.memberDto.memberNickname}]]";
+    </script>
     <script th:src="@{/js/profile.js}"></script>
   </th:block>
 </html>
