@@ -1,13 +1,11 @@
 package com.example.sijangtong.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.Store;
-
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,20 +17,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductDto {
 
-    private Long productId;
+  private Long productId;
 
-    private String pName;
+  private String pName;
 
-    private int price;
+  private int price;
 
-    private int amount;
+  private int amount;
 
-    private Long storeId;
+  private Long storeId;
 
-    private double avg;
+  private double avg;
 
-    // 1개의 product에 여러장의 productimg
-    // product를 기준으로 productimg를 찾을 수도 있으니
-    @Builder.Default
-    private List<ProductImgDto> productImgDtos = new ArrayList<>();
+  // 구매 물품 수량
+  private int quantity;
+
+  // 1개의 product에 여러장의 productimg
+  // product를 기준으로 productimg를 찾을 수도 있으니
+  @Builder.Default
+  private List<ProductImgDto> productImgDtos = new ArrayList<>();
 }
