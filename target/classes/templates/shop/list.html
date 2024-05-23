@@ -616,20 +616,7 @@
 
   <th:block layout:fragment="script">
     <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-<<<<<<< HEAD
-    <script th:src="@{/js/list.js}"></script>
-    <script>
-      const msg = "[[${msg}]]";
 
-      if (msg) {
-        alert(msg + ".No Store Removed");
-      }
-=======
-    <!-- <script th:src="@{/js/list.js}"></script> -->
-    <script>
-      console.log("[[${result.dtoList}]]");
->>>>>>> c971c0c583df1af639797403fe5902f0846f25df
-    </script>
+    <script th:src="@{/js/list.js}"></script>
   </th:block>
 </html>
