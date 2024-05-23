@@ -376,14 +376,16 @@
         </div>
       </div>
     </div>
+    <script th:src="@{/js/review.js}"></script>
   </div>
 
   <th:block layout:fragment="script">
-    <script>
-      // add  
 
-    </script>
-    <script th:href="@{/js/buyitem.js}"></script>
-    <script th:href="@{/jd/review.js}"></script>
+  <SCript>
+    const productId = "[[${result.productId}]]";
+
+
+  </SCript>
+  
   </th:block>
 </html>

@@ -42,6 +42,7 @@ public interface ProductService {
       .price(product.getPrice())
       .amount(product.getAmount())
       .storeId(product.getStore().getStoreId())
+      // .quantity(product.getQuantity())
       .build();
 
     List<ProductImgDto> productImgDtos = productImgs
@@ -70,6 +71,7 @@ public interface ProductService {
     product.setPName(dto.getPName());
     product.setAmount(dto.getAmount());
     product.setPrice(dto.getPrice());
+    // product.setQuantity(dto.getQuantity());
     product.setStore(Store.builder().storeId(dto.getStoreId()).build());
 
     entityMap.put("product", product);

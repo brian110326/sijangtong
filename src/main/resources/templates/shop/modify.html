@@ -37,7 +37,11 @@
                         <img class="block" th:if="${image.stPath != null}" th:src="|/upload/display?fileName=${image.getThumbImageURL()}|" />
                       </a>
                       <span class="text-sm d-inline-block mx-1" th:text="${image.stImgName}"></span>
+                      <<<<<<< HEAD
+                      <button type="button" class="btn btn-danger">삭제</button>
+                      =======
                       <button type="button" class="btn btn-primary">삭제</button>
+                      >>>>>>> brian
                     </div>
                   </li>
                 </ul>

@@ -30,267 +30,326 @@ import com.example.sijangtong.repository.ReviewRepository;
 import com.example.sijangtong.repository.RiderRepository;
 import com.example.sijangtong.repository.StoreImgRepository;
 import com.example.sijangtong.repository.StoreRepository;
-
 import jakarta.transaction.Transactional;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 
 @SpringBootTest
 public class ServiceTest {
 
-    @Autowired
-    private StoreImgRepository storeImgRepository;
+  @Autowired
+  private StoreImgRepository storeImgRepository;
 
-    @Autowired
-    private ProductImgRepository productImgRepository;
+  @Autowired
+  private ProductImgRepository productImgRepository;
 
-    @Autowired
-    private StoreRepository storeRepository;
+  @Autowired
+  private StoreRepository storeRepository;
 
-    @Autowired
-    private ReviewRepository reviewRepository;
+  @Autowired
+  private ReviewRepository reviewRepository;
 
-    @Autowired
-    private MemberRepository memberRepository;
+  @Autowired
+  private MemberRepository memberRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+  @Autowired
+  private ProductRepository productRepository;
 
-    @Autowired
-    private OrderItemRepository orderItemRepository;
+  @Autowired
+  private OrderItemRepository orderItemRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
+  @Autowired
+  private OrderRepository orderRepository;
 
-    @Autowired
-    private RiderRepository riderRepository;
+  @Autowired
+  private RiderRepository riderRepository;
 
-    @Test
-    @Transactional
-    @Commit
-    public void memberDeleteTest() {
-        Member member = Member.builder().memberEmail("member98@naver.com").build();
-        List<Order> orders = orderRepository.findByMember(member);
+  @Test
+  @Transactional
+  @Commit
+  public void memberDeleteTest() {
+    Member member = Member.builder().memberEmail("member98@naver.com").build();
+    List<Order> orders = orderRepository.findByMember(member);
 
-        reviewRepository.deleteByMember(member);
+    reviewRepository.deleteByMember(member);
 
-        orders.forEach(order -> {
-            orderItemRepository.deleteByOrder(order);
-            orderRepository.delete(order);
-        });
+    orders.forEach(order -> {
+      orderItemRepository.deleteByOrder(order);
+      orderRepository.delete(order);
+    });
 
-        memberRepository.delete(member);
+    memberRepository.delete(member);
+  }
+
+  // @Test
+  // public void storeList() {
+
+  // PageRequestDto requestDto =
+  // PageRequestDto.builder().size(10).page(3).build();
+
+  // Page<Object[]> list =
+  // storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
+  // for (Object[] objects : list) {
+  // System.out.println(Arrays.toString(objects));
+  // }
+
+  // System.out.println("number " + list.getNumber());
+  // System.out.println("total " + list.getTotalPages());
+  // System.out.println("TotalElements " + list.getTotalElements());
+  // System.out.println("size " + list.getSize());
+  // // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
+  // System.out.println("getOffset " + list.getPageable().getOffset());
+
+  // }
+
+  @Test
+  public void getStoreRow() {
+    List<Object[]> list = storeImgRepository.getStoreRow(40L);
+
+    for (Object[] objects : list) {
+      System.out.println(Arrays.toString(objects));
+    }
+  }
+
+  // @Test
+  // public void productList() {
+  // PageRequestDto requestDto =
+  // PageRequestDto.builder().size(10).page(1).build();
+  // Page<Object[]> list =
+  // productImgRepository.getProductList(requestDto.getPageable(Sort.by("productId")),
+  // 44L);
+
+  // for (Object[] objects : list) {
+  // System.out.println(Arrays.toString(objects));
+  // }
+  // }
+
+  @Test
+  public void reviewList() {
+    PageRequestDto requestDto = PageRequestDto
+        .builder()
+        .size(10)
+        .page(1)
+        .build();
+    Page<Object[]> list = reviewRepository.getReviewList(
+        requestDto.getPageable(Sort.by("reviewId")),
+        1L);
+
+    for (Object[] objects : list) {
+      System.out.println(Arrays.toString(objects));
+
+      // System.out.println("number " + list.getNumber());
+      // System.out.println("total " + list.getTotalPages());
+      // System.out.println("TotalElements " + list.getTotalElements());
+      // System.out.println("size " + list.getSize());
+      // // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
+      // System.out.println("getOffset " + list.getPageable().getOffset());
+
+      // }
+
+    }
+  }
+
+  @Test
+  public void getProductRow() {
+    List<Object[]> list = productImgRepository.getProductRow(7L);
+
+    for (Object[] objects : list) {
+      System.out.println(Arrays.toString(objects));
+    }
+  }
+
+  @Test
+  @Commit
+  @Transactional
+  public void deleteProduct() {
+    Product product = productRepository.findById(198L).get();
+    List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
+
+    productImgRepository.deleteByProduct(product);
+
+    // product 삭제 시 orderItem안 product항목만 null로 설정
+    // orderItems.forEach(orderItem -> orderItem.setProduct(null));
+    reviewRepository.deleteByProduct(product);
+
+    productRepository.delete(product);
+  }
+
+  @Test
+  public void getReviewListByProduct() {
+    // store에 대한 reviewlist 보여주기
+    Product product = Product.builder().productId(1L).build();
+
+    List<Review> list = reviewRepository.findByProduct(product);
+
+    list.forEach(review -> System.out.println(review));
+  }
+
+  @Test
+  public void deleteReview() {
+    reviewRepository.deleteById(199L);
+  }
+
+  @Test
+  public void getOrderList() {
+    PageRequestDto requestDto = PageRequestDto
+        .builder()
+        .size(10)
+        .page(1)
+        .build();
+    Page<Object[]> result = orderRepository.getOrderList(
+        requestDto.getPageable(Sort.by("orderId")),
+        84L);
+
+    for (Object[] objects : result) {
+      System.out.println(Arrays.toString(objects));
+    }
+  }
+
+  @Test
+  @Commit
+  @Transactional
+  public void deleteStoreTest() {
+    // 인덱스 안에 없을 수 있으니 Optional로 해서 result.isPresent()
+    Store store = storeRepository.findById(199L).get();
+    Optional<Product> pResult = productRepository.findByStore(store);
+
+    if (pResult.isPresent()) {
+      Product product = pResult.get();
+
+      List<Review> reviews = reviewRepository.findByProduct(product);
+
+      reviews.forEach(review -> {
+        reviewRepository.delete(review);
+      });
+
+      // orderItem product 1:1로 바뀐거 확인하면 다시 바꾸기
+      List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
+      orderItems.forEach(orderItem -> {
+        orderItemRepository.delete(orderItem);
+      });
+
+      productImgRepository.deleteByProduct(product);
+
+      productRepository.deleteByStore(store);
     }
 
-    // @Test
-    // public void storeList() {
+    storeImgRepository.deleteByStore(store);
 
-    // PageRequestDto requestDto =
-    // PageRequestDto.builder().size(10).page(3).build();
+    orderRepository.deleteByStore(store);
 
-    // Page<Object[]> list =
-    // storeImgRepository.getTotalList(requestDto.getPageable(Sort.by("storeId").descending()));
-    // for (Object[] objects : list) {
-    // System.out.println(Arrays.toString(objects));
-    // }
+    storeRepository.delete(store);
 
-    // System.out.println("number " + list.getNumber());
-    // System.out.println("total " + list.getTotalPages());
-    // System.out.println("TotalElements " + list.getTotalElements());
-    // System.out.println("size " + list.getSize());
-    // // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
-    // System.out.println("getOffset " + list.getPageable().getOffset());
+    // Store store = storeRepository.findById(196L).get();
+    // Optional<Product> product = productRepository.findByStore(store);
 
-    // }
+    // Review review = reviewRepository.findByProduct(product).get(0);
+    // OrderItem orderItem = orderItemRepository.findByProduct(product).get(0);
 
-    @Test
-    public void getStoreRow() {
-        List<Object[]> list = storeImgRepository.getStoreRow(200L);
+    // reviewRepository.deleteByProduct(product);
+    // storeImgRepository.deleteByStore(store);
 
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
-    }
-
-    // @Test
-    // public void productList() {
-    // PageRequestDto requestDto =
-    // PageRequestDto.builder().size(10).page(1).build();
-    // Page<Object[]> list =
-    // productImgRepository.getProductList(requestDto.getPageable(Sort.by("productId")),
-    // 44L);
-
-    // for (Object[] objects : list) {
-    // System.out.println(Arrays.toString(objects));
-    // }
-    // }
-
-    @Test
-    public void reviewList() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = reviewRepository.getReviewList(requestDto.getPageable(Sort.by("reviewId")), 1L);
-
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
-    }
-
-    @Test
-    public void getProductRow() {
-        List<Object[]> list = productImgRepository.getProductRow(7L);
-
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
-    }
-
-    @Test
-    @Commit
-    @Transactional
-    public void deleteStoreTest() {
-        // 인덱스 안에 없을 수 있으니 Optional로 해서 result.isPresent()
-        Store store = storeRepository.findById(199L).get();
-        Optional<Product> pResult = productRepository.findByStore(store);
-
-        if (pResult.isPresent()) {
-            Product product = pResult.get();
-
-            List<Review> reviews = reviewRepository.findByProduct(product);
-
-            reviews.forEach(review -> {
-                reviewRepository.delete(review);
-            });
-
-            // orderItem product 1:1로 바뀐거 확인하면 다시 바꾸기
-            List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
-            orderItems.forEach(orderItem -> {
-                orderItemRepository.delete(orderItem);
-            });
-
-            productImgRepository.deleteByProduct(product);
-
-            productRepository.deleteByStore(store);
-        }
-
-        storeImgRepository.deleteByStore(store);
-
-        orderRepository.deleteByStore(store);
-
-        storeRepository.delete(store);
-
-        // Store store = storeRepository.findById(196L).get();
-        // Optional<Product> product = productRepository.findByStore(store);
-
-        // Review review = reviewRepository.findByProduct(product).get(0);
-        // OrderItem orderItem = orderItemRepository.findByProduct(product).get(0);
-
-        // reviewRepository.deleteByProduct(product);
-        // storeImgRepository.deleteByStore(store);
-
-        // orderItemRepository.deleteByProduct(product);
-        // productImgRepository.deleteByProduct(product);
-
-        // productRepository.deleteByStore(store);
-        // orderRepository.deleteByStore(store);
-
-        // storeRepository.delete(store);
-    }
-
-    // @Test
-    // @Commit
-    // @Transactional
-    // public void deleteProduct() {
-    // Product product = productRepository.findById(198L).get();
-    // List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
-
+    // orderItemRepository.deleteByProduct(product);
     // productImgRepository.deleteByProduct(product);
 
-    // // product 삭제 시 orderItem안 product항목만 null로 설정
-    // orderItems.forEach(orderItem -> orderItem.setProduct(null));
-    // reviewRepository.deleteByProduct(product);
+    // productRepository.deleteByStore(store);
+    // orderRepository.deleteByStore(store);
 
-    // productRepository.delete(product);
-    // }
+    // storeRepository.delete(store);
+  }
 
-    // @Test
-    // public void getReviewListByProduct() {
-    // // store에 대한 reviewlist 보여주기
-    // Product product = Product.builder().productId(1L).build();
-
-    // List<Review> list = reviewRepository.findByProduct(product);
-
-    // list.forEach(review -> System.out.println(review));
-    // }
-
-    @Test
-    public void deleteReview() {
-        reviewRepository.deleteById(199L);
-    }
-
-    @Test
-    public void getOrderList() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> result = orderRepository.getOrderList(requestDto.getPageable(Sort.by("orderId")), 84L);
-
-        for (Object[] objects : result) {
-            System.out.println(Arrays.toString(objects));
-        }
-    }
-
-    @Test
-    public void getStoreListByCategory() {
-        PageRequestDto requestDto = PageRequestDto.builder().size(10).page(1).build();
-        Page<Object[]> list = storeImgRepository.getTotalListByCategory(
-                requestDto.getPageable(Sort.by("storeId").descending()),
-                StoreCategory.SEAFOOD);
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
+  @Test
+  public void getStoreListByCategory() {
+    PageRequestDto requestDto = PageRequestDto
+        .builder()
+        .size(10)
+        .page(1)
+        .build();
+    Page<Object[]> list = storeImgRepository.getTotalListByCategory(
+        requestDto.getPageable(Sort.by("storeId").descending()),
+        StoreCategory.SEAFOOD);
+    for (Object[] objects : list) {
+      System.out.println(Arrays.toString(objects));
 
     }
+  }
 
-    @Test
-    @Transactional
-    @Commit
-    public void deleteOrderTest() {
-        Order order = Order.builder().orderId(84L).build();
+  // @Test
+  // @Commit
+  // @Transactional
+  // public void deleteProduct() {
+  // Product product = productRepository.findById(198L).get();
+  // List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
 
-        orderItemRepository.deleteByOrder(order);
-        orderRepository.delete(order);
-    }
+  // productImgRepository.deleteByProduct(product);
 
-    @Test
-    @Transactional
-    @Commit
-    public void updateOrderTest() {
-        orderRepository.updatePayment(OrderPayment.CREDIT_CARD, 1L);
-    }
+  // // product 삭제 시 orderItem안 product항목만 null로 설정
+  // orderItems.forEach(orderItem -> orderItem.setProduct(null));
+  // reviewRepository.deleteByProduct(product);
 
-    @Test
-    public void getRider() {
-        Rider rider = riderRepository.getRider();
-        System.out.println(rider);
-    }
+  // productRepository.delete(product);
+  // }
 
-    @Test
-    @Commit
-    @Transactional
-    public void updateAmount() {
-        orderItemRepository.updateAmount(33, 1L);
-    }
+  // @Test
+  // public void getReviewListByProduct() {
+  // // store에 대한 reviewlist 보여주기
+  // Product product = Product.builder().productId(1L).build();
 
-    @Test
-    @Transactional
-    @Commit
-    public void updateNicknameTest() {
+  // List<Review> list = reviewRepository.findByProduct(product);
 
-        memberRepository.updateNickname("Brian", "member1@naver.com");
-    }
+  // list.forEach(review -> System.out.println(review));
+  // }
 
-    @Test
-    @Transactional
-    @Commit
-    public void updateAddressTest() {
+  @Test
+  @Transactional
+  @Commit
+  public void deleteOrderTest() {
+    Order order = Order.builder().orderId(84L).build();
 
-        memberRepository.updateAddress("NYC", "member1@naver.com");
-    }
+    orderItemRepository.deleteByOrder(order);
+    orderRepository.delete(order);
+  }
+
+  @Test
+  @Transactional
+  @Commit
+  public void updateOrderTest() {
+    orderRepository.updatePayment(OrderPayment.CREDIT_CARD, 1L);
+  }
+
+  @Test
+  public void getRider() {
+    Rider rider = riderRepository.getRider();
+    System.out.println(rider);
+  }
+
+  @Test
+  @Commit
+  @Transactional
+  public void updateAmount() {
+    orderItemRepository.updateAmount(33, 1L);
+  }
+
+  @Test
+  @Transactional
+  @Commit
+  public void updateNicknameTest() {
+
+    memberRepository.updateNickname("Brian", "member1@naver.com");
+  }
+
+  @Test
+  @Transactional
+  @Commit
+  public void updateAddressTest() {
+
+    memberRepository.updateAddress("NYC", "member1@naver.com");
+  }
 
 }

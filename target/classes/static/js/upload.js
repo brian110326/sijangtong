@@ -20,7 +20,9 @@ window.onload = function () {
       tags += `<div>`;
       tags += `<a href=""><img src="/upload/display?fileName=${obj.thumbImageURL}" class="block"></a>`;
       tags += `<span class="text-sm d-inline-block mx-1">${obj.fileName}</span>`;
+
       tags += `<button type="button" class="btn btn-primary">삭제</button>`;
+
       tags += `</div></li>`;
     });
 
