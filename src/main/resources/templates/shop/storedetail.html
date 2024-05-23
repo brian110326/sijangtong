@@ -359,19 +359,25 @@
     </div>
     <script th:src="@{/js/review.js}"></script>
   </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 599e5b2f750da637c38d256dfc5e7f4c322bfd0e
   <th:block layout:fragment="script">
     <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
+
     <script th:src="@{/js/detail.js}"></script>
 
     <script th:src="@{/js/productModify.js}"></script>
 
     <script>
       const pMsg = "[[${pMsg}]]";
-
+      // <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js">
       if (pMsg) {
         alert(pMsg + ".No Product Removed");
       }
     </script>
+
+    <!-- <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> -->
   </th:block>
 </html>

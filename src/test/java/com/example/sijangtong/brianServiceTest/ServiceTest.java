@@ -131,8 +131,27 @@ public class ServiceTest {
       1L
     );
 
+<<<<<<< HEAD
     for (Object[] objects : list) {
       System.out.println(Arrays.toString(objects));
+=======
+    // System.out.println("number " + list.getNumber());
+    // System.out.println("total " + list.getTotalPages());
+    // System.out.println("TotalElements " + list.getTotalElements());
+    // System.out.println("size " + list.getSize());
+    // // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
+    // System.out.println("getOffset " + list.getPageable().getOffset());
+
+    // }
+
+    @Test
+    public void getStoreRow() {
+        List<Object[]> list = storeImgRepository.getStoreRow(200L);
+
+        for (Object[] objects : list) {
+            System.out.println(Arrays.toString(objects));
+        }
+>>>>>>> 599e5b2f750da637c38d256dfc5e7f4c322bfd0e
     }
   }
 

@@ -9,6 +9,8 @@ import com.example.sijangtong.service.ProductService;
 import com.example.sijangtong.service.StoreService;
 import com.example.sijangtong.service.StoreServiceImpl;
 import groovyjarjarpicocli.CommandLine.Parameters;
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,11 +93,96 @@ public class ShopController {
     model.addAttribute("requestDto", pageRequestDto);
   }
 
-  @GetMapping("/contact")
-  public void getContact(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto
+  @GetMapping({ "/read", "/modify" })
+  public void getread(
+    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+    @Parameters Long storeId,
+    Model model
   ) {
-    log.info("문의 사항 폼 요청");
+    log.info("설명 폼 요청");
+    StoreDto storeDto = service.getRow(storeId);
+
+    model.addAttribute("storeDto", storeDto);
+
+    List<String> districts = Arrays.asList(
+      "강남",
+      "강동",
+      "강북",
+      "강서",
+      "관악",
+      "광진",
+      "구로",
+      "금천",
+      "노원",
+      "도봉",
+      "동대문",
+      "동작",
+      "마포",
+      "서대문",
+      "서초",
+      "성동",
+      "성북",
+      "송파",
+      "양천",
+      "영등포",
+      "용산",
+      "은평",
+      "종로",
+      "중구",
+      "중랑"
+    );
+    model.addAttribute("districts", districts);
+  }
+
+  @PostMapping("/remove")
+  public String postStoreRemove(
+    Long storeId,
+    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+    RedirectAttributes rttr
+  ) {
+    Long removedStoreId = service.removeStore(storeId);
+
+    log.info("storeId!!!!!!!!!!!!1 {}", storeId);
+
+    rttr.addFlashAttribute("msg", removedStoreId);
+
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+    return "redirect:/shop/list";
+  }
+
+  @PostMapping("/pRemove")
+  public String postProductRemove(
+    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+    Long productId,
+    Long storeId,
+    RedirectAttributes rttr
+  ) {
+    productService.removeProduct(productId);
+
+    rttr.addAttribute("storeId", storeId);
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+    return "redirect:/shop/storeDetail";
+  }
+
+  @PostMapping("/modify")
+  public String postStoreUpdate(
+    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+    StoreDto updateStoreDto,
+    @Parameters Long storeId,
+    RedirectAttributes rttr
+  ) {
+    Long updatedStoreId = service.storeUpdate(updateStoreDto);
+
+    rttr.addAttribute("storeId", updateStoreDto.getStoreId());
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+    return "redirect:/shop/read";
   }
 
   @PreAuthorize("isAuthenticated()")
