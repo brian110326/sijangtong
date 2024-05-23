@@ -72,17 +72,53 @@ public class ShopController {
 
         model.addAttribute("storeDto", storeDto);
 
+        List<String> districts = Arrays.asList("강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작",
+                "마포", "서대문", "서초", "성동", "성북", "송파", "양천", "영등포", "용산", "은평", "종로", "중구", "중랑");
+        model.addAttribute("districts", districts);
+
     }
 
     @PostMapping("/remove")
-    public String postStoreRemove(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, Long storeId,
+    public String postStoreRemove(Long storeId, @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
             RedirectAttributes rttr) {
         Long removedStoreId = service.removeStore(storeId);
+
+        log.info("storeId!!!!!!!!!!!!1 {}", storeId);
+
+        rttr.addFlashAttribute("msg", removedStoreId);
 
         rttr.addAttribute("page", pageRequestDto.getPage());
         rttr.addAttribute("type", pageRequestDto.getType());
         rttr.addAttribute("keyword", pageRequestDto.getKeyword());
-        return "redirect:/store/list";
+
+        return "redirect:/shop/list";
+
+    }
+
+    @PostMapping("/pRemove")
+    public String postProductRemove(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, Long productId,
+            Long storeId, RedirectAttributes rttr) {
+
+        productService.removeProduct(productId);
+
+        rttr.addAttribute("storeId", storeId);
+        rttr.addAttribute("page", pageRequestDto.getPage());
+        rttr.addAttribute("type", pageRequestDto.getType());
+        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+        return "redirect:/shop/storeDetail";
+
+    }
+
+    @PostMapping("/modify")
+    public String postStoreUpdate(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, StoreDto updateStoreDto,
+            @Parameters Long storeId, RedirectAttributes rttr) {
+        Long updatedStoreId = service.storeUpdate(updateStoreDto);
+
+        rttr.addAttribute("storeId", updateStoreDto.getStoreId());
+        rttr.addAttribute("page", pageRequestDto.getPage());
+        rttr.addAttribute("type", pageRequestDto.getType());
+        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+        return "redirect:/shop/read";
 
     }
 

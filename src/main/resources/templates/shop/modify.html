@@ -37,7 +37,7 @@
                         <img class="block" th:if="${image.stPath != null}" th:src="|/upload/display?fileName=${image.getThumbImageURL()}|" />
                       </a>
                       <span class="text-sm d-inline-block mx-1" th:text="${image.stImgName}"></span>
-                      <button type="button" class="btn btn-danger">삭제</button>
+                      <button type="button" class="btn btn-primary">삭제</button>
                     </div>
                   </li>
                 </ul>
@@ -206,7 +206,7 @@
 
               <div class="mx-2">
                 <a th:href="@{/shop/list(page=1,type=${requestDto.type},keyword=${requestDto.keyword})}">
-                  <button type="button" class="btn btn-primary flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white">
+                  <button type="button" class="btn btn-info flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white">
                     목록
                   </button>
                 </a>
@@ -218,7 +218,7 @@
     </form>
 
     <!-- 삭제 폼 -->
-    <form method="post" id="actionForm" th:action="@{remove}">
+    <form th:action="@{remove}" method="post" id="actionForm">
       <!-- 수정 / 삭제를 위한 필요 정보 -->
       <input type="hidden" name="storeId" th:value="${storeDto.storeId}" />
       <!-- 페이지 나누기에 필요 정보-->
