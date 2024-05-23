@@ -64,13 +64,6 @@ public class ShopController {
         model.addAttribute("result", productService.getProductList(pageRequestDto, storeId));
     }
 
-<<<<<<< HEAD
-    @GetMapping("/read")
-    public void getread(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
-        log.info("설명 폼 요청");
-    }
-
-=======
     @GetMapping({ "/read", "/modify" })
     public void getread(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long storeId,
             Model model) {
@@ -129,7 +122,6 @@ public class ShopController {
 
     }
 
->>>>>>> brian
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/buyitem")
     public void getbuyItem(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long productId,
