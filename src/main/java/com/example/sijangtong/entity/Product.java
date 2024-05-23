@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 @Data
-@ToString(exclude = "store")
+@ToString(exclude = { "store", "orderItem" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -43,8 +44,8 @@ public class Product {
   private int amount;
 
   // 구매 물품 수량
-  @ColumnDefault("1")
-  private int quantity;
+  @OneToOne
+  private OrderItem orderItem;
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Store store;
