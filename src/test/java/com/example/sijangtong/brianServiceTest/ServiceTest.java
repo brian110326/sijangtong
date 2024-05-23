@@ -2,6 +2,7 @@ package com.example.sijangtong.brianServiceTest;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,48 +146,79 @@ public class ServiceTest {
     @Commit
     @Transactional
     public void deleteStoreTest() {
+        // 인덱스 안에 없을 수 있으니 Optional로 해서 result.isPresent()
         Store store = storeRepository.findById(199L).get();
-        Product product = productRepository.findByStore(store).get(0);
-        Review review = reviewRepository.findByProduct(product).get(0);
-        OrderItem orderItem = orderItemRepository.findByProduct(product).get(0);
+        Optional<Product> pResult = productRepository.findByStore(store);
 
-        reviewRepository.deleteByProduct(product);
+        if (pResult.isPresent()) {
+            Product product = pResult.get();
+
+            List<Review> reviews = reviewRepository.findByProduct(product);
+
+            reviews.forEach(review -> {
+                reviewRepository.delete(review);
+            });
+
+            // orderItem product 1:1로 바뀐거 확인하면 다시 바꾸기
+            List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
+            orderItems.forEach(orderItem -> {
+                orderItemRepository.delete(orderItem);
+            });
+
+            productImgRepository.deleteByProduct(product);
+
+            productRepository.deleteByStore(store);
+        }
+
         storeImgRepository.deleteByStore(store);
 
-        orderItemRepository.deleteByProduct(product);
-        productImgRepository.deleteByProduct(product);
-
-        productRepository.deleteByStore(store);
         orderRepository.deleteByStore(store);
 
         storeRepository.delete(store);
+
+        // Store store = storeRepository.findById(196L).get();
+        // Optional<Product> product = productRepository.findByStore(store);
+
+        // Review review = reviewRepository.findByProduct(product).get(0);
+        // OrderItem orderItem = orderItemRepository.findByProduct(product).get(0);
+
+        // reviewRepository.deleteByProduct(product);
+        // storeImgRepository.deleteByStore(store);
+
+        // orderItemRepository.deleteByProduct(product);
+        // productImgRepository.deleteByProduct(product);
+
+        // productRepository.deleteByStore(store);
+        // orderRepository.deleteByStore(store);
+
+        // storeRepository.delete(store);
     }
 
-    @Test
-    @Commit
-    @Transactional
-    public void deleteProduct() {
-        Product product = productRepository.findById(198L).get();
-        List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
+    // @Test
+    // @Commit
+    // @Transactional
+    // public void deleteProduct() {
+    // Product product = productRepository.findById(198L).get();
+    // List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
 
-        productImgRepository.deleteByProduct(product);
+    // productImgRepository.deleteByProduct(product);
 
-        // product 삭제 시 orderItem안 product항목만 null로 설정
-        orderItems.forEach(orderItem -> orderItem.setProduct(null));
-        reviewRepository.deleteByProduct(product);
+    // // product 삭제 시 orderItem안 product항목만 null로 설정
+    // orderItems.forEach(orderItem -> orderItem.setProduct(null));
+    // reviewRepository.deleteByProduct(product);
 
-        productRepository.delete(product);
-    }
+    // productRepository.delete(product);
+    // }
 
-    @Test
-    public void getReviewListByProduct() {
-        // store에 대한 reviewlist 보여주기
-        Product product = Product.builder().productId(1L).build();
+    // @Test
+    // public void getReviewListByProduct() {
+    // // store에 대한 reviewlist 보여주기
+    // Product product = Product.builder().productId(1L).build();
 
-        List<Review> list = reviewRepository.findByProduct(product);
+    // List<Review> list = reviewRepository.findByProduct(product);
 
-        list.forEach(review -> System.out.println(review));
-    }
+    // list.forEach(review -> System.out.println(review));
+    // }
 
     @Test
     public void deleteReview() {

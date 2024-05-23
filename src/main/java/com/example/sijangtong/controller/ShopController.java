@@ -83,15 +83,13 @@ public class ShopController {
             RedirectAttributes rttr) {
         Long removedStoreId = service.removeStore(storeId);
 
-        log.info("storeId!!!!!!!!!!!!1 {}", storeId);
-
         rttr.addFlashAttribute("msg", removedStoreId);
 
         rttr.addAttribute("page", pageRequestDto.getPage());
         rttr.addAttribute("type", pageRequestDto.getType());
         rttr.addAttribute("keyword", pageRequestDto.getKeyword());
 
-        return "redirect:/shop/list";
+        return "/shop/list";
 
     }
 

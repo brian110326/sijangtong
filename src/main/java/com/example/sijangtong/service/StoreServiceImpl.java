@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -51,24 +52,17 @@ public class StoreServiceImpl implements StoreService {
 
   @Override
   public PageResultDto<StoreDto, Object[]> getStoreList(
-    PageRequestDto pageRequestDto
-  ) {
+      PageRequestDto pageRequestDto) {
     log.info("pageRequestDto  " + pageRequestDto);
 
     Page<Object[]> result = storeImgRepository.getTotalList(
-      pageRequestDto.getType(),
-      pageRequestDto.getKeyword(),
-      pageRequestDto.getPageable(Sort.by("storeId").descending())
-    );
+        pageRequestDto.getType(),
+        pageRequestDto.getKeyword(),
+        pageRequestDto.getPageable(Sort.by("storeId").descending()));
 
-    Function<Object[], StoreDto> fn =
-      (
-        en ->
-          entityToDto(
-            (Store) en[0],
-            (List<StoreImg>) Arrays.asList((StoreImg) en[1])
-          )
-      );
+    Function<Object[], StoreDto> fn = (en -> entityToDto(
+        (Store) en[0],
+        (List<StoreImg>) Arrays.asList((StoreImg) en[1])));
 
     return new PageResultDto<>(result, fn);
   }
@@ -86,9 +80,9 @@ public class StoreServiceImpl implements StoreService {
     // });
 
     List<StoreImg> list = result
-      .stream()
-      .map(arr -> (StoreImg) arr[1])
-      .collect(Collectors.toList());
+        .stream()
+        .map(arr -> (StoreImg) arr[1])
+        .collect(Collectors.toList());
 
     return entityToDto(store, list);
   }
@@ -96,18 +90,32 @@ public class StoreServiceImpl implements StoreService {
   @Override
   @Transactional
   public Long removeStore(Long storeId) {
-    Store store = storeRepository.findById(storeId).get();
-    Product product = productRepository.findByStore(store).get(0);
-    Review review = reviewRepository.findByProduct(product).get(0);
-    OrderItem orderItem = orderItemRepository.findByProduct(product).get(0);
 
-    reviewRepository.deleteByProduct(product);
+    Store store = storeRepository.findById(storeId).get();
+    Optional<Product> pResult = productRepository.findByStore(store);
+
+    if (pResult.isPresent()) {
+      Product product = pResult.get();
+
+      List<Review> reviews = reviewRepository.findByProduct(product);
+
+      reviews.forEach(review -> {
+        reviewRepository.delete(review);
+      });
+
+      // orderItem product 1:1로 바뀐거 확인하면 다시 바꾸기
+      List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
+      orderItems.forEach(orderItem -> {
+        orderItemRepository.delete(orderItem);
+      });
+
+      productImgRepository.deleteByProduct(product);
+
+      productRepository.deleteByStore(store);
+    }
+
     storeImgRepository.deleteByStore(store);
 
-    orderItemRepository.deleteByProduct(product);
-    productImgRepository.deleteByProduct(product);
-
-    productRepository.deleteByStore(store);
     orderRepository.deleteByStore(store);
 
     storeRepository.delete(store);
