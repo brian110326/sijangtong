@@ -8,6 +8,7 @@ import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.OrderItem;
 import com.example.sijangtong.entity.Product;
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
@@ -15,7 +16,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query("delete from OrderItem oi where oi.product = :product")
     void deleteByProduct(Product product);
 
-    List<OrderItem> findByProduct(Product product);
+    Optional<OrderItem> findByProduct(Product product);
 
     @Modifying
     @Query("delete from OrderItem oi where oi.order = :order")

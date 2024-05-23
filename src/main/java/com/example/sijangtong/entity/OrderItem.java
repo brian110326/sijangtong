@@ -26,15 +26,8 @@ public class OrderItem {
 
   @Id
   @Column(name = "order_item_id")
-  @SequenceGenerator(
-    name = "store_order_item_seq_gen",
-    sequenceName = "store_order_item_seq",
-    allocationSize = 1
-  )
-  @GeneratedValue(
-    strategy = GenerationType.SEQUENCE,
-    generator = "store_order_item_seq_gen"
-  )
+  @SequenceGenerator(name = "store_order_item_seq_gen", sequenceName = "store_order_item_seq", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_order_item_seq_gen")
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)

@@ -104,10 +104,13 @@ public class StoreServiceImpl implements StoreService {
       });
 
       // orderItem product 1:1로 바뀐거 확인하면 다시 바꾸기
-      List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
-      orderItems.forEach(orderItem -> {
+      Optional<OrderItem> oResult = orderItemRepository.findByProduct(product);
+
+      if (oResult.isPresent()) {
+        OrderItem orderItem = oResult.get();
+
         orderItemRepository.delete(orderItem);
-      });
+      }
 
       productImgRepository.deleteByProduct(product);
 

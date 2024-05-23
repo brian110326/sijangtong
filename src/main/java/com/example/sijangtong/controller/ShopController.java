@@ -69,11 +69,11 @@ public class ShopController {
         productService.getProductList(pageRequestDto, storeId));
   }
 
-  @GetMapping("/read")
-  public void getread(
-      @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
-    log.info("설명 폼 요청");
-  }
+  // @GetMapping("/read")
+  // public void getread(
+  // @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+  // log.info("설명 폼 요청");
+  // }
 
   @PreAuthorize("isAuthenticated()")
   @GetMapping("/buyitem")
@@ -122,6 +122,7 @@ public class ShopController {
         "종로",
         "중구",
         "중랑");
+
     model.addAttribute("districts", districts);
   }
 
