@@ -87,6 +87,7 @@ public class ShopController {
   ) {
     log.info("구매 폼 요청");
     model.addAttribute("result", productService.getProductRow(productId));
+    model.addAttribute("requestDto", pageRequestDto);
   }
 
   @GetMapping("/contact")

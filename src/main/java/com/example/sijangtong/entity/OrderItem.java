@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,6 +39,9 @@ public class OrderItem {
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Order order;
+
+  @OneToOne(mappedBy = "orderItem")
+  private Product product;
 
   private int orderPrice; // 주문가격
 
