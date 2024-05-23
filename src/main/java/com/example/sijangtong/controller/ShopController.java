@@ -89,7 +89,7 @@ public class ShopController {
         rttr.addAttribute("type", pageRequestDto.getType());
         rttr.addAttribute("keyword", pageRequestDto.getKeyword());
 
-        return "/shop/list";
+        return "redirect:/shop/list";
 
     }
 
