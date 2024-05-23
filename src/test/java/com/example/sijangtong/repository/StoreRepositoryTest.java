@@ -246,6 +246,7 @@ public class StoreRepositoryTest {
               .builder()
               .memberEmail("member" + i + "@naver.com")
               .build();
+
           Product product = Product.builder().productId(i).build();
 
           Review review = Review

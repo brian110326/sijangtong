@@ -30,16 +30,14 @@ public class ReviewServiceImpl implements ReviewService {
 
   @Override
   public PageResultDto<ReviewDto, Object[]> getReviewList(
-    PageRequestDto pageRequestDto,
-    Long productId
-  ) {
-    Page<Object[]> result = reviewRepository.getReviewList(
-      pageRequestDto.getPageable(Sort.by("reviewId")),
-      productId
-    );
+      PageRequestDto pageRequestDto,
+      Long productId) {
 
-    Function<Object[], ReviewDto> fn =
-      (entity -> entityToDto((Review) entity[0]));
+    Page<Object[]> result = reviewRepository.getReviewList(
+        pageRequestDto.getPageable(Sort.by("reviewId")),
+        productId);
+
+    Function<Object[], ReviewDto> fn = (entity -> entityToDto((Review) entity[0]));
 
     return new PageResultDto<>(result, fn);
   }
@@ -54,10 +52,9 @@ public class ReviewServiceImpl implements ReviewService {
   @Override
   public Long updateReview(ReviewDto reviewDto) {
     reviewRepository.updateReview(
-      reviewDto.getText(),
-      reviewDto.getGrade(),
-      reviewDto.getReviewId()
-    );
+        reviewDto.getText(),
+        reviewDto.getGrade(),
+        reviewDto.getReviewId());
 
     return reviewDto.getReviewId();
   }

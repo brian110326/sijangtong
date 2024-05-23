@@ -15,9 +15,8 @@ import java.util.List;
 public interface ReviewService {
   // review list 보여주기
   PageResultDto<ReviewDto, Object[]> getReviewList(
-    PageRequestDto pageRequestDto,
-    Long productId
-  );
+      PageRequestDto pageRequestDto,
+      Long productId);
 
   // review 삭제
   Long removeReview(Long reviewId);
@@ -30,40 +29,40 @@ public interface ReviewService {
 
   public default ReviewDto entityToDto(Review review) {
     ReviewDto reviewDto = ReviewDto
-      .builder()
-      .reviewId(review.getReviewId())
-      .text(review.getText())
-      .grade(review.getGrade())
-      .productId(review.getProduct().getProductId())
-      .memberEmail(review.getMember().getMemberEmail())
-      .memberNickname(review.getMember().getMemberNickname())
-      .createdDate(review.getCreatedDate())
-      .lastModifiedDate(review.getLastModifiedDate())
-      .build();
+        .builder()
+        .reviewId(review.getReviewId())
+        .text(review.getText())
+        .grade(review.getGrade())
+        .productId(review.getProduct().getProductId())
+        .memberEmail(review.getMember().getMemberEmail())
+        .memberNickname(review.getMember().getMemberNickname())
+        .createdDate(review.getCreatedDate())
+        .lastModifiedDate(review.getLastModifiedDate())
+        .build();
 
     return reviewDto;
   }
 
   public default Review dtoToEntity(ReviewDto reviewDto) {
     Member member = Member
-      .builder()
-      .memberEmail(reviewDto.getMemberEmail())
-      .memberNickname(reviewDto.getMemberNickname())
-      .build();
+        .builder()
+        .memberEmail(reviewDto.getMemberEmail())
+        .memberNickname(reviewDto.getMemberNickname())
+        .build();
 
     Product product = Product
-      .builder()
-      .productId(reviewDto.getProductId())
-      .build();
+        .builder()
+        .productId(reviewDto.getProductId())
+        .build();
 
     Review review = Review
-      .builder()
-      .reviewId(reviewDto.getReviewId())
-      .text(reviewDto.getText())
-      .grade(reviewDto.getGrade())
-      .member(member)
-      .product(product)
-      .build();
+        .builder()
+        .reviewId(reviewDto.getReviewId())
+        .text(reviewDto.getText())
+        .grade(reviewDto.getGrade())
+        .member(member)
+        .product(product)
+        .build();
 
     review.setCreatedDate(reviewDto.getCreatedDate());
     review.setLastModifiedDate(reviewDto.getLastModifiedDate());
