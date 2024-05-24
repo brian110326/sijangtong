@@ -27,13 +27,13 @@ window.onload = function () {
                 ${review.text}
               </p>
             </div>`;
-          // if (`${review.memberEmail}` == user) {
-          result += `<div class="d-flex flex-column align-self-center">
+          if (`${review.memberEmail}` == user) {
+            result += `<div class="d-flex flex-column align-self-center">
             <div> <button  class="btn btn-primary btn-sm mb-2">수정</button></div>
               <div><button  class="btn btn-danger btn-sm">삭제</button>
             </div></div>`;
-          result += `</div>`;
-          // }
+            result += `</div>`;
+          }
           result += `</div>`;
         });
         reviewList.innerHTML = result;
