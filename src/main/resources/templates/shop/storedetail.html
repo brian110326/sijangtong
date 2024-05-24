@@ -81,7 +81,7 @@
                     <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
                     <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
                     <div class="d-flex justify-content-center mt-3">
-                      <div class="mx-2">
+                      <div class="mx-2" sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
                         <a
                           th:href="@{/shop/pModify(storeId=${storeId},productId=${products.productId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}"
                         >
@@ -96,7 +96,7 @@
 
                       <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
                       <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
-                      <div class="mx-2">
+                      <div class="mx-2" sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
                         <button
                           type="button"
                           class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white"
