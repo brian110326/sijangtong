@@ -41,16 +41,14 @@ public class ReviewController {
   // 물건 하나의 전체 리뷰 가져오기
   @GetMapping("/{productId}/reviews")
   public ResponseEntity<List<ReviewDto>> getreview(
-    @PathVariable("productId") Long productId,
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto
-  ) {
+      @PathVariable("productId") Long productId,
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
     log.info("전체 리스트 요청{}", pageRequestDto);
-    PageResultDto<ReviewDto, Object[]> result = reviewService.getReviewList(
-      pageRequestDto,
-      productId
-    );
+    List<ReviewDto> result = reviewService.getReviewList(
+        pageRequestDto,
+        productId);
     log.info("list {}", result);
-    return new ResponseEntity<>((List<ReviewDto>) result, HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   // 리뷰 등록 (확인완료)
@@ -65,9 +63,8 @@ public class ReviewController {
   // 리뷰 삭제 (확인완료)
   @DeleteMapping("/{productId}/{reviewId}")
   public ResponseEntity<Long> deleteReview(
-    @PathVariable("reviewId") Long reviewId,
-    String memberEmail
-  ) {
+      @PathVariable("reviewId") Long reviewId,
+      String memberEmail) {
     log.info("리뷰 삭제 {}", memberEmail);
 
     reviewService.removeReview(reviewId);
@@ -78,9 +75,8 @@ public class ReviewController {
 
   @PutMapping("{productId}/{reviewId}")
   public ResponseEntity<Long> putMethodName(
-    @PathVariable("reviewId") Long reviewId,
-    @RequestBody ReviewDto reviewDto
-  ) {
+      @PathVariable("reviewId") Long reviewId,
+      @RequestBody ReviewDto reviewDto) {
     log.info("리뷰 수정 {}", reviewDto);
 
     reviewService.updateReview(reviewDto);

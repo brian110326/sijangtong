@@ -240,14 +240,14 @@ public class StoreRepositoryTest {
   @Test
   public void insertReviewTest() {
     LongStream
-        .rangeClosed(1, 200)
+        .rangeClosed(201, 210)
         .forEach(i -> {
           Member member = Member
               .builder()
-              .memberEmail("member" + i + "@naver.com")
+              .memberEmail("member1@naver.com")
               .build();
 
-          Product product = Product.builder().productId(i).build();
+          Product product = Product.builder().productId(193L).build();
 
           Review review = Review
               .builder()
@@ -255,7 +255,6 @@ public class StoreRepositoryTest {
               .grade((int) (Math.random() * 5) + 1)
               .product(product)
               .member(member)
-              .product(product)
               .build();
           reviewRepository.save(review);
         });
