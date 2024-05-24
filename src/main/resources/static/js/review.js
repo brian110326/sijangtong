@@ -36,107 +36,110 @@ const reviewLoad = () => {
     });
 };
 reviewLoad();
+window.onload = function () {
+  reviewLoad();
 
-const reviewForm = document.querySelector(".review-form");
-reviewForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+  const reviewForm = document.querySelector(".reviewList");
+  reviewForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  const text = reviewForm.querySelector("#text");
-  const memberNickname = reviewForm.querySelector("#mamberNickname");
-  const mamberEmail = reviewForm.querySelector("#mamberEmail");
-  const reviewId = reviewForm.querySelector("#reviewId");
+    const text = reviewForm.querySelector("#text");
+    const memberNickname = reviewForm.querySelector("#mamberNickname");
+    const mamberEmail = reviewForm.querySelector("#mamberEmail");
+    const reviewId = reviewForm.querySelector("#reviewId");
 
-  const body = {
-    productId: productId,
-    text: text.value,
-    memberEmail: mamberEmail.value,
-    grade: grade || 0,
-    memberNickname: memberNickname.value,
-  };
+    const body = {
+      productId: productId,
+      text: text.value,
+      memberEmail: mamberEmail.value,
+      grade: grade || 0,
+      memberNickname: memberNickname.value,
+    };
 
-  // 등록
-  if (!reviewId.value) {
-    fetch(`review/${productId}`, {
-      headers: {
-        "content-type": "application/json",
-        "X-CSRF-TOKEN": csrfValue,
-      },
-      body: JSON.stringify(body),
-      method: "post",
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        console.log(data);
+    // 등록
+    if (!reviewId.value) {
+      fetch(`review/${productId}`, {
+        headers: {
+          "content-type": "application/json",
+          "X-CSRF-TOKEN": csrfValue,
+        },
+        body: JSON.stringify(body),
+        method: "post",
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          console.log(data);
 
-        text.value = "";
+          text.value = "";
 
-        reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
+          reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
 
-        if (data) alert(data + " 번 리뷰등록 완료.");
-        reviewLoad();
-      });
-  } else {
-    // 수정
-    fetch(`/review/${productId}/${reviewId.value}`, {
-      headers: {
-        "content-type": "application/json",
-        "X-CSRF-TOKEN": csrfValue,
-      },
-      body: JSON.stringify(body),
-      method: "put",
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        console.log(data);
+          if (data) alert(data + " 번 리뷰등록 완료.");
+          reviewLoad();
+        });
+    } else {
+      // 수정
+      fetch(`/review/${productId}/${reviewId.value}`, {
+        headers: {
+          "content-type": "application/json",
+          "X-CSRF-TOKEN": csrfValue,
+        },
+        body: JSON.stringify(body),
+        method: "put",
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          console.log(data);
 
-        text.value = "";
-        reviewId.value = "";
-        reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
+          text.value = "";
+          reviewId.value = "";
+          reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
 
-        if (data) alert(data + " 번 리뷰수정 완료.");
-        reviewLoad();
-      });
-  }
-});
+          if (data) alert(data + " 번 리뷰수정 완료.");
+          reviewLoad();
+        });
+    }
+  });
 
-reviewList.addEventListener("click", (e) => {
-  console.log("이벤트 대상 ", e.target);
+  reviewForm.addEventListener("click", (e) => {
+    console.log("이벤트 대상 ", e.target);
 
-  const target = e.target;
+    const target = e.target;
 
-  const reviewId = target.closet(".review-row").dataset.rno;
+    const reviewId = target.closet(".review-row").dataset.rno;
 
-  const memberEmail = reviewForm.querySelector("#memberEmail");
+    const memberEmail = reviewForm.querySelector("#memberEmail");
 
-  if (target.contains("btn-danger")) {
-    if (!confirm("삭제하시겠습니까?")) return;
+    if (target.contains("btn-danger")) {
+      if (!confirm("삭제하시겠습니까?")) return;
 
-    const form = new FormData();
-    form.append("memberEmail", memberEmail.value);
+      const form = new FormData();
+      form.append("memberEmail", memberEmail.value);
 
-    fetch(`/review/${productId}/${reviewId}`, {
-      headers: {
-        "X-CSRF-TOKEN": csrfValue,
-      },
-      body: form,
-      method: "delete",
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        alert(data + " 번 리뷰삭제 완료");
-        reviewLoad();
-      });
-  } else if (target.contains("btn-primary")) {
-    fetch(`/review/${productId}/${reviewId}`)
-      .then((response) => response.JSON())
-      .then((data) => {
-        reviewForm.querySelector("#reviewId").value = data.reviewId;
-        reviewForm.querySelector("#memberEmail").value = data.memberEmail;
-        reviewForm.querySelector("#mamberNickname").value = data.memberNickname;
-        reviewForm.querySelector("#text").value = data.text;
+      fetch(`/review/${productId}/${reviewId}`, {
+        headers: {
+          "X-CSRF-TOKEN": csrfValue,
+        },
+        body: form,
+        method: "delete",
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          alert(data + " 번 리뷰삭제 완료");
+          reviewLoad();
+        });
+    } else if (target.contains("btn-primary")) {
+      fetch(`/review/${productId}/${reviewId}`)
+        .then((response) => response.JSON())
+        .then((data) => {
+          reviewForm.querySelector("#reviewId").value = data.reviewId;
+          reviewForm.querySelector("#memberEmail").value = data.memberEmail;
+          reviewForm.querySelector("#mamberNickname").value = data.memberNickname;
+          reviewForm.querySelector("#text").value = data.text;
 
-        reviewForm.querySelector(".starrr a:nth-child(" + data.grade + ")").click();
-        reviewForm.querySelector("button").innerHTML = "리뷰 수정";
-      });
-  }
-});
+          reviewForm.querySelector(".starrr a:nth-child(" + data.grade + ")").click();
+          reviewForm.querySelector("button").innerHTML = "리뷰 수정";
+        });
+    }
+  });
+};

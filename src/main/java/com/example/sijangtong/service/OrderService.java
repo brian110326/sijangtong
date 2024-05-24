@@ -72,22 +72,22 @@ public interface OrderService {
       })
       .collect(Collectors.toList());
 
-    List<OrderItemDto> orderItemDtos = orderItems
-      .stream()
-      .map(orderItem -> {
-        return OrderItemDto
-          .builder()
-          .id(orderItem.getId())
-          .productDtos(productDtos)
-          .orderId(orderItem.getOrder().getOrderId())
-          // orderPrice는 주문수량 * product의 원가격
-          .orderPrice(orderItem.getOrderPrice())
-          .orderAmount(orderItem.getOrderAmount())
-          .build();
-      })
-      .collect(Collectors.toList());
+    // List<OrderItemDto> orderItemDtos = orderItems
+    //     .stream()
+    //     .map(orderItem -> {
+    //       return OrderItemDto
+    //           .builder()
+    //           .id(orderItem.getId())
+    //           .productDtos(productDtos)
+    //           .orderId(orderItem.getOrder().getOrderId())
+    //           // orderPrice는 주문수량 * product의 원가격
+    //           .orderPrice(orderItem.getOrderPrice())
+    //           .orderAmount(orderItem.getOrderAmount())
+    //           .build();
+    //     })
+    //     .collect(Collectors.toList());
 
-    orderDto.setOrderItemDtos(orderItemDtos);
+    // orderDto.setOrderItemDtos(orderItemDtos);
 
     // 하나의 주문에 여러개의 orderItem, orderItem 안에 여러개의 product존재
 

@@ -29,8 +29,7 @@ public class ProductDto {
 
   private double avg;
 
-  // 구매 물품 수량
-  private int quantity;
+  private Long orderItemId;
 
   // 1개의 product에 여러장의 productimg
   // product를 기준으로 productimg를 찾을 수도 있으니
