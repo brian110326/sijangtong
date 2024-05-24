@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,14 +48,15 @@ public class ReviewController {
     List<ReviewDto> result = reviewService.getReviewList(
         pageRequestDto,
         productId);
-    log.info("list {}", result);
+
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   // 리뷰 등록 (확인완료)
   @PostMapping("/{productId}")
-  public ResponseEntity<Long> postMethodName(@RequestBody ReviewDto reviewDto) {
-    log.info("리뷰 등록 {}", reviewDto);
+  public ResponseEntity<Long> postMethodName(@RequestBody ReviewDto reviewDto,
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+    log.info("리뷰 등록 {} {}", reviewDto, reviewDto);
 
     Long reviewId = reviewService.createReview(reviewDto);
     return new ResponseEntity<Long>(reviewId, HttpStatus.OK);
@@ -64,19 +66,27 @@ public class ReviewController {
   @DeleteMapping("/{productId}/{reviewId}")
   public ResponseEntity<Long> deleteReview(
       @PathVariable("reviewId") Long reviewId,
-      String memberEmail) {
+      String memberEmail, @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
     log.info("리뷰 삭제 {}", memberEmail);
 
     reviewService.removeReview(reviewId);
     return new ResponseEntity<>(reviewId, HttpStatus.OK);
   }
 
-  // 리뷰 수정 : 동작은 됨 db반영 안됨
+  @GetMapping("{productId}/{reviewId}")
+  public ResponseEntity<ReviewDto> getReview(@PathVariable("reviewId") Long reviewId,
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+    log.info("review 하나 가져오기 {}", reviewId);
 
+    return new ResponseEntity<>(reviewService.getReview(reviewId), HttpStatus.OK);
+  }
+
+  // 리뷰 수정 : 동작은 됨 db반영 안됨
   @PutMapping("{productId}/{reviewId}")
   public ResponseEntity<Long> putMethodName(
       @PathVariable("reviewId") Long reviewId,
-      @RequestBody ReviewDto reviewDto) {
+      @PathVariable("productId") Long productId,
+      @RequestBody ReviewDto reviewDto, @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
     log.info("리뷰 수정 {}", reviewDto);
 
     reviewService.updateReview(reviewDto);

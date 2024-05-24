@@ -18,6 +18,9 @@ public interface ReviewService {
       PageRequestDto pageRequestDto,
       Long productId);
 
+  // 리뷰 하나 가져오기
+  ReviewDto getReview(Long reviewId);
+
   // review 삭제
   Long removeReview(Long reviewId);
 

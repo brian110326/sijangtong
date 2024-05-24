@@ -1,10 +1,11 @@
 window.onload = function () {
-  const reviewForm = document.querySelector(".reviewList");
+  const reviewList = document.querySelector(".reviewList");
   const formatDate = (data) => {
     const date = new Date(data);
 
     return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
   };
+
   const reviewLoad = () => {
     fetch(`/review/${productId}/reviews`)
       .then((response) => response.json())
@@ -26,46 +27,46 @@ window.onload = function () {
                 ${review.text}
               </p>
             </div>`;
-          if (`${review.memberEmail}` == user) {
-            result += `<div class="d-flex flex-column align-self-center">
-            <div> <button  class="btn btn-primary btn-sm">수정</button></div>
+          // if (`${review.memberEmail}` == user) {
+          result += `<div class="d-flex flex-column align-self-center">
+            <div> <button  class="btn btn-primary btn-sm mb-2">수정</button></div>
               <div><button  class="btn btn-danger btn-sm">삭제</button>
             </div></div>`;
-            result += `</div>`;
-          }
+          result += `</div>`;
+          // }
           result += `</div>`;
         });
-        reviewForm.innerHTML = result;
+        reviewList.innerHTML = result;
       });
   };
 
   reviewLoad();
-
+  const reviewForm = document.querySelector(".review_form");
   reviewForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const text = reviewForm.querySelector("#text");
-    const memberNickname = reviewForm.querySelector("#mamberNickname");
-    const mamberEmail = reviewForm.querySelector("#mamberEmail");
+
     const reviewId = reviewForm.querySelector("#reviewId");
 
     const body = {
       productId: productId,
       text: text.value,
-      memberEmail: mamberEmail.value,
+      memberEmail: user,
       grade: grade || 0,
-      memberNickname: memberNickname.value,
+      memberNickname: memberNickname,
+      reviewId: reviewId.value,
     };
 
     // 등록
     if (!reviewId.value) {
-      fetch(`review/${productId}`, {
+      fetch(`/review/${productId}`, {
         headers: {
           "content-type": "application/json",
           "X-CSRF-TOKEN": csrfValue,
         },
         body: JSON.stringify(body),
-        method: "post",
+        method: "POST",
       })
         .then((response) => response.text())
         .then((data) => {
@@ -86,7 +87,7 @@ window.onload = function () {
           "X-CSRF-TOKEN": csrfValue,
         },
         body: JSON.stringify(body),
-        method: "put",
+        method: "PUT",
       })
         .then((response) => response.text())
         .then((data) => {
@@ -102,43 +103,41 @@ window.onload = function () {
     }
   });
 
-  reviewForm.addEventListener("click", (e) => {
+  reviewList.addEventListener("click", (e) => {
     console.log("이벤트 대상 ", e.target);
 
     const target = e.target;
 
-    const reviewId = target.closet(".review-row").dataset.rno;
+    const reviewId = target.closest(".review-row").dataset.rno;
 
     const memberEmail = reviewForm.querySelector("#memberEmail");
 
-    if (target.contains("btn-danger")) {
+    if (target.classList.contains("btn-danger")) {
       if (!confirm("삭제하시겠습니까?")) return;
 
       const form = new FormData();
-      form.append("memberEmail", memberEmail.value);
+      form.append("memberEmail", memberEmail);
 
       fetch(`/review/${productId}/${reviewId}`, {
         headers: {
           "X-CSRF-TOKEN": csrfValue,
         },
         body: form,
-        method: "delete",
+        method: "DELETE",
       })
         .then((response) => response.text())
         .then((data) => {
           alert(data + " 번 리뷰삭제 완료");
           reviewLoad();
         });
-    } else if (target.contains("btn-primary")) {
+    } else if (target.classList.contains("btn-primary")) {
       fetch(`/review/${productId}/${reviewId}`)
-        .then((response) => response.JSON())
+        .then((response) => response.json())
         .then((data) => {
-          reviewForm.querySelector("#reviewId").value = data.reviewId;
-          reviewForm.querySelector("#memberEmail").value = data.memberEmail;
-          reviewForm.querySelector("#mamberNickname").value = data.memberNickname;
-          reviewForm.querySelector("#text").value = data.text;
+          reviewForm.querySelector("#reviewId").value = data["reviewId"];
+          reviewForm.querySelector("#text").value = data["text"];
 
-          reviewForm.querySelector(".starrr a:nth-child(" + data.grade + ")").click();
+          reviewForm.querySelector(".starrr a:nth-child(" + data["grade"] + ")").click();
           reviewForm.querySelector("button").innerHTML = "리뷰 수정";
         });
     }
