@@ -1,16 +1,5 @@
 package com.example.sijangtong.brianServiceTest;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.test.annotation.Commit;
-
 import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
@@ -32,12 +21,21 @@ import com.example.sijangtong.repository.StoreImgRepository;
 import com.example.sijangtong.repository.StoreRepository;
 import jakarta.transaction.Transactional;
 import java.util.Arrays;
+import java.util.Arrays;
 import java.util.List;
+import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Commit;
 
 @SpringBootTest
@@ -124,17 +122,17 @@ public class ServiceTest {
   @Test
   public void reviewList() {
     PageRequestDto requestDto = PageRequestDto
-        .builder()
-        .size(10)
-        .page(1)
-        .build();
+      .builder()
+      .size(10)
+      .page(1)
+      .build();
     Page<Object[]> list = reviewRepository.getReviewList(
-        requestDto.getPageable(Sort.by("reviewId")),
-        1L);
+      requestDto.getPageable(Sort.by("reviewId")),
+      1L
+    );
 
     for (Object[] objects : list) {
       System.out.println(Arrays.toString(objects));
-
       // System.out.println("number " + list.getNumber());
       // System.out.println("total " + list.getTotalPages());
       // System.out.println("TotalElements " + list.getTotalElements());
@@ -142,20 +140,9 @@ public class ServiceTest {
       // // System.out.println("getPageNumber " + list.getPageable().getPageNumber());
       // System.out.println("getOffset " + list.getPageable().getOffset());
 
-<<<<<<< HEAD
-    // @Test
-    // public void getStoreRow() {
-    //     List<Object[]> list = storeImgRepository.getStoreRow(200L);
-
-    //     for (Object[] objects : list) {
-    //         System.out.println(Arrays.toString(objects));
-    //     }
-    // }
-=======
       // }
 
     }
->>>>>>> main
   }
 
   @Test
@@ -207,13 +194,14 @@ public class ServiceTest {
   @Test
   public void getOrderList() {
     PageRequestDto requestDto = PageRequestDto
-        .builder()
-        .size(10)
-        .page(1)
-        .build();
+      .builder()
+      .size(10)
+      .page(1)
+      .build();
     Page<Object[]> result = orderRepository.getOrderList(
-        requestDto.getPageable(Sort.by("orderId")),
-        84L);
+      requestDto.getPageable(Sort.by("orderId")),
+      84L
+    );
 
     for (Object[] objects : result) {
       System.out.println(Arrays.toString(objects));
@@ -256,7 +244,6 @@ public class ServiceTest {
     orderRepository.deleteByStore(store);
 
     storeRepository.delete(store);
-
     // Store store = storeRepository.findById(196L).get();
     // Optional<Product> product = productRepository.findByStore(store);
 
@@ -278,16 +265,16 @@ public class ServiceTest {
   @Test
   public void getStoreListByCategory() {
     PageRequestDto requestDto = PageRequestDto
-        .builder()
-        .size(10)
-        .page(1)
-        .build();
+      .builder()
+      .size(10)
+      .page(1)
+      .build();
     Page<Object[]> list = storeImgRepository.getTotalListByCategory(
-        requestDto.getPageable(Sort.by("storeId").descending()),
-        StoreCategory.SEAFOOD);
+      requestDto.getPageable(Sort.by("storeId").descending()),
+      StoreCategory.SEAFOOD
+    );
     for (Object[] objects : list) {
       System.out.println(Arrays.toString(objects));
-
     }
   }
 
@@ -351,7 +338,6 @@ public class ServiceTest {
   @Transactional
   @Commit
   public void updateNicknameTest() {
-
     memberRepository.updateNickname("Brian", "member1@naver.com");
   }
 
@@ -359,8 +345,6 @@ public class ServiceTest {
   @Transactional
   @Commit
   public void updateAddressTest() {
-
     memberRepository.updateAddress("NYC", "member1@naver.com");
   }
-
 }
