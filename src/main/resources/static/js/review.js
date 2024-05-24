@@ -1,45 +1,46 @@
-const formatDate = (data) => {
-  const date = new Date(data);
-
-  return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
-};
-
-const reviewLoad = () => {
-  fetch(`/review/${productId}/reviews`)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-
-      let result = "";
-      data.forEach((review) => {
-        result += `<div class="review-row" data-rno="${review.reviewId}">
-        <h4 class="mb-4">${review.pName}</h4>
-        <div class="media mb-4">
-          <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px" />
-          <div class="media-body">
-            <h6>
-              ${review.memberNickname}<small> - <i>${formatDate(review.createdDate)}</i></small>
-            </h6>
-            <div class="starrr">${review.grade}</div>
-            <p>
-              ${review.text}
-            </p>
-          </div>
-        </div>`;
-        if (`${review.memberEmail}` == user)
-          result += `<div>;
-          <button type="submit" class="btn btn-primary btn-sm">수정</button>
-          <button type="submit" class="btn btn-danger btn-sm">삭제</button>
-        </div>`;
-        result += `</div>`;
-      });
-    });
-};
-reviewLoad();
 window.onload = function () {
+  const reviewForm = document.querySelector(".reviewList");
+  const formatDate = (data) => {
+    const date = new Date(data);
+
+    return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+  };
+  const reviewLoad = () => {
+    fetch(`/review/${productId}/reviews`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+
+        let result = "";
+        data.forEach((review) => {
+          result += `<div class="review-row" data-rno="${review.reviewId}">
+          <h4 class="mb-4">${review.memberEmail}</h4>
+          <div class="media mb-4">
+            <img src="" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px" />
+            <div class="media-body">
+              <h6>
+                ${review.memberNickname}<small> - <i>${formatDate(review.createdDate)}</i></small>
+              </h6>
+              <div class="starrr">${review.grade}</div>
+              <p>
+                ${review.text}
+              </p>
+            </div>`;
+          if (`${review.memberEmail}` == user) {
+            result += `<div class="d-flex flex-column align-self-center">
+            <div> <button  class="btn btn-primary btn-sm">수정</button></div>
+              <div><button  class="btn btn-danger btn-sm">삭제</button>
+            </div></div>`;
+            result += `</div>`;
+          }
+          result += `</div>`;
+        });
+        reviewForm.innerHTML = result;
+      });
+  };
+
   reviewLoad();
 
-  const reviewForm = document.querySelector(".reviewList");
   reviewForm.addEventListener("submit", (e) => {
     e.preventDefault();
 

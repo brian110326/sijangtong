@@ -17,8 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 public class OrderOrderItemMemberRiderProductRepositoryImpl
-  extends QuerydslRepositorySupport
-  implements OrderOrderItemMemberRiderProductRepository {
+    extends QuerydslRepositorySupport
+    implements OrderOrderItemMemberRiderProductRepository {
 
   public OrderOrderItemMemberRiderProductRepositoryImpl() {
     super(Order.class);
@@ -31,9 +31,9 @@ public class OrderOrderItemMemberRiderProductRepositoryImpl
     // LEFT JOIN ORDER_ITEM oi ON o.ORDER_ID = oi.ORDER_ORDER_ID
     // LEFT JOIN RIDER r ON r.RIDER_ID = o.rider_rider_id
     // LEFT JOIN "MEMBER" m ON m.MEMBER_EMAIL = o.MEMBER_MEMBER_EMAIL
-    // LEFT JOIN PRODUCT p ON p.PRODUCT_ID = oi.PRODUCT_PRODUCT_ID
+    // LEFT JOIN PRODUCT p ON p.ORDER_ITEM_ORDER_ITEM_ID = oi.ORDER_ITEM_ID
     // LEFT JOIN STORE s ON s.STORE_ID = o.store_store_id
-    // WHERE o.store_store_id = 84;
+    // WHERE o.store_store_id = 199;
 
     QOrder order = QOrder.order;
     QOrderItem orderItem = QOrderItem.orderItem;
@@ -46,12 +46,12 @@ public class OrderOrderItemMemberRiderProductRepositoryImpl
     query.leftJoin(orderItem).on(orderItem.order.eq(order));
     query.leftJoin(rider).on(order.rider.eq(rider));
     query.leftJoin(member).on(order.member.eq(member));
-    query.leftJoin(product).on(orderItem.product.eq(product));
+    query.leftJoin(product).on(product.orderItem.eq(orderItem));
     query.leftJoin(store).on(order.store.eq(store));
 
     JPQLQuery<Tuple> tuple = query
-      .select(order, orderItem, rider, member, product, store)
-      .where(order.store.storeId.eq(storeId));
+        .select(order, orderItem)
+        .where(order.store.storeId.eq(storeId));
 
     tuple.offset(pageable.getOffset());
     tuple.limit(pageable.getPageSize());
@@ -61,9 +61,8 @@ public class OrderOrderItemMemberRiderProductRepositoryImpl
     long count = tuple.fetchCount();
 
     return new PageImpl<>(
-      result.stream().map(t -> t.toArray()).collect(Collectors.toList()),
-      pageable,
-      count
-    );
+        result.stream().map(t -> t.toArray()).collect(Collectors.toList()),
+        pageable,
+        count);
   }
 }

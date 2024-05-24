@@ -25,4 +25,7 @@ public class OrderItemDto {
   private int orderPrice; // 주문가격
 
   private int orderAmount; // 수량
+
+  // 임시추가
+  private Long productId;
 }

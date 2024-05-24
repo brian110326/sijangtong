@@ -71,209 +71,210 @@ public class StoreRepositoryTest {
   @Test
   public void insertMemberTest() {
     IntStream
-      .rangeClosed(201, 206)
-      .forEach(i -> {
-        Member member = Member
-          .builder()
-          .memberEmail("member" + i + "@naver.com")
-          .memberNickname("이것은 닉네임..")
-          .memberAddress("종로")
-          .memberPwd(passwordEncoder.encode("1111"))
-          .memberRole(MemberRole.MEMBER)
-          .build();
+        .rangeClosed(1, 200)
+        .forEach(i -> {
+          Member member = Member
+              .builder()
+              .memberEmail("member" + i + "@naver.com")
+              .memberNickname("이것은 닉네임..")
+              .memberAddress("종로")
+              .memberPwd(passwordEncoder.encode("1111"))
+              .memberRole(MemberRole.MEMBER)
+              .build();
 
-        memberRepository.save(member);
-      });
+          memberRepository.save(member);
+        });
   }
 
   @Test
   public void insertOrderTest() {
     LongStream
-      .rangeClosed(1, 200)
-      .forEach(i -> {
-        Member member = Member
-          .builder()
-          .memberEmail("member" + i + "@naver.com")
-          .build();
-        Store store = Store.builder().storeId(i).build();
-        Rider rider = Rider
-          .builder()
-          .riderId(i)
-          .riderName("Rider" + i)
-          .riderTel("010-1234-5678")
-          .riderStatus(RiderStatus.DELIVERING)
-          .build();
+        .rangeClosed(1, 200)
+        .forEach(i -> {
+          Member member = Member
+              .builder()
+              .memberEmail("member" + i + "@naver.com")
+              .build();
+          Store store = Store.builder().storeId(i).build();
+          Rider rider = Rider
+              .builder()
+              .riderId(i)
+              .riderName("Rider" + i)
+              .riderTel("010-1234-5678")
+              .riderStatus(RiderStatus.DELIVERING)
+              .build();
 
-        riderRepository.save(rider);
-        Order order = Order
-          .builder()
-          .orderAddress("강동구")
-          .orderPayment(OrderPayment.CASH)
-          .member(member)
-          .store(store)
-          .rider(rider)
-          .build();
-      });
+          riderRepository.save(rider);
+          Order order = Order
+              .builder()
+              .orderAddress("강동구")
+              .orderPayment(OrderPayment.CASH)
+              .member(member)
+              .store(store)
+              .rider(rider)
+              .build();
+        });
   }
 
   @Test
   public void insertOrderItemTest() {
     LongStream
-      .rangeClosed(2, 200)
-      .forEach(i -> {
-        Order order = Order.builder().orderId(i).build();
-        Product product = Product.builder().productId(i).build();
-        // OrderItem orderItem = OrderItem
-        //         .builder()
-        //         .product(product)
-        //         .order(order)
-        //         .orderPrice(25000)
-        //         .orderAmount((int) (Math.random() * 15) + 1)
-        //         .build();
-        // orderItemRepository.save(orderItem);
-      });
+        .rangeClosed(1, 200)
+        .forEach(i -> {
+          Order order = Order.builder().orderId(i).build();
+          Product product = Product.builder().productId(i).build();
+          // OrderItem orderItem = OrderItem
+          // .builder()
+          // .product(product)
+          // .order(order)
+          // .orderPrice(25000)
+          // .orderAmount((int) (Math.random() * 15) + 1)
+          // .build();
+          // orderItemRepository.save(orderItem);
+        });
   }
 
   @Test
   public void insertStoreTest() {
     LongStream
-      .rangeClosed(1, 200)
-      .forEach(i -> {
-        Store store = Store
-          .builder()
-          .storeCategory(StoreCategory.SEAFOOD)
-          .storeTel("010-1111-1" + i)
-          .openTime("6 시에 오픈")
-          .closeTime("10시에 마감")
-          .storeAddress("종로")
-          .storeName("이것은 가계요" + i)
-          .storeDetail("이 가계는....")
-          .build();
+        .rangeClosed(1, 200)
+        .forEach(i -> {
+          Store store = Store
+              .builder()
+              .storeCategory(StoreCategory.SEAFOOD)
+              .storeTel("010-1111-1" + i)
+              .openTime("6 시에 오픈")
+              .closeTime("10시에 마감")
+              .storeAddress("종로")
+              .storeName("이것은 가계요" + i)
+              .storeDetail("이 가계는....")
+              .build();
 
-        storeRepository.save(store);
+          storeRepository.save(store);
 
-        int count = (int) (Math.random() * 5) + 1;
+          int count = (int) (Math.random() * 5) + 1;
 
-        for (int j = 0; j < count; j++) {
-          StoreImg storeImg = StoreImg
-            .builder()
-            .stUuid(UUID.randomUUID().toString())
-            .stPath(null)
-            .stImgName("stImg" + i + ".jpg")
-            .store(store)
-            .build();
+          for (int j = 0; j < count; j++) {
+            StoreImg storeImg = StoreImg
+                .builder()
+                .stUuid(UUID.randomUUID().toString())
+                .stPath(null)
+                .stImgName("stImg" + i + ".jpg")
+                .store(store)
+                .build();
 
-          storeImgRepository.save(storeImg);
-        }
-      });
+            storeImgRepository.save(storeImg);
+          }
+        });
   }
 
   @Test
-  public void insertStoreImgTest() {}
+  public void insertStoreImgTest() {
+  }
 
   @Test
   public void insertProductTest() {
     LongStream
-      .rangeClosed(1, 200)
-      .forEach(i -> {
-        Store store = Store.builder().storeId(i).build();
-        LongStream
-          .rangeClosed(1, 50)
-          .forEach(j -> {
-            Product product = Product
-              .builder()
-              .pName("재고" + i)
-              .price(5000)
-              .amount(20)
-              .store(store)
-              .build();
-            productRepository.save(product);
+        .rangeClosed(1, 200)
+        .forEach(i -> {
+          Store store = Store.builder().storeId(i).build();
+          LongStream
+              .rangeClosed(1, 50)
+              .forEach(j -> {
+                Product product = Product
+                    .builder()
+                    .pName("재고" + i)
+                    .price(5000)
+                    .amount(20)
+                    .store(store)
+                    .build();
+                productRepository.save(product);
 
-            int count = (int) (Math.random() * 5) + 1;
+                int count = (int) (Math.random() * 5) + 1;
 
-            for (int k = 0; k < count; k++) {
-              ProductImg productImg = ProductImg
-                .builder()
-                .uuid(UUID.randomUUID().toString())
-                .path(null)
-                .imgName("img" + k + ".jpg")
-                .product(product)
-                .build();
-              productImgRepository.save(productImg);
-            }
-          });
-      });
+                for (int k = 0; k < count; k++) {
+                  ProductImg productImg = ProductImg
+                      .builder()
+                      .uuid(UUID.randomUUID().toString())
+                      .path(null)
+                      .imgName("img" + k + ".jpg")
+                      .product(product)
+                      .build();
+                  productImgRepository.save(productImg);
+                }
+              });
+        });
   }
 
   @Test
   public void insertProductTestssss() {
     // 임시 사용
     LongStream
-      .rangeClosed(1, 200)
-      .forEach(i -> {
-        Store store = Store.builder().storeId(i).build();
-        Product product = Product
-          .builder()
-          .pName("재고" + i)
-          .price(5000)
-          .amount(20)
-          .store(store)
-          .build();
-        productRepository.save(product);
+        .rangeClosed(1, 200)
+        .forEach(i -> {
+          Store store = Store.builder().storeId(i).build();
+          Product product = Product
+              .builder()
+              .pName("재고" + i)
+              .price(5000)
+              .amount(20)
+              .store(store)
+              .build();
+          productRepository.save(product);
 
-        int count = (int) (Math.random() * 5) + 1;
+          int count = (int) (Math.random() * 5) + 1;
 
-        for (int k = 0; k < count; k++) {
-          ProductImg productImg = ProductImg
-            .builder()
-            .uuid(UUID.randomUUID().toString())
-            .path(null)
-            .imgName("img" + k + ".jpg")
-            .product(product)
-            .build();
-          productImgRepository.save(productImg);
-        }
-      });
+          for (int k = 0; k < count; k++) {
+            ProductImg productImg = ProductImg
+                .builder()
+                .uuid(UUID.randomUUID().toString())
+                .path(null)
+                .imgName("img" + k + ".jpg")
+                .product(product)
+                .build();
+            productImgRepository.save(productImg);
+          }
+        });
   }
 
   @Test
   public void insertReviewTest() {
     LongStream
-      .rangeClosed(1, 200)
-      .forEach(i -> {
-        Member member = Member
-          .builder()
-          .memberEmail("member" + i + "@naver.com")
-          .build();
-        Product product = Product.builder().productId(i).build();
+        .rangeClosed(201, 210)
+        .forEach(i -> {
+          Member member = Member
+              .builder()
+              .memberEmail("member1@naver.com")
+              .build();
 
-        Review review = Review
-          .builder()
-          .text("이 매장에 대한 리뷰는.....")
-          .grade((int) (Math.random() * 5) + 1)
-          .product(product)
-          .member(member)
-          .product(product)
-          .build();
-        reviewRepository.save(review);
-      });
+          Product product = Product.builder().productId(193L).build();
+
+          Review review = Review
+              .builder()
+              .text("이 매장에 대한 리뷰는.....")
+              .grade((int) (Math.random() * 5) + 1)
+              .product(product)
+              .member(member)
+              .build();
+          reviewRepository.save(review);
+        });
   }
 
   @Test
   public void riderInsertTest() {
     LongStream
-      .rangeClosed(1, 100)
-      .forEach(i -> {
-        Rider rider = Rider
-          .builder()
-          .riderId(i)
-          .riderName("Rider" + i)
-          .riderTel("010-1234-5678")
-          .riderStatus(RiderStatus.DELIVERING)
-          .build();
+        .rangeClosed(1, 100)
+        .forEach(i -> {
+          Rider rider = Rider
+              .builder()
+              .riderId(i)
+              .riderName("Rider" + i)
+              .riderTel("010-1234-5678")
+              .riderStatus(RiderStatus.DELIVERING)
+              .build();
 
-        riderRepository.save(rider);
-      });
+          riderRepository.save(rider);
+        });
   }
 
   @Transactional
@@ -291,12 +292,12 @@ public class StoreRepositoryTest {
 
     for (int j = 0; j < count; j++) {
       ProductImg productImg = ProductImg
-        .builder()
-        .uuid(UUID.randomUUID().toString())
-        .path(null)
-        .imgName("img" + j + ".jpg")
-        .product(product)
-        .build();
+          .builder()
+          .uuid(UUID.randomUUID().toString())
+          .path(null)
+          .imgName("img" + j + ".jpg")
+          .product(product)
+          .build();
       productImgRepository.save(productImg);
     }
   }

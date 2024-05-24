@@ -8,8 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 public class SijangtongApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SijangtongApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(SijangtongApplication.class, args);
+  }
 }

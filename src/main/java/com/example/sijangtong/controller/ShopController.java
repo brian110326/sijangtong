@@ -37,57 +37,50 @@ public class ShopController {
   // 상품 리스트
   @GetMapping("/storeDetail")
   public void getDetail(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    @Parameters Long storeId,
-    Model model,
-    RedirectAttributes rttr
-  ) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @Parameters Long storeId,
+      Model model,
+      RedirectAttributes rttr) {
     log.info("디테일 폼 요청");
     model.addAttribute(
-      "result",
-      productService.getProductList(pageRequestDto, storeId)
-    );
+        "result",
+        productService.getProductList(pageRequestDto, storeId));
     model.addAttribute("storeId", storeId);
   }
 
   // 스토어 리스트
   @GetMapping("/list")
   public void getList(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    Model model
-  ) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      Model model) {
     log.info("리스트 폼 요청");
     model.addAttribute("result", service.getStoreList(pageRequestDto));
   }
 
   @GetMapping("/home")
   public void getHome(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    Model model
-  ) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      Model model) {
     Long storeId = StoreId();
     log.info("홈 요청", productService.getProductList(pageRequestDto, storeId));
 
     model.addAttribute(
-      "result",
-      productService.getProductList(pageRequestDto, storeId)
-    );
+        "result",
+        productService.getProductList(pageRequestDto, storeId));
   }
 
-  @GetMapping("/read")
-  public void getread(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto
-  ) {
-    log.info("설명 폼 요청");
-  }
+  // @GetMapping("/read")
+  // public void getread(
+  // @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+  // log.info("설명 폼 요청");
+  // }
 
   @PreAuthorize("isAuthenticated()")
   @GetMapping("/buyitem")
   public void getbuyItem(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    @Parameters Long productId,
-    Model model
-  ) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @Parameters Long productId,
+      Model model) {
     log.info("구매 폼 요청");
     model.addAttribute("result", productService.getProductRow(productId));
     model.addAttribute("requestDto", pageRequestDto);
@@ -95,54 +88,54 @@ public class ShopController {
 
   @GetMapping({ "/read", "/modify" })
   public void getread(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    @Parameters Long storeId,
-    Model model
-  ) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @Parameters Long storeId,
+      Model model) {
     log.info("설명 폼 요청");
     StoreDto storeDto = service.getRow(storeId);
 
     model.addAttribute("storeDto", storeDto);
 
     List<String> districts = Arrays.asList(
-      "강남",
-      "강동",
-      "강북",
-      "강서",
-      "관악",
-      "광진",
-      "구로",
-      "금천",
-      "노원",
-      "도봉",
-      "동대문",
-      "동작",
-      "마포",
-      "서대문",
-      "서초",
-      "성동",
-      "성북",
-      "송파",
-      "양천",
-      "영등포",
-      "용산",
-      "은평",
-      "종로",
-      "중구",
-      "중랑"
-    );
+        "강남",
+        "강동",
+        "강북",
+        "강서",
+        "관악",
+        "광진",
+        "구로",
+        "금천",
+        "노원",
+        "도봉",
+        "동대문",
+        "동작",
+        "마포",
+        "서대문",
+        "서초",
+        "성동",
+        "성북",
+        "송파",
+        "양천",
+        "영등포",
+        "용산",
+        "은평",
+        "종로",
+        "중구",
+        "중랑");
+
     model.addAttribute("districts", districts);
   }
 
   @PostMapping("/remove")
   public String postStoreRemove(
-    Long storeId,
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    RedirectAttributes rttr
-  ) {
+      Long storeId,
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      RedirectAttributes rttr) {
     Long removedStoreId = service.removeStore(storeId);
 
     log.info("storeId!!!!!!!!!!!!1 {}", storeId);
+
+    rttr.addFlashAttribute("msg", removedStoreId);
 
     rttr.addFlashAttribute("msg", removedStoreId);
 
@@ -155,11 +148,10 @@ public class ShopController {
 
   @PostMapping("/pRemove")
   public String postProductRemove(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    Long productId,
-    Long storeId,
-    RedirectAttributes rttr
-  ) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      Long productId,
+      Long storeId,
+      RedirectAttributes rttr) {
     productService.removeProduct(productId);
 
     rttr.addAttribute("storeId", storeId);
@@ -171,11 +163,10 @@ public class ShopController {
 
   @PostMapping("/modify")
   public String postStoreUpdate(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    StoreDto updateStoreDto,
-    @Parameters Long storeId,
-    RedirectAttributes rttr
-  ) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      StoreDto updateStoreDto,
+      @Parameters Long storeId,
+      RedirectAttributes rttr) {
     Long updatedStoreId = service.storeUpdate(updateStoreDto);
 
     rttr.addAttribute("storeId", updateStoreDto.getStoreId());
@@ -188,16 +179,14 @@ public class ShopController {
   @PreAuthorize("isAuthenticated()")
   @GetMapping("/buyitemlist")
   public void getBuyItemList(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto
-  ) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
     log.info("장바구니 폼 요청");
   }
 
   @PreAuthorize("isAuthenticated()")
   @GetMapping("/cart")
   public void getCart(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto
-  ) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
     log.info("구매 폼 요청");
   }
 
@@ -208,8 +197,7 @@ public class ShopController {
 
   @GetMapping("/insert")
   public void insertStore(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto
-  ) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
     log.info("스토어 생성 폼 요청");
   }
 }
