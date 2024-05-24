@@ -18,6 +18,7 @@ import jakarta.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -78,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
   @Transactional
   public Long removeProduct(Long productId) {
     Product product = productRepository.findById(productId).get();
-    List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
+    Optional<OrderItem> oResult = orderItemRepository.findByProduct(product);
 
     productImgRepository.deleteByProduct(product);
 
@@ -86,7 +87,11 @@ public class ProductServiceImpl implements ProductService {
     // orderItems.forEach(orderItem -> orderItem.setProduct(null));
     // orderItemRepository.saveAll(orderItems);
 
-    orderItemRepository.deleteByProduct(product);
+    if (oResult.isPresent()) {
+      OrderItem orderItem = oResult.get();
+
+      orderItemRepository.delete(orderItem);
+    }
 
     reviewRepository.deleteByProduct(product);
 

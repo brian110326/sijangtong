@@ -25,16 +25,8 @@ import org.hibernate.annotations.ColumnDefault;
 public class Product {
 
   @Id
-  @SequenceGenerator(
-    name = "store_product_seq_gen",
-    sequenceName = "store_product_seq",
-    allocationSize = 1,
-    initialValue = 1
-  )
-  @GeneratedValue(
-    strategy = GenerationType.SEQUENCE,
-    generator = "store_product_seq_gen"
-  )
+  @SequenceGenerator(name = "store_product_seq_gen", sequenceName = "store_product_seq", allocationSize = 1, initialValue = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_product_seq_gen")
   private Long productId;
 
   private String pName;
