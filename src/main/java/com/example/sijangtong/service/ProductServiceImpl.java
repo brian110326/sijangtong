@@ -18,6 +18,7 @@ import jakarta.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -39,26 +40,19 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public PageResultDto<ProductDto, Object[]> getProductList(
-    PageRequestDto pageRequestDto,
-    Long storeId
-  ) {
+      PageRequestDto pageRequestDto,
+      Long storeId) {
     Page<Object[]> result = productImgRepository.getProductList(
-      pageRequestDto.getType(),
-      pageRequestDto.getKeyword(),
-      pageRequestDto.getPageable(Sort.by("productId")),
-      storeId
-    );
+        pageRequestDto.getType(),
+        pageRequestDto.getKeyword(),
+        pageRequestDto.getPageable(Sort.by("productId")),
+        storeId);
 
-    Function<Object[], ProductDto> fn =
-      (
-        en ->
-          entityToDto(
-            (Product) en[0],
-            (List<ProductImg>) Arrays.asList((ProductImg) en[1]),
-            (Store) en[2],
-            (Double) en[3]
-          )
-      );
+    Function<Object[], ProductDto> fn = (en -> entityToDto(
+        (Product) en[0],
+        (List<ProductImg>) Arrays.asList((ProductImg) en[1]),
+        (Store) en[2],
+        (Double) en[3]));
 
     return new PageResultDto<>(result, fn);
   }
@@ -70,9 +64,9 @@ public class ProductServiceImpl implements ProductService {
     Product product = (Product) result.get(0)[0];
 
     List<ProductImg> list = result
-      .stream()
-      .map(en -> (ProductImg) en[1])
-      .collect(Collectors.toList());
+        .stream()
+        .map(en -> (ProductImg) en[1])
+        .collect(Collectors.toList());
 
     Store store = (Store) result.get(0)[2];
 
@@ -82,14 +76,23 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
+  @Transactional
   public Long removeProduct(Long productId) {
     Product product = productRepository.findById(productId).get();
-    List<OrderItem> orderItems = orderItemRepository.findByProduct(product);
+    Optional<OrderItem> oResult = orderItemRepository.findByProduct(product);
 
     productImgRepository.deleteByProduct(product);
 
     // product 삭제 시 orderItem안 product항목만 null로 설정
-    orderItems.forEach(orderItem -> orderItem.setProduct(null));
+    // orderItems.forEach(orderItem -> orderItem.setProduct(null));
+    // orderItemRepository.saveAll(orderItems);
+
+    if (oResult.isPresent()) {
+      OrderItem orderItem = oResult.get();
+
+      orderItemRepository.delete(orderItem);
+    }
+
     reviewRepository.deleteByProduct(product);
 
     productRepository.delete(product);
