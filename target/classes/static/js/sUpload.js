@@ -1,3 +1,4 @@
+// store img upload
 window.onload = function () {
   const fileInput = document.querySelector("#fileInput");
   const uploadResult = document.querySelector(".uploadResult ul");
