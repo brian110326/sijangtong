@@ -16,6 +16,9 @@ import com.example.sijangtong.entity.Review;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPQLQuery;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class ReviewProductRepositoryImpl extends QuerydslRepositorySupport
         implements ReviewProductRepository {
 
@@ -32,22 +35,26 @@ public class ReviewProductRepositoryImpl extends QuerydslRepositorySupport
         // SELECT *
         // FROM REVIEW r
         // LEFT JOIN PRODUCT p ON r.PRODUCT_PRODUCT_ID = p.PRODUCT_ID
-        // WHERE p.PRODUCT_ID = 199;
+        // WHERE p.PRODUCT_ID = :productId; // 변경된 부분
 
         JPQLQuery<Review> query = from(review);
         query.leftJoin(product).on(review.product.eq(product));
 
-        JPQLQuery<Tuple> tuple = query.select(product, review).where(review.product.eq(product));
+        // productId를 고려하여 WHERE 절 추가
+        query.where(product.productId.eq(productId)); // 변경된 부분
+
+        JPQLQuery<Tuple> tuple = query.select(product, review);
+        log.info("tuple 데이터 {}", tuple);
 
         // 페이지 처리
         tuple.offset(pageable.getOffset());
         tuple.limit(pageable.getPageSize());
 
         List<Tuple> result = tuple.fetch();
-
+        log.info("tuple 데이터 {}", result);
         long count = tuple.fetchCount();
 
-        return new PageImpl<>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()), pageable, count);
+        return new PageImpl<>(result.stream().map(Tuple::toArray).collect(Collectors.toList()), pageable, count);
     }
 
 }
