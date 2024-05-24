@@ -89,7 +89,7 @@ public class ShopController {
     model.addAttribute("requestDto", pageRequestDto);
   }
 
-  @GetMapping({ "/read", "/modify" })
+  @GetMapping("/read")
   public void getread(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       @Parameters Long storeId,
@@ -100,35 +100,31 @@ public class ShopController {
     model.addAttribute("storeDto", storeDto);
 
     List<String> districts = Arrays.asList(
-        "강남",
-        "강동",
-        "강북",
-        "강서",
-        "관악",
-        "광진",
-        "구로",
-        "금천",
-        "노원",
-        "도봉",
-        "동대문",
-        "동작",
-        "마포",
-        "서대문",
-        "서초",
-        "성동",
-        "성북",
-        "송파",
-        "양천",
-        "영등포",
-        "용산",
-        "은평",
-        "종로",
-        "중구",
-        "중랑");
+        "강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작", "마포", "서대문", "서초", "성동", "성북", "송파",
+        "양천", "영등포", "용산", "은평", "종로", "중구", "중랑");
 
     model.addAttribute("districts", districts);
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+  @GetMapping("/modify")
+  public void getModify(
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @Parameters Long storeId,
+      Model model) {
+    log.info("설명 폼 요청");
+    StoreDto storeDto = service.getRow(storeId);
+
+    model.addAttribute("storeDto", storeDto);
+
+    List<String> districts = Arrays.asList(
+        "강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작", "마포", "서대문", "서초", "성동", "성북", "송파",
+        "양천", "영등포", "용산", "은평", "종로", "중구", "중랑");
+
+    model.addAttribute("districts", districts);
+  }
+
+  @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
   @GetMapping("/pModify")
   public void getPModify(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long productId,
       @Parameters Long storeId,
@@ -140,6 +136,7 @@ public class ShopController {
     model.addAttribute("storeId", storeId);
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
   @PostMapping("/pModify")
   public String postProductUpdate(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
@@ -163,6 +160,7 @@ public class ShopController {
 
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
   @PostMapping("/modify")
   public String postStoreUpdate(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
@@ -179,14 +177,16 @@ public class ShopController {
     return "redirect:/shop/read";
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
   @PostMapping("/remove")
   public String postStoreRemove(
       Long storeId,
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       RedirectAttributes rttr) {
-    Long removedStoreId = service.removeStore(storeId);
 
     log.info("storeId!!!!!!!!!!!!1 {}", storeId);
+
+    Long removedStoreId = service.removeStore(storeId);
 
     rttr.addFlashAttribute("msg", removedStoreId);
 
@@ -199,6 +199,7 @@ public class ShopController {
     return "redirect:/shop/list";
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
   @PostMapping("/pRemove")
   public String postProductRemove(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,

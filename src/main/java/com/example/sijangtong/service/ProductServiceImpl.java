@@ -79,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
   @Transactional
   public Long removeProduct(Long productId) {
     Product product = productRepository.findById(productId).get();
-    Optional<OrderItem> oResult = orderItemRepository.findByProduct(product);
+    // Optional<OrderItem> oResult = orderItemRepository.findByProduct(product);
 
     productImgRepository.deleteByProduct(product);
 
@@ -87,11 +87,13 @@ public class ProductServiceImpl implements ProductService {
     // orderItems.forEach(orderItem -> orderItem.setProduct(null));
     // orderItemRepository.saveAll(orderItems);
 
-    if (oResult.isPresent()) {
-      OrderItem orderItem = oResult.get();
+    // if (oResult.isPresent()) {
+    // OrderItem orderItem = oResult.get();
 
-      orderItemRepository.delete(orderItem);
-    }
+    // orderItemRepository.delete(orderItem);
+    // }
+
+    orderItemRepository.deleteByProduct(product);
 
     reviewRepository.deleteByProduct(product);
 
