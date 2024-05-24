@@ -215,6 +215,7 @@ public class ShopController {
     log.info("스토어 생성 폼 요청");
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/insert")
   public String storeInsert(
     StoreDto storeDto,

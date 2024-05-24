@@ -5,7 +5,7 @@
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">스토어 등록</h2>
 
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-      <form method="post" id="insert-form" th:action="@{insert}">
+      <form method="post" id="insert_form" th:action="@{insert}">
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">스토어 이름</span>
           <input
@@ -81,6 +81,7 @@
             class="block w-full mt-1 form-control text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
             id="fileInput"
             multiple
+            value=""
           />
         </label>
         <div class="flex mt-6 text-sm">
@@ -103,9 +104,15 @@
          -->
         </ul>
       </div>
+      <script>
+        // csrf 토큰 설정
+
+        const csrfValue = "[[${_csrf.token}]]";
+      </script>
     </div>
     <th:block layout:fragment="script">
       <script th:src="@{/js/storeInsert.js}"></script>
+      <script th:src="@{/js/upload.js}"></script>
     </th:block>
   </div>
 </html>

@@ -30,12 +30,10 @@ public class OrderDto {
 
   private Long storeId;
 
-  private Rider rider;
+  private Long riderId;
 
   @Builder.Default
   private List<OrderItemDto> orderItemDtos = new ArrayList<>();
-
-  private Member member;
 
   private OrderPayment orderPayment;
 

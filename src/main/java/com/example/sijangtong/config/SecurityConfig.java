@@ -46,6 +46,10 @@ public class SecurityConfig {
         .permitAll()
         .requestMatchers("/member/register")
         .permitAll()
+        .requestMatchers("/upload/remove")
+        .permitAll()
+        .requestMatchers("/upload/uploadAjax")
+        .permitAll()
         .anyRequest()
         .authenticated()
     );
