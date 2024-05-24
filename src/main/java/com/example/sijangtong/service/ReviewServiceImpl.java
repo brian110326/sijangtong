@@ -73,4 +73,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     return newReview.getReviewId();
   }
+
+  @Override
+  public ReviewDto getReview(Long reviewId) {
+    return entityToDto(reviewRepository.findById(reviewId).get());
+  }
+
 }
