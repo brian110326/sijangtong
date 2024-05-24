@@ -32,8 +32,16 @@ import lombok.ToString;
 public class Order extends BaseEntity {
 
   @Id
-  @SequenceGenerator(name = "order_seq_gen", sequenceName = "order_seq", allocationSize = 1, initialValue = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq_gen")
+  @SequenceGenerator(
+    name = "order_seq_gen",
+    sequenceName = "order_seq",
+    allocationSize = 1,
+    initialValue = 1
+  )
+  @GeneratedValue(
+    strategy = GenerationType.SEQUENCE,
+    generator = "order_seq_gen"
+  )
   private Long orderId;
 
   private String orderAddress;
@@ -51,6 +59,6 @@ public class Order extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private Store store;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "order")
   private Rider rider;
 }

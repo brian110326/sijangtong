@@ -98,16 +98,16 @@ public class SijangtongServiceTest {
     List<StoreImgDto> imgList = new ArrayList<>();
     StoreImgDto storeImgDto = StoreImgDto
       .builder()
-      .stUuid(" 메인 업데이트 테스트 uuid")
+      .stUuid(" 메인 123업데이트 테스트 uuid")
       .stImgName(" 메인업데이트테스트 이미지 이름123")
       .stPath("메인  업데이트테스트 패스")
       .build();
     imgList.add(storeImgDto);
 
     StoreDto storeDto = new StoreDto();
-    storeDto.setStoreId(207L);
+    storeDto.setStoreId(27L);
     storeDto.setStoreCategory(StoreCategory.CLOTH);
-    storeDto.setOpenTime(" 메인  업데이트오픈");
+    storeDto.setOpenTime(" 메인 123 업데이트오픈");
     storeDto.setCloseTime(" 메인  업데이트영업종료");
     storeDto.setStoreAddress(" 메인 업데이트");
     storeDto.setStoreName("4 메인  업데이트가게 이름");

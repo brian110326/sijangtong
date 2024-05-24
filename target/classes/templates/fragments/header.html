@@ -147,7 +147,10 @@
                     class="nav-item nav-link active"
                     >시장 목록</a
                   >
-                  <a th:href="@{insert(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}" class="nav-item nav-link"
+                  <a
+                    th:href="@{insert(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                    class="nav-item nav-link"
+                    sec:authorize="hasRole('ADMIN')"
                     >스토어 추가</a
                   >
 

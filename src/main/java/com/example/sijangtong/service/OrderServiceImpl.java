@@ -36,15 +36,22 @@ public class OrderServiceImpl implements OrderService {
 
   @Override
   public PageResultDto<OrderDto, Object[]> getOrderList(
-      PageRequestDto pageRequestDto,
-      Long storeId) {
-
+    PageRequestDto pageRequestDto,
+    Long storeId
+  ) {
     Page<Object[]> result = orderRepository.getOrderList(
-        pageRequestDto.getPageable(Sort.by("orderId")),
-        storeId);
+      pageRequestDto.getPageable(Sort.by("orderId")),
+      storeId
+    );
 
-    Function<Object[], OrderDto> fn = (en -> entityToDto((Order) en[0],
-        (List<OrderItem>) Arrays.asList((OrderItem) en[1])));
+    Function<Object[], OrderDto> fn =
+      (
+        en ->
+          entityToDto(
+            (Order) en[0],
+            (List<OrderItem>) Arrays.asList((OrderItem) en[1])
+          )
+      );
 
     return new PageResultDto<>(result, fn);
   }
@@ -73,8 +80,9 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public Long updateOrder(OrderDto orderDto) {
     orderRepository.updatePayment(
-        orderDto.getOrderPayment(),
-        orderDto.getOrderId());
+      orderDto.getOrderPayment(),
+      orderDto.getOrderId()
+    );
 
     return orderDto.getOrderId();
   }
@@ -85,8 +93,9 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public void updateOrderAmount(OrderItemDto orderItemDto) {
     orderItemRepository.updateAmount(
-        orderItemDto.getOrderAmount(),
-        orderItemDto.getId());
+      orderItemDto.getOrderAmount(),
+      orderItemDto.getId()
+    );
   }
 
   // 주문 => 주소, 결제방식, 누가, 어떤 store에서, rider는 자동배정
@@ -94,8 +103,6 @@ public class OrderServiceImpl implements OrderService {
   public Long createOrder(OrderDto orderDto) {
     // 주문 시 waiting 중이면서 riderId가 최소인 rider 배정
     Rider rider = riderRepository.getRider();
-
-    orderDto.setRider(rider);
 
     // 문제 생긴다면 set함수 이용해보기
     Order newOrder = dtoToEntity(orderDto);

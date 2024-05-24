@@ -215,4 +215,25 @@ public class ShopController {
   ) {
     log.info("스토어 생성 폼 요청");
   }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @PostMapping("/insert")
+  public String storeInsert(
+    StoreDto storeDto,
+    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+    RedirectAttributes rttr
+  ) {
+    log.info("스토어 생성{}");
+
+    //서비스 호출
+    Long storeId = service.storeInsert(storeDto);
+
+    rttr.addFlashAttribute("msg", storeId);
+    rttr.addAttribute("storeId", storeDto.getStoreId());
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+    return "redirect:/shop/list";
+  }
 }

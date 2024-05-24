@@ -20,9 +20,8 @@ window.onload = function () {
       tags += `<div>`;
       tags += `<a href=""><img src="/upload/display?fileName=${obj.thumbImageURL}" class="block"></a>`;
       tags += `<span class="text-sm d-inline-block mx-1">${obj.fileName}</span>`;
-
-      tags += `<button type="button" class="btn btn-primary">삭제</button>`;
-
+      tags += `<a href="#" data-file="${obj.imageURL}">`;
+      tags += `<i class="fa-solid fa-xmark"></i></a>`;
       tags += `</div></li>`;
     });
 
@@ -40,7 +39,7 @@ window.onload = function () {
     }
 
     for (const value of formData.values()) {
-      console.log(value);
+      console.log("값: ", value);
     }
 
     fetch("/upload/uploadAjax", { method: "post", body: formData, headers: { "X-CSRF-TOKEN": csrfValue } })
@@ -49,10 +48,11 @@ window.onload = function () {
         console.log(data);
 
         showUploadImages(data);
+        document.querySelector("#fileInput").value = "";
       });
   });
 
-  document.querySelector("#register-form").addEventListener("submit", (e) => {
+  document.querySelector("#insert_form").addEventListener("submit", (e) => {
     e.preventDefault();
 
     // 첨부파일 정보 수집
