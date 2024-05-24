@@ -318,9 +318,26 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 pb-1" th:each="shop : ${result.dtoList}">
                   <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
+                    <!-- img 보여주는 영역 -->
+                    <!-- <div class="product-img position-relative overflow-hidden">
                       <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
+                    </div> -->
+                    <div id="carouselExampleIndicators" class="carousel slide">
+                      <div class="carousel-indicators"></div>
+                      <div class="carousel-inner">
+                        <div class="carousel-item active" th:each="image : ${shop.storeImgDtos}">
+                          <figure class="mb-4">
+                            <img
+                              class="img-fluid rounded"
+                              th:if="${image.stPath != null}"
+                              th:src="|/upload/display?fileName=${image.getImageURL()}|"
+                              alt="..."
+                            />
+                          </figure>
+                        </div>
+                      </div>
                     </div>
+
                     <div class="text-center py-4">
                       <a
                         class="h6 text-decoration-none text-truncate"

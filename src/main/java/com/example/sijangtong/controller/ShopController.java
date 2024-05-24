@@ -2,6 +2,7 @@ package com.example.sijangtong.controller;
 
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
+import com.example.sijangtong.dto.ProductDto;
 import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.repository.StoreRepository;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
@@ -14,6 +15,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -126,6 +129,56 @@ public class ShopController {
     model.addAttribute("districts", districts);
   }
 
+  @GetMapping("/pModify")
+  public void getPModify(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long productId,
+      @Parameters Long storeId,
+      Model model) {
+    log.info("product 수정 페이지 요청");
+    ProductDto productDto = productService.getProductRow(productId);
+    model.addAttribute("productDto", productDto);
+    model.addAttribute("productId", productId);
+    model.addAttribute("storeId", storeId);
+  }
+
+  @PostMapping("/pModify")
+  public String postProductUpdate(
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      ProductDto updateProductDto,
+      @Parameters Long storeId,
+      RedirectAttributes rttr) {
+
+    log.info("pageRequestDto : {}", pageRequestDto);
+    log.info("updateProductDto : {}", updateProductDto);
+
+    Long updatedProductId = productService.productUpdate(updateProductDto);
+
+    rttr.addFlashAttribute("newPMsg", updatedProductId);
+
+    rttr.addAttribute("storeId", storeId);
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+    return "redirect:/shop/storeDetail";
+
+  }
+
+  @PostMapping("/modify")
+  public String postStoreUpdate(
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      StoreDto updateStoreDto,
+      @Parameters Long storeId,
+      RedirectAttributes rttr) {
+    Long updatedStoreId = service.storeUpdate(updateStoreDto);
+
+    rttr.addAttribute("storeId", updateStoreDto.getStoreId());
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+    return "redirect:/shop/read";
+  }
+
   @PostMapping("/remove")
   public String postStoreRemove(
       Long storeId,
@@ -159,21 +212,6 @@ public class ShopController {
     rttr.addAttribute("type", pageRequestDto.getType());
     rttr.addAttribute("keyword", pageRequestDto.getKeyword());
     return "redirect:/shop/storeDetail";
-  }
-
-  @PostMapping("/modify")
-  public String postStoreUpdate(
-      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      StoreDto updateStoreDto,
-      @Parameters Long storeId,
-      RedirectAttributes rttr) {
-    Long updatedStoreId = service.storeUpdate(updateStoreDto);
-
-    rttr.addAttribute("storeId", updateStoreDto.getStoreId());
-    rttr.addAttribute("page", pageRequestDto.getPage());
-    rttr.addAttribute("type", pageRequestDto.getType());
-    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
-    return "redirect:/shop/read";
   }
 
   @PreAuthorize("isAuthenticated()")

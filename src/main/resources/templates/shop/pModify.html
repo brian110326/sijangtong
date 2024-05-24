@@ -7,7 +7,7 @@
     <!-- <link th:href="@{/css/styles.css}" rel="stylesheet" /> -->
   </th:block>
   <div layout:fragment="content" class="container px-6 mx-auto grid">
-    <form th:action="@{modify}" method="post" id="register-form">
+    <form th:action="@{pModify}" method="post" id="register-form">
       <div class="container mt-5">
         <div class="row">
           <div class="col-lg-8">
@@ -29,14 +29,14 @@
               <div class="uploadResult mt-4">
                 <ul>
                   <li
-                    th:each="image : ${storeDto.storeImgDtos}"
-                    th:attr="data-file=${image.getImageURL()}, data-name=${image.getStImgName()}, data-path=${image.getStPath()}, data-uuid=${image.getStUuid()}"
+                    th:each="image : ${productDto.productImgDtos}"
+                    th:attr="data-file=${image.getImageURL()}, data-name=${image.getImgName()}, data-path=${image.getPath()}, data-uuid=${image.getUuid()}"
                   >
                     <div>
                       <a href="">
-                        <img class="block" th:if="${image.stPath != null}" th:src="|/upload/display?fileName=${image.getThumbImageURL()}|" />
+                        <img class="block" th:if="${image.path != null}" th:src="|/upload/display?fileName=${image.getThumbImageURL()}|" />
                       </a>
-                      <span class="text-sm d-inline-block mx-1" th:text="${image.stImgName}"></span>
+                      <span class="text-sm d-inline-block mx-1" th:text="${image.imgName}"></span>
 
                       <button type="button" class="btn btn-primary">삭제</button>
                     </div>
@@ -58,83 +58,31 @@
               <!-- <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure> -->
               <!-- Post content-->
               <section class="mb-5">
-                <input type="hidden" name="storeId" th:value="${storeDto.storeId}" />
+                <input type="hidden" name="productId" th:value="${productDto.productId}" />
+                <input type="hidden" name="storeId" th:value="${storeId}" />
+                <input type="hidden" name="amount" th:value="${productDto.amount}" />
+                <input type="hidden" name="avg" th:value="${productDto.avg}" />
+                <input type="hidden" name="orderItemId" th:value="${productDto.orderItemId}" />
 
                 <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store Name</span>
+                  <span class="text-gray-700 dark:text-gray-400">Product Name</span>
                   <input
                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                    placeholder="Store Name"
-                    name="storeName"
-                    th:value="${storeDto.storeName}"
+                    placeholder="Product Name"
+                    name="pName"
+                    th:value="${productDto.pName}"
                   />
                 </label>
 
                 <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store Category</span>
-                  <select class="form-select" aria-label="Default select example" name="storeCategory">
-                    <option th:value="SEAFOOD" th:selected="${storeDto.storeCategory == 'SEAFOOD'}">SEAFOOD</option>
-                    <option value="CROPS" th:selected="${storeDto.storeCategory == 'CROPS'}">CROPS</option>
-                    <option value="CLOTH" th:selected="${storeDto.storeCategory == 'CLOTH'}">CLOTH</option>
-                    <option value="ANIMAL_PRODUCT" th:selected="${storeDto.storeCategory == 'ANIMAL_PRODUCT'}">ANIMAL_PRODUCT</option>
-                    <option value="SIDEDISH" th:selected="${storeDto.storeCategory == 'SIDEDISH'}">SIDEDISH</option>
-                    <option value="MAINDISH" th:selected="${storeDto.storeCategory == 'MAINDISH'}">MAINDISH</option>
-                  </select>
-                </label>
-
-                <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store Address</span>
-                  <select class="form-select" aria-label="Default select example" name="storeAddress">
-                    <option
-                      th:each="district : ${districts}"
-                      th:value="${district}"
-                      th:text="${district}"
-                      th:selected="${storeDto.storeAddress == district}"
-                    ></option>
-                  </select>
-                </label>
-
-                <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store Tel</span>
+                  <span class="text-gray-700 dark:text-gray-400">Product Price</span>
                   <input
                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                    placeholder="Store Tel"
-                    name="storeTel"
-                    th:value="${storeDto.storeTel}"
+                    placeholder="Product Price"
+                    name="price"
+                    th:value="${productDto.price}"
                   />
                 </label>
-
-                <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store OpenTime</span>
-                  <input
-                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                    placeholder="Store OpenTime"
-                    name="openTime"
-                    th:value="${storeDto.openTime}"
-                  />
-                </label>
-
-                <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store CloseTime</span>
-                  <input
-                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                    placeholder="Store CloseTime"
-                    name="closeTime"
-                    th:value="${storeDto.closeTime}"
-                  />
-                </label>
-
-                <!-- store detail 수정 부분 -->
-                <div class="mb-3">
-                  <label for="exampleFormControlTextarea1" class="form-label">Store Details</label>
-                  <textarea
-                    class="form-control"
-                    name="storeDetail"
-                    id="exampleFormControlTextarea1"
-                    rows="10"
-                    th:text="${storeDto.storeDetail}"
-                  ></textarea>
-                </div>
               </section>
             </article>
           </div>
@@ -190,25 +138,17 @@
             <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
             <div class="flex flex-col flex-wrap mb-8 space-y-4 md:flex-row md:items-end md:space-x-5 mt-3">
               <div>
-                <a th:href="@{/shop/modify(storeId=${storeId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}">
+                <a>
                   <button class="btn btn-success flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white" type="submit">
-                    <span>수정 등록</span>
+                    <span>상품 수정 등록</span>
                   </button>
                 </a>
               </div>
 
-              <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
-              <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
               <div class="mx-2">
-                <button type="button" class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white">
-                  삭제
-                </button>
-              </div>
-
-              <div class="mx-2">
-                <a th:href="@{/shop/list(page=1,type=${requestDto.type},keyword=${requestDto.keyword})}">
+                <a th:href="@{/shop/storeDetail(storeId=${storeId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}">
                   <button type="button" class="btn btn-info flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white">
-                    목록
+                    상품 목록
                   </button>
                 </a>
               </div>
@@ -217,20 +157,8 @@
         </div>
       </div>
     </form>
-
-    <!-- 삭제 폼 -->
-    <form th:action="@{remove}" method="post" id="actionForm">
-      <!-- 수정 / 삭제를 위한 필요 정보 -->
-      <input type="hidden" name="storeId" th:value="${storeDto.storeId}" />
-      <!-- 페이지 나누기에 필요 정보-->
-      <input type="hidden" name="page" th:value="${requestDto.page}" />
-      <input type="hidden" name="type" th:value="${requestDto.type}" />
-      <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
-    </form>
-
     <script th:src="@{/js/scripts.js}"></script>
-    <script th:src="@{/js/storeModify.js}"></script>
-    <script th:src="@{/js/sUpload.js}"></script>
+    <script th:src="@{/js/pUpload.js}"></script>
   </div>
   <th:block layout:fragment="script">
     <script>
