@@ -97,15 +97,6 @@ public class ServiceTest {
 
   // }
 
-  @Test
-  public void getStoreRow() {
-    List<Object[]> list = storeImgRepository.getStoreRow(40L);
-
-    for (Object[] objects : list) {
-      System.out.println(Arrays.toString(objects));
-    }
-  }
-
   // @Test
   // public void productList() {
   // PageRequestDto requestDto =
@@ -130,11 +121,6 @@ public class ServiceTest {
       requestDto.getPageable(Sort.by("reviewId")),
       1L
     );
-
-<<<<<<< HEAD
-    for (Object[] objects : list) {
-      System.out.println(Arrays.toString(objects));
-=======
     // System.out.println("number " + list.getNumber());
     // System.out.println("total " + list.getTotalPages());
     // System.out.println("TotalElements " + list.getTotalElements());
@@ -144,15 +130,14 @@ public class ServiceTest {
 
     // }
 
-    @Test
-    public void getStoreRow() {
-        List<Object[]> list = storeImgRepository.getStoreRow(200L);
+    // @Test
+    // public void getStoreRow() {
+    //     List<Object[]> list = storeImgRepository.getStoreRow(200L);
 
-        for (Object[] objects : list) {
-            System.out.println(Arrays.toString(objects));
-        }
->>>>>>> 599e5b2f750da637c38d256dfc5e7f4c322bfd0e
-    }
+    //     for (Object[] objects : list) {
+    //         System.out.println(Arrays.toString(objects));
+    //     }
+    // }
   }
 
   @Test
