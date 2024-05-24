@@ -129,11 +129,14 @@ public class ProductServiceImpl implements ProductService {
     Product product = (Product) entityMap.get("product");
     productImgRepository.deleteByProduct(product);
 
+    // 임시 추가
+    productRepository.save(product);
+
     // movie image 삽입
     List<ProductImg> productImgs = (List<ProductImg>) entityMap.get("imgList");
     productImgs.forEach(image -> productImgRepository.save(image));
 
-    productRepository.save(product);
+    // productRepository.save(product);
 
     return product.getProductId();
   }
