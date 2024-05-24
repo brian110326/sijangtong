@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+  <!-- 본문 내용 들어가야 하는 태그 -->
+  <div layout:fragment="content" class="container px-6 mx-auto grid">
+    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">스토어 등록</h2>
+
+    <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+      <form method="post" id="insert-form" th:action="@{insert}">
+        <label class="block text-sm">
+          <span class="text-gray-700 dark:text-gray-400">스토어 이름</span>
+          <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="스토어 이름"
+            name="storeName"
+          />
+        </label>
+        <!-- 가게 시장 위치 -->
+        <label class="block text-sm">
+          <span class="text-gray-700 dark:text-gray-400">시장 위치</span>
+          <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="속해 있는 시장 위치"
+            name="storeAddress"
+          />
+        </label>
+        <!-- 가게 전화번호 -->
+        <label class="block text-sm">
+          <span class="text-gray-700 dark:text-gray-400">가게 전화번호</span>
+          <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="가게 전화번호"
+            name="storeTel"
+          />
+        </label>
+        <!-- 가게 상세 설명 및 상세 주소 -->
+        <label class="block text-sm">
+          <span class="text-gray-700 dark:text-gray-400">상세 설명 및 주소</span>
+          <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="가게 설명 및 주소"
+            name="storeDetail"
+          />
+        </label>
+        <!-- 카테고리 설정 -->
+        <label class="block text-sm">
+          <span class="text-gray-700 dark:text-gray-400">판매 품목 카테고리</span>
+          <select name="storeCategory" id="storeCategory">
+            <option value="">선택</option>
+            <option value="SEAFOOD">해산물</option>
+            <option value="CROPS">농산물</option>
+            <option value="CLOTH">의류</option>
+            <option value="ANIMAL_PRODUCT">축산물</option>
+            <option value="SIDEDISH">반찬</option>
+            <option value="MAINDISH">주요리</option>
+          </select>
+        </label>
+        <!-- 오픈시간 -->
+        <label class="block text-sm">
+          <span class="text-gray-700 dark:text-gray-400">오픈 시간</span>
+          <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            type="datetime"
+            placeholder="오픈 시간"
+            name="openTime"
+          />
+        </label>
+        <!-- 마감 시간 -->
+        <label class="block text-sm">
+          <span class="text-gray-700 dark:text-gray-400">마감 시간</span>
+          <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="마감 시간"
+            name="closeTime"
+          />
+        </label>
+
+        <label class="block mt-4 text-sm form-label">
+          <span class="block text-gray-700 dark:text-gray-400">Image Files</span>
+          <input
+            type="file"
+            class="block w-full mt-1 form-control text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            id="fileInput"
+            multiple
+          />
+        </label>
+        <div class="flex mt-6 text-sm">
+          <button type="submit" class="btn btn-primary" style="--bs-btn-padding-y: 0.5rem; --bs-btn-padding-x: 1.5rem">등록</button>
+        </div>
+      </form>
+
+      <div class="uploadResult">
+        <ul>
+          <!-- 
+            <li data-name="" data-path="" data-uuid="">
+                <div>
+                    <a href=""><img src="" class="block"></a>
+                    <span class="text-sm d-inline-block mx-1"></span>
+                    <a href="#" data-file="">
+                        <i class="fa-solid fa-xmark" data-file=""></i>
+                    </a>
+                </div>
+            </li>
+         -->
+        </ul>
+      </div>
+    </div>
+    <th:block layout:fragment="script">
+      <script>
+        // csrf 토큰 설정
+
+        const csrfValue = "[[${_csrf.token}]]";
+      </script>
+      <script th:src="@{/js/register.js}"></script>
+      <script th:src="@{/js/upload.js}"></script>
+    </th:block>
+  </div>
+</html>

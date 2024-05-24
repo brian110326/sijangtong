@@ -20,10 +20,6 @@ public interface StoreService {
         // store list 보여주기
         PageResultDto<StoreDto, Object[]> getStoreList(PageRequestDto pageRequestDto);
 
-        // PageResultDto<StoreDto, Object[]> getStoreListByCategory(PageRequestDto
-        // pageRequestDto,
-        // StoreCategory storeCategory);
-
         // store 상세조회
         StoreDto getRow(Long storeId);
 

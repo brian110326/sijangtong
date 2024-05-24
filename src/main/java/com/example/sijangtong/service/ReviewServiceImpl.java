@@ -1,13 +1,5 @@
 package com.example.sijangtong.service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ProductDto;
@@ -17,48 +9,62 @@ import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
+import com.example.sijangtong.repository.ProductRepository;
 import com.example.sijangtong.repository.ReviewRepository;
-
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
-    private final ReviewRepository reviewRepository;
+  private final ReviewRepository reviewRepository;
 
-    @Override
-    public PageResultDto<ReviewDto, Object[]> getReviewList(PageRequestDto pageRequestDto, Long productId) {
-        Page<Object[]> result = reviewRepository.getReviewList(pageRequestDto.getPageable(Sort.by("reviewId")),
-                productId);
+  private final ProductRepository productRepository;
 
-        Function<Object[], ReviewDto> fn = (en -> entityToDto((Product) en[0],
-                (Review) en[1]));
+  @Override
+  public PageResultDto<ReviewDto, Object[]> getReviewList(
+      PageRequestDto pageRequestDto,
+      Long productId) {
 
-        return new PageResultDto<>(result, fn);
-    }
+    Page<Object[]> result = reviewRepository.getReviewList(
+        pageRequestDto.getPageable(Sort.by("reviewId")),
+        productId);
 
-    @Override
-    public Long removeReview(Long reviewId) {
-        reviewRepository.deleteById(reviewId);
+    Function<Object[], ReviewDto> fn = (entity -> entityToDto((Review) entity[0]));
 
-        return reviewId;
-    }
+    return new PageResultDto<>(result, fn);
+  }
 
-    @Override
-    public Long updateReview(ReviewDto reviewDto) {
-        reviewRepository.updateReview(reviewDto.getText(), reviewDto.getGrade(), reviewDto.getReviewId());
+  @Override
+  public Long removeReview(Long reviewId) {
+    reviewRepository.deleteById(reviewId);
 
-        return reviewDto.getReviewId();
-    }
+    return reviewId;
+  }
 
-    @Override
-    public Long createReview(ReviewDto reviewDto) {
-        Review review = dtoToEntity(reviewDto);
+  @Override
+  public Long updateReview(ReviewDto reviewDto) {
+    reviewRepository.updateReview(
+        reviewDto.getText(),
+        reviewDto.getGrade(),
+        reviewDto.getReviewId());
 
-        Review newReview = reviewRepository.save(review);
+    return reviewDto.getReviewId();
+  }
 
-        return newReview.getReviewId();
-    }
+  @Override
+  public Long createReview(ReviewDto reviewDto) {
+    Review review = dtoToEntity(reviewDto);
 
+    Review newReview = reviewRepository.save(review);
+
+    return newReview.getReviewId();
+  }
 }
