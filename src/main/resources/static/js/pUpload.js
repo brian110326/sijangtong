@@ -64,9 +64,9 @@ window.onload = function () {
     const form = e.target;
     let result = "";
     attachInfos.forEach((obj, idx) => {
-      result += `<input type="hidden" value="${obj.dataset.path}" name="storeImgDtos[${idx}].stPath" />`;
-      result += `<input type="hidden" value="${obj.dataset.uuid}" name="storeImgDtos[${idx}].stUuid" />`;
-      result += `<input type="hidden" value="${obj.dataset.name}" name="storeImgDtos[${idx}].stImgName" />`;
+      result += `<input type="hidden" value="${obj.dataset.path}" name="productImgDtos[${idx}].path" />`;
+      result += `<input type="hidden" value="${obj.dataset.uuid}" name="productImgDtos[${idx}].uuid" />`;
+      result += `<input type="hidden" value="${obj.dataset.name}" name="productImgDtos[${idx}].imgName" />`;
     });
 
     form.insertAdjacentHTML("beforeend", result);
@@ -76,3 +76,21 @@ window.onload = function () {
     form.submit();
   });
 };
+
+// X버튼 클릭시 이미지의 li 제거
+document.querySelector(".uploadResult").addEventListener("click", (e) => {
+  e.preventDefault();
+
+  console.log("e.target", e.target);
+  console.log("e.currentTarget", e.currentTarget);
+
+  const currentLi = e.target.closest("li");
+
+  console.log(currentLi);
+
+  if (!confirm("Are you sure to remove this img?")) {
+    return;
+  }
+
+  currentLi.remove();
+});

@@ -189,7 +189,7 @@
             <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
             <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
             <div class="flex flex-col flex-wrap mb-8 space-y-4 md:flex-row md:items-end md:space-x-5 mt-3">
-              <div>
+              <div sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
                 <a th:href="@{/shop/modify(storeId=${storeId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}">
                   <button class="btn btn-success flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white" type="submit">
                     <span>수정 등록</span>
@@ -199,7 +199,7 @@
 
               <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
               <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
-              <div class="mx-2">
+              <div class="mx-2" sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
                 <button type="button" class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white">
                   삭제
                 </button>
@@ -230,7 +230,7 @@
 
     <script th:src="@{/js/scripts.js}"></script>
     <script th:src="@{/js/storeModify.js}"></script>
-    <script th:src="@{/js/upload.js}"></script>
+    <script th:src="@{/js/sUpload.js}"></script>
   </div>
   <th:block layout:fragment="script">
     <script>

@@ -17,9 +17,8 @@ import java.util.stream.Collectors;
 
 public interface ProductService {
   PageResultDto<ProductDto, Object[]> getProductList(
-    PageRequestDto pageRequestDto,
-    Long storeId
-  );
+      PageRequestDto pageRequestDto,
+      Long storeId);
 
   Long productInsert(ProductDto productDto);
 
@@ -30,33 +29,32 @@ public interface ProductService {
   Long removeProduct(Long productId);
 
   public default ProductDto entityToDto(
-    Product product,
-    List<ProductImg> productImgs,
-    Store store,
-    Double avg
-  ) {
+      Product product,
+      List<ProductImg> productImgs,
+      Store store,
+      Double avg) {
     ProductDto productDto = ProductDto
-      .builder()
-      .productId(product.getProductId())
-      .pName(product.getPName())
-      .price(product.getPrice())
-      .amount(product.getAmount())
-      .storeId(product.getStore().getStoreId())
-      // .quantity(product.getQuantity())
-      .build();
+        .builder()
+        .productId(product.getProductId())
+        .pName(product.getPName())
+        .price(product.getPrice())
+        .amount(product.getAmount())
+        .storeId(product.getStore().getStoreId())
+        // .quantity(product.getQuantity())
+        .build();
 
     List<ProductImgDto> productImgDtos = productImgs
-      .stream()
-      .map(pImg -> {
-        return ProductImgDto
-          .builder()
-          .imgId(pImg.getImgId())
-          .uuid(pImg.getUuid())
-          .imgName(pImg.getImgName())
-          .path(pImg.getPath())
-          .build();
-      })
-      .collect(Collectors.toList());
+        .stream()
+        .map(pImg -> {
+          return ProductImgDto
+              .builder()
+              .imgId(pImg.getImgId())
+              .uuid(pImg.getUuid())
+              .imgName(pImg.getImgName())
+              .path(pImg.getPath())
+              .build();
+        })
+        .collect(Collectors.toList());
 
     productDto.setProductImgDtos(productImgDtos);
 
@@ -80,18 +78,18 @@ public interface ProductService {
 
     if (productImgDtos != null && productImgDtos.size() > 0) {
       List<ProductImg> productImgs = productImgDtos
-        .stream()
-        .map(pDto -> {
-          ProductImg productImg = ProductImg
-            .builder()
-            .product(product)
-            .imgName(pDto.getImgName())
-            .uuid(pDto.getUuid())
-            .path(pDto.getPath())
-            .build();
-          return productImg;
-        })
-        .collect(Collectors.toList());
+          .stream()
+          .map(pDto -> {
+            ProductImg productImg = ProductImg
+                .builder()
+                .product(product)
+                .imgName(pDto.getImgName())
+                .uuid(pDto.getUuid())
+                .path(pDto.getPath())
+                .build();
+            return productImg;
+          })
+          .collect(Collectors.toList());
 
       entityMap.put("imgList", productImgs);
     }

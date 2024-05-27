@@ -92,30 +92,17 @@ public class StoreServiceImpl implements StoreService {
   public Long removeStore(Long storeId) {
 
     Store store = storeRepository.findById(storeId).get();
-    Optional<Product> pResult = productRepository.findByStore(store);
+    List<Product> products = productRepository.findByStore(store);
 
-    if (pResult.isPresent()) {
-      Product product = pResult.get();
-
-      List<Review> reviews = reviewRepository.findByProduct(product);
-
-      reviews.forEach(review -> {
-        reviewRepository.delete(review);
-      });
-
-      // orderItem product 1:1로 바뀐거 확인하면 다시 바꾸기
-      Optional<OrderItem> oResult = orderItemRepository.findByProduct(product);
-
-      if (oResult.isPresent()) {
-        OrderItem orderItem = oResult.get();
-
-        orderItemRepository.delete(orderItem);
-      }
-
+    products.forEach(product -> {
       productImgRepository.deleteByProduct(product);
 
-      productRepository.deleteByStore(store);
-    }
+      orderItemRepository.deleteByProduct(product);
+
+      reviewRepository.deleteByProduct(product);
+
+      productRepository.delete(product);
+    });
 
     storeImgRepository.deleteByStore(store);
 

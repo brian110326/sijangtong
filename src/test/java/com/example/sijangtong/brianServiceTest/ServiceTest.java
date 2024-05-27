@@ -223,31 +223,18 @@ public class ServiceTest {
   @Transactional
   public void deleteStoreTest() {
     // 인덱스 안에 없을 수 있으니 Optional로 해서 result.isPresent()
-    Store store = storeRepository.findById(199L).get();
-    Optional<Product> pResult = productRepository.findByStore(store);
+    Store store = storeRepository.findById(100L).get();
+    List<Product> products = productRepository.findByStore(store);
 
-    if (pResult.isPresent()) {
-      Product product = pResult.get();
-
-      List<Review> reviews = reviewRepository.findByProduct(product);
-
-      reviews.forEach(review -> {
-        reviewRepository.delete(review);
-      });
-
-      // orderItem product 1:1로 바뀐거 확인하면 다시 바꾸기
-      Optional<OrderItem> oResult = orderItemRepository.findByProduct(product);
-
-      if (oResult.isPresent()) {
-        OrderItem orderItem = oResult.get();
-
-        orderItemRepository.delete(orderItem);
-      }
-
+    products.forEach(product -> {
       productImgRepository.deleteByProduct(product);
 
-      productRepository.deleteByStore(store);
-    }
+      orderItemRepository.deleteByProduct(product);
+
+      reviewRepository.deleteByProduct(product);
+
+      productRepository.delete(product);
+    });
 
     storeImgRepository.deleteByStore(store);
 
