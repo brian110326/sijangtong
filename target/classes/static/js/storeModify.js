@@ -31,11 +31,11 @@ document.querySelector(".btn-danger").addEventListener("click", (e) => {
 
       data.forEach((img) => {
         modalContent += `<li data-bs-toggle="modal" data-bs-target="#imgModal" data-file="${img.imageURL}">
-        <img class="block" th:if="${img.stPath != null}" src="/upload/display?fileName=${img.thumbImageURL}" /></li>`;
+        <img class="block" th:if="${img.stPath != null}" src="/upload/display?fileName=${img.imageURL}" /></li>`;
       });
 
       tags += `<div class="modal uploadResult" id="imgModal" tabindex="-1">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-fullscreen modal-xl">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Related Datas</h5>
