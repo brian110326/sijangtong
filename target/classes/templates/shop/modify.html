@@ -7,7 +7,7 @@
     <!-- <link th:href="@{/css/styles.css}" rel="stylesheet" /> -->
   </th:block>
   <div layout:fragment="content" class="container px-6 mx-auto grid">
-    <form th:action="@{modify}" method="post" id="register-form">
+    <form th:action="@{modify}" method="post" id="register-form" th:object="${storeDto}" novalidate>
       <div class="container mt-5">
         <div class="row">
           <div class="col-lg-8">
@@ -68,6 +68,8 @@
                     name="storeName"
                     th:value="${storeDto.storeName}"
                   />
+                  <div th:if="${#fields.hasErrors('storeName')}" th:errors="*{storeName}" class="text-danger"></div>
+                  <div th:if="${error}" class="text-danger" th:text="${error}"></div>
                 </label>
 
                 <label class="block text-sm">
@@ -92,6 +94,8 @@
                       th:selected="${storeDto.storeAddress == district}"
                     ></option>
                   </select>
+                  <div th:if="${#fields.hasErrors('storeAddress')}" th:errors="*{storeAddress}" class="text-danger"></div>
+                  <div th:if="${error}" class="text-danger" th:text="${error}"></div>
                 </label>
 
                 <label class="block text-sm">
@@ -102,6 +106,8 @@
                     name="storeTel"
                     th:value="${storeDto.storeTel}"
                   />
+                  <div th:if="${#fields.hasErrors('storeTel')}" th:errors="*{storeTel}" class="text-danger"></div>
+                  <div th:if="${error}" class="text-danger" th:text="${error}"></div>
                 </label>
 
                 <label class="block text-sm">
@@ -112,6 +118,8 @@
                     name="openTime"
                     th:value="${storeDto.openTime}"
                   />
+                  <div th:if="${#fields.hasErrors('openTime')}" th:errors="*{openTime}" class="text-danger"></div>
+                  <div th:if="${error}" class="text-danger" th:text="${error}"></div>
                 </label>
 
                 <label class="block text-sm">
@@ -122,6 +130,8 @@
                     name="closeTime"
                     th:value="${storeDto.closeTime}"
                   />
+                  <div th:if="${#fields.hasErrors('closeTime')}" th:errors="*{closeTime}" class="text-danger"></div>
+                  <div th:if="${error}" class="text-danger" th:text="${error}"></div>
                 </label>
 
                 <!-- store detail 수정 부분 -->

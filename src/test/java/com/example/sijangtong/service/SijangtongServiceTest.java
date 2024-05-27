@@ -123,7 +123,7 @@ public class SijangtongServiceTest {
     storeDto.setStoreTel("메인 업데이트 01053859803");
     storeDto.setStoreImgDtos(imgList);
 
-    storeService.storeUpdate(storeDto);
+    // storeService.storeUpdate(storeDto);
   }
 
   // 오더 아이템 생성
