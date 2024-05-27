@@ -34,7 +34,8 @@ public class ProductDto {
   @NotBlank(message = "Product Name cannot be blank")
   private String pName;
 
-  @NotNull(message = "Price cannot be blank. Do you mean by numer '0'?")
+  @NotNull(message = "Price cannot be blank. Do you mean by number '0'?")
+  @Min(value = 0, message = "Price should be at least 0")
   private Integer price;
 
   private int amount;
