@@ -6,6 +6,19 @@ window.onload = function () {
     return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
   };
 
+  // 리뷰리스트 별점 보여주기
+  const generateStars = (grade) => {
+    let stars = "";
+    for (let i = 1; i <= 5; i++) {
+      if (i <= grade) {
+        stars += '<a class="fa-solid fa-star"></a>';
+      } else {
+        stars += '<a class="fa-regular fa-star"></a>';
+      }
+    }
+    return stars;
+  };
+
   const reviewLoad = () => {
     fetch(`/review/${productId}/reviews`)
       .then((response) => response.json())
@@ -22,7 +35,7 @@ window.onload = function () {
               <h6>
                 ${review.memberNickname}<small> - <i>${formatDate(review.createdDate)}</i></small>
               </h6>
-              <div class="starrr">${review.grade}</div>
+              <div class="starrr">${generateStars(review.grade)}</div>
               <p>
                 ${review.text}
               </p>
