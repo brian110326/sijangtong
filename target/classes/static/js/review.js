@@ -6,14 +6,14 @@ window.onload = function () {
     return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
   };
 
-  // Function to generate star rating HTML
+  // 리뷰리스트 별점 보여주기
   const generateStars = (grade) => {
     let stars = "";
     for (let i = 1; i <= 5; i++) {
       if (i <= grade) {
-        stars += '<a class="fa-solid fa-star"></a>'; // Filled star
+        stars += '<a class="fa-solid fa-star"></a>';
       } else {
-        stars += '<a class="fa-regular fa-star"></a>'; // Empty star
+        stars += '<a class="fa-regular fa-star"></a>';
       }
     }
     return stars;
