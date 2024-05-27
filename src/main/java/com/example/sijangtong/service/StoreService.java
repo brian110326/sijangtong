@@ -28,7 +28,7 @@ public interface StoreService {
 
         Long storeInsert(StoreDto storeDto);
 
-        Long storeUpdate(StoreDto storeDto);
+        Long storeUpdate(StoreDto storeDto) throws IllegalStateException;
 
         // store의 list를 보여주기 위한 dto변환
         public default StoreDto entityToDto(Store store, List<StoreImg> storeImgs) {

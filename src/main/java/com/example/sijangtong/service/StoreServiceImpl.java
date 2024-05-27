@@ -18,6 +18,8 @@ import com.example.sijangtong.repository.ReviewRepository;
 import com.example.sijangtong.repository.StoreImgRepository;
 import com.example.sijangtong.repository.StoreRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -145,7 +147,7 @@ public class StoreServiceImpl implements StoreService {
 
   @Transactional
   @Override
-  public Long storeUpdate(StoreDto storeDto) {
+  public Long storeUpdate(StoreDto storeDto) throws IllegalStateException {
     Map<String, Object> entityMap = dtoToentity(storeDto);
 
     // 기존 스토어 이미지 제거

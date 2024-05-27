@@ -22,7 +22,7 @@ public interface ProductService {
 
   Long productInsert(ProductDto productDto);
 
-  Long productUpdate(ProductDto productDto);
+  Long productUpdate(ProductDto productDto) throws IllegalStateException;
 
   ProductDto getProductRow(Long productId);
 
