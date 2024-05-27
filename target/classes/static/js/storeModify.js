@@ -30,12 +30,12 @@ document.querySelector(".btn-danger").addEventListener("click", (e) => {
       let modalContent = "";
 
       data.forEach((img) => {
-        modalContent += `<li data-bs-toggle="modal" data-bs-target="#imgModal" th:attr="data-file=${img.imageURL}">
+        modalContent += `<li data-bs-toggle="modal" data-bs-target="#imgModal" data-file="${img.imageURL}">
         <img class="block" th:if="${img.stPath != null}" src="/upload/display?fileName=${img.thumbImageURL}" /></li>`;
       });
 
       tags += `<div class="modal uploadResult" id="imgModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Related Datas</h5>
@@ -62,26 +62,19 @@ document.querySelector(".btn-danger").addEventListener("click", (e) => {
       // });
 
       const modal = new bootstrap.Modal(document.querySelector(".modal"));
+
+      // document.querySelectorAll(".uploadResult ul li").forEach((item) => {
+      //   item.addEventListener("click", (e) => {
+      //     //const file = e.target.closest("li");
+      //     const file = item.getAttribute("data-file");
+      //     console.log(file);
+      //     const modalBody = document.querySelector(".modal-body ul");
+      //     modalBody.innerHTML = `<img src="/upload/display?fileName=${file}" style="width:100%" />`;
+      //   });
+      // });
+
       modal.show();
     });
 
   //actionForm.submit();
-});
-
-// X버튼 클릭시 이미지의 li 제거
-document.querySelector(".uploadResult").addEventListener("click", (e) => {
-  e.preventDefault();
-
-  console.log("e.target", e.target);
-  console.log("e.currentTarget", e.currentTarget);
-
-  const currentLi = e.target.closest("li");
-
-  console.log(currentLi);
-
-  if (!confirm("Are you sure to remove this img?")) {
-    return;
-  }
-
-  currentLi.remove();
 });
