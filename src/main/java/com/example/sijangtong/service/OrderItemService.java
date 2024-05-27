@@ -13,7 +13,9 @@ import com.example.sijangtong.entity.Store;
 
 public interface OrderItemService {
 
-    Long createOrderItem(int amount, Product product);
+    Long createOrderItem(int amount, Long productId, String memberEmail, Long storeId);
+
+    List<OrderItem> getMemberOrderItems(String memberEmail);
 
     public default OrderItemDto entityToDto(OrderItem orderItem) {
         OrderItemDto orderItemDto = OrderItemDto.builder()

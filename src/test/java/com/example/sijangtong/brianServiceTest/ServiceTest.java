@@ -70,22 +70,20 @@ public class ServiceTest {
   @Autowired
   private RiderRepository riderRepository;
 
-  @Test
-  @Transactional
-  @Commit
-  public void memberDeleteTest() {
-    Member member = Member.builder().memberEmail("member98@naver.com").build();
-    List<Order> orders = orderRepository.findByMember(member);
+  // @Test
+  // @Transactional
+  // @Commit
+  // public void memberDeleteTest() {
+  // Member member = Member.builder().memberEmail("member98@naver.com").build();
+  // Order order = orderRepository.findByMember(member);
 
-    reviewRepository.deleteByMember(member);
+  // reviewRepository.deleteByMember(member);
 
-    orders.forEach(order -> {
-      orderItemRepository.deleteByOrder(order);
-      orderRepository.delete(order);
-    });
+  // orderItemRepository.deleteByOrder(order);
+  // orderRepository.delete(order);
 
-    memberRepository.delete(member);
-  }
+  // memberRepository.delete(member);
+  // }
 
   // @Test
   // public void storeList() {

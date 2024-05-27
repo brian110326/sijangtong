@@ -33,7 +33,7 @@ public class OrderItem {
   @ManyToOne(fetch = FetchType.LAZY)
   private Order order;
 
-  @OneToOne(mappedBy = "orderItem")
+  @OneToOne
   private Product product;
 
   private int orderPrice; // 주문가격

@@ -45,7 +45,7 @@ public interface OrderService {
         .orderPayment(order.getOrderPayment())
         .memberEmail(order.getMember().getMemberEmail())
         .storeId(order.getStore().getStoreId())
-        .rider(order.getRider())
+        .riderId(order.getRider().getRiderId())
         .createdDate(order.getCreatedDate())
         .lastModifiedDate(order.getLastModifiedDate())
         .build();
@@ -86,7 +86,7 @@ public interface OrderService {
         .orderPayment(orderDto.getOrderPayment())
         .member(member)
         .store(store)
-        .rider(orderDto.getRider())
+        .rider(Rider.builder().riderId(orderDto.getRiderId()).build())
         .riderOrdercancel(orderDto.getRiderOrdercancel())
         .build();
 

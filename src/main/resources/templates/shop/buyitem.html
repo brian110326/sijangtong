@@ -93,7 +93,7 @@
                     <i class="fa fa-minus"></i>
                   </button>
                 </div>
-                <input type="text" class="form-control bg-secondary border-0 text-center" value="1" />
+                <input type="text" class="form-control bg-secondary border-0 text-center" id="Value" value="1" />
                 <div class="input-group-btn">
                   <button class="btn btn-primary btn-plus">
                     <i class="fa fa-plus"></i>
@@ -355,6 +355,12 @@
               </div>
             </div>
           </div>
+          <form th:action="@{/buyitem}" method="post" id="buyitemForm">
+            <input type="hidden" name="storeId" th:value="${storeId}">
+            <input type="hidden" name="amount">
+            <input type="hidden" name="memberEmail" th:value="${#authentication.name}">
+            <input type="hidden" name="productId" th:value="${result.productId}">
+          </form>
         </div>
         <script>
           const productId = "[[${result.productId}]]";
@@ -370,6 +376,7 @@
   <th:block layout:fragment="script">
 
     <script th:src="@{/js/review.js}"></script>
+    <script th:src="@{/js/buyitem.js}"></script>
 
     
   

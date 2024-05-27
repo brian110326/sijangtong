@@ -32,7 +32,7 @@
               <div class="col-lg-3 col-md-4 col-sm-6 pb-1" th:each="products : ${result.dtoList}">
                 <div class="product-item bg-light mb-4">
                   <!-- img 보여주는 부분 -->
-                  <!-- <div class="product-img position-relative overflow-hidden">
+                  <div class="product-img position-relative overflow-hidden">
                     <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
                     <div class="product-action">
                       <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
@@ -40,7 +40,7 @@
                       <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
                       <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
                     </div>
-                  </div> -->
+                  </div>
                   <div id="carouselExampleIndicators" class="carousel slide">
                     <div class="carousel-indicators"></div>
                     <div class="carousel-inner">
@@ -60,7 +60,7 @@
                   <div class="text-center py-4">
                     <a
                       class="h6 text-decoration-none text-truncate"
-                      th:href="@{buyitem(productId=${products.productId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                      th:href="@{buyitem(storeId=${storeId},productId=${products.productId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
                       th:text="${products.pName}"
                     ></a>
                     <div class="d-flex align-items-center justify-content-center mt-2">
@@ -108,203 +108,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <div class="product-item bg-light mb-4">
-                          <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
-                            <div class="product-action">
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
-                          </div>
-                          <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" th:href="@{/shop/buyitem}">Product Name Goes Here</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                              <h5>$123.00</h5>
-                              <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star-half-alt text-primary mr-1"></small>
-                              <small>(99)</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <div class="product-item bg-light mb-4">
-                          <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
-                            <div class="product-action">
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
-                          </div>
-                          <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" th:href="@{/shop/buyitem}">Product Name Goes Here</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                              <h5>$123.00</h5>
-                              <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star-half-alt text-primary mr-1"></small>
-                              <small class="far fa-star text-primary mr-1"></small>
-                              <small>(99)</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <div class="product-item bg-light mb-4">
-                          <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
-                            <div class="product-action">
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
-                          </div>
-                          <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                              <h5>$123.00</h5>
-                              <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="far fa-star text-primary mr-1"></small>
-                              <small class="far fa-star text-primary mr-1"></small>
-                              <small>(99)</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <div class="product-item bg-light mb-4">
-                          <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
-                            <div class="product-action">
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
-                          </div>
-                          <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                              <h5>$123.00</h5>
-                              <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small>(99)</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <div class="product-item bg-light mb-4">
-                          <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
-                            <div class="product-action">
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
-                          </div>
-                          <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                              <h5>$123.00</h5>
-                              <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star-half-alt text-primary mr-1"></small>
-                              <small>(99)</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <div class="product-item bg-light mb-4">
-                          <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
-                            <div class="product-action">
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
-                          </div>
-                          <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                              <h5>$123.00</h5>
-                              <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star-half-alt text-primary mr-1"></small>
-                              <small class="far fa-star text-primary mr-1"></small>
-                              <small>(99)</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <div class="product-item bg-light mb-4">
-                          <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
-                            <div class="product-action">
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
-                          </div>
-                          <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                              <h5>$123.00</h5>
-                              <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="fa fa-star text-primary mr-1"></small>
-                              <small class="far fa-star text-primary mr-1"></small>
-                              <small class="far fa-star text-primary mr-1"></small>
-                              <small>(99)</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
             </div>
           </form>
           <!-- 삭제 폼 -->
@@ -375,6 +178,22 @@
           </div>
         </div>
       </div>
+      <script>
+        const pMsg = "[[${pMsg}]]";
+
+        if (pMsg) {
+          alert(pMsg + ".No Product Removed");
+        }
+
+        const upPMsg = "[[${upPMsg}]]";
+
+        if (upPMsg) {
+          alert(upPMsg + ".No Product Updated");
+        }
+
+        // 오더 번호
+        const orderId = "[[${orderId}]]";
+      </script>
     </div>
     <script th:src="@{/js/review.js}"></script>
   </div>
@@ -385,22 +204,6 @@
     <script th:src="@{/js/detail.js}"></script>
 
     <script th:src="@{/js/productModify.js}"></script>
-
-    <script>
-      const pMsg = "[[${pMsg}]]";
-      // <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js">
-      if (pMsg) {
-        alert(pMsg + ".No Product Removed");
-      }
-    </script>
-
-    <script>
-      const upPMsg = "[[${upPMsg}]]";
-      // <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js">
-      if (upPMsg) {
-        alert(upPMsg + ".No Product Updated");
-      }
-    </script>
 
     <!-- <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> -->
   </th:block>

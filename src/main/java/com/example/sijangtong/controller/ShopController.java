@@ -6,6 +6,7 @@ import com.example.sijangtong.dto.ProductDto;
 import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.repository.StoreRepository;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
+import com.example.sijangtong.service.OrderItemService;
 import com.example.sijangtong.service.ProductService;
 import com.example.sijangtong.service.StoreService;
 import com.example.sijangtong.service.StoreServiceImpl;
@@ -36,6 +37,7 @@ public class ShopController {
 
   private final StoreService service;
   private final ProductService productService;
+  private final OrderItemService orderItemService;
 
   // 상품 리스트
   @GetMapping("/storeDetail")
@@ -82,11 +84,27 @@ public class ShopController {
   @GetMapping("/buyitem")
   public void getbuyItem(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @Parameters Long productId,
+      @Parameters Long productId, @ModelAttribute("storeId") Long storeId,
       Model model) {
     log.info("구매 폼 요청");
     model.addAttribute("result", productService.getProductRow(productId));
     model.addAttribute("requestDto", pageRequestDto);
+    model.addAttribute("storeId", storeId);
+  }
+
+  // 상품 담기
+  @PostMapping("/buyitem")
+  public String postbuyItem(@ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @Parameters Long storeId, @Parameters int amount, @Parameters Long productId, @Parameters String memberEmail,
+      RedirectAttributes rttr) {
+    log.info("상품 담기 post 요청, {},{},{},{}", storeId, amount, productId, memberEmail);
+
+    Long orderId = orderItemService.createOrderItem(amount, productId, memberEmail, storeId);
+
+    rttr.addAttribute("orderId", orderId);
+    rttr.addAttribute("storeId", storeId);
+    rttr.addAttribute("requestDto", pageRequestDto);
+    return "redirect/shop/storedetail";
   }
 
   @GetMapping("/read")
