@@ -210,7 +210,11 @@
               <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
               <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
               <div class="mx-2" sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
-                <button type="button" class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white">
+                <button
+                  type="button"
+                  th:value="${storeDto.storeId}"
+                  class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white"
+                >
                   삭제
                 </button>
               </div>
@@ -228,6 +232,8 @@
       </div>
     </form>
 
+    <!-- store 삭제 시 연관된 데이터 모달창 보여주기 영역 -->
+
     <!-- 삭제 폼 -->
     <form th:action="@{remove}" method="post" id="actionForm">
       <!-- 수정 / 삭제를 위한 필요 정보 -->
@@ -240,6 +246,7 @@
 
     <script th:src="@{/js/scripts.js}"></script>
     <script th:src="@{/js/storeModify.js}"></script>
+    <script th:src="@{/js/imageModal.js}"></script>
     <script th:src="@{/js/sUpload.js}"></script>
   </div>
   <th:block layout:fragment="script">
