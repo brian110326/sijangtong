@@ -7,7 +7,7 @@
     <!-- <link th:href="@{/css/styles.css}" rel="stylesheet" /> -->
   </th:block>
   <div layout:fragment="content" class="container px-6 mx-auto grid">
-    <form th:action="@{pModify}" method="post" id="register-form">
+    <form th:action="@{pModify}" method="post" id="register-form" th:object="${productDto}" novalidate>
       <div class="container mt-5">
         <div class="row">
           <div class="col-lg-8">
@@ -72,6 +72,8 @@
                     name="pName"
                     th:value="${productDto.pName}"
                   />
+                  <div th:if="${#fields.hasErrors('pName')}" th:errors="*{pName}" class="text-danger"></div>
+                  <div th:if="${error}" class="text-danger" th:text="${error}"></div>
                 </label>
 
                 <label class="block text-sm">
@@ -81,7 +83,10 @@
                     placeholder="Product Price"
                     name="price"
                     th:value="${productDto.price}"
+                    id="priceInput"
                   />
+                  <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></div>
+                  <div th:if="${error}" class="text-danger" th:text="${error}" id="inputError"></div>
                 </label>
               </section>
             </article>
