@@ -31,6 +31,7 @@ public class ProductImgProductRepositoryImpl extends QuerydslRepositorySupport i
 
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public Page<Object[]> getProductList(String type, String keyword, Pageable pageable, Long storeId) {
 

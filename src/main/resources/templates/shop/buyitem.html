@@ -365,7 +365,7 @@
               </div>
             </div>
           </div>
-          <form th:action="@{/buyitem}" method="post" id="buyitemForm">
+          <form th:action="@{buyitem}" method="post" id="buyitemForm">
             <input type="hidden" name="storeId" th:value="${storeId}">
             <input type="hidden" name="amount">
             <input type="hidden" name="memberEmail" th:value="${#authentication.name}">
@@ -377,6 +377,10 @@
           const user = "[[${#authentication.principal.memberDto.memberEmail}]]";
           const csrfValue = "[[${_csrf.token}]]";
           const memberNickname = "[[${#authentication.principal.memberDto.memberNickname}]]";
+          const shopping_cart_amount = "[[${orderItemCount}]]";
+        if (shopping_cart_amount) {
+          document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
+        }
         </script>
       </div>
     </div>

@@ -15,14 +15,20 @@ public interface OrderItemService {
 
     Long createOrderItem(int amount, Long productId, String memberEmail, Long storeId);
 
-    List<OrderItem> getMemberOrderItems(String memberEmail);
+    List<OrderItemDto> getMemberOrderItems(String memberEmail);
+
+    void deleteOrderItem(Long orderItemId);
 
     public default OrderItemDto entityToDto(OrderItem orderItem) {
+
         OrderItemDto orderItemDto = OrderItemDto.builder()
+                .id(orderItem.getId())
                 .orderId(orderItem.getOrder().getOrderId())
                 .orderPrice(orderItem.getOrderPrice())
                 .orderAmount(orderItem.getOrderAmount())
                 .productId(orderItem.getProduct().getProductId())
+                .pName(orderItem.getProduct().getPName())
+                .price(orderItem.getProduct().getPrice())
                 .build();
 
         return orderItemDto;

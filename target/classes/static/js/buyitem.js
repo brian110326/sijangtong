@@ -22,6 +22,6 @@ window.onload = function () {
   addCart.addEventListener("click", () => {
     buyitemForm.querySelector("[name='amount']").value = amountValue;
 
-    // buyitemForm.submit();
+    buyitemForm.submit();
   });
 };

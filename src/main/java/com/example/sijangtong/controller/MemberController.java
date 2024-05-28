@@ -35,12 +35,14 @@ public class MemberController {
     private final MemberService service;
 
     @GetMapping("/login")
-    public void getLogin(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+    public void getLogin(@ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+            @RequestParam(required = false, value = "memberEmail") String memberEmail) {
         log.info("로그인 폼 요청");
     }
 
     @GetMapping("/register")
-    public void getRegister(MemberDto memberDto, @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+    public void getRegister(MemberDto memberDto, @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+            @RequestParam(required = false, value = "memberEmail") String memberEmail) {
         log.info("회원가입 폼 요청");
     }
 

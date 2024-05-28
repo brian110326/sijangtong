@@ -35,59 +35,87 @@ public class OrderItemServiceImpl implements OrderItemService {
     private final MemberRepository memberRepository;
 
     @Override
-    public Long createOrderItem(int amount, Long productId, String memberEmail, Long storeId) {
-        Product product = productRepository.findById(productId).orElse(null);
-        if (product == null) {
-            throw new IllegalArgumentException("Product not found with ID: " + productId);
-        }
+    public Long createOrderItem(int amount, Long productId, String memberEnail, Long storeId) {
+        Product product = productRepository.findById(productId).get();
+        // Member member = Member.builder().memberEmail(memberEnail).build();
+        Member member = memberRepository.findByMemberEmail(memberEnail).get();
+        Optional<Order> orderOptional = orderRepository.findByMember(member);
 
-        Member member = memberRepository.findByMemberEmail(memberEmail).orElse(null);
-        if (member == null) {
-            throw new IllegalArgumentException("Member not found with email: " + memberEmail);
-        }
+        // 오더 존재 여부 체크 O
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            // 이미 장바구니에 있는 상품을 축가했을경우 해당하는 수량과 가격으로 수정
+            if (orderItemRepository.findByProduct(product).isPresent()) {
+                OrderItem orderItem = orderItemRepository.findByProduct(product).get();
+                orderItem.setOrderAmount(amount);
+                orderItem.setOrderPrice(amount * product.getPrice());
+                orderItemRepository.save(orderItem);
 
-        Order order = orderRepository.findByMember(member).orElse(null);
-        if (order == null) {
-            order = Order.builder()
+                return orderItem.getOrder().getOrderId();
+                // 아닌경우 생성
+            } else {
+                OrderItem orderItem = OrderItem.builder()
+                        .orderAmount(amount)
+                        .product(product)
+                        .orderPrice(amount * product.getPrice())
+                        .order(order)
+                        .build();
+                orderItemRepository.save(orderItem);
+
+                return order.getOrderId();
+            }
+            // 오더 존재 x
+        } else {
+            Order order = Order.builder()
                     .member(member)
                     .orderAddress(member.getMemberAddress())
                     .store(Store.builder().storeId(storeId).build())
                     .build();
             orderRepository.save(order);
+            OrderItem orderItem = OrderItem.builder()
+                    .orderAmount(amount)
+                    .product(product)
+                    .orderPrice(amount * product.getPrice())
+                    .order(order)
+                    .build();
+            orderItemRepository.save(orderItem);
+
+            return order.getOrderId();
         }
 
-        OrderItem orderItem = OrderItem.builder()
-                .order(order) // 주문에 대한 참조 설정
-                .product(product)
-                .orderPrice(amount * product.getPrice())
-                .orderAmount(amount)
-                .build();
-        orderItemRepository.save(orderItem);
-
-        return order.getOrderId();
     }
 
     // 오더 아이템 리스트 보여주기
     @Override
-    public List<OrderItem> getMemberOrderItems(String memberEmail) {
+    public List<OrderItemDto> getMemberOrderItems(String memberEmail) {
         // 회원을 찾습니다
-        Member member = memberRepository.findByMemberEmail(memberEmail).get();
+        Optional<Member> member = memberRepository.findByMemberEmail(memberEmail);
 
-        // 회원이 존재하는지 확인합니다
-        if (member == null) {
-            // 회원이 존재하지 않는 경우 처리합니다
-            return Collections.emptyList(); // 또는 예외를 throw할 수 있습니다
+        if (!member.isPresent()) {
+            return Collections.emptyList();
         }
 
+        List<OrderItemDto> orderItemDtos = new ArrayList<>();
         // 회원에 대한 주문을 찾습니다
-        // Order orders = orderRepository.findByMember(member);
+        Optional<Order> orders = orderRepository.findByMember(member.get());
+        if (orders.isPresent()) {
+            List<OrderItem> items = orderItemRepository.findByOrderId(orders.get().getOrderId());
+            for (OrderItem orderItem : items) {
+                orderItemDtos.add(entityToDto(orderItem));
+            }
+
+            return orderItemDtos;
+        } else {
+            return new ArrayList<>();
+        }
 
         // 각 주문에 대해 주문 항목을 가져옵니다
 
-        // List<OrderItem> items =
-        // orderItemRepository.findByOrderId(orders.getOrderId());
+    }
 
-        return null;
+    @Override
+    public void deleteOrderItem(Long orderItemId) {
+        orderItemRepository.deleteById(orderItemId);
     }
 
 }

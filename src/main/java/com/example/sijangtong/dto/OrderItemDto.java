@@ -28,4 +28,8 @@ public class OrderItemDto {
 
   // 임시추가
   private Long productId;
+
+  private String pName;
+
+  private Integer price;
 }

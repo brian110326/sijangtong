@@ -130,12 +130,12 @@ public class SijangtongServiceTest {
   @Test
   public void createOrderItem() {
 
-    orderItemService.createOrderItem(30, 375L, "member203@naver.com", 3L);
+    orderItemService.createOrderItem(13, 852L, "member202@naver.com", 5L);
 
   }
 
   @Test
   public void OrderItemList() {
-    System.out.println(orderItemService.getMemberOrderItems("member203@naver.com"));
+    System.out.println(orderItemService.getMemberOrderItems("ksb1234@naver.com"));
   }
 }

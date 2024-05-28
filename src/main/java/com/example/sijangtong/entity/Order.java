@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = { "member", "rider", "store", "orderItems" })
+@ToString(exclude = { "member", "rider", "store", "orderItem" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orders")
@@ -47,15 +47,15 @@ public class Order extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private RiderOrdercancel riderOrdercancel;
 
+  @ManyToOne
+  private OrderItem orderItem;
+
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
-
-  @ManyToOne
-  private OrderItem orderItems;
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Store store;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   private Rider rider;
 }
