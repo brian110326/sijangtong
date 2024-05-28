@@ -2,6 +2,7 @@ package com.example.sijangtong.entity;
 
 import com.example.sijangtong.constant.StoreCategory;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,6 +38,7 @@ public class Store {
     private String storeTel;
 
     private String openTime;
+
     private String closeTime;
 
     private String storeAddress;

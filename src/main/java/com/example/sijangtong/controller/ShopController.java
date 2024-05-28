@@ -10,6 +10,9 @@ import com.example.sijangtong.service.ProductService;
 import com.example.sijangtong.service.StoreService;
 import com.example.sijangtong.service.StoreServiceImpl;
 import groovyjarjarpicocli.CommandLine.Parameters;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
+
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -108,7 +112,7 @@ public class ShopController {
 
   @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
   @GetMapping("/modify")
-  public void getModify(
+  public void getModify(StoreDto updateStoreDto,
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       @Parameters Long storeId,
       Model model) {
@@ -125,8 +129,42 @@ public class ShopController {
   }
 
   @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+  @PostMapping("/modify")
+  public String postStoreUpdate(@Valid StoreDto updateStoreDto, BindingResult result,
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @Parameters Long storeId,
+      RedirectAttributes rttr, Model model) {
+
+    if (result.hasErrors()) {
+
+      List<String> districts = Arrays.asList(
+          "강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작", "마포", "서대문", "서초", "성동", "성북", "송파",
+          "양천", "영등포", "용산", "은평", "종로", "중구", "중랑");
+
+      model.addAttribute("districts", districts);
+      return "/shop/modify";
+    }
+
+    try {
+      Long updatedStoreId = service.storeUpdate(updateStoreDto);
+    } catch (Exception e) {
+      e.printStackTrace();
+      rttr.addFlashAttribute("error", e.getMessage());
+      return "redirect:/shop/modify";
+    }
+
+    rttr.addAttribute("storeId", updateStoreDto.getStoreId());
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+    return "redirect:/shop/read";
+  }
+
+  @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
   @GetMapping("/pModify")
-  public void getPModify(@ModelAttribute("requestDto") PageRequestDto pageRequestDto, @Parameters Long productId,
+  public void getPModify(ProductDto updateProductDto, @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @Parameters Long productId,
       @Parameters Long storeId,
       Model model) {
     log.info("product 수정 페이지 요청");
@@ -138,16 +176,28 @@ public class ShopController {
 
   @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
   @PostMapping("/pModify")
-  public String postProductUpdate(
+  public String postProductUpdate(@Valid ProductDto updateProductDto, BindingResult result,
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      ProductDto updateProductDto,
       @Parameters Long storeId,
-      RedirectAttributes rttr) {
+      RedirectAttributes rttr, Model model) {
 
     log.info("pageRequestDto : {}", pageRequestDto);
     log.info("updateProductDto : {}", updateProductDto);
 
-    Long updatedProductId = productService.productUpdate(updateProductDto);
+    if (result.hasErrors()) {
+      model.addAttribute("storeId", storeId);
+      return "/shop/pModify";
+    }
+
+    Long updatedProductId = null;
+
+    try {
+      updatedProductId = productService.productUpdate(updateProductDto);
+    } catch (Exception e) {
+      e.printStackTrace();
+      rttr.addFlashAttribute("error", e.getMessage());
+      return "redirect:/shop/pModify";
+    }
 
     rttr.addFlashAttribute("newPMsg", updatedProductId);
 
@@ -158,23 +208,6 @@ public class ShopController {
 
     return "redirect:/shop/storeDetail";
 
-  }
-
-  @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-  @PostMapping("/modify")
-  public String postStoreUpdate(
-      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      StoreDto updateStoreDto,
-      @Parameters Long storeId,
-      RedirectAttributes rttr) {
-    Long updatedStoreId = service.storeUpdate(updateStoreDto);
-
-    rttr.addAttribute("storeId", updateStoreDto.getStoreId());
-    rttr.addAttribute("page", pageRequestDto.getPage());
-    rttr.addAttribute("type", pageRequestDto.getType());
-    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
-
-    return "redirect:/shop/read";
   }
 
   @PreAuthorize("hasAnyRole('ADMIN','OWNER')")

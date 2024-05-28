@@ -124,7 +124,7 @@ public class ProductServiceImpl implements ProductService {
 
   @Transactional
   @Override
-  public Long productUpdate(ProductDto productDto) {
+  public Long productUpdate(ProductDto productDto) throws IllegalStateException {
     // dto ==> entity
     Map<String, Object> entityMap = dtoToEntity(productDto);
 
