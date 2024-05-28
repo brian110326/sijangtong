@@ -7,7 +7,7 @@ window.onload = function () {
   };
 
   // 리뷰리스트 별점 보여주기
-  const generateStars = (grade) => {
+  const reviewStars = (grade) => {
     let stars = "";
     for (let i = 1; i <= 5; i++) {
       if (i <= grade) {
@@ -35,12 +35,12 @@ window.onload = function () {
               <h6>
                 ${review.memberNickname}<small> - <i>${formatDate(review.createdDate)}</i></small>
               </h6>
-              <div class="starrr">${generateStars(review.grade)}</div>
+              <div class="starrr">${reviewStars(review.grade)}</div>
               <p>
                 ${review.text}
               </p>
             </div>`;
-          if (`${review.memberEmail}` == user) {
+          if (`${review.memberEmail}` == user || userRole == "ADMIN") {
             result += `<div class="d-flex flex-column align-self-center">
             <div> <button  class="btn btn-primary btn-sm mb-2">수정</button></div>
               <div><button  class="btn btn-danger btn-sm">삭제</button>
@@ -151,7 +151,7 @@ window.onload = function () {
           reviewForm.querySelector("#text").value = data["text"];
 
           reviewForm.querySelector(".starrr a:nth-child(" + data["grade"] + ")").click();
-          reviewForm.querySelector("button").innerHTML = "리뷰 수정";
+          reviewForm.querySelector("button").innerHTML = "Update Your Review";
         });
     }
   });
