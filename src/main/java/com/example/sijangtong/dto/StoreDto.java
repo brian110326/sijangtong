@@ -1,13 +1,13 @@
 package com.example.sijangtong.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.sijangtong.constant.StoreCategory;
-
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,23 +18,32 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StoreDto {
-    private Long storeId;
 
-    private StoreCategory storeCategory;
+  private Long storeId;
 
-    private String storeTel;
+  @NotNull(message = "카테고리 값을 넣어주세요")
+  private StoreCategory storeCategory;
 
-    private String openTime;
-    private String closeTime;
+  @NotBlank(message = "전화번호 넣어주세요")
+  private String storeTel;
 
-    private String storeAddress;
+  @NotBlank(message = "오픈시간 넣어주세요")
+  private String openTime;
 
-    private String storeName;
+  @NotBlank(message = "마감시간 넣어주세요")
+  private String closeTime;
 
-    private String storeDetail;
+  @NotBlank(message = "주소 넣어주세요")
+  private String storeAddress;
 
-    private double gradeAvg;
+  @NotBlank(message = "이름을 넣어주세요")
+  private String storeName;
 
-    @Builder.Default
-    private List<StoreImgDto> storeImgDtos = new ArrayList<>();
+  @NotBlank(message = "디테일 넣어주세요")
+  private String storeDetail;
+
+  private double gradeAvg;
+
+  @Builder.Default
+  private List<StoreImgDto> storeImgDtos = new ArrayList<>();
 }
