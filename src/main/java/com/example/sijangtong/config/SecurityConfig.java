@@ -50,6 +50,8 @@ public class SecurityConfig {
         .permitAll()
         .requestMatchers("/upload/uploadAjax")
         .permitAll()
+        .requestMatchers("/rider/riderList")
+        .permitAll()
         .anyRequest()
         .authenticated()
     );
