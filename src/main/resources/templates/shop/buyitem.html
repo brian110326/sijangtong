@@ -181,8 +181,8 @@
                     <div class="reviewList" style="overflow-y: scroll; width: 100%; height: 517.8px; padding: 10px"></div>
                   </div>
                   <!-- 리뷰 작성 폼 -->
-                  <div class="col-md-6">
-                    <form th:action="@{/review/}" method="post" class="review_form">
+                  <div class="col-md-6" sec:authorize="hasAnyRole('MEMBER','ADMIN')">
+                    <form th:action="@{/review/}" method="post" class="review_form" >
                       <input type="hidden" name="reviewId" id="reviewId" />
                       <input type="hidden" name="productId" id="productId" th:value="${result.productId}" />
                       <h4 class="mb-4">Leave a review</h4>
@@ -377,10 +377,14 @@
           const user = "[[${#authentication.principal.memberDto.memberEmail}]]";
           const csrfValue = "[[${_csrf.token}]]";
           const memberNickname = "[[${#authentication.principal.memberDto.memberNickname}]]";
+
           const shopping_cart_amount = "[[${orderItemCount}]]";
         if (shopping_cart_amount) {
           document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
         }
+
+          const userRole = "[[${#authentication.principal.memberDto.memberRole}]]"
+
         </script>
       </div>
     </div>
