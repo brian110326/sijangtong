@@ -5,14 +5,16 @@
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">스토어 등록</h2>
 
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-      <form method="post" id="insert_form" th:action="@{insert}">
+      <form method="post" id="insert_form" th:action="@{insert}" th:object="${storeDto}">
         <label class="block text-sm">
           <span class="text-gray-700 dark:text-gray-400">스토어 이름</span>
           <input
             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
             placeholder="스토어 이름"
             name="storeName"
+            th:value="${storeDto.storeName}"
           />
+          <div class="text-danger" th:if="${#fields.hasErrors('storeName')}" th:errors="*{storeName}"></div>
         </label>
         <!-- 가게 시장 위치 -->
         <label class="block text-sm">
@@ -21,7 +23,9 @@
             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
             placeholder="속해 있는 시장 위치"
             name="storeAddress"
+            th:value="${storeDto.storeAddress}"
           />
+          <div class="text-danger" th:if="${#fields.hasErrors('storeAddress')}" th:errors="*{storeAddress}"></div>
         </label>
         <!-- 가게 전화번호 -->
         <label class="block text-sm">
@@ -30,7 +34,9 @@
             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
             placeholder="가게 전화번호"
             name="storeTel"
+            th:value="${storeDto.storeTel}"
           />
+          <div class="text-danger" th:if="${#fields.hasErrors('storeTel')}" th:errors="*{storeTel}"></div>
         </label>
         <!-- 가게 상세 설명 및 상세 주소 -->
         <label class="block text-sm">
@@ -39,7 +45,9 @@
             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
             placeholder="가게 설명 및 주소"
             name="storeDetail"
+            th:value="${storeDto.storeDetail}"
           />
+          <div class="text-danger" th:if="${#fields.hasErrors('storeDetail')}" th:errors="*{storeDetail}"></div>
         </label>
         <!-- 카테고리 설정 -->
         <label class="block text-sm">
@@ -53,6 +61,7 @@
             <option value="SIDEDISH">반찬</option>
             <option value="MAINDISH">주요리</option>
           </select>
+          <div class="text-danger" th:if="${#fields.hasErrors('storeCategory')}" th:errors="*{storeCategory}"></div>
         </label>
         <!-- 오픈시간 -->
         <label class="block text-sm">
@@ -62,7 +71,9 @@
             type="datetime"
             placeholder="오픈 시간"
             name="openTime"
+            th:value="${storeDto.openTime}"
           />
+          <div class="text-danger" th:if="${#fields.hasErrors('openTime')}" th:errors="*{openTime}"></div>
         </label>
         <!-- 마감 시간 -->
         <label class="block text-sm">
@@ -71,7 +82,9 @@
             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
             placeholder="마감 시간"
             name="closeTime"
+            th:value="${storeDto.closeTime}"
           />
+          <div class="text-danger" th:if="${#fields.hasErrors('closeTime')}" th:errors="*{closeTime}"></div>
         </label>
 
         <label class="block mt-4 text-sm form-label">

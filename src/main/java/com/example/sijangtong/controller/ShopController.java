@@ -9,6 +9,7 @@ import com.example.sijangtong.service.ProductService;
 import com.example.sijangtong.service.StoreService;
 import com.example.sijangtong.service.StoreServiceImpl;
 import groovyjarjarpicocli.CommandLine.Parameters;
+import jakarta.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -210,7 +212,8 @@ public class ShopController {
 
   @GetMapping("/insert")
   public void insertStore(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto
+    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+    StoreDto storeDto
   ) {
     log.info("스토어 생성 폼 요청");
   }
@@ -218,11 +221,18 @@ public class ShopController {
   @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/insert")
   public String storeInsert(
-    StoreDto storeDto,
+    @Valid StoreDto storeDto,
+    BindingResult result,
+    Model model,
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
     RedirectAttributes rttr
   ) {
     log.info("스토어 생성{}");
+
+    if (result.hasErrors()) {
+      // model.addAttribute("categoris", rttr);
+      return "/shop/insert";
+    }
 
     //서비스 호출
     Long storeId = service.storeInsert(storeDto);
