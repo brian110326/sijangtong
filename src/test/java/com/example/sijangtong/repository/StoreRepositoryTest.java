@@ -177,7 +177,7 @@ public class StoreRepositoryTest {
     LongStream
         .rangeClosed(1, 200)
         .forEach(i -> {
-          Store store = Store.builder().storeId(i).build();
+          Store store = Store.builder().storeId(200L).build();
           LongStream
               .rangeClosed(1, 50)
               .forEach(j -> {
@@ -212,7 +212,7 @@ public class StoreRepositoryTest {
     LongStream
         .rangeClosed(1, 200)
         .forEach(i -> {
-          Store store = Store.builder().storeId(i).build();
+          Store store = Store.builder().storeId(200L).build();
           Product product = Product
               .builder()
               .pName("재고" + i)
@@ -302,4 +302,24 @@ public class StoreRepositoryTest {
       productImgRepository.save(productImg);
     }
   }
+
+  @Test
+  public void product200test() {
+    // 임시 사용
+    LongStream
+        .rangeClosed(1, 100)
+        .forEach(i -> {
+          Store store = Store.builder().storeId(200L).build();
+          Product product = Product
+              .builder()
+              .pName("재고" + i)
+              .price(5000)
+              .amount(20)
+              .store(store)
+              .build();
+          productRepository.save(product);
+
+        });
+  }
+
 }

@@ -3,8 +3,12 @@ package com.example.sijangtong.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.sijangtong.dto.PageRequestDto;
+import com.example.sijangtong.dto.PageResultDto;
+import com.example.sijangtong.dto.ProductDto;
 import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.dto.StoreImgDto;
+import com.example.sijangtong.service.ProductService;
 import com.example.sijangtong.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +29,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class RemoveRestController {
 
     private final StoreService storeService;
+
+    private final ProductService productService;
 
     @GetMapping("/{storeId}/storeImages")
     public ResponseEntity<List<StoreImgDto>> getStore(@PathVariable("storeId") Long storeId) {
@@ -34,6 +41,24 @@ public class RemoveRestController {
         List<StoreImgDto> imgList = storeDto.getStoreImgDtos();
 
         return new ResponseEntity<List<StoreImgDto>>(imgList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{storeId}/products")
+    public ResponseEntity<PageResultDto<ProductDto, Object[]>> getProducts(@PathVariable("storeId") Long storeId,
+            PageRequestDto requestDto) {
+
+        PageResultDto<ProductDto, Object[]> list = productService.getProductList(requestDto, storeId);
+
+        return new ResponseEntity<PageResultDto<ProductDto, Object[]>>(list, HttpStatus.OK);
+    }
+
+    // storeModift의 loadProductData함수를 위한 Mapping
+    @GetMapping("/{storeId}/products/{page}")
+    public ResponseEntity<PageResultDto<ProductDto, Object[]>> getProductsPage(@PathVariable("storeId") Long storeId,
+            @PathVariable("page") int page, PageRequestDto requestDto) {
+        PageResultDto<ProductDto, Object[]> list = productService.getProductList(requestDto, storeId);
+
+        return new ResponseEntity<PageResultDto<ProductDto, Object[]>>(list, HttpStatus.OK);
     }
 
 }

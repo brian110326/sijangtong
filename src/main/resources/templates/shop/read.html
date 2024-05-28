@@ -29,25 +29,19 @@
             <!-- 실제로 보여줄 화면 -->
             <div id="carouselExampleIndicators" class="carousel slide">
               <div class="carousel-indicators">
-                <button
-                  type="button"
-                  data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide-to="0"
-                  class="active"
-                  aria-current="true"
-                  aria-label="Slide 1"
-                ></button>
                 <th:block th:each="image, iterStat : ${storeDto.storeImgDtos}">
                   <button
                     type="button"
                     data-bs-target="#carouselExampleIndicators"
-                    th:data-bs-slide-to="${iterStat.count}"
-                    th:aria-label="'Slide ' + ${iterStat.count}"
+                    th:data-bs-slide-to="${iterStat.index}"
+                    th:classappend="${iterStat.first ? 'active' : ''}"
+                    th:aria-current="${iterStat.first ? 'true' : 'false'}"
+                    th:aria-label="'Slide ' + (${iterStat.index + 1})"
                   ></button>
                 </th:block>
               </div>
               <div class="carousel-inner">
-                <div class="carousel-item active" th:each="image : ${storeDto.storeImgDtos}">
+                <div th:class="'carousel-item '+${imgCnt.index==0?'active':''}" th:each="image,imgCnt : ${storeDto.storeImgDtos}">
                   <figure class="mb-4">
                     <img
                       class="img-fluid rounded"
