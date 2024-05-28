@@ -15,6 +15,7 @@ function loadProductData(storeId, page) {
   fetch(`/store/${storeId}/products/${page}`)
     .then((response) => response.json())
     .then((data) => {
+      console.log("Received Data : ", data);
       let pContent = "";
       let pTags = "";
 
