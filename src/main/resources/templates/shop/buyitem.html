@@ -32,7 +32,7 @@
           <div class="h-100 bg-light p-30">
             <h3 th:text="${result.pName}"></h3>
             <div class="d-flex mb-3">
-              <p class="pt-1" th:text="'평점 : ' +${result.avg}"> </p>
+              <p class="pt-1" th:text="'평점 : ' +${result.avg}"></p>
             </div>
             <h3 class="font-weight-semi-bold mb-4" th:text="${result.price} + '원'"></h3>
             <p class="mb-4" th:text=" '남은 재고 량 :'+ ${result.amount}"></p>
@@ -93,7 +93,7 @@
                     <i class="fa fa-minus"></i>
                   </button>
                 </div>
-                <input type="text" class="form-control bg-secondary border-0 text-center" value="1" />
+                <input type="text" class="form-control bg-secondary border-0 text-center" id="Value" value="1" />
                 <div class="input-group-btn">
                   <button class="btn btn-primary btn-plus">
                     <i class="fa fa-plus"></i>
@@ -174,25 +174,23 @@
                   </div>
                 </div>
               </div>
-              <div class="tab-pane fade" id="tab-pane-3"> 
+              <div class="tab-pane fade" id="tab-pane-3">
                 <div class="row">
-                  <div class="col-md-6  ">
-                    <div class=" reviewList " style="overflow-y: scroll;  width: 100%; height: 517.8px; padding: 10px;">
-                   
-                  </div>
+                  <div class="col-md-6">
+                    <!-- 리뷰 리스트 출력부 -->
+                    <div class="reviewList" style="overflow-y: scroll; width: 100%; height: 517.8px; padding: 10px"></div>
                   </div>
                   <!-- 리뷰 작성 폼 -->
-                  <div class="col-md-6">
-                    <form th:action="@{/review/}" method="post" class="review-form">
+                  <div class="col-md-6" sec:authorize="hasAnyRole('MEMBER','ADMIN')">
+                    <form th:action="@{/review/}" method="post" class="review_form" >
                       <input type="hidden" name="reviewId" id="reviewId" />
-                      <input type="hidden" name="memberNickname" id="memberNickname" th:value="${#authentication.principal.memberDto.memberNickname}"/>
-                      <input type="hidden" name="memberEmail" id="memberEmail" th:value="${#authentication.principal.memberDto.memberEmail}"/>
+                      <input type="hidden" name="productId" id="productId" th:value="${result.productId}" />
                       <h4 class="mb-4">Leave a review</h4>
                       <small>Your email address will not be published. Required fields are marked *</small>
                       <div class="d-flex my-3">
                         <p class="mb-0 mr-2 ReviewStar">Your Rating * :</p>
-                          <!-- 별 모양으로 대체 -->
-                          <div class="starrr"></div>
+                        <!-- 별 모양으로 대체 -->
+                        <div class="starrr"></div>
                       </div>
                       <div class="form-group">
                         <label for="message">Your Review *</label>
@@ -200,11 +198,23 @@
                       </div>
                       <div class="form-group">
                         <label for="name">Your Name *</label>
-                        <input type="text" class="form-control" id="memberNickname" readonly th:value="${#authentication.principal.memberDto.memberNickname}"/>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="memberNickname"
+                          readonly
+                          th:value="${#authentication.principal.memberDto.memberNickname}"
+                        />
                       </div>
                       <div class="form-group">
                         <label for="email">Your Email *</label>
-                        <input type="email" class="form-control" id="memberEmail" readonly th:value="${#authentication.principal.memberDto.memberEmail}"/>
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="memberEmail"
+                          readonly
+                          th:value="${#authentication.principal.memberDto.memberEmail}"
+                        />
                       </div>
                       <div class="form-group mb-0">
                         <button type="submit" class="btn btn-primary btn-sm">Leave Your Review</button>
@@ -355,20 +365,40 @@
               </div>
             </div>
           </div>
+          <form th:action="@{buyitem}" method="post" id="buyitemForm">
+            <input type="hidden" name="storeId" th:value="${storeId}">
+            <input type="hidden" name="amount">
+            <input type="hidden" name="memberEmail" th:value="${#authentication.name}">
+            <input type="hidden" name="productId" th:value="${result.productId}">
+          </form>
         </div>
         <script>
           const productId = "[[${result.productId}]]";
           const user = "[[${#authentication.principal.memberDto.memberEmail}]]";
-      </script>
+          const csrfValue = "[[${_csrf.token}]]";
+          const memberNickname = "[[${#authentication.principal.memberDto.memberNickname}]]";
+
+          const shopping_cart_amount = "[[${orderItemCount}]]";
+        if (shopping_cart_amount) {
+          document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
+        }
+
+          const userRole = "[[${#authentication.principal.memberDto.memberRole}]]"
+
+        </script>
       </div>
     </div>
-
   </div>
 
   <th:block layout:fragment="script">
-
     <script th:src="@{/js/review.js}"></script>
+
+    <script th:src="@{/js/buyitem.js}"></script>
+
+    
   
   
+
+
   </th:block>
 </html>

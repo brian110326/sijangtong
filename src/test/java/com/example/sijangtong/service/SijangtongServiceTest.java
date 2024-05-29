@@ -7,9 +7,12 @@ import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.dto.StoreImgDto;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestExecutionListeners;
 
 @SpringBootTest
 public class SijangtongServiceTest {
@@ -19,6 +22,9 @@ public class SijangtongServiceTest {
 
   @Autowired
   private StoreService storeService;
+
+  @Autowired
+  private OrderItemService orderItemService;
 
   // 5월 17 일 확인 완료
   @Test
@@ -98,7 +104,7 @@ public class SijangtongServiceTest {
     List<StoreImgDto> imgList = new ArrayList<>();
     StoreImgDto storeImgDto = StoreImgDto
       .builder()
-      .stUuid(" 메인 123업데이트 테스트 uuid")
+      .stUuid(" 메인 업데이트 테스트 uuid")
       .stImgName(" 메인업데이트테스트 이미지 이름123")
       .stPath("메인  업데이트테스트 패스")
       .build();
@@ -115,7 +121,19 @@ public class SijangtongServiceTest {
     storeDto.setGradeAvg(1.0);
     storeDto.setStoreTel("메인 업데이트 01053859803");
     storeDto.setStoreImgDtos(imgList);
+    // storeService.storeUpdate(storeDto);
+  }
 
-    storeService.storeUpdate(storeDto);
+  // 오더 아이템 생성
+  @Test
+  public void createOrderItem() {
+    orderItemService.createOrderItem(13, 852L, "member202@naver.com", 5L);
+  }
+
+  @Test
+  public void OrderItemList() {
+    System.out.println(
+      orderItemService.getMemberOrderItems("ksb1234@naver.com")
+    );
   }
 }

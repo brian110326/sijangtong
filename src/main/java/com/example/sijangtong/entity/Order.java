@@ -16,6 +16,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +25,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = { "member", "rider", "store" })
+@ToString(exclude = { "member", "rider", "store", "orderItem" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orders")
@@ -52,6 +54,9 @@ public class Order extends BaseEntity {
   // 라이더측 주문 취소 컬럼
   @Enumerated(EnumType.STRING)
   private RiderOrdercancel riderOrdercancel;
+
+  @ManyToOne
+  private OrderItem orderItem;
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;

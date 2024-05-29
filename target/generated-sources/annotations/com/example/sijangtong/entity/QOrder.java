@@ -36,6 +36,8 @@ public class QOrder extends EntityPathBase<Order> {
 
     public final NumberPath<Long> orderId = createNumber("orderId", Long.class);
 
+    public final QOrderItem orderItem;
+
     public final EnumPath<com.example.sijangtong.constant.OrderPayment> orderPayment = createEnum("orderPayment", com.example.sijangtong.constant.OrderPayment.class);
 
     public final QRider rider;
@@ -63,6 +65,7 @@ public class QOrder extends EntityPathBase<Order> {
     public QOrder(Class<? extends Order> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
+        this.orderItem = inits.isInitialized("orderItem") ? new QOrderItem(forProperty("orderItem"), inits.get("orderItem")) : null;
         this.rider = inits.isInitialized("rider") ? new QRider(forProperty("rider"), inits.get("rider")) : null;
         this.store = inits.isInitialized("store") ? new QStore(forProperty("store")) : null;
     }

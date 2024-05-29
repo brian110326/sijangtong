@@ -348,6 +348,12 @@
             </div>
           </div>
         </div>
+        <script>
+          const shopping_cart_amount = "[[${orderItemCount}]]";
+          if (shopping_cart_amount) {
+            document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
+          }
+        </script>
       </div>
     </div>
   </div>

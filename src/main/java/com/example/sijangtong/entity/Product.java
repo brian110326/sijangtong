@@ -17,7 +17,7 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 @Data
-@ToString(exclude = { "store", "orderItem" })
+@ToString(exclude = { "store" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -36,7 +36,7 @@ public class Product {
   private int amount;
 
   // 구매 물품 수량
-  @OneToOne
+  @OneToOne(mappedBy = "product")
   private OrderItem orderItem;
 
   @ManyToOne(fetch = FetchType.LAZY)

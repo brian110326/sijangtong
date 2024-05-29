@@ -24,13 +24,13 @@ public class StoreDto {
   @NotNull(message = "카테고리 값을 넣어주세요")
   private StoreCategory storeCategory;
 
-  @NotBlank(message = "전화번호 넣어주세요")
+  @NotBlank(message = "StoreTel cannot be blank")
   private String storeTel;
 
-  @NotBlank(message = "오픈시간 넣어주세요")
+  @NotBlank(message = "Opentime cannot be blank")
   private String openTime;
 
-  @NotBlank(message = "마감시간 넣어주세요")
+  @NotBlank(message = "Closetime cannot be blank")
   private String closeTime;
 
   @NotBlank(message = "주소 넣어주세요")

@@ -1,7 +1,27 @@
-/*!
- * Start Bootstrap - Shop Item v5.0.6 (https://startbootstrap.com/template/shop-item)
- * Copyright 2013-2023 Start Bootstrap
- * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-item/blob/master/LICENSE)
- */
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
+window.onload = function () {
+  const addCart = document.querySelector("#addCart");
+  const buyitemForm = document.querySelector("#buyitemForm");
+  var amountValue = document.querySelector("#Value").value;
+
+  $(".quantity button").on("click", function () {
+    var button = $(this);
+    var oldValue = button.parent().parent().find("input").val();
+    if (button.hasClass("btn-plus")) {
+      var newVal = parseInt(oldValue);
+      console.log(newVal);
+    } else {
+      if (oldValue > 0) {
+        var newVal = parseInt(oldValue);
+      } else {
+        newVal = 0;
+      }
+    }
+    button.parent().parent().find("input").val(newVal);
+    amountValue = newVal;
+  });
+  addCart.addEventListener("click", () => {
+    buyitemForm.querySelector("[name='amount']").value = amountValue;
+
+    buyitemForm.submit();
+  });
+};

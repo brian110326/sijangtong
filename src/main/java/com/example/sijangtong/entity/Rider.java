@@ -46,6 +46,6 @@ public class Rider {
   @Enumerated(EnumType.STRING)
   private RiderStatus riderStatus;
 
-  @OneToOne
+  @OneToOne(mappedBy = "rider")
   private Order order;
 }

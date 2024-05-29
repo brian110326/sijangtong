@@ -104,6 +104,8 @@ public class OrderServiceImpl implements OrderService {
     // 주문 시 waiting 중이면서 riderId가 최소인 rider 배정
     Rider rider = riderRepository.getRider();
 
+    // orderDto.setRider(rider);
+
     // 문제 생긴다면 set함수 이용해보기
     Order newOrder = dtoToEntity(orderDto);
     orderRepository.save(newOrder);

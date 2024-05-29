@@ -150,7 +150,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     public void memberWithdrawal(MemberDto memberDto) throws IllegalStateException {
 
         Member member = memberRepository.findByMemberEmail(memberDto.getMemberEmail()).get();
-        List<Order> orders = orderRepository.findByMember(member);
+        Order order = orderRepository.findByMember(member).get();
 
         if (!passwordEncoder.matches(memberDto.getMemberPwd(),
                 member.getMemberPwd())) {
@@ -159,10 +159,8 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
             reviewRepository.deleteByMember(member);
 
-            orders.forEach(order -> {
-                orderItemRepository.deleteByOrder(order);
-                orderRepository.delete(order);
-            });
+            orderItemRepository.deleteByOrder(order);
+            orderRepository.delete(order);
 
             memberRepository.delete(member);
         }
