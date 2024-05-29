@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface ReviewService {
   // review list 보여주기
-  PageResultDto<ReviewDto, Object[]> getReviewList(
+  List<ReviewDto> getReviewList(
       PageRequestDto pageRequestDto,
       Long productId);
 

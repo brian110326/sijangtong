@@ -11,6 +11,38 @@
 //   actionForm.submit();
 // });
 
+const modalShowArea = document.querySelector("#modalShowArea");
+
+// 페이지 버튼 클릭하는 이벤트함수
+function loadProductDataEvent() {
+  // document.querySelectorAll(".page-link").forEach((link) => {
+  //   link.addEventListener("click", (e) => {
+  //     e.preventDefault();
+  //     const storeId = e.target.getAttribute("data-store-id");
+  //     const pageNumber = e.target.getAttribute("data-page");
+  //     loadProductData(storeId, pageNumber);
+  //   });
+  // });
+
+  document.querySelector("#modalShowArea").addEventListener("click", (e) => {
+    const target = e.target;
+    console.log("e.target => ", target); // 페이지번호의 a태그
+    console.log("e.currentTarget => ", e.currentTarget); // 감싸고있는 div의 modalShowArea 태그
+
+    if (target.classList.contains("page-link")) {
+      const storeId = target.getAttribute("data-store-id");
+      const pageNumber = target.getAttribute("data-page");
+
+      if (storeId && pageNumber) {
+        loadProductData(storeId, pageNumber);
+      }
+    }
+
+    // console.log("storeId => ", storeId);
+    // console.log("pageNumber => ", pageNumber);
+  });
+}
+
 function loadProductData(storeId, page) {
   fetch(`/store/${storeId}/products/${page}`)
     .then((response) => response.json())
@@ -85,16 +117,6 @@ function loadProductData(storeId, page) {
 
       const productModal = new bootstrap.Modal(document.querySelector("#productModal"));
       productModal.show();
-
-      document.querySelectorAll(".page-link").forEach((link) => {
-        link.addEventListener("click", (e) => {
-          e.preventDefault();
-
-          const storeId = e.target.getAttribute("data-store-id");
-          const pageNumber = e.target.getAttribute("data-page");
-          loadProductData(storeId, pageNumber);
-        });
-      });
     });
 }
 
@@ -141,7 +163,9 @@ document.querySelector(".btn-danger").addEventListener("click", (e) => {
 
       tags += `</div></div></div></div>`;
 
-      actionForm.insertAdjacentHTML("beforebegin", tags);
+      modalShowArea.innerHTML = tags;
+
+      //actionForm.insertAdjacentHTML("beforebegin", tags);
 
       const modal = new bootstrap.Modal(document.querySelector(".modal"));
 
@@ -233,21 +257,15 @@ document.querySelector(".btn-danger").addEventListener("click", (e) => {
 
             pTags += `</div></div></div></div>`;
 
-            actionForm.insertAdjacentHTML("beforebegin", pTags);
+            //actionForm.insertAdjacentHTML("beforebegin", pTags);
+
+            modalShowArea.innerHTML = pTags;
 
             const productModal = new bootstrap.Modal(document.querySelector("#productModal"));
             productModal.show();
-
-            document.querySelectorAll(".page-link").forEach((link) => {
-              link.addEventListener("click", (e) => {
-                e.preventDefault();
-
-                const storeId = e.target.getAttribute("data-store-id");
-                const pageNum = e.target.getAttribute("data-page");
-                loadProductData(storeId, pageNum);
-              });
-            });
           });
+
+        loadProductDataEvent();
       });
     });
 

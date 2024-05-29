@@ -29,17 +29,20 @@ public class ReviewServiceImpl implements ReviewService {
   private final ProductRepository productRepository;
 
   @Override
-  public PageResultDto<ReviewDto, Object[]> getReviewList(
+  public List<ReviewDto> getReviewList(
       PageRequestDto pageRequestDto,
       Long productId) {
 
     Page<Object[]> result = reviewRepository.getReviewList(
         pageRequestDto.getPageable(Sort.by("reviewId")),
         productId);
+    // log.info("page result : {}", result);
 
-    Function<Object[], ReviewDto> fn = (entity -> entityToDto((Review) entity[0]));
+    List<ReviewDto> reviewDtoList = result.getContent().stream()
+        .map(entity -> entityToDto((Review) entity[1]))
+        .collect(Collectors.toList());
 
-    return new PageResultDto<>(result, fn);
+    return reviewDtoList;
   }
 
   @Override

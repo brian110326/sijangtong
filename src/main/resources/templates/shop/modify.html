@@ -214,6 +214,8 @@
                   type="button"
                   th:value="${storeDto.storeId}"
                   class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white"
+                  data-bs-target="#imgModal"
+                  data-bs-toggle="modal"
                 >
                   삭제
                 </button>
@@ -233,11 +235,98 @@
     </form>
 
     <!-- modal 보여주기 영역 -->
+    <!-- storeImg modal 영역 -->
+    <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Store Images will be DELETED</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row row-cols-5" id="modal-body1">
+                <!-- body 영역 -->
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- product modal 보여주기 영역 -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Products will be DELETED</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modal-body2">
+            <!-- product list 영역 -->
+          </div>
+          <!-- 페이지 나누기 영역 -->
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item" th:if="${pList.prev}">
+                <a class="page-link" href="" aria-label="Previous" th:data-page="${pList.start - 1}" th:attr="data-storeId=${storeId}">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item" th:each="page : ${pList.pageList}">
+                <a class="page-link" href="#" th:text="${page}" th:data-page="${page}" th:data-storeId="${storeId}"></a>
+              </li>
+
+              <li class="page-item" th:if="${pList.next}">
+                <a class="page-link" href="" aria-label="Next" th:data-page="${pList.end + 1}" th:data-storeId="${storeId}">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pImgModal">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- productImg modal 영역 -->
+    <div class="modal fade" id="pImgModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              Product Images will be DELETED(Each image is a representative of each products. There are more images to be removed.)
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row row-cols-5" id="modal-body3">
+                <!-- body 영역 -->
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal 보여주기 영역 끝 -->
 
     <!-- 삭제 폼 -->
     <form th:action="@{remove}" method="post" id="actionForm">
       <!-- 수정 / 삭제를 위한 필요 정보 -->
-      <input type="hidden" name="storeId" th:value="${storeDto.storeId}" />
+      <input type="hidden" name="storeId" th:value="${storeDto.storeId}" id="scriptUseId" />
       <!-- 페이지 나누기에 필요 정보-->
       <input type="hidden" name="page" th:value="${requestDto.page}" />
       <input type="hidden" name="type" th:value="${requestDto.type}" />
@@ -245,7 +334,8 @@
     </form>
 
     <script th:src="@{/js/scripts.js}"></script>
-    <script th:src="@{/js/storeModify.js}"></script>
+    <!-- <script th:src="@{/js/storeModify.js}"></script> -->
+    <script th:src="@{/js/deleteModal.js}"></script>
     <script th:src="@{/js/sUpload.js}"></script>
   </div>
   <th:block layout:fragment="script">

@@ -210,9 +210,9 @@ public class StoreRepositoryTest {
   public void insertProductTestssss() {
     // 임시 사용
     LongStream
-        .rangeClosed(1, 200)
+        .rangeClosed(1, 100)
         .forEach(i -> {
-          Store store = Store.builder().storeId(200L).build();
+          Store store = Store.builder().storeId(199L).build();
           Product product = Product
               .builder()
               .pName("재고" + i)
@@ -222,18 +222,18 @@ public class StoreRepositoryTest {
               .build();
           productRepository.save(product);
 
-          int count = (int) (Math.random() * 5) + 1;
+          // int count = (int) (Math.random() * 5) + 1;
 
-          for (int k = 0; k < count; k++) {
-            ProductImg productImg = ProductImg
-                .builder()
-                .uuid(UUID.randomUUID().toString())
-                .path(null)
-                .imgName("img" + k + ".jpg")
-                .product(product)
-                .build();
-            productImgRepository.save(productImg);
-          }
+          // for (int k = 0; k < count; k++) {
+          // ProductImg productImg = ProductImg
+          // .builder()
+          // .uuid(UUID.randomUUID().toString())
+          // .path(null)
+          // .imgName("img" + k + ".jpg")
+          // .product(product)
+          // .build();
+          // productImgRepository.save(productImg);
+          // }
         });
   }
 
@@ -309,13 +309,12 @@ public class StoreRepositoryTest {
     LongStream
         .rangeClosed(1, 100)
         .forEach(i -> {
-          Store store = Store.builder().storeId(200L).build();
           Product product = Product
               .builder()
               .pName("재고" + i)
               .price(5000)
               .amount(20)
-              .store(store)
+              .store(Store.builder().storeId(198L).build())
               .build();
           productRepository.save(product);
 

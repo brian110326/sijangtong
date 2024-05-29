@@ -120,12 +120,18 @@ public class ShopController {
     StoreDto storeDto = service.getRow(storeId);
 
     model.addAttribute("storeDto", storeDto);
+    model.addAttribute("storeId", storeId);
 
     List<String> districts = Arrays.asList(
         "강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작", "마포", "서대문", "서초", "성동", "성북", "송파",
         "양천", "영등포", "용산", "은평", "종로", "중구", "중랑");
 
     model.addAttribute("districts", districts);
+
+    // modal 작업용
+    PageResultDto<ProductDto, Object[]> pList = productService.getProductList(pageRequestDto, storeId);
+    model.addAttribute("pList", pList);
+
   }
 
   @PreAuthorize("hasAnyRole('ADMIN','OWNER')")

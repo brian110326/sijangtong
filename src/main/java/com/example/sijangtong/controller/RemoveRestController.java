@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ProductDto;
+import com.example.sijangtong.dto.ReviewDto;
 import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.dto.StoreImgDto;
 import com.example.sijangtong.service.ProductService;
+import com.example.sijangtong.service.ReviewService;
 import com.example.sijangtong.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +35,8 @@ public class RemoveRestController {
     private final StoreService storeService;
 
     private final ProductService productService;
+
+    private final ReviewService reviewService;
 
     @GetMapping("/{storeId}/storeImages")
     public ResponseEntity<List<StoreImgDto>> getStore(@PathVariable("storeId") Long storeId) {
@@ -52,13 +58,33 @@ public class RemoveRestController {
         return new ResponseEntity<PageResultDto<ProductDto, Object[]>>(list, HttpStatus.OK);
     }
 
-    // storeModift의 loadProductData함수를 위한 Mapping
     @GetMapping("/{storeId}/products/{page}")
     public ResponseEntity<PageResultDto<ProductDto, Object[]>> getProductsPage(@PathVariable("storeId") Long storeId,
             @PathVariable("page") int page, PageRequestDto requestDto) {
         PageResultDto<ProductDto, Object[]> list = productService.getProductList(requestDto, storeId);
 
         return new ResponseEntity<PageResultDto<ProductDto, Object[]>>(list, HttpStatus.OK);
+    }
+
+    // @GetMapping("/{storeId}/{productId}/product")
+    // public ResponseEntity<ProductDto> getMethodName(@PathVariable("productId")
+    // Long productId,
+    // @PathVariable("storeId") Long storeId) {
+    // ProductDto productDto = productService.getProductRow(productId);
+
+    // return new ResponseEntity<ProductDto>(productDto, HttpStatus.OK);
+    // }
+
+    @GetMapping("/{productId}/reviews/{page}")
+    public ResponseEntity<List<ReviewDto>> getMethodName(@PathVariable("productId") Long productId,
+            @PathVariable("page") int page,
+            PageRequestDto pageRequestDto) {
+
+        pageRequestDto.setPage(page);
+
+        List<ReviewDto> rList = reviewService.getReviewList(pageRequestDto, productId);
+
+        return new ResponseEntity<List<ReviewDto>>(rList, HttpStatus.OK);
     }
 
 }
