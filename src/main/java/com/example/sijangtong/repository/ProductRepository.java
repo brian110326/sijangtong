@@ -20,4 +20,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Modifying
     @Query("delete from Product p where p.store = :store")
     void deleteByStore(Store store);
+
 }

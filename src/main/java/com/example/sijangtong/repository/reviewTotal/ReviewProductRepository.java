@@ -5,4 +5,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface ReviewProductRepository {
     Page<Object[]> getReviewList(Pageable pageable, Long productId);
+
 }

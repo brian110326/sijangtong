@@ -1,7 +1,9 @@
 const imgDiv = document.querySelector("#modal-body1");
 const productDiv = document.querySelector("#modal-body2");
 const productImgDiv = document.querySelector("#modal-body3");
+const reviewDiv = document.querySelector("#modal-body4");
 const storeId = document.querySelector("#scriptUseId").value;
+const productId = document.querySelector("#scriptUsePId").value;
 
 fetch(`/store/${storeId}/storeImages`)
   .then((response) => response.json())
@@ -47,4 +49,21 @@ fetch(`/store/${storeId}/products`)
     });
 
     productImgDiv.innerHTML = piTags;
+  });
+
+fetch(`/store/${productId}/reviews`)
+  .then((response) => response.json())
+  .then((data) => {
+    let rTags = "";
+
+    console.log(data);
+
+    const reviewList = data.content;
+
+    reviewList.forEach((review) => {
+      rTags += `<ul class="list-group"><li data-bs-toggle="modal" class="list-group-item">`;
+      rTags += `<a href="" class="list-group-item list-group-item-action">${review.reviewId} : ${review.text}</a>`;
+      rTags += `</li></ul>`;
+      reviewDiv.innerHTML = rTags;
+    });
   });

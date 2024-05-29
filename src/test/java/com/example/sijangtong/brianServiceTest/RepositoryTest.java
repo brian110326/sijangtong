@@ -120,7 +120,7 @@ public class RepositoryTest {
     public void insertProductTest() {
         // storeId가 200인 Store 객체 생성
 
-        LongStream.rangeClosed(1, 100).forEach(i -> {
+        LongStream.rangeClosed(299, 350).forEach(i -> {
             Store store = Store.builder().storeId(200L).build();
             Product product = Product.builder()
                     .pName("재고" + i) // 예: 재고1, 재고2, ..., 재고50

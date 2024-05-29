@@ -234,6 +234,11 @@
       </div>
     </form>
 
+    <!-- productId hidden 영역 -->
+    <div th:each="product : ${pList.dtoList}">
+      <input type="hidden" name="productId" th:value="${product.productId}" id="scriptUsePId" />
+    </div>
+
     <!-- modal 보여주기 영역 -->
     <!-- storeImg modal 영역 -->
     <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -315,7 +320,50 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#">Understood</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- review modal 보여주기 영역 -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Reviews will be DELETED</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modal-body4">
+            <!-- review list 영역 -->
+          </div>
+          <!-- 페이지 나누기 영역 -->
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item" th:if="${rList != null and !rList.first}">
+                <a class="page-link" href="" aria-label="Previous" data-page="${rList.pageable.pageNumber - 1}" th:data-productId="${productId}">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+
+              <li class="page-item" th:if="${rList != null and rList.totalPages != null}">
+                <ul class="pagination">
+                  <li th:each="page : ${#numbers.sequence(0, rList.totalPages - 1)}" th:classappend="${page == rList.pageable.pageNumber} ? 'active'">
+                    <a class="page-link" href="#" th:text="${page + 1}" th:data-page="${page}" th:data-productId="${productId}"></a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="page-item" th:if="${rList != null and !rList.last}">
+                <a class="page-link" href="" aria-label="Next" data-page="${rList.pageable.pageNumber + 1}" th:data-productId="${productId}">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pImgModal">Understood</button>
           </div>
         </div>
       </div>

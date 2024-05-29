@@ -12,6 +12,9 @@ import com.example.sijangtong.entity.Store;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 public interface ReviewService {
   // review list 보여주기
   List<ReviewDto> getReviewList(
@@ -26,6 +29,9 @@ public interface ReviewService {
 
   // review 등록
   Long createReview(ReviewDto reviewDto);
+
+  // 테스트용
+  Page<ReviewDto> getReviewsByProduct(Product product, Pageable pageable);
 
   public default ReviewDto entityToDto(Review review) {
     ReviewDto reviewDto = ReviewDto

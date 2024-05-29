@@ -156,6 +156,14 @@ public class ServiceTest {
     }
   }
 
+  // @Test
+  // public void reviewTest2() {
+  // Product product = Product.builder().productId(200L).build();
+  // List<Review> list = reviewRepository.findByProduct(product);
+
+  // list.forEach(en -> System.out.println(en));
+  // }
+
   @Test
   public void getProductRow() {
     List<Object[]> list = productImgRepository.getProductRow(7L);
@@ -190,11 +198,20 @@ public class ServiceTest {
   @Test
   public void getReviewListByProduct() {
     // store에 대한 reviewlist 보여주기
-    Product product = Product.builder().productId(1L).build();
+    Product product = Product.builder().productId(200L).build();
 
-    List<Review> list = reviewRepository.findByProduct(product);
+    PageRequestDto requestDto = PageRequestDto
+        .builder()
+        .size(10)
+        .page(1)
+        .build();
 
-    list.forEach(review -> System.out.println(review));
+    Page<Review> list = reviewRepository.findByProduct(product, requestDto.getPageable(Sort.by("reviewId")));
+
+    for (Review review : list) {
+      System.out.println(review);
+    }
+
   }
 
   @Test

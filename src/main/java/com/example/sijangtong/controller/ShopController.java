@@ -3,10 +3,13 @@ package com.example.sijangtong.controller;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ProductDto;
+import com.example.sijangtong.dto.ReviewDto;
 import com.example.sijangtong.dto.StoreDto;
+import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.repository.StoreRepository;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
 import com.example.sijangtong.service.ProductService;
+import com.example.sijangtong.service.ReviewService;
 import com.example.sijangtong.service.StoreService;
 import com.example.sijangtong.service.StoreServiceImpl;
 import groovyjarjarpicocli.CommandLine.Parameters;
@@ -18,6 +21,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -40,6 +45,7 @@ public class ShopController {
 
   private final StoreService service;
   private final ProductService productService;
+  private final ReviewService reviewService;
 
   // 상품 리스트
   @GetMapping("/storeDetail")
@@ -115,6 +121,7 @@ public class ShopController {
   public void getModify(StoreDto updateStoreDto,
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       @Parameters Long storeId,
+      @Parameters Long productId,
       Model model) {
     log.info("설명 폼 요청");
     StoreDto storeDto = service.getRow(storeId);
@@ -131,6 +138,14 @@ public class ShopController {
     // modal 작업용
     PageResultDto<ProductDto, Object[]> pList = productService.getProductList(pageRequestDto, storeId);
     model.addAttribute("pList", pList);
+
+    // transient Exception 방지용
+    if (productId != null) {
+      Product product = productService.getProductById(productId);
+      Page<ReviewDto> rList = reviewService.getReviewsByProduct(product,
+          pageRequestDto.getPageable(Sort.by("reviewId")));
+      model.addAttribute("rList", rList);
+    }
 
   }
 

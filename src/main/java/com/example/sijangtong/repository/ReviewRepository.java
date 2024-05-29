@@ -29,7 +29,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewPro
     void deleteByMember(Member member);
 
     @Query("select r from Review r where r.product = :product")
-    List<Review> findByProduct(Product product);
+    Page<Review> findByProduct(Product product, Pageable pageable);
 
     @Modifying
     @Transactional

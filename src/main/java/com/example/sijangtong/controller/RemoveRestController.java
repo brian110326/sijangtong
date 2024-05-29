@@ -9,6 +9,8 @@ import com.example.sijangtong.dto.ProductDto;
 import com.example.sijangtong.dto.ReviewDto;
 import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.dto.StoreImgDto;
+import com.example.sijangtong.entity.Product;
+import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.service.ProductService;
 import com.example.sijangtong.service.ReviewService;
 import com.example.sijangtong.service.StoreService;
@@ -18,6 +20,8 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,16 +79,16 @@ public class RemoveRestController {
     // return new ResponseEntity<ProductDto>(productDto, HttpStatus.OK);
     // }
 
-    @GetMapping("/{productId}/reviews/{page}")
-    public ResponseEntity<List<ReviewDto>> getMethodName(@PathVariable("productId") Long productId,
-            @PathVariable("page") int page,
+    @GetMapping("/{productId}/reviews")
+    public ResponseEntity<Page<ReviewDto>> getMethodName(@PathVariable("productId") Long productId,
             PageRequestDto pageRequestDto) {
 
-        pageRequestDto.setPage(page);
+        Product product = Product.builder().productId(productId).build();
 
-        List<ReviewDto> rList = reviewService.getReviewList(pageRequestDto, productId);
+        Page<ReviewDto> list = reviewService.getReviewsByProduct(product,
+                pageRequestDto.getPageable(Sort.by("reviewId")));
 
-        return new ResponseEntity<List<ReviewDto>>(rList, HttpStatus.OK);
+        return new ResponseEntity<Page<ReviewDto>>(list, HttpStatus.OK);
     }
 
 }

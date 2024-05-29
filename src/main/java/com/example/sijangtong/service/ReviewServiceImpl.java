@@ -11,12 +11,16 @@ import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
 import com.example.sijangtong.repository.ProductRepository;
 import com.example.sijangtong.repository.ReviewRepository;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -70,4 +74,23 @@ public class ReviewServiceImpl implements ReviewService {
 
     return newReview.getReviewId();
   }
+
+  @Override
+  public Page<ReviewDto> getReviewsByProduct(Product product, Pageable pageable) {
+
+    Page<Review> result = reviewRepository.findByProduct(product, pageable);
+
+    // Review 객체를 ReviewDto로 변환하여 담을 리스트 생성
+    List<ReviewDto> reviewDtoList = new ArrayList<>();
+
+    // 각 Review 객체를 ReviewDto로 변환 후 리스트에 추가
+    result.forEach(review -> {
+      ReviewDto reviewDto = entityToDto(review);
+      reviewDtoList.add(reviewDto);
+    });
+
+    // ReviewDto 리스트와 페이징 정보로 새로운 Page 객체 생성하여 반환
+    return new PageImpl<>(reviewDtoList, pageable, result.getTotalElements());
+  }
+
 }

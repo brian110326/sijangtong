@@ -71,7 +71,7 @@ public class StoreRepositoryTest {
   @Test
   public void insertMemberTest() {
     IntStream
-        .rangeClosed(1, 200)
+        .rangeClosed(299, 350)
         .forEach(i -> {
           Member member = Member
               .builder()
@@ -240,7 +240,7 @@ public class StoreRepositoryTest {
   @Test
   public void insertReviewTest() {
     LongStream
-        .rangeClosed(1, 200)
+        .rangeClosed(299, 350)
         .forEach(i -> {
           Member member = Member
               .builder()
