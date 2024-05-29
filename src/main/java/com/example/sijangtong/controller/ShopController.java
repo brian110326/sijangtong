@@ -142,9 +142,9 @@ public class ShopController {
     ) Long orderItemCount,
     Model model
   ) {
-    log.info("구매 폼 요청{}", orderItemCount);
-
-    model.addAttribute("result", productService.getProductRow(productId));
+    ProductDto productDto = productService.getProductRow(productId);
+    log.info("구매 폼 요청 productDto :{}", productDto);
+    model.addAttribute("result", productDto);
     model.addAttribute("requestDto", pageRequestDto);
     model.addAttribute("storeId", storeId);
     model.addAttribute("orderItemCount", orderItemCount);
