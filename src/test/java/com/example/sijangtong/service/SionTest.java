@@ -4,6 +4,8 @@ import com.example.sijangtong.constant.MemberRole;
 import com.example.sijangtong.constant.RiderOrdercancel;
 import com.example.sijangtong.constant.RiderStatus;
 import com.example.sijangtong.dto.OrderDto;
+import com.example.sijangtong.dto.PageRequestDto;
+import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.RiderDto;
 import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Rider;
@@ -95,5 +97,18 @@ public class SionTest {
       .build();
 
     memberRepository.save(member);
+  }
+
+  // 라이더 리스트 테스트
+  @Test
+  public void riderListTest() {
+    PageRequestDto requestDto = PageRequestDto
+      .builder()
+      .page(2)
+      .size(10)
+      .build();
+    PageResultDto<RiderDto, Rider> list = riderService.getRiderList(requestDto);
+
+    System.out.println(list);
   }
 }
