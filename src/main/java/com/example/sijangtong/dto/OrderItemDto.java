@@ -32,4 +32,6 @@ public class OrderItemDto {
   private String pName;
 
   private Integer price;
+
+  private Long storId;
 }

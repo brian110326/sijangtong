@@ -29,6 +29,7 @@ public interface OrderItemService {
                 .productId(orderItem.getProduct().getProductId())
                 .pName(orderItem.getProduct().getPName())
                 .price(orderItem.getProduct().getPrice())
+                .storId(orderItem.getProduct().getStore().getStoreId())
                 .build();
 
         return orderItemDto;

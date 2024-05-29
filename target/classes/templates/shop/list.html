@@ -341,7 +341,7 @@
                     <div class="text-center py-4">
                       <a
                         class="h6 text-decoration-none text-truncate"
-                        th:href="@{storedetail(storeId=${shop.storeId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"
+                        th:href="@{storeproducts(storeId=${shop.storeId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"
                         th:text="${shop.storeName} +'(가게 지역 :' +(${shop.storeAddress})+')'"
                       ></a>
                       <div class="d-flex align-items-center justify-content-center mt-2">

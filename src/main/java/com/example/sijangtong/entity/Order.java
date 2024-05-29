@@ -56,6 +56,6 @@ public class Order extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private Store store;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @OneToOne
   private Rider rider;
 }

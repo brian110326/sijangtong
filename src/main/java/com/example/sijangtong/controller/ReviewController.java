@@ -48,7 +48,6 @@ public class ReviewController {
     List<ReviewDto> result = reviewService.getReviewList(
         pageRequestDto,
         productId);
-
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
