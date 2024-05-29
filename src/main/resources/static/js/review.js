@@ -111,6 +111,7 @@ window.onload = function () {
           reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
 
           if (data) alert(data + " 번 리뷰수정 완료.");
+          reviewForm.querySelector("button").innerHTML = "Leave Your Review";
           reviewLoad();
         });
     }

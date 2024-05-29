@@ -24,6 +24,10 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
+
 public class ProductImgProductRepositoryImpl extends QuerydslRepositorySupport implements ProductImgProductRepository {
 
     public ProductImgProductRepositoryImpl() {
@@ -117,9 +121,11 @@ public class ProductImgProductRepositoryImpl extends QuerydslRepositorySupport i
                 .select(product, productImg, store,
                         (JPAExpressions.select(review.grade.avg()).from(review).where(review.product.eq(product))))
                 .where(product.productId.eq(productId));
+        log.info("물품 구메 (product, review ,avg)tuple  :{}", tuple);
 
         List<Tuple> result = tuple.fetch();
 
+        log.info("(product, review ,avg)result  :{}", result);
         return result.stream().map(t -> t.toArray()).collect(Collectors.toList());
 
     }
