@@ -315,6 +315,7 @@ public class ShopController {
       model.addAttribute("orderItemsList", orderItems);
     } else {
       Long orderItemCount = (long) orderItems.size();
+      model.addAttribute("memberEmail", memberEmail);
       model.addAttribute("orderItemCount", orderItemCount);
       model.addAttribute("orderItemsList", orderItems);
     }
@@ -334,20 +335,16 @@ public class ShopController {
 
   @PreAuthorize("isAuthenticated()")
   @GetMapping("/cart")
-  public String getCart(
+  public void getCart(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
       @RequestParam(required = false, value = "memberEmail") String memberEmail, Model model) {
-    log.info("구매 폼 요청 {}", orderItemCount);
+
     List<OrderItemDto> orderItems = orderItemService.getMemberOrderItems(memberEmail);
-    if (orderItems.isEmpty()) {
-      return "shop/buyitemlist";
-    } else {
-      model.addAttribute("orderItemCount", orderItemCount);
-
-      return "shop/cart";
-    }
-
+    log.info("구매 폼 요청 주문량 {}", orderItems);
+    model.addAttribute("orderItems", orderItems);
+    model.addAttribute("memberEmail", memberEmail);
+    model.addAttribute("orderItemCount", orderItemCount);
   }
 
   // 리스트에 무작위로 뿌리는 추천 상품을 위한 sorid 뽑기

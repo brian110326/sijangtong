@@ -76,7 +76,7 @@
               <h5 id="totalPrice2"></h5>
             </div>
             <a
-              th:href="@{/shop/cart(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"
+              th:href="@{/shop/cart(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount},memberEmail=${memberEmail})}"
               class="btn btn-block btn-primary font-weight-bold my-3 py-3"
               >구매 확정</a
             >
