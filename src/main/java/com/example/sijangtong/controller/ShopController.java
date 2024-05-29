@@ -487,6 +487,7 @@ public class ShopController {
   @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/insert")
   public void insertStore(
+    StoreDto storeDto,
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto
   ) {
     log.info("스토어 생성 폼 요청");

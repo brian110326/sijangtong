@@ -17,7 +17,6 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -64,6 +63,6 @@ public class Order extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private Store store;
 
-  @OneToOne(mappedBy = "order")
+  @OneToOne
   private Rider rider;
 }
