@@ -38,6 +38,7 @@ public class SecurityConfig {
           "/shop/storeDetail",
           "/shop/insert",
           "/shop/contact",
+          "/shop/pInsert",
           "/auth"
         )
         .permitAll()

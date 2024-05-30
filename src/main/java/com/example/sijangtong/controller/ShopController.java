@@ -2,6 +2,7 @@ package com.example.sijangtong.controller;
 
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
+import com.example.sijangtong.dto.ProductDto;
 import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.repository.StoreRepository;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
@@ -40,11 +41,11 @@ public class ShopController {
   @GetMapping("/storeDetail")
   public void getDetail(
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    @Parameters Long storeId,
+    Long storeId,
     Model model,
     RedirectAttributes rttr
   ) {
-    log.info("디테일 폼 요청");
+    log.info("디테일 폼 요청 {}", storeId);
     model.addAttribute(
       "result",
       productService.getProductList(pageRequestDto, storeId)
@@ -230,7 +231,6 @@ public class ShopController {
     log.info("스토어 생성{}");
 
     if (result.hasErrors()) {
-      // model.addAttribute("categoris", rttr);
       return "/shop/insert";
     }
 
@@ -238,11 +238,44 @@ public class ShopController {
     Long storeId = service.storeInsert(storeDto);
 
     rttr.addFlashAttribute("msg", storeId);
-    rttr.addAttribute("storeId", storeDto.getStoreId());
+
     rttr.addAttribute("page", pageRequestDto.getPage());
     rttr.addAttribute("type", pageRequestDto.getType());
     rttr.addAttribute("keyword", pageRequestDto.getKeyword());
 
     return "redirect:/shop/list";
+  }
+
+  @GetMapping("/pInsert")
+  public void insertProduct(
+    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+    ProductDto productDto
+  ) {
+    log.info("프로덕트 생성 폼 요청");
+  }
+
+  @PostMapping("/pInsert")
+  public String insertproduct(
+    @Valid ProductDto productDto,
+    BindingResult result,
+    Model model,
+    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+    RedirectAttributes rttr
+  ) {
+    log.info("프로덕트 생성 {}", productDto);
+
+    if (result.hasErrors()) {
+      return "/shop/pInsert";
+    }
+
+    Long productId = productService.productInsert(productDto);
+
+    rttr.addFlashAttribute("msg", productDto.getStoreId());
+    rttr.addAttribute("storeId", productDto.getStoreId());
+    rttr.addAttribute("page", 1);
+    rttr.addAttribute("type", "");
+    rttr.addAttribute("keyword", "");
+
+    return "redirect:/shop/storeDetail";
   }
 }
