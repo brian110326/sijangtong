@@ -35,6 +35,17 @@ public class SecurityConfig {
         .permitAll()
         .requestMatchers("/review/**")
         .permitAll()
+        .requestMatchers(
+          "/shop/list",
+          "/shop/read",
+          "/shop/home",
+          "/shop/storeDetail",
+          "/shop/insert",
+          "/shop/contact",
+          "/shop/pInsert",
+          "/auth"
+        )
+        .permitAll()
         // UploadController : 이미지 보여주기
         .requestMatchers("/upload/display")
         .permitAll()
@@ -47,10 +58,7 @@ public class SecurityConfig {
     );
 
     http.formLogin(login ->
-      login
-        .loginPage("/member/login")
-        .permitAll()
-        .defaultSuccessUrl("/shop/list", true)
+      login.loginPage("/member/login").permitAll().defaultSuccessUrl("/", true)
     );
 
     http.logout(logout ->

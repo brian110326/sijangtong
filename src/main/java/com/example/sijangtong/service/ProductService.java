@@ -75,9 +75,11 @@ public interface ProductService {
     product.setAmount(dto.getAmount());
     product.setPrice(dto.getPrice());
     // product.setQuantity(dto.getQuantity());
+
     product.setStore(Store.builder().storeId(dto.getStoreId()).build());
 
     entityMap.put("product", product);
+    entityMap.put("Service getStoreId", dto.getStoreId());
 
     List<ProductImgDto> productImgDtos = dto.getProductImgDtos();
 
