@@ -5,6 +5,28 @@
     <link rel="stylesheet" th:href="@{/css/upload.css}" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <!-- <link th:href="@{/css/styles.css}" rel="stylesheet" /> -->
+    <style>
+      .list-group {
+        width: 300px; /* 너비 설정 */
+        height: 300px; /* 높이 설정 */
+        overflow-y: auto; /* 수직 스크롤바 추가 */
+        overflow-x: hidden; /* 수평 스크롤바 숨기기 */
+        border: 1px solid #ccc; /* 테두리 추가 */
+        padding: 0;
+        margin: 0;
+        list-style-type: none; /* 기본 list-style 없애기 */
+      }
+
+      .list-group-item {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      /* 마지막 아이템 아래에 불필요한 테두리를 없애기 위해 추가 */
+      .list-group-item:last-child {
+        border-bottom: none;
+      }
+    </style>
   </th:block>
   <div layout:fragment="content" class="container px-6 mx-auto grid">
     <form th:action="@{modify}" method="post" id="register-form" th:object="${storeDto}" novalidate>
@@ -271,23 +293,25 @@
             <h1 class="modal-title fs-5" id="staticBackdropLabel">Products will be DELETED</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body" id="modal-body2">
-            <!-- product list 영역 -->
+          <div class="modal-body">
+            <ul class="list-group" id="modal-body2">
+              <!-- product list 영역 -->
+            </ul>
           </div>
           <!-- 페이지 나누기 영역 -->
           <nav aria-label="Page navigation example">
             <ul class="pagination">
               <li class="page-item" th:if="${pList.prev}">
-                <a class="page-link" href="" aria-label="Previous" th:data-page="${pList.start - 1}" th:attr="data-storeId=${storeId}">
+                <a class="page-link" href="" aria-label="Previous" th:data-page="${pList.start - 1}" th:attr="data-store-id=${storeId}">
                   <span aria-hidden="true">&laquo;</span>
                 </a>
               </li>
               <li class="page-item" th:each="page : ${pList.pageList}">
-                <a class="page-link" href="#" th:text="${page}" th:data-page="${page}" th:data-storeId="${storeId}"></a>
+                <a class="page-link" href="" th:text="${page}" th:data-page="${page}" th:data-store-id="${storeId}"></a>
               </li>
 
               <li class="page-item" th:if="${pList.next}">
-                <a class="page-link" href="" aria-label="Next" th:data-page="${pList.end + 1}" th:data-storeId="${storeId}">
+                <a class="page-link" href="" aria-label="Next" th:data-page="${pList.end + 1}" th:data-store-id="${storeId}">
                   <span aria-hidden="true">&raquo;</span>
                 </a>
               </li>
@@ -334,8 +358,10 @@
             <h1 class="modal-title fs-5" id="staticBackdropLabel">Reviews will be DELETED</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body" id="modal-body4">
-            <!-- review list 영역 -->
+          <div class="modal-body">
+            <ul class="list-group" id="modal-body4">
+              <!-- review list 영역 -->
+            </ul>
           </div>
           <!-- 페이지 나누기 영역 -->
           <nav aria-label="Page navigation example">
@@ -346,10 +372,10 @@
                 </a>
               </li>
 
-              <li class="page-item" th:if="${rList != null and rList.totalPages != null}">
+              <li class="page-item" th:if="${rList != null and rList.totalPages > 0}">
                 <ul class="pagination">
                   <li th:each="page : ${#numbers.sequence(0, rList.totalPages - 1)}" th:classappend="${page == rList.pageable.pageNumber} ? 'active'">
-                    <a class="page-link" href="#" th:text="${page + 1}" th:data-page="${page}" th:data-productId="${productId}"></a>
+                    <a class="page-link" href="" th:text="${page + 1}" th:data-page="${page}" th:data-productId="${productId}"></a>
                   </li>
                 </ul>
               </li>
@@ -363,7 +389,7 @@
           </nav>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pImgModal">Understood</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#">Understood</button>
           </div>
         </div>
       </div>

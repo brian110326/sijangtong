@@ -120,15 +120,15 @@ public class RepositoryTest {
     public void insertProductTest() {
         // storeId가 200인 Store 객체 생성
 
-        LongStream.rangeClosed(299, 350).forEach(i -> {
+        LongStream.rangeClosed(201, 300).forEach(i -> {
             Store store = Store.builder().storeId(200L).build();
             Product product = Product.builder()
-                    .pName("재고" + i) // 예: 재고1, 재고2, ..., 재고50
+                    .pName("재고" + i)
                     .price(5000)
                     .amount(20)
-                    .store(store) // storeId 200인 Store 객체를 참조
+                    .store(store)
                     .build();
-            productRepository.save(product); // Product 객체를 저장
+            productRepository.save(product);
         });
     }
 }

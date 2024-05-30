@@ -65,6 +65,9 @@ public class RemoveRestController {
     @GetMapping("/{storeId}/products/{page}")
     public ResponseEntity<PageResultDto<ProductDto, Object[]>> getProductsPage(@PathVariable("storeId") Long storeId,
             @PathVariable("page") int page, PageRequestDto requestDto) {
+
+        log.info("storeId {},{}", storeId, page);
+
         PageResultDto<ProductDto, Object[]> list = productService.getProductList(requestDto, storeId);
 
         return new ResponseEntity<PageResultDto<ProductDto, Object[]>>(list, HttpStatus.OK);

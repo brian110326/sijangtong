@@ -71,7 +71,7 @@ public class StoreRepositoryTest {
   @Test
   public void insertMemberTest() {
     IntStream
-        .rangeClosed(299, 350)
+        .rangeClosed(401, 600)
         .forEach(i -> {
           Member member = Member
               .builder()
@@ -209,10 +209,11 @@ public class StoreRepositoryTest {
   @Test
   public void insertProductTestssss() {
     // 임시 사용
+    Store store = Store.builder().storeId(199L).build();
     LongStream
-        .rangeClosed(1, 100)
+        .rangeClosed(1, 200)
         .forEach(i -> {
-          Store store = Store.builder().storeId(199L).build();
+
           Product product = Product
               .builder()
               .pName("재고" + i)
@@ -222,32 +223,32 @@ public class StoreRepositoryTest {
               .build();
           productRepository.save(product);
 
-          // int count = (int) (Math.random() * 5) + 1;
+          int count = (int) (Math.random() * 5) + 1;
 
-          // for (int k = 0; k < count; k++) {
-          // ProductImg productImg = ProductImg
-          // .builder()
-          // .uuid(UUID.randomUUID().toString())
-          // .path(null)
-          // .imgName("img" + k + ".jpg")
-          // .product(product)
-          // .build();
-          // productImgRepository.save(productImg);
-          // }
+          for (int k = 0; k < count; k++) {
+            ProductImg productImg = ProductImg
+                .builder()
+                .uuid(UUID.randomUUID().toString())
+                .path(null)
+                .imgName("img" + k + ".jpg")
+                .product(product)
+                .build();
+            productImgRepository.save(productImg);
+          }
         });
   }
 
   @Test
   public void insertReviewTest() {
     LongStream
-        .rangeClosed(299, 350)
+        .rangeClosed(601, 700)
         .forEach(i -> {
           Member member = Member
               .builder()
               .memberEmail("member" + i + "@naver.com")
               .build();
 
-          Product product = Product.builder().productId(i).build();
+          Product product = Product.builder().productId(401L).build();
 
           Review review = Review
               .builder()
