@@ -40,17 +40,22 @@ public class RemoveRestController {
 
     private final ProductService productService;
 
-    private final ReviewService reviewService;
-
-    @GetMapping("/{storeId}/storeImages")
-    public ResponseEntity<List<StoreImgDto>> getStore(@PathVariable("storeId") Long storeId) {
+    @GetMapping("/{storeId}")
+    public ResponseEntity<StoreDto> getStore(@PathVariable("storeId") Long storeId) {
 
         log.info("storeId ==> {}", storeId);
 
         StoreDto storeDto = storeService.getRow(storeId);
-        List<StoreImgDto> imgList = storeDto.getStoreImgDtos();
 
-        return new ResponseEntity<List<StoreImgDto>>(imgList, HttpStatus.OK);
+        return new ResponseEntity<StoreDto>(storeDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/{productId}/product")
+    public ResponseEntity<ProductDto> getMethodName(@PathVariable("productId") Long productId) {
+
+        ProductDto productDto = productService.getProductRow(productId);
+
+        return new ResponseEntity<ProductDto>(productDto, HttpStatus.OK);
     }
 
     @GetMapping("/{storeId}/products")
@@ -73,25 +78,29 @@ public class RemoveRestController {
         return new ResponseEntity<PageResultDto<ProductDto, Object[]>>(list, HttpStatus.OK);
     }
 
-    // @GetMapping("/{storeId}/{productId}/product")
-    // public ResponseEntity<ProductDto> getMethodName(@PathVariable("productId")
-    // Long productId,
-    // @PathVariable("storeId") Long storeId) {
-    // ProductDto productDto = productService.getProductRow(productId);
+    // @GetMapping("/{productId}/reviews")
+    // public ResponseEntity<PageResultDto<ReviewDto, Object[]>>
+    // getReviews(@PathVariable("productId") Long productId,
+    // PageRequestDto pageRequestDto) {
 
-    // return new ResponseEntity<ProductDto>(productDto, HttpStatus.OK);
+    // PageResultDto<ReviewDto, Object[]> result =
+    // reviewService.getReviewList2(pageRequestDto, productId);
+
+    // return new ResponseEntity<PageResultDto<ReviewDto, Object[]>>(result,
+    // HttpStatus.OK);
     // }
 
-    @GetMapping("/{productId}/reviews")
-    public ResponseEntity<Page<ReviewDto>> getMethodName(@PathVariable("productId") Long productId,
-            PageRequestDto pageRequestDto) {
+    // @GetMapping("/{productId}/reviews/{rPage}")
+    // public ResponseEntity<PageResultDto<ReviewDto, Object[]>>
+    // getReviewsPage(@PathVariable("productId") Long productId,
+    // @PathVariable("rPage") int rPage,
+    // PageRequestDto pageRequestDto) {
 
-        Product product = Product.builder().productId(productId).build();
+    // PageResultDto<ReviewDto, Object[]> result =
+    // reviewService.getReviewList2(pageRequestDto, productId);
 
-        Page<ReviewDto> list = reviewService.getReviewsByProduct(product,
-                pageRequestDto.getPageable(Sort.by("reviewId")));
-
-        return new ResponseEntity<Page<ReviewDto>>(list, HttpStatus.OK);
-    }
+    // return new ResponseEntity<PageResultDto<ReviewDto, Object[]>>(result,
+    // HttpStatus.OK);
+    // }
 
 }

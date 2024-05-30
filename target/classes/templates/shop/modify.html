@@ -236,7 +236,7 @@
                   type="button"
                   th:value="${storeDto.storeId}"
                   class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white"
-                  data-bs-target="#imgModal"
+                  data-bs-target="#storeModal"
                   data-bs-toggle="modal"
                 >
                   삭제
@@ -254,148 +254,91 @@
           </div>
         </div>
       </div>
+
+      <!-- modal 보여주기 영역 -->
+
+      <!-- store info modal 보여주기 영역 -->
+      <div class="modal fade" id="storeModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Check the store info before DELETING</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group" id="modal-body1">
+                <!-- store info list 영역 -->
+              </ul>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">Understood</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- product modal 보여주기 영역 -->
+      <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Products will be DELETED</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group" id="modal-body2">
+                <!-- product list 영역 -->
+              </ul>
+            </div>
+            <!-- 페이지 나누기 영역 -->
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item" th:if="${pList.prev}">
+                  <a class="page-link" href="" aria-label="Previous" th:data-page="${pList.start - 1}" th:attr="data-store-id=${storeId}">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item" th:each="page : ${pList.pageList}">
+                  <a class="page-link" href="" th:text="${page}" th:data-page="${page}" th:data-store-id="${storeId}"></a>
+                </li>
+
+                <li class="page-item" th:if="${pList.next}">
+                  <a class="page-link" href="" aria-label="Next" th:data-page="${pList.end + 1}" th:data-store-id="${storeId}">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#finalModal">Understood</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="finalModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Are you sure to DELETE the store? This cannot be undone.</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Related Datas will be deleted including store images, products, product images, reviews.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" id="deleteBtn">DELETE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- modal 보여주기 영역 끝 -->
     </form>
-
-    <!-- productId hidden 영역 -->
-    <div th:each="product : ${pList.dtoList}">
-      <input type="hidden" name="productId" th:value="${product.productId}" id="scriptUsePId" />
-    </div>
-
-    <!-- modal 보여주기 영역 -->
-    <!-- storeImg modal 영역 -->
-    <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Store Images will be DELETED</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="container">
-              <div class="row row-cols-5" id="modal-body1">
-                <!-- body 영역 -->
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">Understood</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- product modal 보여주기 영역 -->
-    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Products will be DELETED</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <ul class="list-group" id="modal-body2">
-              <!-- product list 영역 -->
-            </ul>
-          </div>
-          <!-- 페이지 나누기 영역 -->
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item" th:if="${pList.prev}">
-                <a class="page-link" href="" aria-label="Previous" th:data-page="${pList.start - 1}" th:attr="data-store-id=${storeId}">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li class="page-item" th:each="page : ${pList.pageList}">
-                <a class="page-link" href="" th:text="${page}" th:data-page="${page}" th:data-store-id="${storeId}"></a>
-              </li>
-
-              <li class="page-item" th:if="${pList.next}">
-                <a class="page-link" href="" aria-label="Next" th:data-page="${pList.end + 1}" th:data-store-id="${storeId}">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pImgModal">Understood</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- productImg modal 영역 -->
-    <div class="modal fade" id="pImgModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">
-              Product Images will be DELETED(Each image is a representative of each products. There are more images to be removed.)
-            </h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="container">
-              <div class="row row-cols-5" id="modal-body3">
-                <!-- body 영역 -->
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">Understood</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- review modal 보여주기 영역 -->
-    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Reviews will be DELETED</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <ul class="list-group" id="modal-body4">
-              <!-- review list 영역 -->
-            </ul>
-          </div>
-          <!-- 페이지 나누기 영역 -->
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item" th:if="${rList != null and !rList.first}">
-                <a class="page-link" href="" aria-label="Previous" data-page="${rList.pageable.pageNumber - 1}" th:data-productId="${productId}">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-
-              <li class="page-item" th:if="${rList != null and rList.totalPages > 0}">
-                <ul class="pagination">
-                  <li th:each="page : ${#numbers.sequence(0, rList.totalPages - 1)}" th:classappend="${page == rList.pageable.pageNumber} ? 'active'">
-                    <a class="page-link" href="" th:text="${page + 1}" th:data-page="${page}" th:data-productId="${productId}"></a>
-                  </li>
-                </ul>
-              </li>
-
-              <li class="page-item" th:if="${rList != null and !rList.last}">
-                <a class="page-link" href="" aria-label="Next" data-page="${rList.pageable.pageNumber + 1}" th:data-productId="${productId}">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#">Understood</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- modal 보여주기 영역 끝 -->
 
     <!-- 삭제 폼 -->
     <form th:action="@{remove}" method="post" id="actionForm">
@@ -408,7 +351,6 @@
     </form>
 
     <script th:src="@{/js/scripts.js}"></script>
-    <!-- <script th:src="@{/js/storeModify.js}"></script> -->
     <script th:src="@{/js/deleteModal.js}"></script>
     <script th:src="@{/js/sUpload.js}"></script>
   </div>

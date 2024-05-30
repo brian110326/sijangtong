@@ -37,7 +37,7 @@ public class ReviewProductRepositoryImpl extends QuerydslRepositorySupport
         JPQLQuery<Review> query = from(review);
         query.leftJoin(product).on(review.product.eq(product));
 
-        JPQLQuery<Tuple> tuple = query.select(product, review).where(review.product.eq(product));
+        JPQLQuery<Tuple> tuple = query.select(product, review).where(review.product.productId.eq(productId));
 
         // 페이지 처리
         tuple.offset(pageable.getOffset());

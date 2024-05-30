@@ -6,6 +6,7 @@ import com.example.sijangtong.dto.ProductDto;
 import com.example.sijangtong.dto.ReviewDto;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.Product;
+import com.example.sijangtong.entity.ProductImg;
 import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
@@ -76,21 +77,14 @@ public class ReviewServiceImpl implements ReviewService {
   }
 
   @Override
-  public Page<ReviewDto> getReviewsByProduct(Product product, Pageable pageable) {
+  public PageResultDto<ReviewDto, Object[]> getReviewList2(PageRequestDto pageRequestDto, Long productId) {
 
-    Page<Review> result = reviewRepository.findByProduct(product, pageable);
+    Page<Object[]> result = reviewRepository.getReviewList(pageRequestDto.getPageable(Sort.by("reviewId")), productId);
 
-    // Review 객체를 ReviewDto로 변환하여 담을 리스트 생성
-    List<ReviewDto> reviewDtoList = new ArrayList<>();
+    Function<Object[], ReviewDto> fn = (en -> entityToDto((Review) en[1]));
 
-    // 각 Review 객체를 ReviewDto로 변환 후 리스트에 추가
-    result.forEach(review -> {
-      ReviewDto reviewDto = entityToDto(review);
-      reviewDtoList.add(reviewDto);
-    });
+    return new PageResultDto<>(result, fn);
 
-    // ReviewDto 리스트와 페이징 정보로 새로운 Page 객체 생성하여 반환
-    return new PageImpl<>(reviewDtoList, pageable, result.getTotalElements());
   }
 
 }

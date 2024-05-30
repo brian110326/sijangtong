@@ -1,24 +1,42 @@
-const imgDiv = document.querySelector("#modal-body1");
 const productDiv = document.querySelector("#modal-body2");
-const productImgDiv = document.querySelector("#modal-body3");
-const reviewDiv = document.querySelector("#modal-body4");
-const storeId = document.querySelector("#scriptUseId").value;
-const productId = document.querySelector("#scriptUsePId").value;
+const storeDiv = document.querySelector("#modal-body1");
 
-fetch(`/store/${storeId}/storeImages`)
+const storeId = document.querySelector("#scriptUseId").value;
+
+fetch(`/store/${storeId}`)
   .then((response) => response.json())
   .then((data) => {
-    console.log("Store Images : ", data);
-
     let tags = "";
 
-    // 나오지만 나중에 수평 정렬하기
-    data.forEach((img) => {
-      tags += `<li data-bs-toggle="modal" data-bs-target="#imgModal" data-file="${img.imageURL}">
-        <img class="block" th:if="${img.stPath != null}" src="/upload/display?fileName=${img.thumbImageURL}" /></li>`;
+    tags += `<li data-bs-toggle="modal" class="list-group-item">`;
+    tags += `storeId : ${data.storeId}`;
+    tags += `</li>`;
 
-      imgDiv.innerHTML = tags;
-    });
+    tags += `<li data-bs-toggle="modal" class="list-group-item">`;
+    tags += `storeCategory : ${data.storeCategory}`;
+    tags += `</li>`;
+
+    tags += `<li data-bs-toggle="modal" class="list-group-item">`;
+    tags += `storeTel : ${data.storeTel}`;
+    tags += `</li>`;
+
+    tags += `<li data-bs-toggle="modal" class="list-group-item">`;
+    tags += `operationTime : ${data.openTime} ~ ${data.closeTime}`;
+    tags += `</li>`;
+
+    tags += `<li data-bs-toggle="modal" class="list-group-item">`;
+    tags += `storeAddress : ${data.storeAddress}`;
+    tags += `</li>`;
+
+    tags += `<li data-bs-toggle="modal" class="list-group-item">`;
+    tags += `storeName : ${data.storeName}`;
+    tags += `</li>`;
+
+    tags += `<li data-bs-toggle="modal" class="list-group-item">`;
+    tags += `storeDetail : ${data.storeDetail}`;
+    tags += `</li>`;
+
+    storeDiv.innerHTML = tags;
   });
 
 fetch(`/store/${storeId}/products`)
@@ -38,17 +56,6 @@ fetch(`/store/${storeId}/products`)
 
       productDiv.innerHTML = pTags;
     });
-
-    dtoList.forEach((product) => {
-      product.productImgDtos.forEach((pImg) => {
-        piTags += `<div class="col-md-3">`;
-        piTags += `<li data-bs-toggle="modal" data-bs-target="#pImgModal" data-file="${pImg.imageURL}">
-        <img class="block" th:if="${pImg.path != null}" src="/upload/display?fileName=${pImg.thumbImageURL}" /></li>`;
-        piTags += `</div>`;
-      });
-    });
-
-    productImgDiv.innerHTML = piTags;
   });
 
 document.querySelector("#productModal").addEventListener("click", (e) => {
@@ -99,19 +106,9 @@ document.querySelector("#productModal").addEventListener("click", (e) => {
   }
 });
 
-fetch(`/store/${productId}/reviews`)
-  .then((response) => response.json())
-  .then((data) => {
-    let rTags = "";
+const deleteBtn = document.querySelector("#deleteBtn");
+const actionForm = document.querySelector("#actionForm");
 
-    console.log(data);
-
-    const reviewList = data.content;
-
-    reviewList.forEach((review) => {
-      rTags += `<li data-bs-toggle="modal" class="list-group-item">`;
-      rTags += `<a href="" class="list-group-item list-group-item-action">${review.reviewId} : ${review.text}</a>`;
-      rTags += `</li>`;
-      reviewDiv.innerHTML = rTags;
-    });
-  });
+deleteBtn.addEventListener("click", () => {
+  actionForm.submit();
+});

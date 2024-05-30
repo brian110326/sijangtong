@@ -139,7 +139,7 @@ public class ServiceTest {
         .build();
     Page<Object[]> list = reviewRepository.getReviewList(
         requestDto.getPageable(Sort.by("reviewId")),
-        1L);
+        600L);
 
     for (Object[] objects : list) {
       System.out.println(Arrays.toString(objects));

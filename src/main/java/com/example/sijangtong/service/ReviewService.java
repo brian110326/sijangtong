@@ -4,6 +4,7 @@ import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ProductDto;
 import com.example.sijangtong.dto.ReviewDto;
+import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.Product;
@@ -30,8 +31,8 @@ public interface ReviewService {
   // review 등록
   Long createReview(ReviewDto reviewDto);
 
-  // 테스트용
-  Page<ReviewDto> getReviewsByProduct(Product product, Pageable pageable);
+  // modal 작업용
+  PageResultDto<ReviewDto, Object[]> getReviewList2(PageRequestDto pageRequestDto, Long productId);
 
   public default ReviewDto entityToDto(Review review) {
     ReviewDto reviewDto = ReviewDto

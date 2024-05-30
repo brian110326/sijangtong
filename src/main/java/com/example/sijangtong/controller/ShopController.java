@@ -121,7 +121,6 @@ public class ShopController {
   public void getModify(StoreDto updateStoreDto,
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       @Parameters Long storeId,
-      @Parameters Long productId,
       Model model) {
     log.info("설명 폼 요청");
     StoreDto storeDto = service.getRow(storeId);
@@ -138,14 +137,6 @@ public class ShopController {
     // modal 작업용
     PageResultDto<ProductDto, Object[]> pList = productService.getProductList(pageRequestDto, storeId);
     model.addAttribute("pList", pList);
-
-    // transient Exception 방지용
-    if (productId != null) {
-      Product product = productService.getProductById(productId);
-      Page<ReviewDto> rList = reviewService.getReviewsByProduct(product,
-          pageRequestDto.getPageable(Sort.by("reviewId")));
-      model.addAttribute("rList", rList);
-    }
 
   }
 
