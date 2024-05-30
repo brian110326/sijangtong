@@ -56,6 +56,7 @@ reviewLoad();
 
 const reviewForm = document.querySelector(".review_form");
 console.log(reviewForm);
+
 reviewForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -71,9 +72,11 @@ reviewForm.addEventListener("submit", (e) => {
     memberNickname: memberNickname,
     reviewId: reviewId.value,
   };
+
   console.log(body);
 
-  // 등록;
+  // 등록
+
   if (!reviewId.value) {
     fetch(`/review/${productId}`, {
       headers: {
@@ -113,6 +116,8 @@ reviewForm.addEventListener("submit", (e) => {
         reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
 
         if (data) alert(data + " 번 리뷰수정 완료.");
+        reviewForm.querySelector("button").innerHTML = "Leave Your Review";
+
         reviewLoad();
       });
   }

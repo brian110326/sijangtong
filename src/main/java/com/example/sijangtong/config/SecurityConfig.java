@@ -40,6 +40,7 @@ public class SecurityConfig {
         .permitAll()
         .requestMatchers("/member/register")
         .permitAll()
+        .requestMatchers("/review/**").permitAll()
         .anyRequest()
         .authenticated());
 

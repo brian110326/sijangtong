@@ -33,12 +33,16 @@ public interface ProductService {
       List<ProductImg> productImgs,
       Store store,
       Double avg) {
+
+    String formatAvg = avg != null ? String.format("%.1f", avg) : "0.0"; // 리뷰평점
+
     ProductDto productDto = ProductDto
         .builder()
         .productId(product.getProductId())
         .pName(product.getPName())
         .price(product.getPrice())
         .amount(product.getAmount())
+        .avg(Double.valueOf(formatAvg))
         .storeId(product.getStore().getStoreId())
         .avg(avg != null ? avg : 0.0)
         // .quantity(product.getQuantity())
