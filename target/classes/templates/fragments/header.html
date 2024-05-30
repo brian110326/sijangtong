@@ -175,7 +175,23 @@
                   >
 
                   <a th:href="@{/shop/read}" class="nav-item nav-link">시장 정보</a>
-
+                  <div class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
+                      >구매 목록 <i class="fa fa-angle-down mt-1"></i
+                    ></a>
+                    <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
+                      <a
+                        th:href="@{/shop/buyitemlist(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount},memberEmail=${#authentication.principal.memberDto.memberEmail})}"
+                        class="dropdown-item"
+                        >카트 목록</a
+                      >
+                      <a
+                        th:href="@{/shop/cart(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount},memberEmail=${#authentication.principal.memberDto.memberEmail})}"
+                        class="dropdown-item"
+                        >구매 확정</a
+                      >
+                    </div>
+                  </div>
                   <a th:href="@{/shop/contact}" class="nav-item nav-link">고객 문의</a>
                 </div>
                 <div sec:authorize="isAuthenticated()" class="navbar-nav ml-auto py-0 d-none d-lg-block">

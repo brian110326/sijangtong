@@ -3,71 +3,45 @@
   <div style="overflow-x: hidden" layout:fragment="content" class="container-fluid">
     <div class="row px-xl-5">
       <div class="col-lg-8">
-        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Billing Address</span></h5>
-        <div class="bg-light p-30 mb-5">
-          <div class="row">
-            <div class="col-md-6 form-group">
-              <label>성</label>
-              <input class="form-control" type="text" placeholder="ex) 홍" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>이름</label>
-              <input class="form-control" type="text" placeholder="ex) 길동" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>주소</label>
-              <input class="form-control" type="text" placeholder="example@email.com" th:value="${memberEmail}" readonly />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>폰번호</label>
-              <input class="form-control" type="text" placeholder="010-1234-1234" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>기본주소</label>
-              <input class="form-control" type="text" placeholder="서울시 ~ 강서구" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>상세주소</label>
-              <input class="form-control" type="text" placeholder="~~동 oo아파트" />
-            </div>
-
-            <div class="col-md-12">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="shipto" />
-                <label class="custom-control-label" for="shipto" data-toggle="collapse" data-target="#shipping-address"
-                  >Ship to different address</label
-                >
-              </div>
-            </div>
-          </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="shipto" />
+          <label class="custom-control-label" for="shipto" data-toggle="collapse" data-target="#tansfer"
+            >배달용 주소지 입력(픽업 포장시 필요 x)</label
+          >
         </div>
-        <div class="collapse mb-5" id="shipping-address">
-          <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Shipping Address</span></h5>
+        <div class="collapse mb-5" id="tansfer">
+          <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">배달용 주소지 입력</span></h5>
           <div class="bg-light p-30">
             <div class="row">
               <div class="col-md-6 form-group">
-                <label>성</label>
-                <input class="form-control" type="text" placeholder="ex) 홍" />
-              </div>
-              <div class="col-md-6 form-group">
                 <label>이름</label>
-                <input class="form-control" type="text" placeholder="ex) 길동" />
+                <input class="form-control" type="text" placeholder="ex) 홍" th:value="${#authentication.principal.memberDto.memberName}" readonly />
               </div>
+
               <div class="col-md-6 form-group">
-                <label>주소</label>
-                <input class="form-control" type="text" placeholder="example@email.com" readonly />
+                <label>이메일</label>
+                <input class="form-control" type="text" placeholder="example@email.com" th:value="${memberEmail}" readonly />
               </div>
               <div class="col-md-6 form-group">
                 <label>폰번호</label>
-                <input class="form-control" type="text" placeholder="010-1234-1234" />
+                <input class="form-control" type="text" placeholder="010-1234-1234" th:value="${#authentication.principal.memberDto.memberTell}" />
               </div>
               <div class="col-md-6 form-group">
                 <label>기본주소</label>
-                <input class="form-control" type="text" placeholder="서울시 ~ 강서구" />
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="서울시 ~ 강서구"
+                  th:value="${#authentication.principal.memberDto.memberAddress}"
+                />
               </div>
               <div class="col-md-6 form-group">
                 <label>상세주소</label>
                 <input class="form-control" type="text" placeholder="~~동 oo아파트" />
+              </div>
+              <div class="col-md-6 form-group">
+                <label>요청사항</label>
+                <input class="form-control" type="text" placeholder="일회용 품은 주지마세요" />
               </div>
             </div>
           </div>

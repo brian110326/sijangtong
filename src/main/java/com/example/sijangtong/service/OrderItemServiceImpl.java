@@ -45,24 +45,23 @@ public class OrderItemServiceImpl implements OrderItemService {
         if (orderOptional.isPresent()) {
             Order order = orderOptional.get();
             // 이미 장바구니에 있는 상품을 축가했을경우 해당하는 수량과 가격으로 수정
-            if (orderItemRepository.findByProduct(product).isPresent()) {
+            if (orderItemRepository.findByProduct(product).get().getOrder().getOrderId() == order.getOrderId()) {
                 OrderItem orderItem = orderItemRepository.findByProduct(product).get();
                 orderItem.setOrderAmount(amount);
                 orderItem.setOrderPrice(amount * product.getPrice());
                 orderItemRepository.save(orderItem);
-
                 return orderItem.getOrder().getOrderId();
-                // 아닌경우 생성
-            } else {
+            }
+            // 장바구니에 없는 신규일 경우
+            else {
                 OrderItem orderItem = OrderItem.builder()
-                        .orderAmount(amount)
-                        .product(product)
-                        .orderPrice(amount * product.getPrice())
                         .order(order)
+                        .orderAmount(amount)
+                        .orderPrice(amount * product.getPrice())
+                        .product(product)
                         .build();
                 orderItemRepository.save(orderItem);
-
-                return order.getOrderId();
+                return orderItem.getOrder().getOrderId();
             }
             // 오더 존재 x
         } else {

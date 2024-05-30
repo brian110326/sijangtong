@@ -171,6 +171,18 @@
               <div th:if="${#fields.hasErrors('memberPwd')}" th:errors="*{memberPwd}" class="text-danger"></div>
               <div th:if="${error}" class="text-danger small" th:text="${error}"></div>
             </div>
+            <div class="input-box">
+              <span class="details">이름</span>
+              <input type="text" placeholder="비밀번호" name="memberName" th:value="${memberDto.memberName}" />
+              <div th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}" class="text-danger"></div>
+              <div th:if="${error}" class="text-danger small" th:text="${error}"></div>
+            </div>
+            <div class="input-box">
+              <span class="details">전화번호</span>
+              <input type="tel" placeholder="비밀번호" name="memberTell" th:value="${memberDto.memberTell}" />
+              <div th:if="${#fields.hasErrors('memberTell')}" th:errors="*{memberTell}" class="text-danger"></div>
+              <div th:if="${error}" class="text-danger small" th:text="${error}"></div>
+            </div>
           </div>
           <div class="button">
             <input type="submit" value="회원 가입" />

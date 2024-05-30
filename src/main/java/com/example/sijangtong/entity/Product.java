@@ -36,7 +36,7 @@ public class Product {
   private int amount;
 
   // 구매 물품 수량
-  @OneToOne(mappedBy = "product")
+  @OneToOne
   private OrderItem orderItem;
 
   @ManyToOne(fetch = FetchType.LAZY)
