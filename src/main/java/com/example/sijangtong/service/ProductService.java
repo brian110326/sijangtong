@@ -44,6 +44,7 @@ public interface ProductService {
         .amount(product.getAmount())
         .avg(Double.valueOf(formatAvg))
         .storeId(product.getStore().getStoreId())
+        .avg(avg != null ? avg : 0.0)
         // .quantity(product.getQuantity())
         .build();
 

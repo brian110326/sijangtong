@@ -49,7 +49,6 @@ public class ReviewController {
         pageRequestDto,
         productId);
     log.info(" reviewDto:{}", result);
-
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 

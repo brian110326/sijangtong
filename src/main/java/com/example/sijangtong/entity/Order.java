@@ -1,6 +1,7 @@
 package com.example.sijangtong.entity;
 
 import com.example.sijangtong.constant.OrderPayment;
+import com.example.sijangtong.constant.OrderSatetus;
 import com.example.sijangtong.constant.RiderOrdercancel;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -65,4 +66,7 @@ public class Order extends BaseEntity {
 
   @OneToOne
   private Rider rider;
+
+  @Enumerated(EnumType.STRING)
+  private OrderSatetus orderSatetus;
 }

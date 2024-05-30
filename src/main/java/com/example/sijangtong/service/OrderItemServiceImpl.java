@@ -41,19 +41,30 @@ public class OrderItemServiceImpl implements OrderItemService {
         Member member = memberRepository.findByMemberEmail(memberEnail).get();
         Optional<Order> orderOptional = orderRepository.findByMember(member);
 
+        int list_check = 0;
         // 오더 존재 여부 체크 O
         if (orderOptional.isPresent()) {
             Order order = orderOptional.get();
-            // 이미 장바구니에 있는 상품을 축가했을경우 해당하는 수량과 가격으로 수정
-            if (orderItemRepository.findByProduct(product).isPresent()) {
-                OrderItem orderItem = orderItemRepository.findByProduct(product).get();
-                orderItem.setOrderAmount(amount);
-                orderItem.setOrderPrice(amount * product.getPrice());
-                orderItemRepository.save(orderItem);
-
-                return orderItem.getOrder().getOrderId();
-                // 아닌경우 생성
-            } else {
+            // order 안에 상점 아이디와 주문한 상품의 상점 아이디가 다를시 return 0
+            if (order.getStore().getStoreId() != product.getStore().getStoreId()) {
+                return -1L;
+            }
+            // 해당하는 오더의 오더 아이템 리스트 들 중 중복 되는 상품 체크
+            List<OrderItem> orderitems = orderItemRepository.findByOrderId(order.getOrderId());
+            for (OrderItem orderItem : orderitems) {
+                // 중복되는 상품 존재시 해당 상품 업데이트
+                if (orderItem.getProduct() == product) {
+                    orderItem.setOrderAmount(amount);
+                    orderItem.setOrderPrice(amount * product.getPrice());
+                    orderItemRepository.save(orderItem);
+                } else {
+                    // 중복되지 않는 상품 카운트
+                    list_check += 1;
+                    continue;
+                }
+            }
+            // 만일 리스트중 겹치는 상품이 없으면 신규 orederitem 생성
+            if (list_check == orderitems.size()) {
                 OrderItem orderItem = OrderItem.builder()
                         .orderAmount(amount)
                         .product(product)
@@ -64,8 +75,11 @@ public class OrderItemServiceImpl implements OrderItemService {
 
                 return order.getOrderId();
             }
-            // 오더 존재 x
-        } else {
+            // 오더 값 리턴
+            return order.getOrderId();
+        }
+        // 오더 존재 x
+        else {
             Order order = Order.builder()
                     .member(member)
                     .orderAddress(member.getMemberAddress())
@@ -97,9 +111,10 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         List<OrderItemDto> orderItemDtos = new ArrayList<>();
         // 회원에 대한 주문을 찾습니다
-        Optional<Order> orders = orderRepository.findByMember(member.get());
-        if (orders.isPresent()) {
-            List<OrderItem> items = orderItemRepository.findByOrderId(orders.get().getOrderId());
+        Optional<Order> order = orderRepository.findByMember(member.get());
+        log.info(order.get().getOrderSatetus());
+        if (order.isPresent() && order.get().getOrderSatetus() == null) {
+            List<OrderItem> items = orderItemRepository.findByOrderId(order.get().getOrderId());
             for (OrderItem orderItem : items) {
                 orderItemDtos.add(entityToDto(orderItem));
             }
@@ -116,6 +131,30 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public void deleteOrderItem(Long orderItemId) {
         orderItemRepository.deleteById(orderItemId);
+    }
+
+    @Override
+    public List<OrderItemDto> getDeliveringOrderItems(String memberEmail) {
+        Optional<Member> member = memberRepository.findByMemberEmail(memberEmail);
+
+        if (!member.isPresent()) {
+            return Collections.emptyList();
+        }
+
+        List<OrderItemDto> orderItemDtos = new ArrayList<>();
+        // 회원에 대한 주문을 찾습니다
+        Optional<Order> order = orderRepository.findByMember(member.get());
+        log.info(order.get().getOrderSatetus());
+        if (order.isPresent() && order.get().getOrderSatetus() != null) {
+            List<OrderItem> items = orderItemRepository.findByOrderId(order.get().getOrderId());
+            for (OrderItem orderItem : items) {
+                orderItemDtos.add(entityToDto(orderItem));
+            }
+
+            return orderItemDtos;
+        } else {
+            return new ArrayList<>();
+        }
     }
 
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
   <th:block layout:fragment="css">
-    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
+    <!-- <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" /> -->
     <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -178,11 +178,11 @@
                 <div class="row">
                   <div class="col-md-6">
                     <!-- 리뷰 리스트 출력부 -->
-                    <div class="reviewList" style="overflow-y: scroll; width: 100%; height: 517.8px; padding: 10px"></div>
+                    <div class="reviewList" style="overflow: auto; overflow-y: scroll; width: 100%; height: 517.8px; padding: 10px"></div>
                   </div>
                   <!-- 리뷰 작성 폼 -->
                   <div class="col-md-6" sec:authorize="hasAnyRole('MEMBER','ADMIN')">
-                    <form th:action="@{/review/}" method="post" class="review_form" >
+                    <form th:action="@{/review}" method="post" class="review_form" >
                       <input type="hidden" name="reviewId" id="reviewId" />
                       <input type="hidden" name="productId" id="productId" th:value="${result.productId}" />
                       <h4 class="mb-4">Leave a review</h4>
@@ -217,7 +217,7 @@
                         />
                       </div>
                       <div class="form-group mb-0">
-                        <button type="submit" class="btn btn-primary btn-sm">Leave Your Review</button>
+                        <button  class="btn btn-primary btn-sm">Leave Your Review</button>
                       </div>
                     </form>
                   </div>
@@ -372,8 +372,9 @@
             <input type="hidden" name="productId" th:value="${result.productId}">
           </form>
         </div>
+
         <script>
-          const productId = "[[${result.productId}]]";
+            const productId = "[[${result.productId}]]";
           const user = "[[${#authentication.principal.memberDto.memberEmail}]]";
           const csrfValue = "[[${_csrf.token}]]";
           const memberNickname = "[[${#authentication.principal.memberDto.memberNickname}]]";
@@ -382,17 +383,16 @@
         if (shopping_cart_amount) {
           document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
         }
-
           const userRole = "[[${#authentication.principal.memberDto.memberRole}]]"
-
         </script>
+
+                <script th:src="@{/js/review.js}"></script>
+
       </div>
     </div>
   </div>
 
   <th:block layout:fragment="script">
-    <script th:src="@{/js/review.js}"></script>
-
     <script th:src="@{/js/buyitem.js}"></script>
 
     

@@ -1,10 +1,14 @@
 package com.example.sijangtong.controller;
 
+import java.util.List;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import lombok.RequiredArgsConstructor;
@@ -18,10 +22,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.sijangtong.dto.AuthMemberDto;
 import com.example.sijangtong.dto.MemberDto;
+import com.example.sijangtong.dto.OrderItemDto;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.UpdatedPasswordDto;
+import com.example.sijangtong.repository.OrderItemRepository;
 import com.example.sijangtong.service.MemberService;
+import com.example.sijangtong.service.OrderItemService;
 
+import groovyjarjarantlr4.v4.parse.ANTLRParser.qid_return;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +41,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class MemberController {
 
     private final MemberService service;
+
+    private final OrderItemService orderItemService;
 
     @GetMapping("/login")
     public void getLogin(@ModelAttribute("requestDto") PageRequestDto pageRequestDto,
@@ -70,8 +80,14 @@ public class MemberController {
     // 프로필 화면 출력
     @PreAuthorize("isAuthenticated()")
     @GetMapping("profile")
-    public void getProfile(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
-        log.info("프로필 폼 요청");
+    public void getProfile(@ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+            @AuthenticationPrincipal AuthMemberDto authMemberDto, Model model) {
+
+        List<OrderItemDto> orderitems = orderItemService.getDeliveringOrderItems(authMemberDto.getUsername());
+        log.info("프로필 폼 요청 {}", orderitems);
+
+        model.addAttribute("orderitems", orderitems);
+        model.addAttribute("orderitems", orderitems);
     }
 
     @PreAuthorize("isAuthenticated()")

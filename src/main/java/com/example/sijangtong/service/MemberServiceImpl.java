@@ -96,12 +96,8 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     @Override
     public String registerMember(MemberDto memberDto) {
 
-        Member member = Member.builder().memberEmail(memberDto.getMemberEmail())
-                .memberAddress(memberDto.getMemberAddress()).memberNickname(memberDto.getMemberNickname())
-
-                .memberPwd(passwordEncoder.encode(memberDto.getMemberPwd())).memberRole(MemberRole.MEMBER)
-
-                .build();
+        memberDto.setMemberPwd(passwordEncoder.encode(memberDto.getMemberPwd()));
+        Member member = dtoToEntity(memberDto);
 
         validateDuplicateEmail(member.getMemberEmail());
 

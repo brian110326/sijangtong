@@ -17,6 +17,8 @@ public interface OrderItemService {
 
     List<OrderItemDto> getMemberOrderItems(String memberEmail);
 
+    List<OrderItemDto> getDeliveringOrderItems(String memberEmail);
+
     void deleteOrderItem(Long orderItemId);
 
     public default OrderItemDto entityToDto(OrderItem orderItem) {
@@ -29,6 +31,8 @@ public interface OrderItemService {
                 .productId(orderItem.getProduct().getProductId())
                 .pName(orderItem.getProduct().getPName())
                 .price(orderItem.getProduct().getPrice())
+                .storId(orderItem.getProduct().getStore().getStoreId())
+                .orderSatetus(orderItem.getOrder().getOrderSatetus())
                 .build();
 
         return orderItemDto;

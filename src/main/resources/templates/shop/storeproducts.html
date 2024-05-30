@@ -139,7 +139,7 @@
                     <a
                       class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
                       aria-label="Previous"
-                      th:href="@{storeDetail(storeId=${storeId},page=${result.start-1}, type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                      th:href="@{storeproducts(storeId=${storeId},page=${result.start-1}, type=${requestDto.type}, keyword=${requestDto.keyword})}"
                     >
                       <svg aria-hidden="true" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
                         <path
@@ -153,7 +153,7 @@
                   <li th:each="page : ${result.pageList}">
                     <a
                       class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
-                      th:href="@{storeDetail(storeId=${storeId},page=${page}, type=${requestDto.type}, keyword=${requestDto.keyword},)}"
+                      th:href="@{storeproducts(storeId=${storeId},page=${page}, type=${requestDto.type}, keyword=${requestDto.keyword},)}"
                       th:text="${page}"
                     ></a>
                   </li>
@@ -161,7 +161,7 @@
                     <a
                       class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
                       aria-label="Next"
-                      th:href="@{storeDetail(storeId=${storeId},page=${result.end+1}, type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                      th:href="@{storeproducts(storeId=${storeId},page=${result.end+1}, type=${requestDto.type}, keyword=${requestDto.keyword})}"
                     >
                       <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                         <path
@@ -193,13 +193,15 @@
 
         // 오더 번호
         const orderId = "[[${orderId}]]";
+        if (orderId == -1) {
+          alert("다른 시장의 상품은 함께 주문 할수 없습니다.");
+        }
         const shopping_cart_amount = "[[${orderItemCount}]]";
         if (shopping_cart_amount) {
           document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
         }
       </script>
     </div>
-    <script th:src="@{/js/review.js}"></script>
   </div>
 
   <th:block layout:fragment="script">

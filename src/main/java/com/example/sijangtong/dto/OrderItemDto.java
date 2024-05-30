@@ -1,5 +1,6 @@
 package com.example.sijangtong.dto;
 
+import com.example.sijangtong.constant.OrderSatetus;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.Product;
 import jakarta.persistence.FetchType;
@@ -29,7 +30,11 @@ public class OrderItemDto {
   // 임시추가
   private Long productId;
 
+  private OrderSatetus orderSatetus;
+
   private String pName;
 
   private Integer price;
+
+  private Long storId;
 }

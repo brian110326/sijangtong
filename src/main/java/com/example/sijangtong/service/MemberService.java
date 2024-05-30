@@ -2,6 +2,8 @@ package com.example.sijangtong.service;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.example.sijangtong.constant.MemberRole;
 import com.example.sijangtong.dto.MemberDto;
 import com.example.sijangtong.dto.UpdatedPasswordDto;
@@ -30,7 +32,10 @@ public interface MemberService {
         MemberDto memberDto = MemberDto.builder().memberEmail(member.getMemberEmail())
                 .memberAddress(member.getMemberAddress()).memberNickname(member.getMemberNickname())
                 .memberRole(member.getMemberRole())
-                .memberPwd(member.getMemberPwd()).build();
+                .memberPwd(member.getMemberPwd())
+                .memberName(member.getMemberName())
+                .memberTell(member.getMemberTell())
+                .build();
 
         return memberDto;
     }
@@ -38,7 +43,9 @@ public interface MemberService {
     public default Member dtoToEntity(MemberDto memberDto) {
         Member member = Member.builder().memberEmail(memberDto.getMemberEmail())
                 .memberAddress(memberDto.getMemberAddress()).memberNickname(memberDto.getMemberNickname())
-                .memberPwd(memberDto.getMemberPwd())
+                .memberPwd((memberDto.getMemberPwd()))
+                .memberName(memberDto.getMemberName())
+                .memberTell(memberDto.getMemberTell())
                 .memberRole(MemberRole.MEMBER)
                 .build();
 

@@ -33,6 +33,12 @@ public class Member {
     @Column(nullable = false)
     private String memberPwd;
 
+    @Column
+    private String memberName;
+
+    @Column
+    private String memberTell;
+
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
 }
