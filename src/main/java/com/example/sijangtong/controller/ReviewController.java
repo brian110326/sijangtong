@@ -49,6 +49,8 @@ public class ReviewController {
         pageRequestDto,
         productId);
 
+    log.info(" reviewDto:{}", result);
+
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
@@ -81,7 +83,7 @@ public class ReviewController {
     return new ResponseEntity<>(reviewService.getReview(reviewId), HttpStatus.OK);
   }
 
-  // 리뷰 수정 : 동작은 됨 db반영 안됨
+  // 리뷰 수정
   @PutMapping("{productId}/{reviewId}")
   public ResponseEntity<Long> putMethodName(
       @PathVariable("reviewId") Long reviewId,

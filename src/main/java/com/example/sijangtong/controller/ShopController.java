@@ -3,10 +3,13 @@ package com.example.sijangtong.controller;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ProductDto;
+import com.example.sijangtong.dto.ReviewDto;
 import com.example.sijangtong.dto.StoreDto;
+import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.repository.StoreRepository;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
 import com.example.sijangtong.service.ProductService;
+import com.example.sijangtong.service.ReviewService;
 import com.example.sijangtong.service.StoreService;
 import com.example.sijangtong.service.StoreServiceImpl;
 import groovyjarjarpicocli.CommandLine.Parameters;
@@ -18,6 +21,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -40,6 +45,7 @@ public class ShopController {
 
   private final StoreService service;
   private final ProductService productService;
+  private final ReviewService reviewService;
 
   // 상품 리스트
   @GetMapping("/storeDetail")
@@ -120,12 +126,18 @@ public class ShopController {
     StoreDto storeDto = service.getRow(storeId);
 
     model.addAttribute("storeDto", storeDto);
+    model.addAttribute("storeId", storeId);
 
     List<String> districts = Arrays.asList(
         "강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작", "마포", "서대문", "서초", "성동", "성북", "송파",
         "양천", "영등포", "용산", "은평", "종로", "중구", "중랑");
 
     model.addAttribute("districts", districts);
+
+    // modal 작업용
+    PageResultDto<ProductDto, Object[]> pList = productService.getProductList(pageRequestDto, storeId);
+    model.addAttribute("pList", pList);
+
   }
 
   @PreAuthorize("hasAnyRole('ADMIN','OWNER')")

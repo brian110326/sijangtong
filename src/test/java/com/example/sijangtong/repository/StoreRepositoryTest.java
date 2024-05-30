@@ -71,7 +71,7 @@ public class StoreRepositoryTest {
   @Test
   public void insertMemberTest() {
     IntStream
-        .rangeClosed(1, 200)
+        .rangeClosed(401, 600)
         .forEach(i -> {
           Member member = Member
               .builder()
@@ -177,7 +177,7 @@ public class StoreRepositoryTest {
     LongStream
         .rangeClosed(1, 200)
         .forEach(i -> {
-          Store store = Store.builder().storeId(i).build();
+          Store store = Store.builder().storeId(200L).build();
           LongStream
               .rangeClosed(1, 50)
               .forEach(j -> {
@@ -209,10 +209,11 @@ public class StoreRepositoryTest {
   @Test
   public void insertProductTestssss() {
     // 임시 사용
+    Store store = Store.builder().storeId(199L).build();
     LongStream
         .rangeClosed(1, 200)
         .forEach(i -> {
-          Store store = Store.builder().storeId(i).build();
+
           Product product = Product
               .builder()
               .pName("재고" + i)
@@ -247,7 +248,7 @@ public class StoreRepositoryTest {
               .memberEmail("member1@naver.com")
               .build();
 
-          Product product = Product.builder().productId(193L).build();
+          Product product = Product.builder().productId(401L).build();
 
           Review review = Review
               .builder()
@@ -301,4 +302,23 @@ public class StoreRepositoryTest {
       productImgRepository.save(productImg);
     }
   }
+
+  @Test
+  public void product200test() {
+    // 임시 사용
+    LongStream
+        .rangeClosed(1, 100)
+        .forEach(i -> {
+          Product product = Product
+              .builder()
+              .pName("재고" + i)
+              .price(5000)
+              .amount(20)
+              .store(Store.builder().storeId(198L).build())
+              .build();
+          productRepository.save(product);
+
+        });
+  }
+
 }

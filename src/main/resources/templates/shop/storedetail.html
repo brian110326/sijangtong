@@ -4,6 +4,28 @@
     <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <!-- <link th:href="@{/css/detail.css}" rel="stylesheet" /> -->
+    <style>
+      .list-group {
+        width: 300px; /* 너비 설정 */
+        height: 300px; /* 높이 설정 */
+        overflow-y: auto; /* 수직 스크롤바 추가 */
+        overflow-x: hidden; /* 수평 스크롤바 숨기기 */
+        border: 1px solid #ccc; /* 테두리 추가 */
+        padding: 0;
+        margin: 0;
+        list-style-type: none; /* 기본 list-style 없애기 */
+      }
+
+      .list-group-item {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      /* 마지막 아이템 아래에 불필요한 테두리를 없애기 위해 추가 */
+      .list-group-item:last-child {
+        border-bottom: none;
+      }
+    </style>
   </th:block>
   <div style="overflow-x: hidden" layout:fragment="content">
     <div class="container-fluid">
@@ -100,6 +122,10 @@
                         <button
                           type="button"
                           class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white"
+                          data-bs-target="#productModal"
+                          data-bs-toggle="modal"
+                          th:attr="data-product-id=${products.productId}"
+                          id="removeBtn"
                         >
                           삭제
                         </button>
@@ -306,13 +332,35 @@
                       </div>
                     </div> -->
             </div>
+
+            <!-- product info modal 보여주기 영역 -->
+            <div class="modal fade" id="productModal" tabindex="-1" aripa-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Check the product info before DELETING</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <ul class="list-group" id="modal-body1">
+                      <!-- product info list 영역 -->
+                    </ul>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="deleteBtn">DELETE</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
           <!-- 삭제 폼 -->
           <ul>
             <li th:each="product : ${result.dtoList}">
               <form method="post" id="pActionForm2" th:action="@{pRemove}">
                 <!-- 수정 / 삭제를 위한 필요 정보 -->
-                <input type="hidden" name="productId" th:value="${product.productId}" />
+                <input type="hidden" name="productId" th:value="${product.productId}" id="scriptUsePID" />
                 <input type="hidden" name="storeId" th:value="${product.storeId}" />
                 <!-- 페이지 나누기에 필요 정보-->
                 <input type="hidden" name="page" th:value="${requestDto.page}" />

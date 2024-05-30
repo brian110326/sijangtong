@@ -5,6 +5,28 @@
     <link rel="stylesheet" th:href="@{/css/upload.css}" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <!-- <link th:href="@{/css/styles.css}" rel="stylesheet" /> -->
+    <style>
+      .list-group {
+        width: 300px; /* 너비 설정 */
+        height: 300px; /* 높이 설정 */
+        overflow-y: auto; /* 수직 스크롤바 추가 */
+        overflow-x: hidden; /* 수평 스크롤바 숨기기 */
+        border: 1px solid #ccc; /* 테두리 추가 */
+        padding: 0;
+        margin: 0;
+        list-style-type: none; /* 기본 list-style 없애기 */
+      }
+
+      .list-group-item {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      /* 마지막 아이템 아래에 불필요한 테두리를 없애기 위해 추가 */
+      .list-group-item:last-child {
+        border-bottom: none;
+      }
+    </style>
   </th:block>
   <div layout:fragment="content" class="container px-6 mx-auto grid">
     <form th:action="@{modify}" method="post" id="register-form" th:object="${storeDto}" novalidate>
@@ -210,7 +232,13 @@
               <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
               <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
               <div class="mx-2" sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
-                <button type="button" class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white">
+                <button
+                  type="button"
+                  th:value="${storeDto.storeId}"
+                  class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white"
+                  data-bs-target="#storeModal"
+                  data-bs-toggle="modal"
+                >
                   삭제
                 </button>
               </div>
@@ -226,12 +254,96 @@
           </div>
         </div>
       </div>
+
+      <!-- modal 보여주기 영역 -->
+
+      <!-- store info modal 보여주기 영역 -->
+      <div class="modal fade" id="storeModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Check the store info before DELETING</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group" id="modal-body1">
+                <!-- store info list 영역 -->
+              </ul>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">Understood</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- product modal 보여주기 영역 -->
+      <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Products will be DELETED</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group" id="modal-body2">
+                <!-- product list 영역 -->
+              </ul>
+            </div>
+            <!-- 페이지 나누기 영역 -->
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item" th:if="${pList.prev}">
+                  <a class="page-link" href="" aria-label="Previous" th:data-page="${pList.start - 1}" th:attr="data-store-id=${storeId}">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item" th:each="page : ${pList.pageList}">
+                  <a class="page-link" href="" th:text="${page}" th:data-page="${page}" th:data-store-id="${storeId}"></a>
+                </li>
+
+                <li class="page-item" th:if="${pList.next}">
+                  <a class="page-link" href="" aria-label="Next" th:data-page="${pList.end + 1}" th:data-store-id="${storeId}">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#finalModal">Understood</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="finalModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Are you sure to DELETE the store? This cannot be undone.</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Related Datas will be deleted including store images, products, product images, reviews.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" id="deleteBtn">DELETE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- modal 보여주기 영역 끝 -->
     </form>
 
     <!-- 삭제 폼 -->
     <form th:action="@{remove}" method="post" id="actionForm">
       <!-- 수정 / 삭제를 위한 필요 정보 -->
-      <input type="hidden" name="storeId" th:value="${storeDto.storeId}" />
+      <input type="hidden" name="storeId" th:value="${storeDto.storeId}" id="scriptUseId" />
       <!-- 페이지 나누기에 필요 정보-->
       <input type="hidden" name="page" th:value="${requestDto.page}" />
       <input type="hidden" name="type" th:value="${requestDto.type}" />
@@ -239,7 +351,7 @@
     </form>
 
     <script th:src="@{/js/scripts.js}"></script>
-    <script th:src="@{/js/storeModify.js}"></script>
+    <script th:src="@{/js/deleteModal.js}"></script>
     <script th:src="@{/js/sUpload.js}"></script>
   </div>
   <th:block layout:fragment="script">
