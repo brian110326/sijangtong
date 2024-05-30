@@ -36,13 +36,18 @@ public interface ProductService {
       List<ProductImg> productImgs,
       Store store,
       Double avg) {
+
+    String formatAvg = avg != null ? String.format("%.1f", avg) : "0.0"; // 리뷰평점
+
     ProductDto productDto = ProductDto
         .builder()
         .productId(product.getProductId())
         .pName(product.getPName())
         .price(product.getPrice())
         .amount(product.getAmount())
+        .avg(Double.valueOf(formatAvg))
         .storeId(product.getStore().getStoreId())
+        .avg(avg != null ? avg : 0.0)
         // .quantity(product.getQuantity())
         .build();
 
@@ -73,9 +78,11 @@ public interface ProductService {
     product.setAmount(dto.getAmount());
     product.setPrice(dto.getPrice());
     // product.setQuantity(dto.getQuantity());
+
     product.setStore(Store.builder().storeId(dto.getStoreId()).build());
 
     entityMap.put("product", product);
+    entityMap.put("Service getStoreId", dto.getStoreId());
 
     List<ProductImgDto> productImgDtos = dto.getProductImgDtos();
 

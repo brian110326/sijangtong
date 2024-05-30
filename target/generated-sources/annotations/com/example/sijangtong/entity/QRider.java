@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,7 +18,11 @@ public class QRider extends EntityPathBase<Rider> {
 
     private static final long serialVersionUID = -261999086L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QRider rider = new QRider("rider");
+
+    public final QOrder order;
 
     public final NumberPath<Long> riderId = createNumber("riderId", Long.class);
 
@@ -28,15 +33,24 @@ public class QRider extends EntityPathBase<Rider> {
     public final StringPath riderTel = createString("riderTel");
 
     public QRider(String variable) {
-        super(Rider.class, forVariable(variable));
+        this(Rider.class, forVariable(variable), INITS);
     }
 
     public QRider(Path<? extends Rider> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QRider(PathMetadata metadata) {
-        super(Rider.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QRider(PathMetadata metadata, PathInits inits) {
+        this(Rider.class, metadata, inits);
+    }
+
+    public QRider(Class<? extends Rider> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.order = inits.isInitialized("order") ? new QOrder(forProperty("order"), inits.get("order")) : null;
     }
 
 }

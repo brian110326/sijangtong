@@ -2,13 +2,11 @@ package com.example.sijangtong.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.querydsl.core.types.dsl.*;
-
-import com.querydsl.core.types.PathMetadata;
-import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.PathMetadata;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.dsl.PathInits;
-
+import javax.annotation.processing.Generated;
 
 /**
  * QOrder is a Querydsl query type for Order
@@ -16,56 +14,90 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QOrder extends EntityPathBase<Order> {
 
-    private static final long serialVersionUID = -264501530L;
+  private static final long serialVersionUID = -264501530L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
+  private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QOrder order = new QOrder("order1");
+  public static final QOrder order = new QOrder("order1");
 
-    public final QBaseEntity _super = new QBaseEntity(this);
+  public final QBaseEntity _super = new QBaseEntity(this);
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+  //inherited
+  public final DateTimePath<java.time.LocalDateTime> createdDate =
+    _super.createdDate;
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
+  //inherited
+  public final DateTimePath<java.time.LocalDateTime> lastModifiedDate =
+    _super.lastModifiedDate;
 
-    public final QMember member;
+  public final QMember member;
 
-    public final StringPath orderAddress = createString("orderAddress");
+  public final StringPath orderAddress = createString("orderAddress");
 
-    public final NumberPath<Long> orderId = createNumber("orderId", Long.class);
+  public final NumberPath<Long> orderId = createNumber("orderId", Long.class);
 
-    public final EnumPath<com.example.sijangtong.constant.OrderPayment> orderPayment = createEnum("orderPayment", com.example.sijangtong.constant.OrderPayment.class);
+  public final QOrderItem orderItem;
 
-    public final QRider rider;
+  public final EnumPath<com.example.sijangtong.constant.OrderPayment> orderPayment = createEnum(
+    "orderPayment",
+    com.example.sijangtong.constant.OrderPayment.class
+  );
 
-    public final EnumPath<com.example.sijangtong.constant.RiderOrdercancel> riderOrdercancel = createEnum("riderOrdercancel", com.example.sijangtong.constant.RiderOrdercancel.class);
+  public final EnumPath<com.example.sijangtong.constant.OrderSatetus> orderSatetus = createEnum(
+    "orderSatetus",
+    com.example.sijangtong.constant.OrderSatetus.class
+  );
 
-    public final QStore store;
+  public final QRider rider;
 
-    public QOrder(String variable) {
-        this(Order.class, forVariable(variable), INITS);
-    }
+  public final EnumPath<com.example.sijangtong.constant.RiderOrdercancel> riderOrdercancel = createEnum(
+    "riderOrdercancel",
+    com.example.sijangtong.constant.RiderOrdercancel.class
+  );
 
-    public QOrder(Path<? extends Order> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
-    }
+  public final QStore store;
 
-    public QOrder(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
+  public QOrder(String variable) {
+    this(Order.class, forVariable(variable), INITS);
+  }
 
-    public QOrder(PathMetadata metadata, PathInits inits) {
-        this(Order.class, metadata, inits);
-    }
+  public QOrder(Path<? extends Order> path) {
+    this(
+      path.getType(),
+      path.getMetadata(),
+      PathInits.getFor(path.getMetadata(), INITS)
+    );
+  }
 
-    public QOrder(Class<? extends Order> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
-        this.rider = inits.isInitialized("rider") ? new QRider(forProperty("rider")) : null;
-        this.store = inits.isInitialized("store") ? new QStore(forProperty("store")) : null;
-    }
+  public QOrder(PathMetadata metadata) {
+    this(metadata, PathInits.getFor(metadata, INITS));
+  }
 
+  public QOrder(PathMetadata metadata, PathInits inits) {
+    this(Order.class, metadata, inits);
+  }
+
+  public QOrder(
+    Class<? extends Order> type,
+    PathMetadata metadata,
+    PathInits inits
+  ) {
+    super(type, metadata, inits);
+    this.member =
+      inits.isInitialized("member")
+        ? new QMember(forProperty("member"), inits.get("member"))
+        : null;
+    this.orderItem =
+      inits.isInitialized("orderItem")
+        ? new QOrderItem(forProperty("orderItem"), inits.get("orderItem"))
+        : null;
+    this.rider =
+      inits.isInitialized("rider")
+        ? new QRider(forProperty("rider"), inits.get("rider"))
+        : null;
+    this.store =
+      inits.isInitialized("store")
+        ? new QStore(forProperty("store"), inits.get("store"))
+        : null;
+  }
 }
-

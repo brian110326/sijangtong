@@ -3,183 +3,132 @@
   <div style="overflow-x: hidden" layout:fragment="content" class="container-fluid">
     <div class="row px-xl-5">
       <div class="col-lg-8">
-        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Billing Address</span></h5>
-        <div class="bg-light p-30 mb-5">
-          <div class="row">
-            <div class="col-md-6 form-group">
-              <label>First Name</label>
-              <input class="form-control" type="text" placeholder="John" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Last Name</label>
-              <input class="form-control" type="text" placeholder="Doe" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>E-mail</label>
-              <input class="form-control" type="text" placeholder="example@email.com" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Mobile No</label>
-              <input class="form-control" type="text" placeholder="+123 456 789" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Address Line 1</label>
-              <input class="form-control" type="text" placeholder="123 Street" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Address Line 2</label>
-              <input class="form-control" type="text" placeholder="123 Street" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Country</label>
-              <select class="custom-select">
-                <option selected>United States</option>
-                <option>Afghanistan</option>
-                <option>Albania</option>
-                <option>Algeria</option>
-              </select>
-            </div>
-            <div class="col-md-6 form-group">
-              <label>City</label>
-              <input class="form-control" type="text" placeholder="New York" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>State</label>
-              <input class="form-control" type="text" placeholder="New York" />
-            </div>
-            <div class="col-md-6 form-group">
-              <label>ZIP Code</label>
-              <input class="form-control" type="text" placeholder="123" />
-            </div>
-            <div class="col-md-12 form-group">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="newaccount" />
-                <label class="custom-control-label" for="newaccount">Create an account</label>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="shipto" />
-                <label class="custom-control-label" for="shipto" data-toggle="collapse" data-target="#shipping-address"
-                  >Ship to different address</label
-                >
-              </div>
-            </div>
-          </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="shipto" />
+          <label class="custom-control-label" for="shipto" data-toggle="collapse" data-target="#tansfer"
+            >배달용 주소지 입력(픽업 포장시 필요 x)</label
+          >
         </div>
-        <div class="collapse mb-5" id="shipping-address">
-          <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Shipping Address</span></h5>
+        <div class="collapse mb-5" id="tansfer">
+          <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">배달용 주소지 입력</span></h5>
           <div class="bg-light p-30">
             <div class="row">
               <div class="col-md-6 form-group">
-                <label>First Name</label>
-                <input class="form-control" type="text" placeholder="John" />
+                <label>이름</label>
+                <input class="form-control" type="text" placeholder="ex) 홍" th:value="${#authentication.principal.memberDto.memberName}" readonly />
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label>이메일</label>
+                <input class="form-control" type="text" placeholder="example@email.com" th:value="${memberEmail}" readonly />
               </div>
               <div class="col-md-6 form-group">
-                <label>Last Name</label>
-                <input class="form-control" type="text" placeholder="Doe" />
+                <label>폰번호</label>
+                <input class="form-control" type="text" placeholder="010-1234-1234" th:value="${#authentication.principal.memberDto.memberTell}" />
               </div>
               <div class="col-md-6 form-group">
-                <label>E-mail</label>
-                <input class="form-control" type="text" placeholder="example@email.com" />
+                <label>기본주소</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="서울시 ~ 강서구"
+                  th:value="${#authentication.principal.memberDto.memberAddress}"
+                />
               </div>
               <div class="col-md-6 form-group">
-                <label>Mobile No</label>
-                <input class="form-control" type="text" placeholder="+123 456 789" />
+                <label>상세주소</label>
+                <input class="form-control" type="text" placeholder="~~동 oo아파트" />
               </div>
               <div class="col-md-6 form-group">
-                <label>Address Line 1</label>
-                <input class="form-control" type="text" placeholder="123 Street" />
-              </div>
-              <div class="col-md-6 form-group">
-                <label>Address Line 2</label>
-                <input class="form-control" type="text" placeholder="123 Street" />
-              </div>
-              <div class="col-md-6 form-group">
-                <label>Country</label>
-                <select class="custom-select">
-                  <option selected>United States</option>
-                  <option>Afghanistan</option>
-                  <option>Albania</option>
-                  <option>Algeria</option>
-                </select>
-              </div>
-              <div class="col-md-6 form-group">
-                <label>City</label>
-                <input class="form-control" type="text" placeholder="New York" />
-              </div>
-              <div class="col-md-6 form-group">
-                <label>State</label>
-                <input class="form-control" type="text" placeholder="New York" />
-              </div>
-              <div class="col-md-6 form-group">
-                <label>ZIP Code</label>
-                <input class="form-control" type="text" placeholder="123" />
+                <label>요청사항</label>
+                <input class="form-control" type="text" placeholder="일회용 품은 주지마세요" />
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-lg-4">
-        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Order Total</span></h5>
+        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">주문 목록</span></h5>
         <div class="bg-light p-30 mb-5">
           <div class="border-bottom">
-            <h6 class="mb-3">Products</h6>
-            <div class="d-flex justify-content-between">
-              <p>Product Name 1</p>
-              <p>$150</p>
-            </div>
-            <div class="d-flex justify-content-between">
-              <p>Product Name 2</p>
-              <p>$150</p>
-            </div>
-            <div class="d-flex justify-content-between">
-              <p>Product Name 3</p>
-              <p>$150</p>
+            <h6 class="mb-3">상품명</h6>
+            <div class="d-flex justify-content-between" th:each="item : ${orderItems}">
+              <p th:text="${item.pName}">Product Name 1</p>
+              <p th:text="${item.orderPrice}">$150</p>
             </div>
           </div>
           <div class="border-bottom pt-3 pb-2">
             <div class="d-flex justify-content-between mb-3">
-              <h6>Subtotal</h6>
-              <h6>$150</h6>
+              <h6>총액</h6>
+              <h6 id="totalPrice1">$150</h6>
             </div>
             <div class="d-flex justify-content-between">
-              <h6 class="font-weight-medium">Shipping</h6>
-              <h6 class="font-weight-medium">$10</h6>
+              <h6 class="font-weight-medium">할인가</h6>
+              <h6 class="font-weight-medium">0원</h6>
             </div>
           </div>
           <div class="pt-2">
             <div class="d-flex justify-content-between mt-2">
-              <h5>Total</h5>
-              <h5>$160</h5>
+              <h5>총액</h5>
+              <h5 id="totalPrice2">$160</h5>
             </div>
           </div>
         </div>
         <div class="mb-5">
-          <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
-          <div class="bg-light p-30">
-            <div class="form-group">
-              <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" name="payment" id="paypal" />
-                <label class="custom-control-label" for="paypal">Paypal</label>
+          <form th:action="@{cart}" method="post">
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
+            <div class="bg-light p-30">
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" name="payment" id="CASH" value="CASH" />
+                  <label class="custom-control-label" for="CASH">현금(배달)</label>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" name="payment" id="directcheck" />
-                <label class="custom-control-label" for="directcheck">Direct Check</label>
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" name="payment" id="CREDIT_CARD" value="CREDIT_CARD" />
+                  <label class="custom-control-label" for="CREDIT_CARD">신용카드(배달)</label>
+                </div>
               </div>
-            </div>
-            <div class="form-group mb-4">
-              <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" name="payment" id="banktransfer" />
-                <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
+              <div class="form-group mb-4">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" name="payment" id="TRANSFER" value="TRANSFER" />
+                  <label class="custom-control-label" for="TRANSFER">포장</label>
+                </div>
               </div>
+              <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3">주문하기</button>
             </div>
-            <button class="btn btn-block btn-primary font-weight-bold py-3">Place Order</button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
+    <script>
+      const shopping_cart_amount = "[[${orderItemCount}]]";
+      if (shopping_cart_amount) {
+        document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
+      }
+      var products = "[[${orderItems}]]";
+
+      // console.log(products);
+      products = products.replace("[", "");
+      products = products.replace("]", "");
+      const regex = /OrderItemDto/gim;
+      products = products.replace(regex, "");
+      products = products.replaceAll("(", "");
+      products = products.replaceAll(")", "");
+      console.log(products);
+      const productList = products.split(",");
+      // console.log(productList);
+      var totalPrice = 0;
+      productList.forEach((product) => {
+        if (product.includes("orderPrice")) {
+          totalPrice += parseInt(product.replace("orderPrice=", ""));
+        }
+      });
+      console.log(totalPrice);
+
+      document.querySelector("#totalPrice1").innerHTML = totalPrice + "원";
+      document.querySelector("#totalPrice2").innerHTML = totalPrice + "원";
+    </script>
   </div>
 </html>

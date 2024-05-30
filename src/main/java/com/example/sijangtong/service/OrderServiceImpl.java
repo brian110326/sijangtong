@@ -1,5 +1,7 @@
 package com.example.sijangtong.service;
 
+import com.example.sijangtong.constant.OrderPayment;
+import com.example.sijangtong.constant.OrderSatetus;
 import com.example.sijangtong.constant.RiderStatus;
 import com.example.sijangtong.dto.OrderDto;
 import com.example.sijangtong.dto.OrderItemDto;
@@ -13,6 +15,7 @@ import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.ProductImg;
 import com.example.sijangtong.entity.Rider;
 import com.example.sijangtong.entity.Store;
+import com.example.sijangtong.repository.MemberRepository;
 import com.example.sijangtong.repository.OrderItemRepository;
 import com.example.sijangtong.repository.OrderRepository;
 import com.example.sijangtong.repository.RiderRepository;
@@ -32,19 +35,28 @@ public class OrderServiceImpl implements OrderService {
 
   private final OrderItemRepository orderItemRepository;
 
+  private final MemberRepository memberRepository;
+
   private final RiderRepository riderRepository;
 
   @Override
   public PageResultDto<OrderDto, Object[]> getOrderList(
-      PageRequestDto pageRequestDto,
-      Long storeId) {
-
+    PageRequestDto pageRequestDto,
+    Long storeId
+  ) {
     Page<Object[]> result = orderRepository.getOrderList(
-        pageRequestDto.getPageable(Sort.by("orderId")),
-        storeId);
+      pageRequestDto.getPageable(Sort.by("orderId")),
+      storeId
+    );
 
-    Function<Object[], OrderDto> fn = (en -> entityToDto((Order) en[0],
-        (List<OrderItem>) Arrays.asList((OrderItem) en[1])));
+    Function<Object[], OrderDto> fn =
+      (
+        en ->
+          entityToDto(
+            (Order) en[0],
+            (List<OrderItem>) Arrays.asList((OrderItem) en[1])
+          )
+      );
 
     return new PageResultDto<>(result, fn);
   }
@@ -73,8 +85,9 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public Long updateOrder(OrderDto orderDto) {
     orderRepository.updatePayment(
-        orderDto.getOrderPayment(),
-        orderDto.getOrderId());
+      orderDto.getOrderPayment(),
+      orderDto.getOrderId()
+    );
 
     return orderDto.getOrderId();
   }
@@ -85,8 +98,9 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public void updateOrderAmount(OrderItemDto orderItemDto) {
     orderItemRepository.updateAmount(
-        orderItemDto.getOrderAmount(),
-        orderItemDto.getId());
+      orderItemDto.getOrderAmount(),
+      orderItemDto.getId()
+    );
   }
 
   // 주문 => 주소, 결제방식, 누가, 어떤 store에서, rider는 자동배정
@@ -95,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
     // 주문 시 waiting 중이면서 riderId가 최소인 rider 배정
     Rider rider = riderRepository.getRider();
 
-    orderDto.setRider(rider);
+    // orderDto.setRider(rider);
 
     // 문제 생긴다면 set함수 이용해보기
     Order newOrder = dtoToEntity(orderDto);
@@ -103,4 +117,17 @@ public class OrderServiceImpl implements OrderService {
 
     return newOrder.getOrderId();
   }
+
+  @Override
+  public Long orderfinish(String memberEmail, String payment) {
+    Order order = orderRepository.findByMember(memberRepository.findByMemberEmail(memberEmail).get()).get();
+
+    order.setOrderPayment(OrderPayment.valueOf(payment));
+    order.setOrderSatetus(OrderSatetus.WAITING);
+
+    orderRepository.save(order);
+
+    return order.getOrderId();
+  }
+
 }

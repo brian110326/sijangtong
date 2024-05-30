@@ -1,6 +1,7 @@
 package com.example.sijangtong.dto;
 
 import com.example.sijangtong.constant.OrderPayment;
+import com.example.sijangtong.constant.OrderSatetus;
 import com.example.sijangtong.constant.RiderOrdercancel;
 import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Rider;
@@ -30,14 +31,14 @@ public class OrderDto {
 
   private Long storeId;
 
-  private Rider rider;
+  private Long riderId;
 
   @Builder.Default
   private List<OrderItemDto> orderItemDtos = new ArrayList<>();
 
-  private Member member;
-
   private OrderPayment orderPayment;
+
+  private OrderSatetus orderSatetus;
 
   private LocalDateTime createdDate;
   // 라이더측 배달 취소 사유

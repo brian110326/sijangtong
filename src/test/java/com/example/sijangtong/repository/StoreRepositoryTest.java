@@ -71,7 +71,7 @@ public class StoreRepositoryTest {
   @Test
   public void insertMemberTest() {
     IntStream
-        .rangeClosed(401, 600)
+        .rangeClosed(1, 200)
         .forEach(i -> {
           Member member = Member
               .builder()
@@ -89,30 +89,31 @@ public class StoreRepositoryTest {
   @Test
   public void insertOrderTest() {
     LongStream
-        .rangeClosed(1, 200)
+        .rangeClosed(300, 304)
         .forEach(i -> {
           Member member = Member
               .builder()
-              .memberEmail("member" + i + "@naver.com")
+              .memberEmail("member1@naver.com")
               .build();
-          Store store = Store.builder().storeId(i).build();
-          Rider rider = Rider
-              .builder()
-              .riderId(i)
-              .riderName("Rider" + i)
-              .riderTel("010-1234-5678")
-              .riderStatus(RiderStatus.DELIVERING)
-              .build();
+          Store store = Store.builder().storeId(1L).build();
+          // Rider rider = Rider
+          // .builder()
+          // .riderId(i)
+          // .riderName("Rider" + i)
+          // .riderTel("010-1234-5678")
+          // .riderStatus(RiderStatus.DELIVERING)
+          // .build();
 
-          riderRepository.save(rider);
+          // // riderRepository.save(rider);
           Order order = Order
               .builder()
               .orderAddress("강동구")
               .orderPayment(OrderPayment.CASH)
               .member(member)
               .store(store)
-              .rider(rider)
+              // .rider(rider)
               .build();
+          orderRepository.save(order);
         });
   }
 
@@ -177,7 +178,7 @@ public class StoreRepositoryTest {
     LongStream
         .rangeClosed(1, 200)
         .forEach(i -> {
-          Store store = Store.builder().storeId(200L).build();
+          Store store = Store.builder().storeId(i).build();
           LongStream
               .rangeClosed(1, 50)
               .forEach(j -> {
@@ -209,11 +210,10 @@ public class StoreRepositoryTest {
   @Test
   public void insertProductTestssss() {
     // 임시 사용
-    Store store = Store.builder().storeId(199L).build();
     LongStream
         .rangeClosed(1, 200)
         .forEach(i -> {
-
+          Store store = Store.builder().storeId(i).build();
           Product product = Product
               .builder()
               .pName("재고" + i)
@@ -248,7 +248,7 @@ public class StoreRepositoryTest {
               .memberEmail("member1@naver.com")
               .build();
 
-          Product product = Product.builder().productId(401L).build();
+          Product product = Product.builder().productId(193L).build();
 
           Review review = Review
               .builder()

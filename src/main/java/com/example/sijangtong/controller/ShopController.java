@@ -13,17 +13,17 @@ import com.example.sijangtong.service.ReviewService;
 import com.example.sijangtong.service.StoreService;
 import com.example.sijangtong.service.StoreServiceImpl;
 import groovyjarjarpicocli.CommandLine.Parameters;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
-
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -51,10 +50,10 @@ public class ShopController {
   @GetMapping("/storeDetail")
   public void getDetail(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @Parameters Long storeId,
+      Long storeId,
       Model model,
       RedirectAttributes rttr) {
-    log.info("디테일 폼 요청");
+    log.info("디테일 폼 요청 {}", storeId);
     model.addAttribute(
         "result",
         productService.getProductList(pageRequestDto, storeId));
@@ -99,7 +98,7 @@ public class ShopController {
     model.addAttribute("requestDto", pageRequestDto);
   }
 
-  @GetMapping("/read")
+  @GetMapping({ "/read", "/modify" })
   public void getread(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       @Parameters Long storeId,
@@ -110,8 +109,31 @@ public class ShopController {
     model.addAttribute("storeDto", storeDto);
 
     List<String> districts = Arrays.asList(
-        "강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작", "마포", "서대문", "서초", "성동", "성북", "송파",
-        "양천", "영등포", "용산", "은평", "종로", "중구", "중랑");
+        "강남",
+        "강동",
+        "강북",
+        "강서",
+        "관악",
+        "광진",
+        "구로",
+        "금천",
+        "노원",
+        "도봉",
+        "동대문",
+        "동작",
+        "마포",
+        "서대문",
+        "서초",
+        "성동",
+        "성북",
+        "송파",
+        "양천",
+        "영등포",
+        "용산",
+        "은평",
+        "종로",
+        "중구",
+        "중랑");
 
     model.addAttribute("districts", districts);
   }
@@ -228,10 +250,9 @@ public class ShopController {
       Long storeId,
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       RedirectAttributes rttr) {
+    Long removedStoreId = service.removeStore(storeId);
 
     log.info("storeId!!!!!!!!!!!!1 {}", storeId);
-
-    Long removedStoreId = service.removeStore(storeId);
 
     rttr.addFlashAttribute("msg", removedStoreId);
 
@@ -244,7 +265,6 @@ public class ShopController {
     return "redirect:/shop/list";
   }
 
-  @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
   @PostMapping("/pRemove")
   public String postProductRemove(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
@@ -258,6 +278,21 @@ public class ShopController {
     rttr.addAttribute("type", pageRequestDto.getType());
     rttr.addAttribute("keyword", pageRequestDto.getKeyword());
     return "redirect:/shop/storeDetail";
+  }
+
+  @PostMapping("/modify")
+  public String postStoreUpdate(
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      StoreDto updateStoreDto,
+      @Parameters Long storeId,
+      RedirectAttributes rttr) {
+    Long updatedStoreId = service.storeUpdate(updateStoreDto);
+
+    rttr.addAttribute("storeId", updateStoreDto.getStoreId());
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+    return "redirect:/shop/read";
   }
 
   @PreAuthorize("isAuthenticated()")
@@ -279,10 +314,67 @@ public class ShopController {
     return new Double(((Math.random() * 198) + 1)).longValue();
   }
 
-  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/insert")
   public void insertStore(
-      @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      StoreDto storeDto) {
     log.info("스토어 생성 폼 요청");
+  }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @PostMapping("/insert")
+  public String storeInsert(
+      @Valid StoreDto storeDto,
+      BindingResult result,
+      Model model,
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      RedirectAttributes rttr) {
+    log.info("스토어 생성{}");
+
+    if (result.hasErrors()) {
+      return "/shop/insert";
+    }
+
+    // 서비스 호출
+    Long storeId = service.storeInsert(storeDto);
+
+    rttr.addFlashAttribute("msg", storeId);
+
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+    return "redirect:/shop/list";
+  }
+
+  @GetMapping("/pInsert")
+  public void insertProduct(
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @RequestParam(required = false, value = "productDto") ProductDto productDto) {
+    log.info("프로덕트 생성 폼 요청");
+  }
+
+  @PostMapping("/pInsert")
+  public String insertproduct(
+      @Valid ProductDto productDto,
+      BindingResult result,
+      Model model,
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      RedirectAttributes rttr) {
+    log.info("프로덕트 생성 {}", productDto);
+
+    if (result.hasErrors()) {
+      return "/shop/pInsert";
+    }
+
+    Long productId = productService.productInsert(productDto);
+
+    rttr.addFlashAttribute("msg", productDto.getStoreId());
+    rttr.addAttribute("storeId", productDto.getStoreId());
+    rttr.addAttribute("page", 1);
+    rttr.addAttribute("type", "");
+    rttr.addAttribute("keyword", "");
+
+    return "redirect:/shop/storeDetail";
   }
 }

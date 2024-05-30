@@ -1,15 +1,22 @@
 package com.example.sijangtong.service;
 
+import com.example.sijangtong.constant.MemberRole;
 import com.example.sijangtong.constant.RiderOrdercancel;
 import com.example.sijangtong.constant.RiderStatus;
 import com.example.sijangtong.dto.OrderDto;
+import com.example.sijangtong.dto.PageRequestDto;
+import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.RiderDto;
+import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Rider;
+import com.example.sijangtong.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 
 @SpringBootTest
@@ -20,6 +27,12 @@ public class SionTest {
 
   @Autowired
   private OrderService orderService;
+
+  @Autowired
+  private MemberRepository memberRepository;
+
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   // 라이더 생성 테스트 5월 20일 정상 작동 완료
   @Test
@@ -69,5 +82,33 @@ public class SionTest {
       .build();
 
     riderService.riderOrderCancel(orderDto);
+  }
+
+  // 머지 전 계정 생성 메소드
+  @Test
+  public void insertMemberTest() {
+    Member member = Member
+      .builder()
+      .memberEmail("z1130ion@naver.com")
+      .memberNickname("김시온(admin)")
+      .memberAddress("종로")
+      .memberPwd(passwordEncoder.encode("1111"))
+      .memberRole(MemberRole.ADMIN)
+      .build();
+
+    memberRepository.save(member);
+  }
+
+  // 라이더 리스트 테스트
+  @Test
+  public void riderListTest() {
+    PageRequestDto requestDto = PageRequestDto
+      .builder()
+      .page(2)
+      .size(10)
+      .build();
+    PageResultDto<RiderDto, Rider> list = riderService.getRiderList(requestDto);
+
+    System.out.println(list);
   }
 }

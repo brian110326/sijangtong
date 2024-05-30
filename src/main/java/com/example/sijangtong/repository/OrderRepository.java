@@ -9,12 +9,14 @@ import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.repository.orderTotal.OrderOrderItemMemberRiderProductRepository;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface OrderRepository
-  extends
+    extends
     JpaRepository<Order, Long>, OrderOrderItemMemberRiderProductRepository {
   List<Order> findByStore(Store store);
 
@@ -26,11 +28,9 @@ public interface OrderRepository
   @Query("delete from Order o where o.member = :member")
   void deleteByMember(Member member);
 
-  List<Order> findByMember(Member member);
+  Optional<Order> findByMember(Member member);
 
   @Modifying
-  @Query(
-    "update Order o set o.orderPayment = :orderPayment where o.orderId = :orderId"
-  )
+  @Query("update Order o set o.orderPayment = :orderPayment where o.orderId = :orderId")
   void updatePayment(OrderPayment orderPayment, Long orderId);
 }

@@ -17,7 +17,7 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 @Data
-@ToString(exclude = { "store", "orderItem" })
+@ToString(exclude = { "store" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

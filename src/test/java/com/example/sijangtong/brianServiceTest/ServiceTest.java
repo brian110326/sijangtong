@@ -1,16 +1,5 @@
 package com.example.sijangtong.brianServiceTest;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.test.annotation.Commit;
-
 import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
@@ -32,12 +21,21 @@ import com.example.sijangtong.repository.StoreImgRepository;
 import com.example.sijangtong.repository.StoreRepository;
 import jakarta.transaction.Transactional;
 import java.util.Arrays;
+import java.util.Arrays;
 import java.util.List;
+import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Commit;
 
 @SpringBootTest
@@ -70,22 +68,20 @@ public class ServiceTest {
   @Autowired
   private RiderRepository riderRepository;
 
-  @Test
-  @Transactional
-  @Commit
-  public void memberDeleteTest() {
-    Member member = Member.builder().memberEmail("member98@naver.com").build();
-    List<Order> orders = orderRepository.findByMember(member);
+  // @Test
+  // @Transactional
+  // @Commit
+  // public void memberDeleteTest() {
+  // Member member = Member.builder().memberEmail("member98@naver.com").build();
+  // Order order = orderRepository.findByMember(member);
 
-    reviewRepository.deleteByMember(member);
+  // reviewRepository.deleteByMember(member);
 
-    orders.forEach(order -> {
-      orderItemRepository.deleteByOrder(order);
-      orderRepository.delete(order);
-    });
+  // orderItemRepository.deleteByOrder(order);
+  // orderRepository.delete(order);
 
-    memberRepository.delete(member);
-  }
+  // memberRepository.delete(member);
+  // }
 
   // @Test
   // public void storeList() {
@@ -107,15 +103,6 @@ public class ServiceTest {
   // System.out.println("getOffset " + list.getPageable().getOffset());
 
   // }
-
-  @Test
-  public void getStoreRow() {
-    List<Object[]> list = storeImgRepository.getStoreRow(40L);
-
-    for (Object[] objects : list) {
-      System.out.println(Arrays.toString(objects));
-    }
-  }
 
   // @Test
   // public void productList() {
@@ -139,11 +126,10 @@ public class ServiceTest {
         .build();
     Page<Object[]> list = reviewRepository.getReviewList(
         requestDto.getPageable(Sort.by("reviewId")),
-        600L);
+        1L);
 
     for (Object[] objects : list) {
       System.out.println(Arrays.toString(objects));
-
       // System.out.println("number " + list.getNumber());
       // System.out.println("total " + list.getTotalPages());
       // System.out.println("TotalElements " + list.getTotalElements());
@@ -258,7 +244,6 @@ public class ServiceTest {
     orderRepository.deleteByStore(store);
 
     storeRepository.delete(store);
-
     // Store store = storeRepository.findById(196L).get();
     // Optional<Product> product = productRepository.findByStore(store);
 
@@ -289,7 +274,6 @@ public class ServiceTest {
         StoreCategory.SEAFOOD);
     for (Object[] objects : list) {
       System.out.println(Arrays.toString(objects));
-
     }
   }
 
@@ -353,7 +337,6 @@ public class ServiceTest {
   @Transactional
   @Commit
   public void updateNicknameTest() {
-
     memberRepository.updateNickname("Brian", "member1@naver.com");
   }
 
@@ -361,8 +344,6 @@ public class ServiceTest {
   @Transactional
   @Commit
   public void updateAddressTest() {
-
     memberRepository.updateAddress("NYC", "member1@naver.com");
   }
-
 }

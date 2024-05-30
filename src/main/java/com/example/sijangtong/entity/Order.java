@@ -1,6 +1,7 @@
 package com.example.sijangtong.entity;
 
 import com.example.sijangtong.constant.OrderPayment;
+import com.example.sijangtong.constant.OrderSatetus;
 import com.example.sijangtong.constant.RiderOrdercancel;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -16,6 +17,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +25,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = { "member", "rider", "store" })
+@ToString(exclude = { "member", "rider", "store", "orderItem" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orders")
@@ -32,8 +34,16 @@ import lombok.ToString;
 public class Order extends BaseEntity {
 
   @Id
-  @SequenceGenerator(name = "order_seq_gen", sequenceName = "order_seq", allocationSize = 1, initialValue = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq_gen")
+  @SequenceGenerator(
+    name = "order_seq_gen",
+    sequenceName = "order_seq",
+    allocationSize = 1,
+    initialValue = 1
+  )
+  @GeneratedValue(
+    strategy = GenerationType.SEQUENCE,
+    generator = "order_seq_gen"
+  )
   private Long orderId;
 
   private String orderAddress;
@@ -45,12 +55,18 @@ public class Order extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private RiderOrdercancel riderOrdercancel;
 
+  @ManyToOne
+  private OrderItem orderItem;
+
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Store store;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @OneToOne
   private Rider rider;
+
+  @Enumerated(EnumType.STRING)
+  private OrderSatetus orderSatetus;
 }
