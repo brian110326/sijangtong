@@ -193,13 +193,15 @@
 
         // 오더 번호
         const orderId = "[[${orderId}]]";
+        if (orderId == -1) {
+          alert("다른 시장의 상품은 함께 주문 할수 없습니다.");
+        }
         const shopping_cart_amount = "[[${orderItemCount}]]";
         if (shopping_cart_amount) {
           document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
         }
       </script>
     </div>
-    <script th:src="@{/js/review.js}"></script>
   </div>
 
   <th:block layout:fragment="script">

@@ -1,16 +1,22 @@
 package com.example.sijangtong.controller;
 
+import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.dto.AuthMemberDto;
 import com.example.sijangtong.dto.OrderItemDto;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ProductDto;
 import com.example.sijangtong.dto.StoreDto;
+import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.OrderItem;
+import com.example.sijangtong.repository.OrderRepository;
 import com.example.sijangtong.repository.StoreRepository;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
+import com.example.sijangtong.service.MemberService;
 import com.example.sijangtong.service.OrderItemService;
+import com.example.sijangtong.service.OrderService;
 import com.example.sijangtong.service.ProductService;
+import com.example.sijangtong.service.RiderService;
 import com.example.sijangtong.service.StoreService;
 import com.example.sijangtong.service.StoreServiceImpl;
 import groovyjarjarpicocli.CommandLine.Parameters;
@@ -22,6 +28,8 @@ import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
+import org.hibernate.annotations.Parameter;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,6 +55,9 @@ public class ShopController {
   private final StoreService service;
   private final ProductService productService;
   private final OrderItemService orderItemService;
+  private final MemberService memberService;
+  private final RiderService riderService;
+  private final OrderService orderService;
 
   // 상품 리스트
   // @RequestParam(required = false, value = "orderId") 해당하는 값이 없으면 무시함
@@ -137,14 +148,14 @@ public class ShopController {
     List<OrderItemDto> orderItems = orderItemService.getMemberOrderItems(memberEmail);
 
     Long orderItemCount = (long) orderItems.size();
-
     rttr.addAttribute("storeId", storeId);
+    rttr.addAttribute("orderId", orderId);
     rttr.addAttribute("page", pageRequestDto.getPage());
     rttr.addAttribute("size", pageRequestDto.getSize());
     rttr.addAttribute("type", pageRequestDto.getType());
     rttr.addAttribute("keyword", pageRequestDto.getKeyword());
     rttr.addAttribute("orderItemCount", orderItemCount);
-    rttr.addAttribute("orderId", orderId);
+
     return "redirect:/shop/storeproducts";
   }
 
@@ -345,6 +356,21 @@ public class ShopController {
     model.addAttribute("orderItems", orderItems);
     model.addAttribute("memberEmail", memberEmail);
     model.addAttribute("orderItemCount", orderItemCount);
+  }
+
+  @PostMapping("cart")
+  public String postCart(@ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
+      @ModelAttribute("payment") String payment, @AuthenticationPrincipal AuthMemberDto authMemberDto,
+      RedirectAttributes rttr) {
+    log.info("구매 post 요청{}", payment);
+    Long orderId = orderService.orderfinish(authMemberDto.getMemberDto().getMemberEmail(), payment);
+
+    List<OrderItemDto> orderItems = orderItemService.getMemberOrderItems(authMemberDto.getMemberDto().getMemberEmail());
+    rttr.addAttribute("orderItems", orderItems);
+    rttr.addAttribute("orderId", orderId);
+
+    return "redirect:/shop/list";
   }
 
   // 리스트에 무작위로 뿌리는 추천 상품을 위한 sorid 뽑기

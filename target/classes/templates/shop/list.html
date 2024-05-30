@@ -62,8 +62,9 @@
       <details>
         <summary th:text="'지역 별로 검색 (현재 검색 타입: '+${requestDto.keyword}+')'">다른 지역을 검색</summary>
         <div class="tpt">
-          <header class="bg-gray-100 py-5">
-            <div class="container px-4 px-lg-5 my-5">
+          <header class="container-fluid bg-gray-100 py-5">
+            <div class="row px-xl-5">
+            <div class="col-lg-5 ">
               <figure class="mb-4 align-content-center">
                 <ul>
                   <li style="display: block"><img th:src="@{/image/image.png}" alt="서울시전체" title="서울시전체" usemap="#Map" /></li>
@@ -221,6 +222,37 @@
                   />
                 </map>
               </figure>
+            </div>
+            <div class="col-lg-7" style="overflow: auto; height: 500px;">
+              <div class="title text-dark"> 추천 시장</div>
+              <table class="table table-light table-borderless table-hover text-center mb-0" >
+                <thead class="thead-dark">
+                  <tr>
+                    <th>시장명</th>
+                    <th>시장주소</th>
+                    <th>장사시간</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tbody>
+                    <tr th:each="shop : ${result.dtoList}" col-xl-6 col-md-12>
+                      <td th:if="${shop == ''}"> 등록된 시장이 없습니다.</td>
+                      <td class="align-middle text-center" th:each="image : ${shop.storeImgDtos}">
+                        <img
+                        class="img-fluid rounded"
+                        th:if="${image.stPath != null}"
+                        th:src="|/upload/display?fileName=${image.getImageURL()}|"
+                        alt="..."
+                      />
+                        <a class="text-dark" th:href="@{storeproducts(storeId=${shop.storeId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"><span  th:text="${shop.storeName} "></span></a>
+                      </td>
+                      <td class="align-middle" th:text="${shop.storeAddress} "></td>
+                      <td class="align-middle" th:text="${shop.openTime} +'~'+${shop.closeTime}"></td>
+                    </tr>
+                  </tbody>
+                </tbody>
+              </table>
+            </div>
             </div>
           </header>
         </div>

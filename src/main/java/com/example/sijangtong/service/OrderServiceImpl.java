@@ -1,5 +1,7 @@
 package com.example.sijangtong.service;
 
+import com.example.sijangtong.constant.OrderPayment;
+import com.example.sijangtong.constant.OrderSatetus;
 import com.example.sijangtong.constant.RiderStatus;
 import com.example.sijangtong.dto.OrderDto;
 import com.example.sijangtong.dto.OrderItemDto;
@@ -13,6 +15,7 @@ import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.ProductImg;
 import com.example.sijangtong.entity.Rider;
 import com.example.sijangtong.entity.Store;
+import com.example.sijangtong.repository.MemberRepository;
 import com.example.sijangtong.repository.OrderItemRepository;
 import com.example.sijangtong.repository.OrderRepository;
 import com.example.sijangtong.repository.RiderRepository;
@@ -31,6 +34,8 @@ public class OrderServiceImpl implements OrderService {
   private final OrderRepository orderRepository;
 
   private final OrderItemRepository orderItemRepository;
+
+  private final MemberRepository memberRepository;
 
   private final RiderRepository riderRepository;
 
@@ -103,4 +108,17 @@ public class OrderServiceImpl implements OrderService {
 
     return newOrder.getOrderId();
   }
+
+  @Override
+  public Long orderfinish(String memberEmail, String payment) {
+    Order order = orderRepository.findByMember(memberRepository.findByMemberEmail(memberEmail).get()).get();
+
+    order.setOrderPayment(OrderPayment.valueOf(payment));
+    order.setOrderSatetus(OrderSatetus.WAITING);
+
+    orderRepository.save(order);
+
+    return order.getOrderId();
+  }
+
 }

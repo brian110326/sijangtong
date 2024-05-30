@@ -40,6 +40,8 @@ public class QOrder extends EntityPathBase<Order> {
 
     public final EnumPath<com.example.sijangtong.constant.OrderPayment> orderPayment = createEnum("orderPayment", com.example.sijangtong.constant.OrderPayment.class);
 
+    public final EnumPath<com.example.sijangtong.constant.OrderSatetus> orderSatetus = createEnum("orderSatetus", com.example.sijangtong.constant.OrderSatetus.class);
+
     public final QRider rider;
 
     public final EnumPath<com.example.sijangtong.constant.RiderOrdercancel> riderOrdercancel = createEnum("riderOrdercancel", com.example.sijangtong.constant.RiderOrdercancel.class);

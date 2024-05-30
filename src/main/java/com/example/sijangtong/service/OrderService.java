@@ -27,6 +27,8 @@ public interface OrderService {
   // 주문 자체 취소가 아닌 주문 안에 주문아이템만 삭제
   Long removeOrderItem(Long orderItemId);
 
+  Long orderfinish(String memberEmail, String payment);
+
   // 주문의 결제방식을 수정
   Long updateOrder(OrderDto orderDto);
 
@@ -46,6 +48,7 @@ public interface OrderService {
         .memberEmail(order.getMember().getMemberEmail())
         .storeId(order.getStore().getStoreId())
         .riderId(order.getRider().getRiderId())
+        .orderSatetus(order.getOrderSatetus())
         .createdDate(order.getCreatedDate())
         .lastModifiedDate(order.getLastModifiedDate())
         .build();
@@ -86,6 +89,7 @@ public interface OrderService {
         .orderPayment(orderDto.getOrderPayment())
         .member(member)
         .store(store)
+        .orderSatetus(orderDto.getOrderSatetus())
         .rider(Rider.builder().riderId(orderDto.getRiderId()).build())
         .riderOrdercancel(orderDto.getRiderOrdercancel())
         .build();
