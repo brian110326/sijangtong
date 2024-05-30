@@ -22,6 +22,13 @@
               th:href="@{/shop/read(storeId=${storeId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}"
               >Read more →</a
             >
+
+            <a
+              class="btn btn-success"
+              th:href="@{/shop/pInsert(storeId=${storeId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}"
+              th:if="${#authentication.principal.memberDto.storeId} == ${storeId} "
+              >내 상품 추가</a
+            >
           </div>
         </div>
         <!-- Nested row for non-featured blog posts-->

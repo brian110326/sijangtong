@@ -58,10 +58,7 @@ public class SecurityConfig {
     );
 
     http.formLogin(login ->
-      login
-        .loginPage("/member/login")
-        .permitAll()
-        .defaultSuccessUrl("/shop/list", true)
+      login.loginPage("/member/login").permitAll().defaultSuccessUrl("/", true)
     );
 
     http.logout(logout ->

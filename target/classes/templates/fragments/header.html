@@ -154,6 +154,13 @@
                     >스토어 추가</a
                   >
 
+                  <a
+                    th:href="@{pInsert(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},storeId=272)}"
+                    class="nav-item nav-link"
+                    sec:authorize="hasRole('ADMIN')"
+                    >내 상품 추가</a
+                  >
+
                   <a th:href="@{/shop/read}" class="nav-item nav-link">시장 정보</a>
                   <div class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
