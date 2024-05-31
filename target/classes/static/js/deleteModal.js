@@ -51,7 +51,7 @@ fetch(`/store/${storeId}/products`)
 
     dtoList.forEach((product) => {
       pTags += `<li data-bs-toggle="modal" class="list-group-item">`;
-      pTags += `<a href="/shop/storeDetail?storeId=${storeId}&page=${data.page}&type=&keyword=" class="list-group-item list-group-item-action">${product.productId} : ${product.pname}</a>`;
+      pTags += `<a href="/shop/storeproducts?storeId=${storeId}&page=${data.page}&type=&keyword=" class="list-group-item list-group-item-action">${product.productId} : ${product.pname}</a>`;
       pTags += `</li>`;
 
       productDiv.innerHTML = pTags;
@@ -85,7 +85,7 @@ document.querySelector("#productModal").addEventListener("click", (e) => {
 
           dtoList.forEach((product) => {
             pTags += `<li data-bs-toggle="modal" class="list-group-item">`;
-            pTags += `<a href="/shop/storeDetail?storeId=${storeId}&page=${data.page}&type=&keyword=" class="list-group-item list-group-item-action">${product.productId} : ${product.pname}</a>`;
+            pTags += `<a href="/shop/storeproducts?storeId=${storeId}&page=${data.page}&type=&keyword=" class="list-group-item list-group-item-action">${product.productId} : ${product.pname}</a>`;
             pTags += `</li>`;
 
             productDiv.innerHTML = pTags;
