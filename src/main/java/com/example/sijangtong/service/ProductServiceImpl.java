@@ -40,19 +40,26 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public PageResultDto<ProductDto, Object[]> getProductList(
-      PageRequestDto pageRequestDto,
-      Long storeId) {
+    PageRequestDto pageRequestDto,
+    Long storeId
+  ) {
     Page<Object[]> result = productImgRepository.getProductList(
-        pageRequestDto.getType(),
-        pageRequestDto.getKeyword(),
-        pageRequestDto.getPageable(Sort.by("productId")),
-        storeId);
+      pageRequestDto.getType(),
+      pageRequestDto.getKeyword(),
+      pageRequestDto.getPageable(Sort.by("productId")),
+      storeId
+    );
 
-    Function<Object[], ProductDto> fn = (en -> entityToDto(
-        (Product) en[0],
-        (List<ProductImg>) Arrays.asList((ProductImg) en[1]),
-        (Store) en[2],
-        (Double) en[3]));
+    Function<Object[], ProductDto> fn =
+      (
+        en ->
+          entityToDto(
+            (Product) en[0],
+            (List<ProductImg>) Arrays.asList((ProductImg) en[1]),
+            (Store) en[2],
+            (Double) en[3]
+          )
+      );
 
     return new PageResultDto<>(result, fn);
   }
@@ -64,9 +71,9 @@ public class ProductServiceImpl implements ProductService {
     Product product = (Product) result.get(0)[0];
 
     List<ProductImg> list = result
-        .stream()
-        .map(en -> (ProductImg) en[1])
-        .collect(Collectors.toList());
+      .stream()
+      .map(en -> (ProductImg) en[1])
+      .collect(Collectors.toList());
 
     Store store = (Store) result.get(0)[2];
 
@@ -113,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
 
     // 상품 삽입
     Product product = (Product) entityMap.get("product");
-    productRepository.save(product);
+    product = productRepository.save(product);
 
     // 상품 이미지 삽입
     List<ProductImg> productImgs = (List<ProductImg>) entityMap.get("imgList");
@@ -141,6 +148,13 @@ public class ProductServiceImpl implements ProductService {
     // productRepository.save(product);
 
     return product.getProductId();
+  }
+
+  @Override
+  public Product getProductById(Long productId) {
+    Optional<Product> result = productRepository.findById(productId);
+
+    return result.get();
   }
 }
 // 주문 자체는 살려놔야 한다 주문 번호등 주문 아이템등등

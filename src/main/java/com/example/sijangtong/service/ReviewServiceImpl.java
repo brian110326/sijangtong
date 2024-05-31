@@ -6,11 +6,14 @@ import com.example.sijangtong.dto.ProductDto;
 import com.example.sijangtong.dto.ReviewDto;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.Product;
+import com.example.sijangtong.entity.ProductImg;
 import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
 import com.example.sijangtong.repository.ProductRepository;
 import com.example.sijangtong.repository.ReviewRepository;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -19,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +44,7 @@ public class ReviewServiceImpl implements ReviewService {
     Page<Object[]> result = reviewRepository.getReviewList(
         pageRequestDto.getPageable(Sort.by("reviewId")),
         productId);
-    log.info("page result : {}", result);
+    // log.info("page result : {}", result);
 
     List<ReviewDto> reviewDtoList = result.getContent().stream()
         .map(entity -> entityToDto((Review) entity[1]))
@@ -72,6 +77,17 @@ public class ReviewServiceImpl implements ReviewService {
     Review newReview = reviewRepository.save(review);
 
     return newReview.getReviewId();
+  }
+
+  @Override
+  public PageResultDto<ReviewDto, Object[]> getReviewList2(PageRequestDto pageRequestDto, Long productId) {
+
+    Page<Object[]> result = reviewRepository.getReviewList(pageRequestDto.getPageable(Sort.by("reviewId")), productId);
+
+    Function<Object[], ReviewDto> fn = (en -> entityToDto((Review) en[1]));
+
+    return new PageResultDto<>(result, fn);
+
   }
 
   @Override

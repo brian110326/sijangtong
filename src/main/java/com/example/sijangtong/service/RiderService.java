@@ -1,6 +1,8 @@
 package com.example.sijangtong.service;
 
 import com.example.sijangtong.dto.OrderDto;
+import com.example.sijangtong.dto.PageRequestDto;
+import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.RiderDto;
 import com.example.sijangtong.entity.Rider;
 
@@ -19,6 +21,9 @@ public interface RiderService {
 
   // 라이더측 오더 취소
   void riderOrderCancel(OrderDto orderDto);
+
+  // 라이더 리스트
+  PageResultDto<RiderDto, Rider> getRiderList(PageRequestDto pageRequestDto);
 
   public default RiderDto entityToDto(Rider rider) {
     return RiderDto

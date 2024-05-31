@@ -1,39 +1,30 @@
 package com.example.sijangtong.controller;
 
-import com.example.sijangtong.constant.OrderPayment;
-import com.example.sijangtong.dto.AuthMemberDto;
-import com.example.sijangtong.dto.OrderItemDto;
 import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ProductDto;
+import com.example.sijangtong.dto.ReviewDto;
 import com.example.sijangtong.dto.StoreDto;
-import com.example.sijangtong.entity.Order;
-import com.example.sijangtong.entity.OrderItem;
-import com.example.sijangtong.repository.OrderRepository;
+import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.repository.StoreRepository;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
-import com.example.sijangtong.service.MemberService;
-import com.example.sijangtong.service.OrderItemService;
-import com.example.sijangtong.service.OrderService;
 import com.example.sijangtong.service.ProductService;
-import com.example.sijangtong.service.RiderService;
+import com.example.sijangtong.service.ReviewService;
 import com.example.sijangtong.service.StoreService;
 import com.example.sijangtong.service.StoreServiceImpl;
 import groovyjarjarpicocli.CommandLine.Parameters;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
-
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
-import org.hibernate.annotations.Parameter;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,7 +34,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -54,63 +44,41 @@ public class ShopController {
 
   private final StoreService service;
   private final ProductService productService;
-  private final OrderItemService orderItemService;
-  private final MemberService memberService;
-  private final RiderService riderService;
-  private final OrderService orderService;
+  private final ReviewService reviewService;
 
   // 상품 리스트
-  // @RequestParam(required = false, value = "orderId") 해당하는 값이 없으면 무시함
-  @PreAuthorize("isAuthenticated()")
-  @GetMapping("/storeproducts")
+  @GetMapping("/storeDetail")
   public void getDetail(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @Parameters Long storeId, @RequestParam(required = false, value = "orderId") Long orderId,
-      @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
+      Long storeId,
       Model model,
       RedirectAttributes rttr) {
-    log.info("디테일 폼 요청 장바구니 수:{} ", orderItemCount);
-    PageResultDto<ProductDto, Object[]> result = productService.getProductList(pageRequestDto, storeId);
-    // log.info("출력 값 :{}", result);
-    model.addAttribute("result", result);
+    log.info("디테일 폼 요청 {}", storeId);
+    model.addAttribute(
+        "result",
+        productService.getProductList(pageRequestDto, storeId));
     model.addAttribute("storeId", storeId);
-    model.addAttribute("orderId", orderId);
-    model.addAttribute("orderItemCount", orderItemCount);
   }
 
   // 스토어 리스트
   @GetMapping("/list")
   public void getList(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
-      @AuthenticationPrincipal AuthMemberDto authMemberDto, Model model) {
-    log.info("리스트 폼 요청 count :{} , loginName ; {}", orderItemCount);
-    List<OrderItemDto> orderItems = orderItemService.getMemberOrderItems(authMemberDto.getUsername());
-    if (orderItems.isEmpty()) {
-
-      model.addAttribute("result", service.getStoreList(pageRequestDto));
-      model.addAttribute("orderItemCount", orderItemCount);
-    } else {
-      Long new_orderItemCount = (long) orderItems.size();
-      orderItemCount = new_orderItemCount;
-      model.addAttribute("result", service.getStoreList(pageRequestDto));
-      model.addAttribute("orderItemCount", orderItemCount);
-
-    }
+      Model model) {
+    log.info("리스트 폼 요청");
+    model.addAttribute("result", service.getStoreList(pageRequestDto));
   }
 
   @GetMapping("/home")
   public void getHome(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
       Model model) {
     Long storeId = StoreId();
-    log.info("홈 요청 {} {}", productService.getProductList(pageRequestDto, storeId), orderItemCount);
+    log.info("홈 요청", productService.getProductList(pageRequestDto, storeId));
 
     model.addAttribute(
         "result",
         productService.getProductList(pageRequestDto, storeId));
-    model.addAttribute("orderItemCount", orderItemCount);
   }
 
   // @GetMapping("/read")
@@ -123,43 +91,14 @@ public class ShopController {
   @GetMapping("/buyitem")
   public void getbuyItem(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @Parameters Long productId, @ModelAttribute("storeId") Long storeId,
-      @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
+      @Parameters Long productId,
       Model model) {
-    ProductDto productDto = productService.getProductRow(productId);
-    log.info("구매 폼 요청 productDto :{}", productDto);
-    model.addAttribute("result", productDto);
+    log.info("구매 폼 요청");
+    model.addAttribute("result", productService.getProductRow(productId));
     model.addAttribute("requestDto", pageRequestDto);
-    model.addAttribute("storeId", storeId);
-    model.addAttribute("orderItemCount", orderItemCount);
-
   }
 
-  // 상품 담기
-  @PreAuthorize("isAuthenticated()")
-  @PostMapping("/buyitem")
-  public String postbuyItem(
-      @Parameters Long storeId, @Parameters int amount, @Parameters Long productId, @Parameters String memberEmail,
-      @ModelAttribute("requestDto") PageRequestDto pageRequestDto, Model model,
-      RedirectAttributes rttr) {
-    log.info("상품 담기 post 요청, {},{},{},{}", storeId, amount, productId, memberEmail);
-
-    Long orderId = orderItemService.createOrderItem(amount, productId, memberEmail, storeId);
-    List<OrderItemDto> orderItems = orderItemService.getMemberOrderItems(memberEmail);
-
-    Long orderItemCount = (long) orderItems.size();
-    rttr.addAttribute("storeId", storeId);
-    rttr.addAttribute("orderId", orderId);
-    rttr.addAttribute("page", pageRequestDto.getPage());
-    rttr.addAttribute("size", pageRequestDto.getSize());
-    rttr.addAttribute("type", pageRequestDto.getType());
-    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
-    rttr.addAttribute("orderItemCount", orderItemCount);
-
-    return "redirect:/shop/storeproducts";
-  }
-
-  @GetMapping("/read")
+  @GetMapping({ "/read", "/modify" })
   public void getread(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       @Parameters Long storeId,
@@ -170,8 +109,31 @@ public class ShopController {
     model.addAttribute("storeDto", storeDto);
 
     List<String> districts = Arrays.asList(
-        "강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작", "마포", "서대문", "서초", "성동", "성북", "송파",
-        "양천", "영등포", "용산", "은평", "종로", "중구", "중랑");
+        "강남",
+        "강동",
+        "강북",
+        "강서",
+        "관악",
+        "광진",
+        "구로",
+        "금천",
+        "노원",
+        "도봉",
+        "동대문",
+        "동작",
+        "마포",
+        "서대문",
+        "서초",
+        "성동",
+        "성북",
+        "송파",
+        "양천",
+        "영등포",
+        "용산",
+        "은평",
+        "종로",
+        "중구",
+        "중랑");
 
     model.addAttribute("districts", districts);
   }
@@ -186,12 +148,18 @@ public class ShopController {
     StoreDto storeDto = service.getRow(storeId);
 
     model.addAttribute("storeDto", storeDto);
+    model.addAttribute("storeId", storeId);
 
     List<String> districts = Arrays.asList(
         "강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작", "마포", "서대문", "서초", "성동", "성북", "송파",
         "양천", "영등포", "용산", "은평", "종로", "중구", "중랑");
 
     model.addAttribute("districts", districts);
+
+    // modal 작업용
+    PageResultDto<ProductDto, Object[]> pList = productService.getProductList(pageRequestDto, storeId);
+    model.addAttribute("pList", pList);
+
   }
 
   @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
@@ -272,7 +240,7 @@ public class ShopController {
     rttr.addAttribute("type", pageRequestDto.getType());
     rttr.addAttribute("keyword", pageRequestDto.getKeyword());
 
-    return "redirect:/shop/storeproducts";
+    return "redirect:/shop/storeDetail";
 
   }
 
@@ -282,10 +250,9 @@ public class ShopController {
       Long storeId,
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       RedirectAttributes rttr) {
+    Long removedStoreId = service.removeStore(storeId);
 
     log.info("storeId!!!!!!!!!!!!1 {}", storeId);
-
-    Long removedStoreId = service.removeStore(storeId);
 
     rttr.addFlashAttribute("msg", removedStoreId);
 
@@ -298,7 +265,6 @@ public class ShopController {
     return "redirect:/shop/list";
   }
 
-  @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
   @PostMapping("/pRemove")
   public String postProductRemove(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
@@ -311,66 +277,36 @@ public class ShopController {
     rttr.addAttribute("page", pageRequestDto.getPage());
     rttr.addAttribute("type", pageRequestDto.getType());
     rttr.addAttribute("keyword", pageRequestDto.getKeyword());
-    return "redirect:/shop/storeproducts";
+    return "redirect:/shop/storeDetail";
+  }
+
+  @PostMapping("/modify")
+  public String postStoreUpdate(
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      StoreDto updateStoreDto,
+      @Parameters Long storeId,
+      RedirectAttributes rttr) {
+    Long updatedStoreId = service.storeUpdate(updateStoreDto);
+
+    rttr.addAttribute("storeId", updateStoreDto.getStoreId());
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+    return "redirect:/shop/read";
   }
 
   @PreAuthorize("isAuthenticated()")
   @GetMapping("/buyitemlist")
   public void getBuyItemList(
-      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @ModelAttribute("memberEmail") String memberEmail, Model model) {
-    log.info("장바구니 폼 요청 {}", memberEmail);
-    List<OrderItemDto> orderItems = orderItemService.getMemberOrderItems(memberEmail);
-
-    if (orderItems.isEmpty()) {
-      model.addAttribute("orderItemsList", orderItems);
-    } else {
-      Long orderItemCount = (long) orderItems.size();
-      model.addAttribute("memberEmail", memberEmail);
-      model.addAttribute("orderItemCount", orderItemCount);
-      model.addAttribute("orderItemsList", orderItems);
-    }
-
-  }
-
-  @PostMapping("/removeProductitem")
-  public String postRemoveProductitem(@ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @Parameters Long orderItemId, @ModelAttribute("memberEmail") String memberEmail, RedirectAttributes rttr) {
-    log.info("장바구니 post 폼 요청 {}", orderItemId);
-
-    orderItemService.deleteOrderItem(orderItemId);
-    rttr.addAttribute("memberEmail", memberEmail);
-
-    return "redirect:/shop/buyitemlist";
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+    log.info("장바구니 폼 요청");
   }
 
   @PreAuthorize("isAuthenticated()")
   @GetMapping("/cart")
   public void getCart(
-      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
-      @RequestParam(required = false, value = "memberEmail") String memberEmail, Model model) {
-
-    List<OrderItemDto> orderItems = orderItemService.getMemberOrderItems(memberEmail);
-    log.info("구매 폼 요청 주문량 {}", orderItems);
-    model.addAttribute("orderItems", orderItems);
-    model.addAttribute("memberEmail", memberEmail);
-    model.addAttribute("orderItemCount", orderItemCount);
-  }
-
-  @PostMapping("cart")
-  public String postCart(@ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
-      @ModelAttribute("payment") String payment, @AuthenticationPrincipal AuthMemberDto authMemberDto,
-      RedirectAttributes rttr) {
-    log.info("구매 post 요청{}", payment);
-    Long orderId = orderService.orderfinish(authMemberDto.getMemberDto().getMemberEmail(), payment);
-
-    List<OrderItemDto> orderItems = orderItemService.getMemberOrderItems(authMemberDto.getMemberDto().getMemberEmail());
-    rttr.addAttribute("orderItems", orderItems);
-    rttr.addAttribute("orderId", orderId);
-
-    return "redirect:/shop/list";
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+    log.info("구매 폼 요청");
   }
 
   // 리스트에 무작위로 뿌리는 추천 상품을 위한 sorid 뽑기
@@ -378,10 +314,10 @@ public class ShopController {
     return new Double(((Math.random() * 198) + 1)).longValue();
   }
 
-  @PreAuthorize("hasRole('ADMIN')")
   @GetMapping("/insert")
   public void insertStore(
-      @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      StoreDto storeDto) {
     log.info("스토어 생성 폼 요청");
   }
 
@@ -393,5 +329,63 @@ public class ShopController {
 
     log.info("홈 요청 {} ", orderItemCount);
     model.addAttribute("orderItemCount", orderItemCount);
+  }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @PostMapping("/insert")
+  public String storeInsert(
+      @Valid StoreDto storeDto,
+      BindingResult result,
+      Model model,
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      RedirectAttributes rttr) {
+    log.info("스토어 생성{}");
+
+    if (result.hasErrors()) {
+      return "/shop/insert";
+    }
+
+    // 서비스 호출
+    Long storeId = service.storeInsert(storeDto);
+
+    rttr.addFlashAttribute("msg", storeId);
+
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+    return "redirect:/shop/list";
+  }
+
+  @GetMapping("/pInsert")
+  public void insertProduct(
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @RequestParam(required = false, value = "productDto") ProductDto productDto) {
+    log.info("프로덕트 생성 폼 요청");
+  }
+
+  @PostMapping("/pInsert")
+  public String insertproduct(
+      @Valid ProductDto productDto,
+      BindingResult result,
+      Model model,
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      RedirectAttributes rttr) {
+    log.info("프로덕트 생성 {}", productDto);
+
+    if (result.hasErrors()) {
+      return "/shop/pInsert";
+    }
+
+    Long productId = productService.productInsert(productDto);
+
+    rttr.addFlashAttribute("msg", productDto.getStoreId());
+    rttr.addAttribute("storeId", productDto.getStoreId());
+    rttr.addAttribute("page", 1);
+    rttr.addAttribute("type", "");
+    rttr.addAttribute("keyword", "");
+
+    return "redirect:/shop/storeDetail";
+
   }
 }

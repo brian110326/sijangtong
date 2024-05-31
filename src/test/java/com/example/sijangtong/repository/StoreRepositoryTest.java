@@ -89,30 +89,31 @@ public class StoreRepositoryTest {
   @Test
   public void insertOrderTest() {
     LongStream
-        .rangeClosed(1, 200)
+        .rangeClosed(300, 304)
         .forEach(i -> {
           Member member = Member
               .builder()
-              .memberEmail("member" + i + "@naver.com")
+              .memberEmail("member1@naver.com")
               .build();
-          Store store = Store.builder().storeId(i).build();
-          Rider rider = Rider
-              .builder()
-              .riderId(i)
-              .riderName("Rider" + i)
-              .riderTel("010-1234-5678")
-              .riderStatus(RiderStatus.DELIVERING)
-              .build();
+          Store store = Store.builder().storeId(1L).build();
+          // Rider rider = Rider
+          // .builder()
+          // .riderId(i)
+          // .riderName("Rider" + i)
+          // .riderTel("010-1234-5678")
+          // .riderStatus(RiderStatus.DELIVERING)
+          // .build();
 
-          riderRepository.save(rider);
+          // // riderRepository.save(rider);
           Order order = Order
               .builder()
               .orderAddress("강동구")
               .orderPayment(OrderPayment.CASH)
               .member(member)
               .store(store)
-              .rider(rider)
+              // .rider(rider)
               .build();
+          orderRepository.save(order);
         });
   }
 
@@ -301,4 +302,23 @@ public class StoreRepositoryTest {
       productImgRepository.save(productImg);
     }
   }
+
+  @Test
+  public void product200test() {
+    // 임시 사용
+    LongStream
+        .rangeClosed(1, 100)
+        .forEach(i -> {
+          Product product = Product
+              .builder()
+              .pName("재고" + i)
+              .price(5000)
+              .amount(20)
+              .store(Store.builder().storeId(198L).build())
+              .build();
+          productRepository.save(product);
+
+        });
+  }
+
 }

@@ -1,17 +1,18 @@
 package com.example.sijangtong.entity;
 
 import com.example.sijangtong.constant.MemberRole;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.lang.Nullable;
 
 @Data
 @ToString
@@ -21,24 +22,23 @@ import lombok.ToString;
 @Entity
 public class Member {
 
-    @Id
-    private String memberEmail;
+  @Id
+  private String memberEmail;
 
-    @Column(nullable = false)
-    private String memberNickname;
+  @Column(nullable = false)
+  private String memberNickname;
 
-    @Column(nullable = false)
-    private String memberAddress;
+  @Column(nullable = false)
+  private String memberAddress;
 
-    @Column(nullable = false)
-    private String memberPwd;
+  @Column(nullable = false)
+  private String memberPwd;
 
-    @Column
-    private String memberName;
+  @Enumerated(EnumType.STRING)
+  private MemberRole memberRole;
 
-    @Column
-    private String memberTell;
-
-    @Enumerated(EnumType.STRING)
-    private MemberRole memberRole;
+  // 오너 회원을 위한 storeId 컬럼
+  @Nullable
+  @OneToOne
+  private Store store;
 }

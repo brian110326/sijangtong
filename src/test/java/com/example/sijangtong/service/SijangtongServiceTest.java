@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,11 +31,11 @@ public class SijangtongServiceTest {
   public void insertProductTest() {
     List<ProductImgDto> imgList = new ArrayList<>();
     ProductImgDto productImgDto = ProductImgDto
-        .builder()
-        .uuid("테스트 메인")
-        .imgName("메인 이미지이름1234")
-        .path("메인 패스1")
-        .build();
+      .builder()
+      .uuid("테스트 메인")
+      .imgName("메인 이미지이름1234")
+      .path("메인 패스1")
+      .build();
     imgList.add(productImgDto);
 
     ProductDto productDto = new ProductDto();
@@ -54,11 +53,11 @@ public class SijangtongServiceTest {
   public void updateProduct() {
     List<ProductImgDto> imgList = new ArrayList<>();
     ProductImgDto productImgDto = ProductImgDto
-        .builder()
-        .uuid("메인 업데이트")
-        .imgName("메인 업데이트")
-        .path("메인 패스 업데이트")
-        .build();
+      .builder()
+      .uuid("메인 업데이트")
+      .imgName("메인 업데이트")
+      .path("메인 패스 업데이트")
+      .build();
     imgList.add(productImgDto);
 
     ProductDto productDto = new ProductDto();
@@ -77,11 +76,11 @@ public class SijangtongServiceTest {
   public void insetStoreTest() {
     List<StoreImgDto> imgList = new ArrayList<>();
     StoreImgDto storeImgDto = StoreImgDto
-        .builder()
-        .stUuid("메인 uuid")
-        .stImgName("메인 이미지 이름123")
-        .stPath("메인 패스")
-        .build();
+      .builder()
+      .stUuid("메인 uuid")
+      .stImgName("메인 이미지 이름123")
+      .stPath("메인 패스")
+      .build();
     imgList.add(storeImgDto);
 
     StoreDto storeDto = new StoreDto();
@@ -104,17 +103,17 @@ public class SijangtongServiceTest {
   public void updateStoreTest() {
     List<StoreImgDto> imgList = new ArrayList<>();
     StoreImgDto storeImgDto = StoreImgDto
-        .builder()
-        .stUuid(" 메인 업데이트 테스트 uuid")
-        .stImgName(" 메인업데이트테스트 이미지 이름123")
-        .stPath("메인  업데이트테스트 패스")
-        .build();
+      .builder()
+      .stUuid(" 메인 업데이트 테스트 uuid")
+      .stImgName(" 메인업데이트테스트 이미지 이름123")
+      .stPath("메인  업데이트테스트 패스")
+      .build();
     imgList.add(storeImgDto);
 
     StoreDto storeDto = new StoreDto();
-    storeDto.setStoreId(207L);
+    storeDto.setStoreId(27L);
     storeDto.setStoreCategory(StoreCategory.CLOTH);
-    storeDto.setOpenTime(" 메인  업데이트오픈");
+    storeDto.setOpenTime(" 메인 123 업데이트오픈");
     storeDto.setCloseTime(" 메인  업데이트영업종료");
     storeDto.setStoreAddress(" 메인 업데이트");
     storeDto.setStoreName("4 메인  업데이트가게 이름");
@@ -122,20 +121,19 @@ public class SijangtongServiceTest {
     storeDto.setGradeAvg(1.0);
     storeDto.setStoreTel("메인 업데이트 01053859803");
     storeDto.setStoreImgDtos(imgList);
-
     // storeService.storeUpdate(storeDto);
   }
 
   // 오더 아이템 생성
   @Test
   public void createOrderItem() {
-
     orderItemService.createOrderItem(13, 852L, "member202@naver.com", 5L);
-
   }
 
   @Test
   public void OrderItemList() {
-    System.out.println(orderItemService.getMemberOrderItems("ksb1234@naver.com"));
+    System.out.println(
+      orderItemService.getMemberOrderItems("ksb1234@naver.com")
+    );
   }
 }

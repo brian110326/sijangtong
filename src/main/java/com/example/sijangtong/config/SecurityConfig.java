@@ -19,43 +19,61 @@ public class SecurityConfig {
 
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests(authorize -> authorize
+    http.authorizeHttpRequests(authorize ->
+      authorize
         // 로그인 전 허용 화면 및 static 폴더
         .requestMatchers(
-            "/",
-            "/assets/**",
-            "/css/**",
-            "/image/**",
-            "/js/**",
-            "/lib/**")
+          "/",
+          "/assets/**",
+          "/css/**",
+          "/image/**",
+          "/js/**",
+          "/lib/**"
+        )
+        .permitAll()
+        .requestMatchers("/shop/read", "/shop/home", "/auth")
+        .permitAll()
+        .requestMatchers("/review/**")
         .permitAll()
         .requestMatchers(
-            "/shop/read",
-            "/shop/home",
-            "/auth")
+          "/shop/list",
+          "/shop/read",
+          "/shop/home",
+          "/shop/storeDetail",
+          "/shop/insert",
+          "/shop/contact",
+          "/shop/pInsert",
+          "/auth"
+        )
         .permitAll()
-        .requestMatchers("/review/**").permitAll()
         // UploadController : 이미지 보여주기
         .requestMatchers("/upload/display")
         .permitAll()
         .requestMatchers("/member/register")
         .permitAll()
-        .requestMatchers("/review/**").permitAll()
-        .anyRequest()
-        .authenticated());
-
-    http.formLogin(login -> login
-        .loginPage("/member/login")
+        .requestMatchers("/review/**")
         .permitAll()
-        .defaultSuccessUrl("/shop/list", true));
+        .anyRequest()
+        .authenticated()
+    );
 
-    http.logout(logout -> logout
+    http.formLogin(login ->
+      login.loginPage("/member/login").permitAll().defaultSuccessUrl("/", true)
+    );
+
+    http.logout(logout ->
+      logout
         .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-        .logoutSuccessUrl("/"));
+        .logoutSuccessUrl("/")
+    );
 
-    http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
+    http.sessionManagement(session ->
+      session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+    );
 
-    http.exceptionHandling(exception -> exception.accessDeniedHandler(customeAccessDeniedHandler()));
+    http.exceptionHandling(exception ->
+      exception.accessDeniedHandler(customeAccessDeniedHandler())
+    );
 
     return http.build();
   }

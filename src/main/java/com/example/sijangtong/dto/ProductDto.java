@@ -4,24 +4,16 @@ import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.Store;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-
-import java.text.NumberFormat.Style;
+import jakarta.validation.constraints.Positive;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.NumberFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.NumberFormat;
 
 @Data
 @Builder
@@ -31,13 +23,13 @@ public class ProductDto {
 
   private Long productId;
 
-  @NotBlank(message = "Product Name cannot be blank")
+  @NotBlank(message = "상품 이름은 필수입니다")
   private String pName;
 
-  @NotNull(message = "Price cannot be blank. Do you mean by number '0'?")
-  @Min(value = 0, message = "Price should be at least 0")
-  private Integer price;
+  @Positive(message = "가격은 필수 입니다")
+  private int price;
 
+  @Positive(message = "재고는 필수 입니다")
   private int amount;
 
   private Long storeId;

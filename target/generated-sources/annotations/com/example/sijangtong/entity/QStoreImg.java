@@ -50,7 +50,7 @@ public class QStoreImg extends EntityPathBase<StoreImg> {
 
     public QStoreImg(Class<? extends StoreImg> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.store = inits.isInitialized("store") ? new QStore(forProperty("store")) : null;
+        this.store = inits.isInitialized("store") ? new QStore(forProperty("store"), inits.get("store")) : null;
     }
 
 }

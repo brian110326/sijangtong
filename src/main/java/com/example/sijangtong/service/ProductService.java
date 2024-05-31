@@ -28,6 +28,9 @@ public interface ProductService {
 
   Long removeProduct(Long productId);
 
+  // transient Exception방지용
+  Product getProductById(Long productId);
+
   public default ProductDto entityToDto(
       Product product,
       List<ProductImg> productImgs,
@@ -75,9 +78,11 @@ public interface ProductService {
     product.setAmount(dto.getAmount());
     product.setPrice(dto.getPrice());
     // product.setQuantity(dto.getQuantity());
+
     product.setStore(Store.builder().storeId(dto.getStoreId()).build());
 
     entityMap.put("product", product);
+    entityMap.put("Service getStoreId", dto.getStoreId());
 
     List<ProductImgDto> productImgDtos = dto.getProductImgDtos();
 

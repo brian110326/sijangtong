@@ -1,16 +1,5 @@
 package com.example.sijangtong.brianServiceTest;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.test.annotation.Commit;
-
 import com.example.sijangtong.constant.OrderPayment;
 import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.dto.PageRequestDto;
@@ -32,12 +21,21 @@ import com.example.sijangtong.repository.StoreImgRepository;
 import com.example.sijangtong.repository.StoreRepository;
 import jakarta.transaction.Transactional;
 import java.util.Arrays;
+import java.util.Arrays;
 import java.util.List;
+import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Commit;
 
 @SpringBootTest
@@ -106,15 +104,6 @@ public class ServiceTest {
 
   // }
 
-  @Test
-  public void getStoreRow() {
-    List<Object[]> list = storeImgRepository.getStoreRow(40L);
-
-    for (Object[] objects : list) {
-      System.out.println(Arrays.toString(objects));
-    }
-  }
-
   // @Test
   // public void productList() {
   // PageRequestDto requestDto =
@@ -141,7 +130,6 @@ public class ServiceTest {
 
     for (Object[] objects : list) {
       System.out.println(Arrays.toString(objects));
-
       // System.out.println("number " + list.getNumber());
       // System.out.println("total " + list.getTotalPages());
       // System.out.println("TotalElements " + list.getTotalElements());
@@ -153,6 +141,14 @@ public class ServiceTest {
 
     }
   }
+
+  // @Test
+  // public void reviewTest2() {
+  // Product product = Product.builder().productId(200L).build();
+  // List<Review> list = reviewRepository.findByProduct(product);
+
+  // list.forEach(en -> System.out.println(en));
+  // }
 
   @Test
   public void getProductRow() {
@@ -188,11 +184,20 @@ public class ServiceTest {
   @Test
   public void getReviewListByProduct() {
     // store에 대한 reviewlist 보여주기
-    Product product = Product.builder().productId(1L).build();
+    Product product = Product.builder().productId(200L).build();
 
-    List<Review> list = reviewRepository.findByProduct(product);
+    PageRequestDto requestDto = PageRequestDto
+        .builder()
+        .size(10)
+        .page(1)
+        .build();
 
-    list.forEach(review -> System.out.println(review));
+    Page<Review> list = reviewRepository.findByProduct(product, requestDto.getPageable(Sort.by("reviewId")));
+
+    for (Review review : list) {
+      System.out.println(review);
+    }
+
   }
 
   @Test
@@ -239,7 +244,6 @@ public class ServiceTest {
     orderRepository.deleteByStore(store);
 
     storeRepository.delete(store);
-
     // Store store = storeRepository.findById(196L).get();
     // Optional<Product> product = productRepository.findByStore(store);
 
@@ -270,7 +274,6 @@ public class ServiceTest {
         StoreCategory.SEAFOOD);
     for (Object[] objects : list) {
       System.out.println(Arrays.toString(objects));
-
     }
   }
 
@@ -334,7 +337,6 @@ public class ServiceTest {
   @Transactional
   @Commit
   public void updateNicknameTest() {
-
     memberRepository.updateNickname("Brian", "member1@naver.com");
   }
 
@@ -342,8 +344,6 @@ public class ServiceTest {
   @Transactional
   @Commit
   public void updateAddressTest() {
-
     memberRepository.updateAddress("NYC", "member1@naver.com");
   }
-
 }

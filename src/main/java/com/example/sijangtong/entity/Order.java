@@ -18,7 +18,6 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,8 +34,16 @@ import lombok.ToString;
 public class Order extends BaseEntity {
 
   @Id
-  @SequenceGenerator(name = "order_seq_gen", sequenceName = "order_seq", allocationSize = 1, initialValue = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq_gen")
+  @SequenceGenerator(
+    name = "order_seq_gen",
+    sequenceName = "order_seq",
+    allocationSize = 1,
+    initialValue = 1
+  )
+  @GeneratedValue(
+    strategy = GenerationType.SEQUENCE,
+    generator = "order_seq_gen"
+  )
   private Long orderId;
 
   private String orderAddress;
@@ -59,6 +66,7 @@ public class Order extends BaseEntity {
 
   @OneToOne
   private Rider rider;
+
   @Enumerated(EnumType.STRING)
   private OrderSatetus orderSatetus;
 }
