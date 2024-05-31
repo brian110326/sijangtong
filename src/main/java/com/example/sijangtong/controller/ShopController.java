@@ -384,4 +384,14 @@ public class ShopController {
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
     log.info("스토어 생성 폼 요청");
   }
+
+  @GetMapping("/contact")
+  public void getContact(
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
+      Model model) {
+
+    log.info("홈 요청 {} ", orderItemCount);
+    model.addAttribute("orderItemCount", orderItemCount);
+  }
 }
