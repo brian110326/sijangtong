@@ -414,12 +414,16 @@ public class ShopController {
     rttr.addAttribute("keyword", pageRequestDto.getKeyword());
 
     return "redirect:/shop/list";
+    // ${#authentication.principal.memberDto.memberNickname}
   }
 
+  @PreAuthorize(
+    "authentication.principal.memberDto.storeId == #productDto.storeId"
+  )
   @GetMapping("/pInsert")
   public void insertProduct(
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    @RequestParam(required = false, value = "productDto") ProductDto productDto
+    ProductDto productDto
   ) {
     log.info("프로덕트 생성 폼 요청 {} {}", pageRequestDto, productDto);
   }
