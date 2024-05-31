@@ -228,7 +228,7 @@ public class ShopController {
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
     RedirectAttributes rttr
   ) {
-    log.info("스토어 생성{}");
+    log.info("스토어 생성 {}", storeDto);
 
     if (result.hasErrors()) {
       return "/shop/insert";

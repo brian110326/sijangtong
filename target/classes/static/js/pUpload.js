@@ -52,7 +52,7 @@ window.onload = function () {
       });
   });
 
-  document.querySelector("#register-form").addEventListener("submit", (e) => {
+  document.querySelector("#insert_form").addEventListener("submit", (e) => {
     e.preventDefault();
 
     // 첨부파일 정보 수집
