@@ -9,10 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
+import java.util.List;
 
 public interface StoreImgRepository extends JpaRepository<StoreImg, Long>, StoreImgStoreRepository {
 
     @Modifying
     @Query("delete from StoreImg si where si.store = :store")
     void deleteByStore(Store store);
+
 }

@@ -120,14 +120,13 @@ public class ServiceTest {
   @Test
   public void reviewList() {
     PageRequestDto requestDto = PageRequestDto
-      .builder()
-      .size(10)
-      .page(1)
-      .build();
+        .builder()
+        .size(10)
+        .page(1)
+        .build();
     Page<Object[]> list = reviewRepository.getReviewList(
-      requestDto.getPageable(Sort.by("reviewId")),
-      1L
-    );
+        requestDto.getPageable(Sort.by("reviewId")),
+        1L);
 
     for (Object[] objects : list) {
       System.out.println(Arrays.toString(objects));
@@ -142,6 +141,14 @@ public class ServiceTest {
 
     }
   }
+
+  // @Test
+  // public void reviewTest2() {
+  // Product product = Product.builder().productId(200L).build();
+  // List<Review> list = reviewRepository.findByProduct(product);
+
+  // list.forEach(en -> System.out.println(en));
+  // }
 
   @Test
   public void getProductRow() {
@@ -177,11 +184,20 @@ public class ServiceTest {
   @Test
   public void getReviewListByProduct() {
     // store에 대한 reviewlist 보여주기
-    Product product = Product.builder().productId(1L).build();
+    Product product = Product.builder().productId(200L).build();
 
-    List<Review> list = reviewRepository.findByProduct(product);
+    PageRequestDto requestDto = PageRequestDto
+        .builder()
+        .size(10)
+        .page(1)
+        .build();
 
-    list.forEach(review -> System.out.println(review));
+    Page<Review> list = reviewRepository.findByProduct(product, requestDto.getPageable(Sort.by("reviewId")));
+
+    for (Review review : list) {
+      System.out.println(review);
+    }
+
   }
 
   @Test
@@ -192,14 +208,13 @@ public class ServiceTest {
   @Test
   public void getOrderList() {
     PageRequestDto requestDto = PageRequestDto
-      .builder()
-      .size(10)
-      .page(1)
-      .build();
+        .builder()
+        .size(10)
+        .page(1)
+        .build();
     Page<Object[]> result = orderRepository.getOrderList(
-      requestDto.getPageable(Sort.by("orderId")),
-      84L
-    );
+        requestDto.getPageable(Sort.by("orderId")),
+        84L);
 
     for (Object[] objects : result) {
       System.out.println(Arrays.toString(objects));
@@ -250,14 +265,13 @@ public class ServiceTest {
   @Test
   public void getStoreListByCategory() {
     PageRequestDto requestDto = PageRequestDto
-      .builder()
-      .size(10)
-      .page(1)
-      .build();
+        .builder()
+        .size(10)
+        .page(1)
+        .build();
     Page<Object[]> list = storeImgRepository.getTotalListByCategory(
-      requestDto.getPageable(Sort.by("storeId").descending()),
-      StoreCategory.SEAFOOD
-    );
+        requestDto.getPageable(Sort.by("storeId").descending()),
+        StoreCategory.SEAFOOD);
     for (Object[] objects : list) {
       System.out.println(Arrays.toString(objects));
     }

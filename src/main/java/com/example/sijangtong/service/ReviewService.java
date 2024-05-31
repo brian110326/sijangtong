@@ -4,6 +4,7 @@ import com.example.sijangtong.dto.PageRequestDto;
 import com.example.sijangtong.dto.PageResultDto;
 import com.example.sijangtong.dto.ProductDto;
 import com.example.sijangtong.dto.ReviewDto;
+import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Order;
 import com.example.sijangtong.entity.Product;
@@ -11,6 +12,9 @@ import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ReviewService {
   // review list 보여주기
@@ -29,6 +33,9 @@ public interface ReviewService {
 
   // review 등록
   Long createReview(ReviewDto reviewDto);
+
+  // modal 작업용
+  PageResultDto<ReviewDto, Object[]> getReviewList2(PageRequestDto pageRequestDto, Long productId);
 
   public default ReviewDto entityToDto(Review review) {
     ReviewDto reviewDto = ReviewDto

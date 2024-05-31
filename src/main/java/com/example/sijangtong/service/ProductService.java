@@ -28,6 +28,9 @@ public interface ProductService {
 
   Long removeProduct(Long productId);
 
+  // transient Exception방지용
+  Product getProductById(Long productId);
+
   public default ProductDto entityToDto(
       Product product,
       List<ProductImg> productImgs,

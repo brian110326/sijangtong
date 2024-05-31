@@ -149,6 +149,13 @@ public class ProductServiceImpl implements ProductService {
 
     return product.getProductId();
   }
+
+  @Override
+  public Product getProductById(Long productId) {
+    Optional<Product> result = productRepository.findById(productId);
+
+    return result.get();
+  }
 }
 // 주문 자체는 살려놔야 한다 주문 번호등 주문 아이템등등
 // 해당 오더를 할당 받는다고 해도 사실상 할당 받는다는 것은
