@@ -98,7 +98,7 @@ public class ShopController {
     model.addAttribute("requestDto", pageRequestDto);
   }
 
-  @GetMapping({ "/read", "/modify" })
+  @GetMapping({ "/read" })
   public void getread(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       @Parameters Long storeId,
@@ -278,21 +278,6 @@ public class ShopController {
     rttr.addAttribute("type", pageRequestDto.getType());
     rttr.addAttribute("keyword", pageRequestDto.getKeyword());
     return "redirect:/shop/storeDetail";
-  }
-
-  @PostMapping("/modify")
-  public String postStoreUpdate(
-      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      StoreDto updateStoreDto,
-      @Parameters Long storeId,
-      RedirectAttributes rttr) {
-    Long updatedStoreId = service.storeUpdate(updateStoreDto);
-
-    rttr.addAttribute("storeId", updateStoreDto.getStoreId());
-    rttr.addAttribute("page", pageRequestDto.getPage());
-    rttr.addAttribute("type", pageRequestDto.getType());
-    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
-    return "redirect:/shop/read";
   }
 
   @PreAuthorize("isAuthenticated()")
