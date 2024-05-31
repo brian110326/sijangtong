@@ -82,12 +82,7 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-center mb-1">
                       <!-- 리뷰 표현 쪽 수정 예정 -->
-                      <small class="fa fa-star text-primary mr-1"></small>
-                      <small class="fa fa-star text-primary mr-1"></small>
-                      <small class="fa fa-star text-primary mr-1"></small>
-                      <small class="fa fa-star text-primary mr-1"></small>
-                      <small class="fa fa-star text-primary mr-1"></small>
-                      <small></small>
+                      <div th:text="'평점 : '+${products.avg}"></div>
                     </div>
 
                     <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
