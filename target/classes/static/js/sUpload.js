@@ -64,9 +64,9 @@ window.onload = function () {
     const form = e.target;
     let result = "";
     attachInfos.forEach((obj, idx) => {
-      result += `<input type="hidden" value="${obj.dataset.path}" name="productImgDtos[${idx}].stPath" />`;
-      result += `<input type="hidden" value="${obj.dataset.uuid}" name="productImgDtos[${idx}].stUuid" />`;
-      result += `<input type="hidden" value="${obj.dataset.name}" name="productImgDtos[${idx}].stImgName" />`;
+      result += `<input type="hidden" value="${obj.dataset.path}" name="storeImgDtos[${idx}].stPath" />`;
+      result += `<input type="hidden" value="${obj.dataset.uuid}" name="storeImgDtos[${idx}].stUuid" />`;
+      result += `<input type="hidden" value="${obj.dataset.name}" name="storeImgDtos[${idx}].stImgName" />`;
     });
 
     form.insertAdjacentHTML("beforeend", result);
