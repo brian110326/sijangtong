@@ -47,7 +47,7 @@ public class ShopController {
   private final ReviewService reviewService;
 
   // 상품 리스트
-  @GetMapping("/storeDetail")
+  @GetMapping("/storeproducts")
   public void getDetail(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
       Long storeId,
@@ -240,7 +240,7 @@ public class ShopController {
     rttr.addAttribute("type", pageRequestDto.getType());
     rttr.addAttribute("keyword", pageRequestDto.getKeyword());
 
-    return "redirect:/shop/storeDetail";
+    return "redirect:/shop/storeproducts";
 
   }
 
@@ -277,7 +277,7 @@ public class ShopController {
     rttr.addAttribute("page", pageRequestDto.getPage());
     rttr.addAttribute("type", pageRequestDto.getType());
     rttr.addAttribute("keyword", pageRequestDto.getKeyword());
-    return "redirect:/shop/storeDetail";
+    return "redirect:/shop/storeproducts";
   }
 
   @PreAuthorize("isAuthenticated()")
@@ -370,7 +370,7 @@ public class ShopController {
     rttr.addAttribute("type", "");
     rttr.addAttribute("keyword", "");
 
-    return "redirect:/shop/storeDetail";
+    return "redirect:/shop/storeproducts";
 
   }
 }

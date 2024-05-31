@@ -37,6 +37,10 @@ public class Member {
   @Enumerated(EnumType.STRING)
   private MemberRole memberRole;
 
+  private String memberName;
+
+  private String memberTell;
+
   // 오너 회원을 위한 storeId 컬럼
   @Nullable
   @OneToOne
