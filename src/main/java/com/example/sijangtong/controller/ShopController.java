@@ -181,6 +181,7 @@ public class ShopController {
 
     try {
       Long updatedStoreId = service.storeUpdate(updateStoreDto);
+      log.info("UPDATEDTORE ID : ", updatedStoreId);
     } catch (Exception e) {
       e.printStackTrace();
       rttr.addFlashAttribute("error", e.getMessage());
