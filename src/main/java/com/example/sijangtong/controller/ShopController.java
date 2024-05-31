@@ -421,7 +421,7 @@ public class ShopController {
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
     @RequestParam(required = false, value = "productDto") ProductDto productDto
   ) {
-    log.info("프로덕트 생성 폼 요청");
+    log.info("프로덕트 생성 폼 요청 {} {}", pageRequestDto, productDto);
   }
 
   @PostMapping("/pInsert")
