@@ -29,29 +29,29 @@ public interface StoreService {
   // store의 list를 보여주기 위한 dto변환
   public default StoreDto entityToDto(Store store, List<StoreImg> storeImgs) {
     StoreDto storeDto = StoreDto
-      .builder()
-      .storeId(store.getStoreId())
-      .storeCategory(store.getStoreCategory())
-      .storeTel(store.getStoreTel())
-      .openTime(store.getOpenTime())
-      .closeTime(store.getCloseTime())
-      .storeAddress(store.getStoreAddress())
-      .storeName(store.getStoreName())
-      .storeDetail(store.getStoreDetail())
-      .build();
+        .builder()
+        .storeId(store.getStoreId())
+        .storeCategory(store.getStoreCategory())
+        .storeTel(store.getStoreTel())
+        .openTime(store.getOpenTime())
+        .closeTime(store.getCloseTime())
+        .storeAddress(store.getStoreAddress())
+        .storeName(store.getStoreName())
+        .storeDetail(store.getStoreDetail())
+        .build();
 
     List<StoreImgDto> storeImgDtos = storeImgs
-      .stream()
-      .map(storeImg -> {
-        return StoreImgDto
-          .builder()
-          .storeImgId(storeImg.getStoreImgId())
-          .stUuid(storeImg.getStUuid())
-          .stImgName(storeImg.getStImgName())
-          .stPath(storeImg.getStPath())
-          .build();
-      })
-      .collect(Collectors.toList());
+        .stream()
+        .map(storeImg -> {
+          return StoreImgDto
+              .builder()
+              .storeImgId(storeImg.getStoreImgId())
+              .stUuid(storeImg.getStUuid())
+              .stImgName(storeImg.getStImgName())
+              .stPath(storeImg.getStPath())
+              .build();
+        })
+        .collect(Collectors.toList());
 
     storeDto.setStoreImgDtos(storeImgDtos);
 
@@ -62,16 +62,16 @@ public interface StoreService {
     Map<String, Object> entityMap = new HashMap<>();
 
     Store store = Store
-      .builder()
-      .storeId(storeDto.getStoreId())
-      .storeCategory(storeDto.getStoreCategory())
-      .storeTel(storeDto.getStoreTel())
-      .openTime(storeDto.getOpenTime())
-      .closeTime(storeDto.getCloseTime())
-      .storeAddress(storeDto.getStoreAddress())
-      .storeName(storeDto.getStoreName())
-      .storeDetail(storeDto.getStoreDetail())
-      .build();
+        .builder()
+        .storeId(storeDto.getStoreId())
+        .storeCategory(storeDto.getStoreCategory())
+        .storeTel(storeDto.getStoreTel())
+        .openTime(storeDto.getOpenTime())
+        .closeTime(storeDto.getCloseTime())
+        .storeAddress(storeDto.getStoreAddress())
+        .storeName(storeDto.getStoreName())
+        .storeDetail(storeDto.getStoreDetail())
+        .build();
 
     entityMap.put("store", store);
 
@@ -79,18 +79,18 @@ public interface StoreService {
 
     if (storeImgDtos != null && storeImgDtos.size() > 0) {
       List<StoreImg> storeImgs = storeImgDtos
-        .stream()
-        .map(sDto -> {
-          StoreImg storeImg = StoreImg
-            .builder()
-            .stImgName(sDto.getStImgName())
-            .stUuid(sDto.getStUuid())
-            .stPath(sDto.getStPath())
-            .store(store)
-            .build();
-          return storeImg;
-        })
-        .collect(Collectors.toList());
+          .stream()
+          .map(sDto -> {
+            StoreImg storeImg = StoreImg
+                .builder()
+                .stImgName(sDto.getStImgName())
+                .stUuid(sDto.getStUuid())
+                .stPath(sDto.getStPath())
+                .store(store)
+                .build();
+            return storeImg;
+          })
+          .collect(Collectors.toList());
 
       entityMap.put("imgList", storeImgs);
     }
