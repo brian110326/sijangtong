@@ -99,8 +99,6 @@ document.querySelector("#productModal").addEventListener("click", (e) => {
               piTags += `</div>`;
             });
           });
-
-          productImgDiv.innerHTML = piTags;
         });
     }
   }

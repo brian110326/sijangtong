@@ -158,19 +158,16 @@
             </div>
           </form>
           <!-- 삭제 폼 -->
-          <ul>
-            <li th:each="product : ${result.dtoList}">
-              <form method="post" id="pActionForm2" th:action="@{pRemove}">
-                <!-- 수정 / 삭제를 위한 필요 정보 -->
-                <input type="hidden" name="productId" th:value="${product.productId}" />
-                <input type="hidden" name="storeId" th:value="${product.storeId}" />
-                <!-- 페이지 나누기에 필요 정보-->
-                <input type="hidden" name="page" th:value="${requestDto.page}" />
-                <input type="hidden" name="type" th:value="${requestDto.type}" />
-                <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
-              </form>
-            </li>
-          </ul>
+
+          <form method="post" id="pActionForm2" th:action="@{pRemove}">
+            <!-- 수정 / 삭제를 위한 필요 정보 -->
+            <input type="hidden" name="productId" id="productIdInsert" />
+            <input type="hidden" name="storeId" th:value="${storeId}" />
+            <!-- 페이지 나누기에 필요 정보-->
+            <input type="hidden" name="page" th:value="${requestDto.page}" />
+            <input type="hidden" name="type" th:value="${requestDto.type}" />
+            <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
+          </form>
 
           <!-- 페이지 나누기 영역 -->
           <div
