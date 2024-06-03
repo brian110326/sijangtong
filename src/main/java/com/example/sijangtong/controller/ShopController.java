@@ -8,6 +8,7 @@ import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.repository.StoreRepository;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
+import com.example.sijangtong.service.OrderItemService;
 import com.example.sijangtong.service.ProductService;
 import com.example.sijangtong.service.ReviewService;
 import com.example.sijangtong.service.StoreService;
@@ -44,12 +45,14 @@ public class ShopController {
 
   private final StoreService service;
   private final ProductService productService;
+  private final OrderItemService orderItemService;
   private final ReviewService reviewService;
 
   // 상품 리스트
   @GetMapping("/storeproducts")
   public void getDetail(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
       Long storeId,
       Model model,
       RedirectAttributes rttr) {
@@ -58,15 +61,18 @@ public class ShopController {
         "result",
         productService.getProductList(pageRequestDto, storeId));
     model.addAttribute("storeId", storeId);
+    model.addAttribute("orderItemCount", orderItemCount);
   }
 
   // 스토어 리스트
   @GetMapping("/list")
   public void getList(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
       Model model) {
     log.info("리스트 폼 요청");
     model.addAttribute("result", service.getStoreList(pageRequestDto));
+    model.addAttribute("orderItemCount", orderItemCount);
   }
 
   @GetMapping("/home")
@@ -91,11 +97,29 @@ public class ShopController {
   @GetMapping("/buyitem")
   public void getbuyItem(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @Parameters Long productId,
+      @Parameters Long productId, @Parameters Long storeId,
       Model model) {
     log.info("구매 폼 요청");
     model.addAttribute("result", productService.getProductRow(productId));
     model.addAttribute("requestDto", pageRequestDto);
+    model.addAttribute("storeId", storeId);
+  }
+
+  @PreAuthorize("isAuthenticated()")
+  @PostMapping("/buyitem")
+  public String PostbuyItem(
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      Long storeId,
+      Long productId, int amount, String memberEmail,
+      RedirectAttributes rttr) {
+    log.info("구매 post 폼 요청 {} {} {}  {}", productId, amount, memberEmail, storeId);
+    Long orderId = orderItemService.createOrderItem(amount, productId, memberEmail, storeId);
+    rttr.addAttribute("orderId", orderId);
+    rttr.addAttribute("storeId", storeId);
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    return "redirect:/shop/storeproducts";
   }
 
   @GetMapping({ "/read" })
@@ -181,6 +205,7 @@ public class ShopController {
 
     try {
       Long updatedStoreId = service.storeUpdate(updateStoreDto);
+      log.info("UPDATEDTORE ID : ", updatedStoreId);
     } catch (Exception e) {
       e.printStackTrace();
       rttr.addFlashAttribute("error", e.getMessage());
