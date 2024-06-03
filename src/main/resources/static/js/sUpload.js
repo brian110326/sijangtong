@@ -52,6 +52,30 @@ window.onload = function () {
       });
   });
 
+  // document.querySelector("#insert_form").addEventListener("submit", (e) => {
+  //   e.preventDefault();
+
+  //   // 첨부파일 정보 수집
+  //   const attachInfos = document.querySelectorAll(".uploadResult ul li");
+
+  //   console.log(attachInfos);
+
+  //   // 수집된 정보를 form 태그 자식으로 붙여넣기
+  //   const form = e.target;
+  //   let result = "";
+  //   attachInfos.forEach((obj, idx) => {
+  //     result += `<input type="hidden" value="${obj.dataset.path}" name="productImgDtos[${idx}].stPath" />`;
+  //     result += `<input type="hidden" value="${obj.dataset.uuid}" name="productImgDtos[${idx}].stUuid" />`;
+  //     result += `<input type="hidden" value="${obj.dataset.name}" name="productImgDtos[${idx}].stImgName" />`;
+  //   });
+
+  //   form.insertAdjacentHTML("beforeend", result);
+
+  //   console.log(form.innerHTML);
+
+  //   form.submit();
+  // });
+
   document.querySelector("#register-form").addEventListener("submit", (e) => {
     e.preventDefault();
 

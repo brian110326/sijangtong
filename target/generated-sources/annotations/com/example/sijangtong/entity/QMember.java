@@ -26,11 +26,15 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath memberEmail = createString("memberEmail");
 
+    public final StringPath memberName = createString("memberName");
+
     public final StringPath memberNickname = createString("memberNickname");
 
     public final StringPath memberPwd = createString("memberPwd");
 
     public final EnumPath<com.example.sijangtong.constant.MemberRole> memberRole = createEnum("memberRole", com.example.sijangtong.constant.MemberRole.class);
+
+    public final StringPath memberTell = createString("memberTell");
 
     public final QStore store;
 
