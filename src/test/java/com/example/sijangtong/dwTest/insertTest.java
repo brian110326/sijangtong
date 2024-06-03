@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.sijangtong.constant.MemberRole;
+import com.example.sijangtong.constant.StoreCategory;
 import com.example.sijangtong.entity.Member;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.ProductImg;
@@ -99,4 +100,9 @@ public class insertTest {
                     }
                 });
     };
+
+    @Test
+    public void getStoreCategoryTest() {
+        storeRepository.findByStoreCategory(StoreCategory.SEAFOOD);
+    }
 }

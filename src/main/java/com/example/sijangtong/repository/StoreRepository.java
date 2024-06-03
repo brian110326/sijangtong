@@ -11,5 +11,5 @@ import java.util.List;
 import com.example.sijangtong.constant.StoreCategory;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
-
+    List<Store> findByStoreCategory(StoreCategory storeCategory);
 }

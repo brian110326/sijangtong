@@ -26,6 +26,9 @@ public interface StoreService {
 
   Long storeUpdate(StoreDto storeDto) throws IllegalStateException;
 
+  // 카테고리 찾기
+  List<Store> findStoreCategory(StoreCategory storeCategory);
+
   // store의 list를 보여주기 위한 dto변환
   public default StoreDto entityToDto(Store store, List<StoreImg> storeImgs) {
     StoreDto storeDto = StoreDto
