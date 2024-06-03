@@ -414,14 +414,6 @@ public class ShopController {
     return new Double(((Math.random() * 198) + 1)).longValue();
   }
 
-  @GetMapping("sInsert")
-  public void insertStore(
-    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    StoreDto storeDto
-  ) {
-    log.info("스토어 생성 폼 요청");
-  }
-
   @GetMapping("/contact")
   public void getContact(
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
@@ -433,6 +425,14 @@ public class ShopController {
   ) {
     log.info("홈 요청 {} ", orderItemCount);
     model.addAttribute("orderItemCount", orderItemCount);
+  }
+
+  @GetMapping("sInsert")
+  public void insertStore(
+    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+    StoreDto storeDto
+  ) {
+    log.info("스토어 생성 폼 요청");
   }
 
   @PreAuthorize("hasRole('ADMIN')")
