@@ -167,14 +167,14 @@
                     >시장 목록</a
                   >
                   <a
-                    th:href="@{insert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
+                    th:href="@{sInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
                     class="nav-item nav-link"
                     sec:authorize="hasRole('ADMIN')"
                     >스토어 추가</a
                   >
 
                   <a
-                    th:href="@{pInsert(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},storeId=${#authentication.principal.memberDto.storeId})}"
+                    th:href="@{pInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},storeId=${#authentication.principal.memberDto.storeId})}"
                     class="nav-item nav-link"
                     sec:authorize="hasAnyRole('ADMIN','OWNER')"
                     >내 상품 추가</a

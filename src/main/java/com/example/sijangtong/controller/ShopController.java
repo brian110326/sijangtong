@@ -45,7 +45,7 @@ public class ShopController {
   private final ReviewService reviewService;
 
   // 상품 리스트
-  @GetMapping("/storeDetail")
+  @GetMapping("/storeproducts")
   public void getDetail(
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
     Long storeId,
@@ -368,7 +368,7 @@ public class ShopController {
     return new Double(((Math.random() * 198) + 1)).longValue();
   }
 
-  @GetMapping("/insert")
+  @GetMapping("sInsert")
   public void insertStore(
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
     StoreDto storeDto
@@ -390,7 +390,7 @@ public class ShopController {
   }
 
   @PreAuthorize("hasRole('ADMIN')")
-  @PostMapping("/insert")
+  @PostMapping("/sInsert")
   public String storeInsert(
     @Valid StoreDto storeDto,
     BindingResult result,
