@@ -100,9 +100,4 @@ public class insertTest {
                     }
                 });
     };
-
-    @Test
-    public void getStoreCategoryTest() {
-        storeRepository.findByStoreCategory(StoreCategory.SEAFOOD);
-    }
 }

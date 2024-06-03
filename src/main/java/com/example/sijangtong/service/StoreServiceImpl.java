@@ -162,18 +162,4 @@ public class StoreServiceImpl implements StoreService {
 
     return store.getStoreId();
   }
-
-  // 카테고리 찾기
-  @Override
-  public List<Store> findStoreCategory(StoreCategory storeCategory) {
-
-    Store store = Store.builder()
-        .storeCategory(storeCategory)
-        .build();
-
-    storeRepository.save(store);
-
-    return storeRepository.findByStoreCategory(storeCategory);
-  }
-
 }
