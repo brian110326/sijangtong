@@ -32,7 +32,7 @@
           <div class="h-100 bg-light p-30">
             <h3 th:text="${result.pName}"></h3>
             <div class="d-flex mb-3">
-              <p class="pt-1" th:text="'평점 : ' +${result.avg}"></p>
+              <p class="pt-1" th:text="'평점 : ' +${#numbers.formatDecimal(result.avg, 1, 1)}"></p>
             </div>
             <h3 class="font-weight-semi-bold mb-4" th:text="${result.price} + '원'"></h3>
             <p class="mb-4" th:text=" '남은 재고 량 :'+ ${result.amount}"></p>
