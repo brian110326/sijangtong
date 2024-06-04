@@ -26,29 +26,32 @@ public interface MemberService {
 
   public default MemberDto entityToDto(Member member) {
     MemberDto memberDto = MemberDto
-      .builder()
-      .memberEmail(member.getMemberEmail())
-      .memberAddress(member.getMemberAddress())
-      .memberNickname(member.getMemberNickname())
-      .memberRole(member.getMemberRole())
-      .memberPwd(member.getMemberPwd())
-      .storeId(
-        member.getStore() != null ? member.getStore().getStoreId() : null
-      )
-      .build();
+        .builder()
+        .memberEmail(member.getMemberEmail())
+        .memberAddress(member.getMemberAddress())
+        .memberNickname(member.getMemberNickname())
+        .memberRole(member.getMemberRole())
+        .memberPwd(member.getMemberPwd())
+        .memberName(member.getMemberName())
+        .memberTell(member.getMemberTell())
+        .storeId(
+            member.getStore() != null ? member.getStore().getStoreId() : null)
+        .build();
 
     return memberDto;
   }
 
   public default Member dtoToEntity(MemberDto memberDto) {
     Member member = Member
-      .builder()
-      .memberEmail(memberDto.getMemberEmail())
-      .memberAddress(memberDto.getMemberAddress())
-      .memberNickname(memberDto.getMemberNickname())
-      .memberPwd(memberDto.getMemberPwd())
-      .memberRole(MemberRole.MEMBER)
-      .build();
+        .builder()
+        .memberEmail(memberDto.getMemberEmail())
+        .memberAddress(memberDto.getMemberAddress())
+        .memberNickname(memberDto.getMemberNickname())
+        .memberPwd(memberDto.getMemberPwd())
+        .memberRole(MemberRole.MEMBER)
+        .memberName(memberDto.getMemberName())
+        .memberTell(memberDto.getMemberTell())
+        .build();
 
     return member;
   }
