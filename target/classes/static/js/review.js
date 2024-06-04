@@ -24,6 +24,9 @@ const reviewLoad = () => {
     .then((data) => {
       console.log(data);
 
+      // 리뷰 최신 순으로 정렬
+      data.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+
       let result = "";
       data.forEach((review) => {
         result += `<div class="review-row" data-rno="${review.reviewId}">
