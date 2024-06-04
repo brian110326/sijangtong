@@ -85,8 +85,9 @@ public class ShopController {
       int orderItemCount = orderItemDtos.size();
       model.addAttribute("orderItemCount", orderItemCount);
     }
-    log.info("리스트 폼 요청 {}", orderItemDtos);
-    model.addAttribute("result", service.getStoreList(requestDto));
+    PageResultDto<StoreDto, Object[]> pageResultDto = service.getStoreList(requestDto);
+    log.info("리스트 폼 요청 {}, {}", orderItemDtos, pageResultDto);
+    model.addAttribute("result", pageResultDto);
 
   }
 
