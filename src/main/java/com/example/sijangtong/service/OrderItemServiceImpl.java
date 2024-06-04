@@ -37,13 +37,13 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public Long createOrderItem(int amount, Long productId, String memberEnail, Long storeId) {
         Product product = productRepository.findById(productId).get();
-        // Member member = Member.builder().memberEmail(memberEnail).build();
+
         Member member = memberRepository.findByMemberEmail(memberEnail).get();
         Optional<List<Order>> ordersOptional = orderRepository.findAllOrderByMember(member);
 
         int list_check = 0;
         int status_Cnt = 0;
-        // 오더 존재 여부 체크 O
+        // 오더 존재 여부 체크 O optional 을 이용하여 널값 체크
         if (ordersOptional.isPresent()) {
             // 오더 리스트 불러오기
             List<Order> orders = ordersOptional.get();
@@ -107,6 +107,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
                 return order.getOrderId();
             }
+            // 그외의 오류 발생시 0값을 보내여 체크.
             return 0L;
         }
         // 오더 존재 x
@@ -143,6 +144,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         List<OrderItemDto> orderItemDtos = new ArrayList<>();
         // 회원에 대한 주문을 찾습니다
 
+        // 오더 리스트 가져오기
         Optional<List<Order>> ordersOptional = orderRepository.findAllOrderByMember(member.get());
         // log.info(order.get().getOrderSatetus());
 
@@ -171,6 +173,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderItemRepository.deleteById(orderItemId);
     }
 
+    // 오더 상태 구분해서 가저오기
     @Override
     public List<OrderItemDto> getDeliveringOrderItems(String memberEmail) {
         // 회원을 찾습니다

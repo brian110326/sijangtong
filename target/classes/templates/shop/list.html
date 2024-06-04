@@ -244,7 +244,7 @@
                         th:src="|/upload/display?fileName=${image.getImageURL()}|"
                         alt="..."
                       />
-                        <a class="text-dark" th:href="@{storeproducts(storeId=${shop.storeId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"><span  th:text="${shop.storeName} "></span></a>
+                        <a class="text-dark" th:href="@{/shop/storeproducts(storeId=${shop.storeId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount} == null ? 0 :${orderItemCount} )}"><span  th:text="${shop.storeName} "></span></a>
                       </td>
                       <td class="align-middle" th:text="${shop.storeAddress} "></td>
                       <td class="align-middle" th:text="${shop.openTime} +'~'+${shop.closeTime}"></td>
@@ -373,7 +373,7 @@
                     <div class="text-center py-4">
                       <a
                         class="h6 text-decoration-none text-truncate"
-                        th:href="@{storeproducts(storeId=${shop.storeId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"
+                        th:href="@{/shop/storeproducts(storeId=${shop.storeId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount} == null ? 0 :${orderItemCount} )}"
                         th:text="${shop.storeName} +'(가게 지역 :' +(${shop.storeAddress})+')'"
                       ></a>
                       <div class="d-flex align-items-center justify-content-center mt-2">
