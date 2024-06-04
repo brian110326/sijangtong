@@ -30,6 +30,8 @@ public interface OrderRepository
 
   Optional<Order> findByMember(Member member);
 
+  Optional<List<Order>> findAllOrderByMember(Member member);
+
   @Modifying
   @Query("update Order o set o.orderPayment = :orderPayment where o.orderId = :orderId")
   void updatePayment(OrderPayment orderPayment, Long orderId);

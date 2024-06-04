@@ -321,4 +321,9 @@ public class StoreRepositoryTest {
         });
   }
 
+  @Test
+  public void findAllOrder() {
+    Member member = memberRepository.findById("ksb1234@naver.com").get();
+    System.out.println(orderRepository.findAllOrderByMember(member));
+  }
 }
