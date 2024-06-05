@@ -163,27 +163,17 @@
                     >시장 목록</a
                   >
                   <a
-<<<<<<< HEAD
-                    th:href="@{sInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
-=======
                     sec:authorize="hasRole('ADMIN')"
                     th:href="@{/shop/insert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
->>>>>>> a3a074938c5435f959885f7366db630c7d8e238f
                     class="nav-item nav-link"
                     sec:authorize="hasRole('ADMIN')"
                     >스토어 추가</a
                   >
                   <a
-<<<<<<< HEAD
-                    th:href="@{pInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},storeId=${#authentication.principal.memberDto.storeId})}"
-                    class="nav-item nav-link"
-                    sec:authorize="hasAnyRole('ADMIN','OWNER')"
-=======
                     sec:authorize="hasRole('ADMIN')"
                     th:if="${#authentication.principal.memberDto.storeId}"
                     th:href="@{/shop/pInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},storeId=${#authentication.principal.memberDto.storeId})}"
                     class="nav-item nav-link"
->>>>>>> a3a074938c5435f959885f7366db630c7d8e238f
                     >내 상품 추가</a
                   >
 
