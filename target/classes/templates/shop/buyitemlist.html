@@ -24,7 +24,7 @@
                 >
               </td>
             </tr>
-            <tr th:each="list : ${orderItemDtos}">
+            <tr th:each="list : ${orderItemsList}">
               <input type="hidden" id="itemId" th:value="${list.id}" />
               <td class="align-middle text-center">
                 <img src="https://via.placeholder.com/50" alt="" style="width: 50px" th:text="${list.pName}" />
@@ -44,7 +44,7 @@
                     <a
                       class="btn btn-block btn-primary"
                       style="width: 50px; height: 30px; font-size: 12px"
-                      th:href="@{/shop/buyitem(storeId=${list.storId},productId=${list.productId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"
+                      th:href="@{buyitem(storeId=${list.storId},productId=${list.productId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"
                     >
                       <span>수정</span></a
                     >
@@ -110,7 +110,7 @@
       }
 
       // 주문 총액 계간 script
-      var products = "[[${orderItemDtos}]]";
+      var products = "[[${orderItemsList}]]";
 
       // console.log(products);
       products = products.replace("[", "");

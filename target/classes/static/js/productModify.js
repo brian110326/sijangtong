@@ -42,7 +42,7 @@ window.onload = function () {
   const removeBtn = document.querySelector("#removeBtn");
   const productIdInsert = document.querySelector("#productIdInsert");
   pList.addEventListener("click", (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     console.log("삭제한 버튼 : ", e.target);
     const productIdValue = e.target.getAttribute("data-product-id");
     productIdInsert.value = productIdValue;
