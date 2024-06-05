@@ -31,16 +31,16 @@ public class EmailServiceImpl implements EmailService {
             helper = new MimeMessageHelper(message, true);
 
             // 제목, 내용 설정
-            helper.setSubject("제목");
-            helper.setText("내용", false);
+            helper.setSubject(name + " - " + title);
+            helper.setText(content + "\n 전송자 :" + email, false);
 
-            helper.setFrom("cloudtechflow@gmail.com");
             // 메일 전송(setTo 파라미터에 문자열 리스트를 넘기면 한번에 여러명에게 전송 가능)
-            helper.setTo("cloudtechflow@gmail.com");
+            helper.setFrom(email);
+            helper.setTo("sunbum13579@gmail.com");
 
             emailSender.send(message);
         } catch (MessagingException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         }
 

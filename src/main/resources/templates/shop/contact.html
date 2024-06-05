@@ -12,12 +12,13 @@
         <div class="col-lg-7 mb-5">
           <div class="contact-form bg-light p-30">
             <div id="success"></div>
-            <form th:action="@{/contact}" method="post" name="sentMessage" id="contactForm" novalidate="novalidate">
+            <form th:action="@{/shop/contact}" method="post" name="sentMessage" id="contactForm" novalidate="novalidate">
               <div class="control-group">
                 <input
                   type="text"
                   class="form-control"
                   id="name"
+                  name="name"
                   placeholder="성함"
                   required="required"
                   th:value="${#authentication.principal}  != 'anonymousUser' ? ${#authentication.principal.memberDto.memberName}: ''"
@@ -30,6 +31,7 @@
                   type="email"
                   class="form-control"
                   id="email"
+                  name="email"
                   placeholder="이메일"
                   required="required"
                   th:value="${#authentication.principal}  != 'anonymousUser' ? ${#authentication.principal.memberDto.memberEmail} : ''"
@@ -42,6 +44,7 @@
                   type="text"
                   class="form-control"
                   id="title"
+                  name="title"
                   placeholder="제목"
                   required="required"
                   data-validation-required-message="제목을 입력해 주세요"
@@ -52,7 +55,8 @@
                 <textarea
                   class="form-control"
                   rows="8"
-                  id="message"
+                  id="content"
+                  name="content"
                   placeholder="건의사항"
                   required="required"
                   data-validation-required-message="건의사항을 입력해 주세요"

@@ -183,7 +183,11 @@
                     >카트 목록</a
                   >
 
-                  <a th:href="@{/shop/contact}" class="nav-item nav-link">고객 문의</a>
+                  <a
+                    th:href="@{/shop/contact(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
+                    class="nav-item nav-link"
+                    >고객 문의</a
+                  >
                 </div>
                 <div sec:authorize="isAuthenticated()" class="navbar-nav ml-auto py-0 d-none d-lg-block">
                   <a href="" class="btn px-0">

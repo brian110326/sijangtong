@@ -404,16 +404,19 @@ public class ShopController {
 
     log.info("건의사항 폼 요청 {} ", orderItemCount);
     model.addAttribute("orderItemCount", orderItemCount);
+    model.addAttribute("requestDto", pageRequestDto);
   }
 
   @PostMapping("/contact")
   public String PostContact(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      String title, String name, String message, String email,
+      String title, String name, String content, String email,
       RedirectAttributes rttr) {
-    emailService.sendMail(name, title, message, email);
+    emailService.sendMail(name, title, content, email);
     log.info("건의사항 post 폼 요청 ");
-    rttr.addAttribute("requestDto", pageRequestDto);
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+    rttr.addAttribute("type", pageRequestDto.getType());
     return "redirect:/shop/home";
   }
 
