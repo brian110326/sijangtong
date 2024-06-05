@@ -37,34 +37,66 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public Long createOrderItem(int amount, Long productId, String memberEnail, Long storeId) {
         Product product = productRepository.findById(productId).get();
-        // Member member = Member.builder().memberEmail(memberEnail).build();
+
         Member member = memberRepository.findByMemberEmail(memberEnail).get();
-        Optional<Order> orderOptional = orderRepository.findByMember(member);
+        Optional<List<Order>> ordersOptional = orderRepository.findAllOrderByMember(member);
 
         int list_check = 0;
-        // 오더 존재 여부 체크 O
-        if (orderOptional.isPresent()) {
-            Order order = orderOptional.get();
-            // order 안에 상점 아이디와 주문한 상품의 상점 아이디가 다를시 return 0
-            if (order.getStore().getStoreId() != product.getStore().getStoreId()) {
-                return -1L;
-            }
-            // 해당하는 오더의 오더 아이템 리스트 들 중 중복 되는 상품 체크
-            List<OrderItem> orderitems = orderItemRepository.findByOrderId(order.getOrderId());
-            for (OrderItem orderItem : orderitems) {
-                // 중복되는 상품 존재시 해당 상품 업데이트
-                if (orderItem.getProduct() == product) {
-                    orderItem.setOrderAmount(amount);
-                    orderItem.setOrderPrice(amount * product.getPrice());
-                    orderItemRepository.save(orderItem);
-                } else {
-                    // 중복되지 않는 상품 카운트
-                    list_check += 1;
+        int status_Cnt = 0;
+        // 오더 존재 여부 체크 O optional 을 이용하여 널값 체크
+        if (ordersOptional.isPresent()) {
+            // 오더 리스트 불러오기
+            List<Order> orders = ordersOptional.get();
+            for (Order order : orders) {
+                // 오더의 상태가 배달 중일 경우
+                if (order.getOrderSatetus() != null) {
+                    status_Cnt += 1;
+                    // 체크 후 진행
                     continue;
+                } else {
+                    // 배달중이 아닐경우 storId 가 같은 값인지 체크
+                    if (order.getStore().getStoreId() != product.getStore().getStoreId()) {
+                        // 아니면 -1 값 전송
+                        return -1L;
+                    }
+                    // 오더에 등록된 아이템 리스트 불러오기
+                    List<OrderItem> orderItems = orderItemRepository.findByOrderId(order.getOrderId());
+                    for (OrderItem orderItem : orderItems) {
+                        // 만일 오더 아이템에 이미 담긴 상품을 주문시 해당 상품 업데이트후 리턴
+                        if (orderItem.getProduct() == product) {
+                            orderItem.setOrderAmount(amount);
+                            orderItem.setOrderPrice(amount + product.getPrice());
+                            orderItemRepository.save(orderItem);
+                            return order.getOrderId();
+                        } else {
+                            // 다른 상품인지 체크
+                            list_check += 1;
+                            continue;
+                        }
+                    }
+                    // 체크한 값이랑 리스트 전체 값이랑 같을시 새로운 아이템 생성
+                    if (list_check == orderItems.size()) {
+                        OrderItem orderItem = OrderItem.builder()
+                                .orderAmount(amount)
+                                .product(product)
+                                .orderPrice(amount * product.getPrice())
+                                .order(order)
+                                .build();
+                        orderItemRepository.save(orderItem);
+
+                        return order.getOrderId();
+                    }
+
                 }
             }
-            // 만일 리스트중 겹치는 상품이 없으면 신규 orederitem 생성
-            if (list_check == orderitems.size()) {
+            // 전부 배달 중인 주문일 경우 신규 오더 생성
+            if (status_Cnt == orders.size()) {
+                Order order = Order.builder()
+                        .member(member)
+                        .orderAddress(member.getMemberAddress())
+                        .store(Store.builder().storeId(storeId).build())
+                        .build();
+                orderRepository.save(order);
                 OrderItem orderItem = OrderItem.builder()
                         .orderAmount(amount)
                         .product(product)
@@ -75,8 +107,8 @@ public class OrderItemServiceImpl implements OrderItemService {
 
                 return order.getOrderId();
             }
-            // 오더 값 리턴
-            return order.getOrderId();
+            // 그외의 오류 발생시 0값을 보내여 체크.
+            return 0L;
         }
         // 오더 존재 x
         else {
@@ -111,12 +143,20 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         List<OrderItemDto> orderItemDtos = new ArrayList<>();
         // 회원에 대한 주문을 찾습니다
-        Optional<Order> order = orderRepository.findByMember(member.get());
-        log.info(order.get().getOrderSatetus());
-        if (order.isPresent() && order.get().getOrderSatetus() == null) {
-            List<OrderItem> items = orderItemRepository.findByOrderId(order.get().getOrderId());
-            for (OrderItem orderItem : items) {
-                orderItemDtos.add(entityToDto(orderItem));
+
+        // 오더 리스트 가져오기
+        Optional<List<Order>> ordersOptional = orderRepository.findAllOrderByMember(member.get());
+        // log.info(order.get().getOrderSatetus());
+
+        if (ordersOptional.isPresent()) {
+            List<Order> orders = ordersOptional.get();
+            for (Order order : orders) {
+                if (order.getOrderSatetus() == null) {
+                    List<OrderItem> items = orderItemRepository.findByOrderId(order.getOrderId());
+                    for (OrderItem orderItem : items) {
+                        orderItemDtos.add(entityToDto(orderItem));
+                    }
+                }
             }
 
             return orderItemDtos;
@@ -133,8 +173,10 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderItemRepository.deleteById(orderItemId);
     }
 
+    // 오더 상태 구분해서 가저오기
     @Override
     public List<OrderItemDto> getDeliveringOrderItems(String memberEmail) {
+        // 회원을 찾습니다
         Optional<Member> member = memberRepository.findByMemberEmail(memberEmail);
 
         if (!member.isPresent()) {
@@ -143,12 +185,19 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         List<OrderItemDto> orderItemDtos = new ArrayList<>();
         // 회원에 대한 주문을 찾습니다
-        Optional<Order> order = orderRepository.findByMember(member.get());
-        log.info(order.get().getOrderSatetus());
-        if (order.isPresent() && order.get().getOrderSatetus() != null) {
-            List<OrderItem> items = orderItemRepository.findByOrderId(order.get().getOrderId());
-            for (OrderItem orderItem : items) {
-                orderItemDtos.add(entityToDto(orderItem));
+
+        Optional<List<Order>> ordersOptional = orderRepository.findAllOrderByMember(member.get());
+        // log.info(order.get().getOrderSatetus());
+
+        if (ordersOptional.isPresent()) {
+            List<Order> orders = ordersOptional.get();
+            for (Order order : orders) {
+                if (order.getOrderSatetus() != null) {
+                    List<OrderItem> items = orderItemRepository.findByOrderId(order.getOrderId());
+                    for (OrderItem orderItem : items) {
+                        orderItemDtos.add(entityToDto(orderItem));
+                    }
+                }
             }
 
             return orderItemDtos;

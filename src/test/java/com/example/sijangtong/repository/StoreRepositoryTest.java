@@ -138,20 +138,9 @@ public class StoreRepositoryTest {
   @Test
   public void insertStoreTest() {
     LongStream
-      .rangeClosed(1, 200)
+      .rangeClosed(64, 127)
       .forEach(i -> {
-        Store store = Store
-          .builder()
-          .storeCategory(StoreCategory.SEAFOOD)
-          .storeTel("010-1111-1" + i)
-          .openTime("6 시에 오픈")
-          .closeTime("10시에 마감")
-          .storeAddress("종로")
-          .storeName("이것은 가계요" + i)
-          .storeDetail("이 가계는....")
-          .build();
-
-        storeRepository.save(store);
+        Store store = storeRepository.findById(i).get();
 
         int count = (int) (Math.random() * 5) + 1;
 
@@ -175,17 +164,17 @@ public class StoreRepositoryTest {
   @Test
   public void insertProductTest() {
     LongStream
-      .rangeClosed(1, 200)
+      .rangeClosed(64, 127)
       .forEach(i -> {
         Store store = Store.builder().storeId(i).build();
         LongStream
-          .rangeClosed(1, 50)
+          .rangeClosed(1, 10)
           .forEach(j -> {
             Product product = Product
               .builder()
-              .pName("재고" + i)
-              .price(5000)
-              .amount(20)
+              .pName("상품" + i)
+              .price((int) ((Math.random() * 1000) + i))
+              .amount((int) ((Math.random() * 20) + i))
               .store(store)
               .build();
             productRepository.save(product);
@@ -317,5 +306,11 @@ public class StoreRepositoryTest {
           .build();
         productRepository.save(product);
       });
+  }
+
+  @Test
+  public void findAllOrder() {
+    Member member = memberRepository.findById("ksb1234@naver.com").get();
+    System.out.println(orderRepository.findAllOrderByMember(member));
   }
 }

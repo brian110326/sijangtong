@@ -71,13 +71,13 @@
                 </ul>
                 <map name="Map" id="Map">
                   <area
-                    th:href="@{list(page=${requestDto.page},type='a', keyword='강남',orderItemCount=${orderItemCount})}"
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='강남구',orderItemCount=${orderItemCount})}"
                     shape="poly"
                     coords="322,280,339,267,353,271,368,281,376,287,384,302,391,320,412,327,434,339,446,354,453,368,441,376,419,376,410,352,387,357,371,356,353,348,351,331,339,325,332,300,326,294"
                     alt="강남구"
                   />
                   <area
-                    th:href="@{list(page=${requestDto.page},type='a', keyword='강동',orderItemCount=${orderItemCount})}"
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='강동구',orderItemCount=${orderItemCount})}"
                     shape="poly"
                     coords="445,241,447,215,486,203,507,189,517,214,527,235,516,245,489,259,476,284,453,273,455,255"
                     alt="강동구"
@@ -244,7 +244,7 @@
                         th:src="|/upload/display?fileName=${image.getImageURL()}|"
                         alt="..."
                       />
-                        <a class="text-dark" th:href="@{storeproducts(storeId=${shop.storeId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"><span  th:text="${shop.storeName} "></span></a>
+                        <a class="text-dark" th:href="@{/shop/storeproducts(storeId=${shop.storeId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount} == null ? 0 :${orderItemCount} )}"><span  th:text="${shop.storeName} "></span></a>
                       </td>
                       <td class="align-middle" th:text="${shop.storeAddress} "></td>
                       <td class="align-middle" th:text="${shop.openTime} +'~'+${shop.closeTime}"></td>
@@ -269,7 +269,7 @@
               <div class="bg-light p-4 mb-30">
                 <form>
                   <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                    <input type="checkbox" class="custom-control-input" th:checked="${requestDto.type} == 'a'" id="price-all" readonly />
+                    <input type="checkbox" class="custom-control-input" th:checked="${requestDto.type} == 'a'" id="price-all" disabled />
                     <label class="custom-control-label" for="price-all">지역별 상품</label>
                     <span class="badge border font-weight-normal">1000</span>
                   </div>
@@ -279,7 +279,7 @@
                       class="custom-control-input"
                       th:checked="${requestDto.keyword} == 'ANIMAL_PRODUCT'"
                       id="price-1"
-                      readonly
+                      disabled
                     />
                     <label class="custom-control-label" for="price-1">축산물</label>
                     <span class="badge border font-weight-normal">150</span>
@@ -352,7 +352,7 @@
                   <div class="product-item bg-light mb-4">
                     <!-- img 보여주는 영역 -->
                     <div class="product-img position-relative overflow-hidden">
-                      <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
+                      <img class="img-fluid w-100" src="https://placehold.co/600x400    " alt="" />
                     </div>
                     <div id="carouselExampleIndicators" class="carousel slide">
                       <div class="carousel-indicators"></div>
@@ -373,7 +373,7 @@
                     <div class="text-center py-4">
                       <a
                         class="h6 text-decoration-none text-truncate"
-                        th:href="@{storeproducts(storeId=${shop.storeId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"
+                        th:href="@{/shop/storeproducts(storeId=${shop.storeId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount} == null ? 0 :${orderItemCount} )}"
                         th:text="${shop.storeName} +'(가게 지역 :' +(${shop.storeAddress})+')'"
                       ></a>
                       <div class="d-flex align-items-center justify-content-center mt-2">

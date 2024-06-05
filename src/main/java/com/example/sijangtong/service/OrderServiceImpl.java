@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
+
+import org.apache.el.stream.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -41,22 +43,15 @@ public class OrderServiceImpl implements OrderService {
 
   @Override
   public PageResultDto<OrderDto, Object[]> getOrderList(
-    PageRequestDto pageRequestDto,
-    Long storeId
-  ) {
+      PageRequestDto pageRequestDto,
+      Long storeId) {
     Page<Object[]> result = orderRepository.getOrderList(
-      pageRequestDto.getPageable(Sort.by("orderId")),
-      storeId
-    );
+        pageRequestDto.getPageable(Sort.by("orderId")),
+        storeId);
 
-    Function<Object[], OrderDto> fn =
-      (
-        en ->
-          entityToDto(
-            (Order) en[0],
-            (List<OrderItem>) Arrays.asList((OrderItem) en[1])
-          )
-      );
+    Function<Object[], OrderDto> fn = (en -> entityToDto(
+        (Order) en[0],
+        (List<OrderItem>) Arrays.asList((OrderItem) en[1])));
 
     return new PageResultDto<>(result, fn);
   }
@@ -85,9 +80,8 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public Long updateOrder(OrderDto orderDto) {
     orderRepository.updatePayment(
-      orderDto.getOrderPayment(),
-      orderDto.getOrderId()
-    );
+        orderDto.getOrderPayment(),
+        orderDto.getOrderId());
 
     return orderDto.getOrderId();
   }
@@ -98,9 +92,8 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public void updateOrderAmount(OrderItemDto orderItemDto) {
     orderItemRepository.updateAmount(
-      orderItemDto.getOrderAmount(),
-      orderItemDto.getId()
-    );
+        orderItemDto.getOrderAmount(),
+        orderItemDto.getId());
   }
 
   // 주문 => 주소, 결제방식, 누가, 어떤 store에서, rider는 자동배정
@@ -120,14 +113,20 @@ public class OrderServiceImpl implements OrderService {
 
   @Override
   public Long orderfinish(String memberEmail, String payment) {
-    Order order = orderRepository.findByMember(memberRepository.findByMemberEmail(memberEmail).get()).get();
+    Member member = memberRepository.findByMemberEmail(memberEmail).get();
 
-    order.setOrderPayment(OrderPayment.valueOf(payment));
-    order.setOrderSatetus(OrderSatetus.WAITING);
+    List<Order> orders = orderRepository.findAllOrderByMember(member).get();
+    Order finalOrder = null;
+    for (Order order : orders) {
+      if (order.getOrderSatetus() == null) {
+        order.setOrderPayment(OrderPayment.valueOf(payment));
+        order.setOrderSatetus(OrderSatetus.WAITING);
+        orderRepository.save(order);
+        finalOrder = order;
+      }
+    }
 
-    orderRepository.save(order);
-
-    return order.getOrderId();
+    return finalOrder.getOrderId();
   }
 
 }

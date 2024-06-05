@@ -39,6 +39,15 @@ window.onload = function () {
     }
   });
 
+  const removeBtn = document.querySelector("#removeBtn");
+  const productIdInsert = document.querySelector("#productIdInsert");
+  pList.addEventListener("click", (e) => {
+    // e.preventDefault();
+    console.log("삭제한 버튼 : ", e.target);
+    const productIdValue = e.target.getAttribute("data-product-id");
+    productIdInsert.value = productIdValue;
+  });
+
   document.querySelector("#deleteBtn").addEventListener("click", (e) => {
     const target = e.target;
     const pActionForm2 = document.querySelector("#pActionForm2");

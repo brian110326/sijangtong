@@ -9,7 +9,7 @@
     <!-- <link rel="stylesheet" th:href="@{/css/starrr.css}"> -->
   </th:block>
   <div layout:fragment="content">
-    <!-- Post content-->
+    <!-- 상품 이미지 표출-->
     <div class="container-fluid pb-5">
       <div class="row px-xl-5">
         <div class="col-lg-5 mb-30">
@@ -27,7 +27,7 @@
             </a>
           </div>
         </div>
-
+        <!-- 상품 종류 및 구매 디자인 송출-->
         <div class="col-lg-7 h-auto mb-30">
           <div class="h-100 bg-light p-30">
             <h3 th:text="${result.pName}"></h3>

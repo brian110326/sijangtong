@@ -20,21 +20,15 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <a
                   sec:authorize="!isAuthenticated()"
-                  th:href="@{/member/login(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword})}"
+                  th:href="@{/member/login?(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
                   class="dropdown-item"
                   type="button"
                   >로그인</a
                 >
+                <a sec:authorize="isAuthenticated()" th:href="@{/member/logout}" class="dropdown-item" type="button">로그아웃</a>
                 <a
                   sec:authorize="isAuthenticated()"
-                  th:href="@{/member/logout(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword})}"
-                  class="dropdown-item"
-                  type="button"
-                  >로그아웃</a
-                >
-                <a
-                  sec:authorize="isAuthenticated()"
-                  th:href="@{/member/profile(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword})}"
+                  th:href="@{/member/profile?(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
                   class="dropdown-item"
                   type="button"
                   >프로필</a
@@ -79,7 +73,7 @@
       <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
         <div class="col-lg-4">
           <a
-            th:href="@{/shop/home(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
+            th:href="@{/shop/home?(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"
             class="text-decoration-none"
           >
             <span class="h1 text-uppercase text-white bg-dark px-2">SiJangTong</span>
@@ -123,7 +117,9 @@
               style="width: calc(100% - 30px); z-index: 999"
             >
               <div class="navbar-nav w-100">
-                <a th:href="@{list(page=${requestDto?.page},type='ct', keyword='SEAFOOD',orderItemCount=${orderItemCount})}" class="nav-item nav-link"
+                <a
+                  th:href="@{/shop/list?(page=${requestDto.page},type='ct', keyword='SEAFOOD',orderItemCount=${orderItemCount})}"
+                  class="nav-item nav-link"
                   >수산물</a
                 >
                 <a th:href="@{list(page=${requestDto?.page},type='ct', keyword='CROPS',orderItemCount=${orderItemCount})}" class="nav-item nav-link"
@@ -162,34 +158,42 @@
               <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
                   <a
-                    th:href="@{list(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
+                    th:href="@{/shop/list(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},memberEmail=${#authentication.principal}  == 'anonymousUser' ? '': ${#authentication.principal.memberDto.memberEmail})}"
                     class="nav-item nav-link storeList"
                     >시장 목록</a
                   >
                   <a
+<<<<<<< HEAD
                     th:href="@{sInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
+=======
+                    sec:authorize="hasRole('ADMIN')"
+                    th:href="@{/shop/insert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
+>>>>>>> a3a074938c5435f959885f7366db630c7d8e238f
                     class="nav-item nav-link"
                     sec:authorize="hasRole('ADMIN')"
                     >스토어 추가</a
                   >
-
                   <a
+<<<<<<< HEAD
                     th:href="@{pInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},storeId=${#authentication.principal.memberDto.storeId})}"
                     class="nav-item nav-link"
                     sec:authorize="hasAnyRole('ADMIN','OWNER')"
+=======
+                    sec:authorize="hasRole('ADMIN')"
+                    th:if="${#authentication.principal.memberDto.storeId}"
+                    th:href="@{/shop/pInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},storeId=${#authentication.principal.memberDto.storeId})}"
+                    class="nav-item nav-link"
+>>>>>>> a3a074938c5435f959885f7366db630c7d8e238f
                     >내 상품 추가</a
                   >
 
-                  <a th:href="@{/shop/read}" class="nav-item nav-link">시장 정보</a>
-                  <div class="nav-item dropdown" sec:authorize="isAuthenticated()">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
-                      >구매 목록 <i class="fa fa-angle-down mt-1"></i
-                    ></a>
-                    <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                      <a th:href="@{/shop/buyitemlist}" class="dropdown-item">카트 목록</a>
-                      <a th:href="@{/shop/cart}" class="dropdown-item">구매 확정</a>
-                    </div>
-                  </div>
+                  <a
+                    sec:authorize="isAuthenticated()"
+                    th:href="@{/shop/buyitemlist(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},memberEmail=${#authentication.principal}  == 'anonymousUser' ? '': ${#authentication.principal.memberDto.memberEmail})}"
+                    class="nav-item nav-link"
+                    >카트 목록</a
+                  >
+
                   <a th:href="@{/shop/contact}" class="nav-item nav-link">고객 문의</a>
                 </div>
                 <div sec:authorize="isAuthenticated()" class="navbar-nav ml-auto py-0 d-none d-lg-block">

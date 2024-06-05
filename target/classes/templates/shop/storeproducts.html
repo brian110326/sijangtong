@@ -32,17 +32,15 @@
       <!-- Blog entries-->
       <div class="row px-xl-5">
         <!-- Featured blog post-->
-        <div class="card col-lg-3 col-md-4 mt-5">
-          <a href="#!"><img class="card-img-top" src="https://dummyimage.com/1200x550/dee2e6/6c757d.jpg" alt="..." title="" /></a>
+        <div class="card col-lg-3 col-md-4 mb-30 h-100 mt-6">
+          <img class="card-img-top" src="https://dummyimage.com/1200x550/dee2e6/6c757d.jpg" alt="..." title="" />
           <div class="card-body bg-light p-4 mb-30">
             <div class="small text-muted">January 1, 2023</div>
             <h2 class="card-title">전통시장 이름....</h2>
-            <p class="card-text">전통시장 설명...</p>
-            <!-- (storeId=${dto.storeId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword}) -->
             <a
               class="btn btn-primary"
               th:href="@{/shop/read(storeId=${storeId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}"
-              >Read more →</a
+              >시장 정보 →</a
             >
           </div>
         </div>
@@ -158,19 +156,16 @@
             </div>
           </form>
           <!-- 삭제 폼 -->
-          <ul>
-            <li th:each="product : ${result.dtoList}">
-              <form method="post" id="pActionForm2" th:action="@{pRemove}">
-                <!-- 수정 / 삭제를 위한 필요 정보 -->
-                <input type="hidden" name="productId" th:value="${product.productId}" />
-                <input type="hidden" name="storeId" th:value="${product.storeId}" />
-                <!-- 페이지 나누기에 필요 정보-->
-                <input type="hidden" name="page" th:value="${requestDto.page}" />
-                <input type="hidden" name="type" th:value="${requestDto.type}" />
-                <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
-              </form>
-            </li>
-          </ul>
+
+          <form method="post" id="pActionForm2" th:action="@{pRemove}">
+            <!-- 수정 / 삭제를 위한 필요 정보 -->
+            <input type="hidden" name="productId" id="productIdInsert" />
+            <input type="hidden" name="storeId" th:value="${storeId}" />
+            <!-- 페이지 나누기에 필요 정보-->
+            <input type="hidden" name="page" th:value="${requestDto.page}" />
+            <input type="hidden" name="type" th:value="${requestDto.type}" />
+            <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
+          </form>
 
           <!-- 페이지 나누기 영역 -->
           <div
