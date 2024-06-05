@@ -18,10 +18,10 @@
                   type="text"
                   class="form-control"
                   id="name"
-                  placeholder="Your Name"
+                  placeholder="성함"
                   required="required"
-                  th:value="${#authentication.principal.memberDto.memberName}"
-                  readonly
+                  th:value="${#authentication.principal}  != 'anonymousUser' ? ${#authentication.principal.memberDto.memberName}: ''"
+                  data-validation-required-message="성함을 입력해 주세요"
                 />
                 <p class="help-block text-danger"></p>
               </div>
@@ -30,10 +30,10 @@
                   type="email"
                   class="form-control"
                   id="email"
-                  placeholder="Your Email"
+                  placeholder="이메일"
                   required="required"
-                  th:value="${#authentication.principal.memberDto.memberEmail}"
-                  readonly
+                  th:value="${#authentication.principal}  != 'anonymousUser' ? ${#authentication.principal.memberDto.memberEmail} : ''"
+                  data-validation-required-message="이메일을 입력해 주세요"
                 />
                 <p class="help-block text-danger"></p>
               </div>
@@ -42,7 +42,7 @@
                   type="text"
                   class="form-control"
                   id="subject"
-                  placeholder="Subject"
+                  placeholder="제목"
                   required="required"
                   data-validation-required-message="제목을 입력해 주세요"
                 />
@@ -53,9 +53,9 @@
                   class="form-control"
                   rows="8"
                   id="message"
-                  placeholder="Message"
+                  placeholder="건의사항"
                   required="required"
-                  data-validation-required-message="건의사할을 입력해 주세요"
+                  data-validation-required-message="건의사항을 입력해 주세요"
                 ></textarea>
                 <p class="help-block text-danger"></p>
               </div>

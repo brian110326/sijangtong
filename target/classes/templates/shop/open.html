@@ -18,10 +18,11 @@
                   type="text"
                   class="form-control"
                   id="name"
-                  placeholder="성함"
+                  placeholder="Your Name"
                   required="required"
-                  th:value="${#authentication.principal}  != 'anonymousUser' ? ${#authentication.principal.memberDto.memberName}: ''"
-                  data-validation-required-message="성함을 입력해 주세요"
+                  th:value="${#authentication.principal.memberDto.memberName}"
+                  readonly
+                  name="memberName"
                 />
                 <p class="help-block text-danger"></p>
               </div>
@@ -30,10 +31,11 @@
                   type="email"
                   class="form-control"
                   id="email"
-                  placeholder="이메일"
+                  placeholder="Your Email"
                   required="required"
-                  th:value="${#authentication.principal}  != 'anonymousUser' ? ${#authentication.principal.memberDto.memberEmail} : ''"
-                  data-validation-required-message="이메일을 입력해 주세요"
+                  th:value="${#authentication.principal.memberDto.memberEmail}"
+                  readonly
+                  name="memberEmail"
                 />
                 <p class="help-block text-danger"></p>
               </div>
@@ -42,9 +44,10 @@
                   type="text"
                   class="form-control"
                   id="subject"
-                  placeholder="제목"
+                  placeholder="Subject"
                   required="required"
                   data-validation-required-message="제목을 입력해 주세요"
+                  name="subject"
                 />
                 <p class="help-block text-danger"></p>
               </div>
@@ -53,9 +56,10 @@
                   class="form-control"
                   rows="8"
                   id="message"
-                  placeholder="건의사항"
+                  placeholder="Message"
                   required="required"
-                  data-validation-required-message="건의사항을 입력해 주세요"
+                  data-validation-required-message="건의사할을 입력해 주세요"
+                  name="content"
                 ></textarea>
                 <p class="help-block text-danger"></p>
               </div>

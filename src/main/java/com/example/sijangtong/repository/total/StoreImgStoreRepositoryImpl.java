@@ -14,6 +14,9 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
+
+import lombok.extern.log4j.Log4j2;
+
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -23,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+@Log4j2
 public class StoreImgStoreRepositoryImpl
     extends QuerydslRepositorySupport
     implements StoreImgStoreRepository {
@@ -106,7 +110,7 @@ public class StoreImgStoreRepositoryImpl
     tuple.limit(pageable.getPageSize());
 
     List<Tuple> result = tuple.fetch();
-
+    log.info("tuple : {}", result);
     long count = tuple.fetchCount();
 
     return new PageImpl<>(
