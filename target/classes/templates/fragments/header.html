@@ -163,7 +163,7 @@
                     >시장 목록</a
                   >
                   <a
-                    th:href="@{/shop/insert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
+                    th:href="@{/shop/sInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount} != null ? ${orderItemCount}: 0)}"
                     class="nav-item nav-link"
                     sec:authorize="hasRole('ADMIN')"
                     >스토어 추가</a
