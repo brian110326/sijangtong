@@ -77,7 +77,7 @@ public class ShopController {
   @GetMapping("/list")
   public void getList(
       @ModelAttribute("requestDto") PageRequestDto requestDto,
-      @RequestParam(required = false, value = "memberEmail") String memberEmail,
+      String memberEmail,
       Model model) {
 
     List<OrderItemDto> orderItemDtos = orderItemService.getMemberOrderItems(memberEmail);

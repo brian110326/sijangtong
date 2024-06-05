@@ -158,28 +158,27 @@
               <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
                   <a
-                    th:href="@{/shop/list(page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword},orderItemCount=${orderItemCount},memberEmail=(${#authentication.principal} != 'anonymousUser' ? ${#authentication.principal.memberDto.memberEmail} : ''))}"
+                    th:href="@{/shop/list(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},memberEmail= ${#authentication.principal}  == 'anonymousUser' ? '': ${#authentication.principal.memberDto.memberEmail})}"
                     class="nav-item nav-link storeList"
                     >시장 목록</a
                   >
                   <a
-                    th:href="@{/shop/insert(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"
+                    sec:authorize="hasRole('ADMIN')"
+                    th:href="@{/shop/insert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
                     class="nav-item nav-link"
                     >스토어 추가</a
                   >
 
                   <a
-                    th:href="@{/shop/pInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},storeId=272)}"
-                    class="nav-item nav-link"
                     sec:authorize="hasRole('ADMIN')"
+                    th:href="@{shop/pInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},storeId=272)}"
+                    class="nav-item nav-link"
                     >내 상품 추가</a
                   >
-                  <a
-                    sec:authorize="isAuthenticated()"
-                    th:href="@{/shop/buyitemlist(page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword},orderItemCount=${orderItemCount},memberEmail=${#authentication.principal.memberDto.memberEmail})}"
-                    class="nav-item nav-link"
-                    >카트 목록</a
-                  >
+
+                  <a th:href="@{/shop/read}" class="nav-item nav-link">시장 정보</a>
+
+                  <a sec:authorize="isAuthenticated()" th:href="@{/shop/buyitemlist}" class="nav-item nav-link">카트 목록</a>
 
                   <a th:href="@{/shop/contact}" class="nav-item nav-link">고객 문의</a>
                 </div>
