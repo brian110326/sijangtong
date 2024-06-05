@@ -163,7 +163,6 @@
                     >시장 목록</a
                   >
                   <a
-                    sec:authorize="hasRole('ADMIN')"
                     th:href="@{/shop/insert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
                     class="nav-item nav-link"
                     sec:authorize="hasRole('ADMIN')"
