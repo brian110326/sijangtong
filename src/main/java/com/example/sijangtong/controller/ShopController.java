@@ -79,7 +79,6 @@ public class ShopController {
       @ModelAttribute("requestDto") PageRequestDto requestDto,
       String memberEmail,
       Model model) {
-
     List<OrderItemDto> orderItemDtos = orderItemService.getMemberOrderItems(memberEmail);
     if (!orderItemDtos.isEmpty()) {
       int orderItemCount = orderItemDtos.size();
@@ -433,7 +432,7 @@ public class ShopController {
   @GetMapping("/pInsert")
   public void insertProduct(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @RequestParam(required = false, value = "productDto") ProductDto productDto) {
+      ProductDto productDto) {
     log.info("프로덕트 생성 폼 요청");
   }
 

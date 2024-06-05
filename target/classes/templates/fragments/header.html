@@ -168,15 +168,13 @@
                     class="nav-item nav-link"
                     >스토어 추가</a
                   >
-
                   <a
                     sec:authorize="hasRole('ADMIN')"
-                    th:href="@{shop/pInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},storeId=272)}"
+                    th:if="${#authentication.principal.memberDto.storeId}"
+                    th:href="@{/shop/pInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},storeId=${#authentication.principal.memberDto.storeId})}"
                     class="nav-item nav-link"
                     >내 상품 추가</a
                   >
-
-                  <a th:href="@{/shop/read}" class="nav-item nav-link">시장 정보</a>
 
                   <a sec:authorize="isAuthenticated()" th:href="@{/shop/buyitemlist}" class="nav-item nav-link">카트 목록</a>
 
