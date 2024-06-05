@@ -24,7 +24,7 @@
                 >
               </td>
             </tr>
-            <tr th:each="list : ${orderItemDtos}">
+            <tr th:each="list : ${orderItemsList}">
               <input type="hidden" id="itemId" th:value="${list.id}" />
               <td class="align-middle text-center">
                 <img src="https://via.placeholder.com/50" alt="" style="width: 50px" th:text="${list.pName}" />
