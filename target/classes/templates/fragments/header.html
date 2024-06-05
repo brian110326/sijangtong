@@ -158,7 +158,7 @@
               <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
                   <a
-                    th:href="@{/shop/list(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},memberEmail= ${#authentication.principal}  == 'anonymousUser' ? '': ${#authentication.principal.memberDto.memberEmail})}"
+                    th:href="@{/shop/list(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},memberEmail=${#authentication.principal}  == 'anonymousUser' ? '': ${#authentication.principal.memberDto.memberEmail})}"
                     class="nav-item nav-link storeList"
                     >시장 목록</a
                   >
@@ -178,7 +178,7 @@
 
                   <a
                     sec:authorize="isAuthenticated()"
-                    th:href="@{/shop/buyitemlist(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},memberEmail= ${#authentication.principal}  == 'anonymousUser' ? '': ${#authentication.principal.memberDto.memberEmail})}"
+                    th:href="@{/shop/buyitemlist(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},memberEmail=${#authentication.principal}  == 'anonymousUser' ? '': ${#authentication.principal.memberDto.memberEmail})}"
                     class="nav-item nav-link"
                     >카트 목록</a
                   >
