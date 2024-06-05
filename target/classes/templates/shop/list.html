@@ -269,7 +269,7 @@
               <div class="bg-light p-4 mb-30">
                 <form>
                   <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                    <input type="checkbox" class="custom-control-input" th:checked="${requestDto.type} == 'a'" id="price-all" readonly />
+                    <input type="checkbox" class="custom-control-input" th:checked="${requestDto.type} == 'a'" id="price-all" disabled />
                     <label class="custom-control-label" for="price-all">지역별 상품</label>
                     <span class="badge border font-weight-normal">1000</span>
                   </div>
@@ -279,7 +279,7 @@
                       class="custom-control-input"
                       th:checked="${requestDto.keyword} == 'ANIMAL_PRODUCT'"
                       id="price-1"
-                      readonly
+                      disabled
                     />
                     <label class="custom-control-label" for="price-1">축산물</label>
                     <span class="badge border font-weight-normal">150</span>
