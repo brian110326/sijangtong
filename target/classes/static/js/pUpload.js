@@ -88,7 +88,7 @@ document.querySelector(".uploadResult").addEventListener("click", (e) => {
 
   console.log(currentLi);
 
-  if (!confirm("정말 이미지를 삭제하시겠습니까?")) {
+  if (!confirm("Are you sure to remove this img?")) {
     return;
   }
 
