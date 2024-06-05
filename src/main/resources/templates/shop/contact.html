@@ -12,7 +12,7 @@
         <div class="col-lg-7 mb-5">
           <div class="contact-form bg-light p-30">
             <div id="success"></div>
-            <form name="sentMessage" id="contactForm" novalidate="novalidate">
+            <form th:action="@{/contact}" method="post" name="sentMessage" id="contactForm" novalidate="novalidate">
               <div class="control-group">
                 <input
                   type="text"
@@ -41,7 +41,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="subject"
+                  id="title"
                   placeholder="제목"
                   required="required"
                   data-validation-required-message="제목을 입력해 주세요"

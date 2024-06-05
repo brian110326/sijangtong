@@ -9,6 +9,8 @@ import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.repository.StoreRepository;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
+import com.example.sijangtong.service.EmailService;
+import com.example.sijangtong.service.EmailServiceImpl;
 import com.example.sijangtong.service.OrderItemService;
 import com.example.sijangtong.service.OrderService;
 import com.example.sijangtong.service.ProductService;
@@ -50,6 +52,7 @@ public class ShopController {
   private final OrderItemService orderItemService;
   private final OrderService orderService;
   private final ReviewService reviewService;
+  private final EmailService emailService;
 
   // 상품 리스트
   @GetMapping("/storeproducts")
@@ -399,8 +402,19 @@ public class ShopController {
       @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
       Model model) {
 
-    log.info("홈 요청 {} ", orderItemCount);
+    log.info("건의사항 폼 요청 {} ", orderItemCount);
     model.addAttribute("orderItemCount", orderItemCount);
+  }
+
+  @PostMapping("/contact")
+  public String PostContact(
+      @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      String title, String name, String message, String email,
+      RedirectAttributes rttr) {
+    emailService.sendMail(name, title, message, email);
+    log.info("건의사항 post 폼 요청 ");
+    rttr.addAttribute("requestDto", pageRequestDto);
+    return "redirect:/shop/home";
   }
 
   @PreAuthorize("hasRole('ADMIN')")
