@@ -176,7 +176,12 @@
                     >내 상품 추가</a
                   >
 
-                  <a sec:authorize="isAuthenticated()" th:href="@{/shop/buyitemlist}" class="nav-item nav-link">카트 목록</a>
+                  <a
+                    sec:authorize="isAuthenticated()"
+                    th:href="@{/shop/buyitemlist(page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},memberEmail= ${#authentication.principal}  == 'anonymousUser' ? '': ${#authentication.principal.memberDto.memberEmail})}"
+                    class="nav-item nav-link"
+                    >카트 목록</a
+                  >
 
                   <a th:href="@{/shop/contact}" class="nav-item nav-link">고객 문의</a>
                 </div>
