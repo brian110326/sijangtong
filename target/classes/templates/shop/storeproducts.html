@@ -80,7 +80,7 @@
                   <div class="text-center py-4">
                     <a
                       class="h6 text-decoration-none text-truncate"
-                      th:href="@{/shop/buyitem(storeId=${storeId},productId=${products.productId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount} == null ? 0 :${orderItemCount} )}"
+                      th:href="@{buyitem(storeId=${storeId},productId=${products.productId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"
                       th:text="${products.pName}"
                     ></a>
                     <div class="d-flex align-items-center justify-content-center mt-2">

@@ -76,7 +76,7 @@
         </div>
         <div class="mb-5">
           <form th:action="@{cart}" method="post">
-            <input type="hidden" name="memberEmail" th:value="${#authentication.principal.memberDto.memberEmail}" />
+            <input type="hidden" name="memberEmail" th:value="${memberEmail}" />
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
             <div class="bg-light p-30">
               <div class="form-group">
@@ -108,9 +108,9 @@
       if (shopping_cart_amount) {
         document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
       }
-      var products = "[[${orderItems}]]";
+      var products = "[[${orderItemDtos}]]";
 
-      // console.log(products);
+      console.log(products);
       products = products.replace("[", "");
       products = products.replace("]", "");
       const regex = /OrderItemDto/gim;
@@ -119,7 +119,7 @@
       products = products.replaceAll(")", "");
       console.log(products);
       const productList = products.split(",");
-      // console.log(productList);
+      console.log(productList);
       var totalPrice = 0;
       productList.forEach((product) => {
         if (product.includes("orderPrice")) {

@@ -341,18 +341,36 @@ public class ShopController {
       model.addAttribute("orderItemCount", orderItemCount);
     }
     model.addAttribute("orderItemDtos", orderItemDtos);
+    model.addAttribute("memberEmail", memberEmail);
 
+  }
+
+  @PostMapping("/removeProductitem")
+  public String postRemoveProductitem(@ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+      Long orderItemId, String memberEmail, RedirectAttributes rttr) {
+    log.info("장바구니 삭제 폼 ");
+    orderItemService.deleteOrderItem(orderItemId);
+    rttr.addAttribute("memberEmail", memberEmail);
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+    return "redirect:/shop/buyitemlist";
   }
 
   @PreAuthorize("isAuthenticated()")
   @GetMapping("/cart")
   public void getCart(
       @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-      @RequestParam(required = false, value = "orderItemCount") Long orderItemCount,
-      @RequestParam(required = false, value = "memberEmail") String memberEmail, Model model) {
+      String memberEmail, Model model) {
     List<OrderItemDto> orderItemDtos = orderItemService.getMemberOrderItems(memberEmail);
+    if (!orderItemDtos.isEmpty()) {
+      int orderItemCount = orderItemDtos.size();
+      model.addAttribute("orderItemCount", orderItemCount);
+    }
     model.addAttribute("orderItemDtos", orderItemDtos);
-    log.info("구매 폼 요청");
+    model.addAttribute("memberEmail", memberEmail);
+    log.info("구매 폼 요청{}", orderItemDtos);
   }
 
   @PostMapping("/cart")
