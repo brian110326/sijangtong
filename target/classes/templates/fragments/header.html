@@ -163,14 +163,14 @@
                     >시장 목록</a
                   >
                   <a
-                    sec:authorize="hasRole('ADMIN')"
-                    th:href="@{/shop/insert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
+                    th:href="@{/shop/sInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},orderItemCount=${orderItemCount})}"
                     class="nav-item nav-link"
+                    th:if="!${#authentication.principal.memberDto.storeId}"
                     sec:authorize="hasRole('ADMIN')"
                     >스토어 추가</a
                   >
                   <a
-                    sec:authorize="hasRole('ADMIN')"
+                    sec:authorize="hasRole('OWNER')"
                     th:if="${#authentication.principal.memberDto.storeId}"
                     th:href="@{/shop/pInsert(page=${requestDto?.page},type=${requestDto?.type}, keyword=${requestDto?.keyword},storeId=${#authentication.principal.memberDto.storeId})}"
                     class="nav-item nav-link"

@@ -24,7 +24,7 @@
                 >
               </td>
             </tr>
-            <tr th:each="list : ${orderItemsList}">
+            <tr th:each="list : ${orderItemDtos}">
               <input type="hidden" id="itemId" th:value="${list.id}" />
               <td class="align-middle text-center">
                 <img src="https://via.placeholder.com/50" alt="" style="width: 50px" th:text="${list.pName}" />
@@ -110,7 +110,7 @@
       }
 
       // 주문 총액 계간 script
-      var products = "[[${orderItemsList}]]";
+      var products = "[[${orderItemDtos}]]";
 
       // console.log(products);
       products = products.replace("[", "");

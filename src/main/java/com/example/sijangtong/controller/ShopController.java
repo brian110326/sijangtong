@@ -52,16 +52,15 @@ public class ShopController {
   // 상품 리스트
   @GetMapping("/storeproducts")
   public void getDetail(
-    @RequestParam(
-      required = false,
-      value = "orderItemCount"
-    ) int orderItemCount,
+    @RequestParam(required = false, defaultValue = "0") int orderItemCount, //
     @ModelAttribute("requestDto") PageRequestDto requestDto,
     Long storeId,
     Model model,
     RedirectAttributes rttr
   ) {
     log.info("디테일 폼 요청 {}", storeId);
+    log.info("PageRequestDto {}", requestDto);
+    log.info("orderItemCount {}", orderItemCount);
     StoreDto storeDto = service.getRow(storeId);
     if (orderItemCount <= 0) {}
     model.addAttribute(
@@ -503,7 +502,7 @@ public class ShopController {
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
     StoreDto storeDto
   ) {
-    log.info("스토어 생성 폼 요청");
+    log.info("스토어 생성 폼 요청 {} {}", storeDto, pageRequestDto);
   }
 
   @PreAuthorize("hasRole('ADMIN')")
@@ -542,7 +541,7 @@ public class ShopController {
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
     ProductDto productDto
   ) {
-    log.info("프로덕트 생성 폼 요청");
+    log.info("프로덕트 생성 폼 요청 {}", productDto);
   }
 
   @PostMapping("/pInsert")

@@ -29,7 +29,7 @@ const reviewLoad = () => {
         result += `<div class="review-row" data-rno="${review.reviewId}">
           <h4 class="mb-4">${review.memberEmail}</h4>
           <div class="media mb-4">
-            <img src="" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px" />
+           
             <div class="media-body">
               <h6>
                 ${review.memberNickname}<small> - <i>${formatDate(review.createdDate)}</i></small>
