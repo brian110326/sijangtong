@@ -9,6 +9,8 @@ import com.example.sijangtong.dto.StoreDto;
 import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.repository.StoreRepository;
 import com.example.sijangtong.repository.total.StoreImgStoreRepository;
+import com.example.sijangtong.service.EmailService;
+import com.example.sijangtong.service.EmailServiceImpl;
 import com.example.sijangtong.service.OrderItemService;
 import com.example.sijangtong.service.OrderService;
 import com.example.sijangtong.service.ProductService;
@@ -48,6 +50,7 @@ public class ShopController {
   private final OrderItemService orderItemService;
   private final OrderService orderService;
   private final ReviewService reviewService;
+  private final EmailService emailService;
 
   // 상품 리스트
   @GetMapping("/storeproducts")
@@ -494,7 +497,26 @@ public class ShopController {
     Model model
   ) {
     log.info("홈 요청 {} ", orderItemCount);
+
     model.addAttribute("orderItemCount", orderItemCount);
+    model.addAttribute("requestDto", pageRequestDto);
+  }
+
+  @PostMapping("/contact")
+  public String PostContact(
+    @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+    String title,
+    String name,
+    String content,
+    String email,
+    RedirectAttributes rttr
+  ) {
+    emailService.sendMail(name, title, content, email);
+    log.info("건의사항 post 폼 요청 ");
+    rttr.addAttribute("page", pageRequestDto.getPage());
+    rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+    rttr.addAttribute("type", pageRequestDto.getType());
+    return "redirect:/shop/home";
   }
 
   @GetMapping("sInsert")
@@ -502,7 +524,7 @@ public class ShopController {
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
     StoreDto storeDto
   ) {
-    log.info("스토어 생성 폼 요청 {} {}", storeDto, pageRequestDto);
+    log.info("스토어 생성 폼 요청");
   }
 
   @PreAuthorize("hasRole('ADMIN')")
@@ -541,7 +563,7 @@ public class ShopController {
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
     ProductDto productDto
   ) {
-    log.info("프로덕트 생성 폼 요청 {}", productDto);
+    log.info("프로덕트 생성 폼 요청");
   }
 
   @PostMapping("/pInsert")
