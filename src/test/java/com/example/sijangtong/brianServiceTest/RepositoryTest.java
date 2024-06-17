@@ -133,14 +133,16 @@ public class RepositoryTest {
       });
   }
 
+  // test method를 통해서도 문제발생, 팀원의 자동 상품추가 python코드 실행해도 문제발생
+  // 상품추가 개수만큼 시장 이미지가 등록됨
+  // 테스트메소드를 실행하여도 화면에 상품등록 반영 X
   @Test
   public void insertProductTest() {
     // storeId가 200인 Store 객체 생성
-
+    Store store = Store.builder().storeId(193L).build();
     LongStream
-      .rangeClosed(201, 300)
+      .rangeClosed(424, 430)
       .forEach(i -> {
-        Store store = Store.builder().storeId(200L).build();
         Product product = Product
           .builder()
           .pName("재고" + i)

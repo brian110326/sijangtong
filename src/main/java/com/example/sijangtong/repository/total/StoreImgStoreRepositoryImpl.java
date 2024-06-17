@@ -129,15 +129,13 @@ public class StoreImgStoreRepositoryImpl
 
     QStoreImg storeImg = QStoreImg.storeImg;
     QStore store = QStore.store;
-    QReview review = QReview.review;
-    QProduct product = QProduct.product;
 
     JPQLQuery<StoreImg> query = from(storeImg);
     query.leftJoin(store).on(storeImg.store.eq(store));
-    query.leftJoin(product).on(product.store.eq(store));
+    // query.leftJoin(product).on(product.store.eq(store));
 
     JPQLQuery<Tuple> tuple = query
-        .select(store, storeImg, product)
+        .select(store, storeImg)
         .where(store.storeId.eq(storeId));
 
     List<Tuple> result = tuple.fetch();
