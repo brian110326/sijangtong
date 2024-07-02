@@ -10,6 +10,7 @@ import com.example.sijangtong.entity.Product;
 import com.example.sijangtong.entity.Review;
 import com.example.sijangtong.entity.Store;
 import com.example.sijangtong.entity.StoreImg;
+import com.example.sijangtong.repository.MemberRepository;
 import com.example.sijangtong.repository.OrderItemRepository;
 import com.example.sijangtong.repository.OrderRepository;
 import com.example.sijangtong.repository.ProductImgRepository;
@@ -51,6 +52,8 @@ public class StoreServiceImpl implements StoreService {
   private final OrderItemRepository orderItemRepository;
 
   private final ProductImgRepository productImgRepository;
+
+  private final MemberRepository memberRepository;
 
   @Override
   public PageResultDto<StoreDto, Object[]> getStoreList(
@@ -111,6 +114,8 @@ public class StoreServiceImpl implements StoreService {
     orderRepository.deleteByStore(store);
 
     storeRepository.delete(store);
+
+    memberRepository.deleteByStore(store);
 
     return store.getStoreId();
   }

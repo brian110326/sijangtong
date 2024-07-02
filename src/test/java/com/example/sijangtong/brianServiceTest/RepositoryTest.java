@@ -141,7 +141,7 @@ public class RepositoryTest {
     // storeId가 200인 Store 객체 생성
     Store store = Store.builder().storeId(193L).build();
     LongStream
-      .rangeClosed(424, 430)
+      .rangeClosed(500, 510)
       .forEach(i -> {
         Product product = Product
           .builder()

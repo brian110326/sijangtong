@@ -18,6 +18,7 @@ import com.example.sijangtong.service.ReviewService;
 import com.example.sijangtong.service.StoreService;
 import com.example.sijangtong.service.StoreServiceImpl;
 import groovyjarjarpicocli.CommandLine.Parameters;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
@@ -381,7 +382,7 @@ public class ShopController {
   public String postStoreRemove(
     Long storeId,
     @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
-    RedirectAttributes rttr
+    RedirectAttributes rttr, HttpSession session
   ) {
     Long removedStoreId = service.removeStore(storeId);
 
@@ -389,11 +390,11 @@ public class ShopController {
 
     rttr.addFlashAttribute("msg", removedStoreId);
 
-    rttr.addFlashAttribute("msg", removedStoreId);
-
     rttr.addAttribute("page", pageRequestDto.getPage());
     rttr.addAttribute("type", pageRequestDto.getType());
     rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+
+    session.invalidate();
 
     return "redirect:/shop/list";
   }
