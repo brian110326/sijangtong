@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
   <th:block layout:fragment="css">
-    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <!-- <link th:href="@{/css/styles.css}" rel="stylesheet" /> -->
     <style>
@@ -9,7 +9,7 @@
       .banner {
         position: relative;
         width: 100%;
-        height: 700px;
+        height: 500px;
         margin: 0 auto;
         padding: 0;
         overflow: hidden;
@@ -20,14 +20,20 @@
         margin: 0;
         padding: 0;
         list-style: none;
+        display: flex; /* Flexbox를 사용하여 자식 요소들을 수평으로 배치 */
+        transition: transform 3s ease; /* 부드러운 전환 효과 추가 */
       }
 
       .banner ul li {
-        float: left;
         width: 100%;
-        height: 700px;
+        height: 500px;
         margin: 0;
         padding: 0;
+      }
+
+      .banner ul li img {
+        width: 100%;
+        height: 100%;
       }
     </style>
   </th:block>
@@ -44,19 +50,16 @@
                 <div class="banner">
                   <ul>
                     <li>
-                      <img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg"/>
+                      <img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg" />
                     </li>
                     <li>
-                      <img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg"/>
+                      <img src="https://dummyimage.com/800x500/dee2e6/6c757d.jpg" />
                     </li>
                     <li>
-                      <img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg"/>
+                      <img src="https://dummyimage.com/900x500/dee2e6/6c757d.jpg" />
                     </li>
                     <li>
-                      <img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg"/>
-                    </li>
-                    <li>
-                      <img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg"/>
+                      <img src="https://dummyimage.com/500x500/dee2e6/6c757d.jpg" />
                     </li>
                   </ul>
                 </div>
@@ -67,34 +70,159 @@
               <!-- 지도 클릭시 해당 구 시장 목록으로 이동 폼 시작 -->
               <figure class="mb-4">
                 <ul>
-                  <li style="display: block"><img th:src="@{/image/image.png}" alt="서울시전체" title="서울시전체" usemap="#Map"/></li>
+                  <li style="display: block"><img th:src="@{/image/image.png}" alt="서울시전체" title="서울시전체" usemap="#Map" /></li>
                 </ul>
                 <map name="Map" id="Map">
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='강남')}" shape="poly" coords="322,280,339,267,353,271,368,281,376,287,384,302,391,320,412,327,434,339,446,354,453,368,441,376,419,376,410,352,387,357,371,356,353,348,351,331,339,325,332,300,326,294" alt="강남구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='강동')}" shape="poly" coords="445,241,447,215,486,203,507,189,517,214,527,235,516,245,489,259,476,284,453,273,455,255" alt="강동구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='강북')}" shape="poly" coords="280,37,299,27,307,41,313,47,313,54,311,67,308,75,314,85,322,90,357,123,345,133,335,141,323,134,312,128,303,115,293,103,273,99,269,79,277,66,287,51" alt="강북구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='강서')}" shape="poly" coords="49,154,84,184,108,200,149,238,117,237,105,267,83,255,66,252,39,252,17,248,6,227,22,204,35,189,38,164" alt="강서구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='관악')}" shape="poly" coords="178,343,203,330,216,335,233,331,248,334,247,351,265,360,283,376,249,402,237,411,215,405,200,390,193,379,189,356,173,338" alt="관악구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='광진')}" shape="poly" coords="398,213,412,211,422,215,428,223,431,241,427,254,420,269,403,277,384,277,376,267,382,254,391,239,394,227" alt="광진구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='구로')}" shape="poly" coords="70,303,84,316,94,316,106,304,116,308,128,309,143,298,157,310,170,342,158,343,124,328,113,333,110,338,99,343,88,350,68,349,71,329,64,314" alt="구로구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='금천')}" shape="poly" coords="140,340,156,350,175,354,176,364,183,374,186,385,193,391,194,398,182,410,167,407,157,386,152,378,151,362,142,351" alt="금천구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='노원')}" shape="poly" coords="364,24,390,14,397,24,412,24,410,32,407,44,410,54,409,63,400,69,404,78,414,90,428,94,432,107,422,115,420,124,410,126,404,124,392,130,379,133,364,127,360,116,356,106,361,100,375,92,375,72,368,60,361,46,368,33" alt="노원구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='도봉')}" shape="poly" coords="305,18,313,3,327,6,333,18,346,19,359,25,354,40,359,54,366,66,367,79,366,92,357,92,349,101,334,90,318,78,320,64,326,47,316,40" alt="도봉구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='동대문')}" shape="poly" coords="386,155,380,164,384,174,385,184,395,194,391,204,389,218,371,213,360,202,347,194,335,196,341,182,351,171,366,163" alt="동대문구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='동작')}" shape="poly" coords="206,295,224,292,240,296,260,303,269,310,274,321,273,338,268,350,256,345,252,326,241,324,228,323,218,323,199,328,174,334" alt="동작구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='마포')}" shape="poly" coords="160,178,169,200,184,208,195,214,199,230,212,235,236,233,245,234,238,250,227,258,216,254,193,250,171,234,155,222,138,212,129,200,139,193,144,179" alt="마포구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='서대문')}" shape="poly" coords="225,156,239,165,241,176,241,189,243,204,245,210,245,220,228,228,208,225,203,214,194,208,181,196,187,187,209,182,217,170" alt="서대문구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='서초')}" shape="poly" coords="284,312,304,302,318,306,329,322,336,342,346,348,356,358,370,374,389,366,403,367,412,374,408,389,397,400,379,411,369,422,351,414,344,400,340,375,330,372,322,378,309,378,303,370,295,362,284,360,279,352,280,338,284,328" alt="서초구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='성동')}" shape="poly" coords="330,209,346,202,355,209,360,222,386,226,383,239,373,249,371,260,358,259,344,252,330,256,315,258,310,247,322,232,335,219" alt="성동구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='성북')}" shape="poly" coords="265,111,271,107,285,112,291,119,306,132,314,142,333,150,353,138,366,142,381,145,369,154,352,160,337,168,331,178,322,190,305,179,297,170,280,166,284,150,281,132,274,118" alt="성북구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='송파')}" shape="poly" coords="388,294,413,292,430,281,439,266,449,274,464,294,470,306,492,317,490,329,484,340,469,352,450,350,438,331,419,318,400,310,391,308,388,297" alt="송파구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='양천')}" shape="poly" coords="82,260,90,278,110,272,121,259,122,246,144,248,153,262,147,271,136,286,130,296,110,299,96,296,85,305,70,285,74,271" alt="양천구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='영등포')}" shape="poly" coords="161,253,205,266,220,283,205,290,193,302,184,315,164,322,163,304,153,291,148,281,158,268" alt="영등포구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='용산')}" shape="poly" coords="251,242,265,236,284,245,303,250,312,260,311,270,297,282,290,294,277,292,259,284,250,281,239,275,231,266,245,261,251,248" alt="용산구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='은평')}" shape="poly" coords="220,76,236,80,242,91,250,97,256,105,240,115,230,126,228,139,224,150,212,162,200,174,187,180,170,187,167,177,172,168,166,142,173,134,184,93" alt="은평구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='종로')}" shape="poly" coords="259,112,275,149,268,162,273,172,287,178,297,185,309,194,319,200,295,202,281,207,263,200,255,202,247,190,247,172,243,157,232,148,236,131,245,120" alt="종로구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='중구')}" shape="poly" coords="253,223,261,212,284,215,299,214,319,214,322,224,310,234,297,242,278,236,265,226" alt="중구"/>
-                  <area th:href="@{list(page=${requestDto.page},type='a', keyword='중랑')}" shape="poly" coords="393,142,407,132,419,138,432,132,439,136,442,144,440,158,442,166,435,174,431,185,429,192,420,200,409,204,402,202,404,191,399,176,391,171,389,165,398,156" alt="중랑구"/>
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='강남')}"
+                    shape="poly"
+                    coords="322,280,339,267,353,271,368,281,376,287,384,302,391,320,412,327,434,339,446,354,453,368,441,376,419,376,410,352,387,357,371,356,353,348,351,331,339,325,332,300,326,294"
+                    alt="강남구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='강동')}"
+                    shape="poly"
+                    coords="445,241,447,215,486,203,507,189,517,214,527,235,516,245,489,259,476,284,453,273,455,255"
+                    alt="강동구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='강북')}"
+                    shape="poly"
+                    coords="280,37,299,27,307,41,313,47,313,54,311,67,308,75,314,85,322,90,357,123,345,133,335,141,323,134,312,128,303,115,293,103,273,99,269,79,277,66,287,51"
+                    alt="강북구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='강서')}"
+                    shape="poly"
+                    coords="49,154,84,184,108,200,149,238,117,237,105,267,83,255,66,252,39,252,17,248,6,227,22,204,35,189,38,164"
+                    alt="강서구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='관악')}"
+                    shape="poly"
+                    coords="178,343,203,330,216,335,233,331,248,334,247,351,265,360,283,376,249,402,237,411,215,405,200,390,193,379,189,356,173,338"
+                    alt="관악구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='광진')}"
+                    shape="poly"
+                    coords="398,213,412,211,422,215,428,223,431,241,427,254,420,269,403,277,384,277,376,267,382,254,391,239,394,227"
+                    alt="광진구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='구로')}"
+                    shape="poly"
+                    coords="70,303,84,316,94,316,106,304,116,308,128,309,143,298,157,310,170,342,158,343,124,328,113,333,110,338,99,343,88,350,68,349,71,329,64,314"
+                    alt="구로구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='금천')}"
+                    shape="poly"
+                    coords="140,340,156,350,175,354,176,364,183,374,186,385,193,391,194,398,182,410,167,407,157,386,152,378,151,362,142,351"
+                    alt="금천구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='노원')}"
+                    shape="poly"
+                    coords="364,24,390,14,397,24,412,24,410,32,407,44,410,54,409,63,400,69,404,78,414,90,428,94,432,107,422,115,420,124,410,126,404,124,392,130,379,133,364,127,360,116,356,106,361,100,375,92,375,72,368,60,361,46,368,33"
+                    alt="노원구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='도봉')}"
+                    shape="poly"
+                    coords="305,18,313,3,327,6,333,18,346,19,359,25,354,40,359,54,366,66,367,79,366,92,357,92,349,101,334,90,318,78,320,64,326,47,316,40"
+                    alt="도봉구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='동대문')}"
+                    shape="poly"
+                    coords="386,155,380,164,384,174,385,184,395,194,391,204,389,218,371,213,360,202,347,194,335,196,341,182,351,171,366,163"
+                    alt="동대문구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='동작')}"
+                    shape="poly"
+                    coords="206,295,224,292,240,296,260,303,269,310,274,321,273,338,268,350,256,345,252,326,241,324,228,323,218,323,199,328,174,334"
+                    alt="동작구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='마포')}"
+                    shape="poly"
+                    coords="160,178,169,200,184,208,195,214,199,230,212,235,236,233,245,234,238,250,227,258,216,254,193,250,171,234,155,222,138,212,129,200,139,193,144,179"
+                    alt="마포구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='서대문')}"
+                    shape="poly"
+                    coords="225,156,239,165,241,176,241,189,243,204,245,210,245,220,228,228,208,225,203,214,194,208,181,196,187,187,209,182,217,170"
+                    alt="서대문구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='서초')}"
+                    shape="poly"
+                    coords="284,312,304,302,318,306,329,322,336,342,346,348,356,358,370,374,389,366,403,367,412,374,408,389,397,400,379,411,369,422,351,414,344,400,340,375,330,372,322,378,309,378,303,370,295,362,284,360,279,352,280,338,284,328"
+                    alt="서초구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='성동')}"
+                    shape="poly"
+                    coords="330,209,346,202,355,209,360,222,386,226,383,239,373,249,371,260,358,259,344,252,330,256,315,258,310,247,322,232,335,219"
+                    alt="성동구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='성북')}"
+                    shape="poly"
+                    coords="265,111,271,107,285,112,291,119,306,132,314,142,333,150,353,138,366,142,381,145,369,154,352,160,337,168,331,178,322,190,305,179,297,170,280,166,284,150,281,132,274,118"
+                    alt="성북구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='송파')}"
+                    shape="poly"
+                    coords="388,294,413,292,430,281,439,266,449,274,464,294,470,306,492,317,490,329,484,340,469,352,450,350,438,331,419,318,400,310,391,308,388,297"
+                    alt="송파구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='양천')}"
+                    shape="poly"
+                    coords="82,260,90,278,110,272,121,259,122,246,144,248,153,262,147,271,136,286,130,296,110,299,96,296,85,305,70,285,74,271"
+                    alt="양천구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='영등포')}"
+                    shape="poly"
+                    coords="161,253,205,266,220,283,205,290,193,302,184,315,164,322,163,304,153,291,148,281,158,268"
+                    alt="영등포구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='용산')}"
+                    shape="poly"
+                    coords="251,242,265,236,284,245,303,250,312,260,311,270,297,282,290,294,277,292,259,284,250,281,239,275,231,266,245,261,251,248"
+                    alt="용산구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='은평')}"
+                    shape="poly"
+                    coords="220,76,236,80,242,91,250,97,256,105,240,115,230,126,228,139,224,150,212,162,200,174,187,180,170,187,167,177,172,168,166,142,173,134,184,93"
+                    alt="은평구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='종로')}"
+                    shape="poly"
+                    coords="259,112,275,149,268,162,273,172,287,178,297,185,309,194,319,200,295,202,281,207,263,200,255,202,247,190,247,172,243,157,232,148,236,131,245,120"
+                    alt="종로구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='중구')}"
+                    shape="poly"
+                    coords="253,223,261,212,284,215,299,214,319,214,322,224,310,234,297,242,278,236,265,226"
+                    alt="중구"
+                  />
+                  <area
+                    th:href="@{list(page=${requestDto.page},type='a', keyword='중랑')}"
+                    shape="poly"
+                    coords="393,142,407,132,419,138,432,132,439,136,442,144,440,158,442,166,435,174,431,185,429,192,420,200,409,204,402,202,404,191,399,176,391,171,389,165,398,156"
+                    alt="중랑구"
+                  />
                 </map>
               </figure>
               <!-- 지도 클릭시 해당 구 시장 목록으로 이동 폼 완 -->
@@ -105,17 +233,17 @@
       <!-- 카테고리 상품-->
       <div class="container-fluid pt-5">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
-          <span class="bg-secondary pr-3">카테고리</span></h2>
+          <span class="bg-secondary pr-3">카테고리</span>
+        </h2>
         <div class="row px-xl-5 pb-3">
           <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" th:href="@{list(page=${requestDto.page},type='ct', keyword='SEAFOOD')}">
               <div class="cat-item d-flex align-items-center mb-4">
                 <div class="overflow-hidden" style="width: 100px; height: 100px">
-                  <img class="img-fluid" src="https://via.placeholder.com/100" alt=""/>
+                  <img class="img-fluid" src="https://via.placeholder.com/100" alt="" />
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>해산물</h6>
-
                 </div>
               </div>
             </a>
@@ -124,11 +252,10 @@
             <a class="text-decoration-none" th:href="@{list(page=${requestDto.page},type='ct', keyword='CROPS')}">
               <div class="cat-item img-zoom d-flex align-items-center mb-4">
                 <div class="overflow-hidden" style="width: 100px; height: 100px">
-                  <img class="img-fluid" src="https://via.placeholder.com/100"/>
+                  <img class="img-fluid" src="https://via.placeholder.com/100" />
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>농산물</h6>
-
                 </div>
               </div>
             </a>
@@ -137,11 +264,10 @@
             <a class="text-decoration-none" th:href="@{list(page=${requestDto.page},type='ct', keyword='ANIMAL_PRODUCT')}">
               <div class="cat-item img-zoom d-flex align-items-center mb-4">
                 <div class="overflow-hidden" style="width: 100px; height: 100px">
-                  <img class="img-fluid" src="https://via.placeholder.com/100"/>
+                  <img class="img-fluid" src="https://via.placeholder.com/100" />
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>축산물</h6>
-
                 </div>
               </div>
             </a>
@@ -150,11 +276,10 @@
             <a class="text-decoration-none" th:href="@{list(page=${requestDto.page},type='ct', keyword='CLOTH')}">
               <div class="cat-item img-zoom d-flex align-items-center mb-4">
                 <div class="overflow-hidden" style="width: 100px; height: 100px">
-                  <img class="img-fluid" src="https://via.placeholder.com/100"/>
+                  <img class="img-fluid" src="https://via.placeholder.com/100" />
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>의류</h6>
-
                 </div>
               </div>
             </a>
@@ -163,11 +288,10 @@
             <a class="text-decoration-none" th:href="@{list(page=${requestDto.page},type='ct', keyword='SIDEDISH')}">
               <div class="cat-item img-zoom d-flex align-items-center mb-4">
                 <div class="overflow-hidden" style="width: 100px; height: 100px">
-                  <img class="img-fluid" src="https://via.placeholder.com/100"/>
+                  <img class="img-fluid" src="https://via.placeholder.com/100" />
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>반찬류</h6>
-
                 </div>
               </div>
             </a>
@@ -176,11 +300,10 @@
             <a class="text-decoration-none" th:href="@{list(page=${requestDto.page},type='ct', keyword='MAINDISH')}">
               <div class="cat-item img-zoom d-flex align-items-center mb-4">
                 <div class="overflow-hidden" style="width: 100px; height: 100px">
-                  <img class="img-fluid" src="https://via.placeholder.com/100"/>
+                  <img class="img-fluid" src="https://via.placeholder.com/100" />
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>식사류</h6>
-
                 </div>
               </div>
             </a>
@@ -193,9 +316,7 @@
       <script>
         const shopping_cart_amount = "[[${orderItemCount}]]";
         if (shopping_cart_amount) {
-          document
-            .querySelector("#orderItemCount")
-            .innerHTML = shopping_cart_amount;
+          document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
         }
       </script>
     </div>
@@ -210,61 +331,43 @@
 
     <script>
       $(document).ready(function () {
-        //사용할 배너
-        var $banner = $(".banner").find("ul");
-
-        var $bannerWidth = $banner
-          .children()
-          .outerWidth(); //배너 이미지의 폭
-        var $bannerHeight = $banner
-          .children()
-          .outerHeight(); // 높이
-        var $bannerLength = $banner
-          .children()
-          .length; //배너 이미지의 갯수
+        var $banner = $(".banner ul");
+        var $bannerWidth = $(".banner").width();
+        var $bannerHeight = $(".banner").height();
+        var $bannerLength = $banner.children().length;
+        var interval = 6000; // 롤링 애니메이션 주기 (대기 시간 포함)
+        var animationTime = 3000; // 애니메이션 시간
         var rollingId;
 
-        //정해진 초마다 함수 실행
-        rollingId = setInterval(function () {
-          rollingStart();
-        }, 5000); //다음 이미지로 롤링 애니메이션 할 시간차
+        $banner.css("width", $bannerWidth * $bannerLength + "px");
 
-        //마우스 오버시 롤링을 멈춘다.
+        function startRolling() {
+          rollingId = setTimeout(function () {
+            rollingStart();
+          }, interval); // 애니메이션 시간만큼 뺀 대기 시간
+        }
+
+        // 마우스 오버시 롤링을 멈춘다.
         $banner.mouseover(function () {
-          //중지
-          clearInterval(rollingId);
+          clearTimeout(rollingId);
           $(this).css("cursor", "pointer");
         });
-        //마우스 아웃되면 다시 시작
+
+        // 마우스 아웃되면 다시 시작
         $banner.mouseout(function () {
-          rollingId = setInterval(function () {
-            rollingStart();
-          }, 5000);
+          startRolling();
           $(this).css("cursor", "default");
         });
 
         function rollingStart() {
-          $banner.css("width", $bannerWidth * $bannerLength + "px");
-          $banner.css("height", $bannerHeight + "px");
-          //alert(bannerHeight);
-          //배너의 좌측 위치를 옮겨 준다.
-          $banner.animate({
-            left: -$bannerWidth + "px"
-          }, 2000, function () {
-            //숫자는 롤링 진행되는 시간이다.
-            //첫번째 이미지를 마지막 끝에 복사(이동이 아니라 복사)해서 추가한다.
-            $(this).append("<li>" + $(this).find("li:first").html() + "</li>");
-            //뒤로 복사된 첫번재 이미지는 필요 없으니 삭제한다.
-            $(this)
-              .find("li:first")
-              .remove();
-            //다음 움직임을 위해서 배너 좌측의 위치값을 초기화 한다.
-            $(this).css("left", 0);
-            //이 과정을 반복하면서 계속 롤링하는 배너를 만들 수 있다.
+          $banner.animate({ left: -$bannerWidth + "px" }, interval, function () {
+            $(this).append($(this).find("li:first")).css("left", 0);
+            startRolling(); // 애니메이션이 완료된 후 다음 애니메이션을 예약
           });
         }
+
+        startRolling(); // 롤링 애니메이션 시작
       });
     </script>
   </th:block>
-
 </html>
