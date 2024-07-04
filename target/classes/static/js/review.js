@@ -119,7 +119,7 @@ reviewForm.addEventListener("submit", (e) => {
         reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
 
         if (data) alert(data + " 번 리뷰수정 완료.");
-        reviewForm.querySelector("button").innerHTML = "Leave Your Review";
+        reviewForm.querySelector("button").innerHTML = "리뷰등록";
 
         reviewLoad();
       });
@@ -161,7 +161,7 @@ reviewList.addEventListener("click", (e) => {
         reviewForm.querySelector("#text").value = data["text"];
 
         reviewForm.querySelector(".starrr a:nth-child(" + data["grade"] + ")").click();
-        reviewForm.querySelector("button").innerHTML = "Update Your Review";
+        reviewForm.querySelector("button").innerHTML = "리뷰수정";
       });
   }
 });
