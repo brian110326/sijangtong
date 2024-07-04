@@ -43,7 +43,7 @@
 
               <label class="block mt-4 text-sm form-label mb-5">
                 <span class="block text-gray-700 dark:text-gray-400">
-                  Image Files
+                  이미지 파일
                 </span>
                 <input type="file" class="block w-full mt-1 form-control text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" id="fileInput" multiple="multiple"/>
               </label>
@@ -59,14 +59,14 @@
                 <input type="hidden" name="orderItemId" th:value="${productDto.orderItemId}"/>
 
                 <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Product Name</span>
+                  <span class="text-gray-700 dark:text-gray-400">상품 이름</span>
                   <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Product Name" name="pName" th:value="${productDto.pName}"/>
                   <div th:if="${#fields.hasErrors('pName')}" th:errors="*{pName}" class="text-danger"></div>
                   <div th:if="${error}" class="text-danger" th:text="${error}"></div>
                 </label>
 
                 <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Product Price</span>
+                  <span class="text-gray-700 dark:text-gray-400">상품 가격</span>
                   <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Product Price" name="price" th:value="${productDto.price}" id="priceInput"/>
                   <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></div>
                   <div th:if="${error}" class="text-danger" th:text="${error}" id="inputError"></div>

@@ -71,7 +71,7 @@
 
               <label class="block mt-4 text-sm form-label mb-5">
                 <span class="block text-gray-700 dark:text-gray-400">
-                  Image Files
+                  이미지 파일
                 </span>
                 <input type="file" class="block w-full mt-1 form-control text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" id="fileInput" multiple="multiple"/>
               </label>
@@ -83,26 +83,26 @@
                 <input type="hidden" name="storeId" th:value="${storeDto.storeId}"/>
 
                 <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store Name</span>
+                  <span class="text-gray-700 dark:text-gray-400">시장 이름</span>
                   <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Store Name" name="storeName" th:value="${storeDto.storeName}"/>
                   <div th:if="${#fields.hasErrors('storeName')}" th:errors="*{storeName}" class="text-danger"></div>
                   <div th:if="${error}" class="text-danger" th:text="${error}"></div>
                 </label>
 
                 <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store Category</span>
+                  <span class="text-gray-700 dark:text-gray-400">카테고리</span>
                   <select class="form-select" aria-label="Default select example" name="storeCategory">
-                    <option th:value="SEAFOOD" th:selected="${storeDto.storeCategory == 'SEAFOOD'}">SEAFOOD</option>
-                    <option value="CROPS" th:selected="${storeDto.storeCategory == 'CROPS'}">CROPS</option>
-                    <option value="CLOTH" th:selected="${storeDto.storeCategory == 'CLOTH'}">CLOTH</option>
-                    <option value="ANIMAL_PRODUCT" th:selected="${storeDto.storeCategory == 'ANIMAL_PRODUCT'}">ANIMAL_PRODUCT</option>
-                    <option value="SIDEDISH" th:selected="${storeDto.storeCategory == 'SIDEDISH'}">SIDEDISH</option>
-                    <option value="MAINDISH" th:selected="${storeDto.storeCategory == 'MAINDISH'}">MAINDISH</option>
+                    <option th:value="SEAFOOD" th:selected="${storeDto.storeCategory == 'SEAFOOD'}">수산물</option>
+                    <option value="CROPS" th:selected="${storeDto.storeCategory == 'CROPS'}">농산물</option>
+                    <option value="CLOTH" th:selected="${storeDto.storeCategory == 'CLOTH'}">의류</option>
+                    <option value="ANIMAL_PRODUCT" th:selected="${storeDto.storeCategory == 'ANIMAL_PRODUCT'}">축산물</option>
+                    <option value="SIDEDISH" th:selected="${storeDto.storeCategory == 'SIDEDISH'}">반찬류</option>
+                    <option value="MAINDISH" th:selected="${storeDto.storeCategory == 'MAINDISH'}">식사류</option>
                   </select>
                 </label>
 
                 <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store Address</span>
+                  <span class="text-gray-700 dark:text-gray-400">시장 주소</span>
                   <select class="form-select" aria-label="Default select example" name="storeAddress">
                     <option th:each="district : ${districts}" th:value="${district}" th:text="${district}" th:selected="${storeDto.storeAddress == district}"></option>
                   </select>
@@ -111,21 +111,21 @@
                 </label>
 
                 <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store Tel</span>
+                  <span class="text-gray-700 dark:text-gray-400">시장 전화번호</span>
                   <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Store Tel" name="storeTel" th:value="${storeDto.storeTel}"/>
                   <div th:if="${#fields.hasErrors('storeTel')}" th:errors="*{storeTel}" class="text-danger"></div>
                   <div th:if="${error}" class="text-danger" th:text="${error}"></div>
                 </label>
 
                 <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store OpenTime</span>
+                  <span class="text-gray-700 dark:text-gray-400">개점시간</span>
                   <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Store OpenTime" name="openTime" th:value="${storeDto.openTime}"/>
                   <div th:if="${#fields.hasErrors('openTime')}" th:errors="*{openTime}" class="text-danger"></div>
                   <div th:if="${error}" class="text-danger" th:text="${error}"></div>
                 </label>
 
                 <label class="block text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Store CloseTime</span>
+                  <span class="text-gray-700 dark:text-gray-400">폐점시간</span>
                   <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Store CloseTime" name="closeTime" th:value="${storeDto.closeTime}"/>
                   <div th:if="${#fields.hasErrors('closeTime')}" th:errors="*{closeTime}" class="text-danger"></div>
                   <div th:if="${error}" class="text-danger" th:text="${error}"></div>
@@ -139,86 +139,31 @@
               </section>
             </article>
           </div>
-          <!-- Side widgets-->
-          <div class="col-lg-4">
-            <!-- Search widget-->
-            <div class="card mb-4">
-              <div class="card-header">Search</div>
-              <div class="card-body">
-                <div class="input-group">
-                  <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search"/>
-                  <button class="btn btn-primary" id="button-search" type="button">Go!</button>
-                </div>
-              </div>
-            </div>
-            <!-- Categories widget-->
-            <div class="card mb-4">
-              <div class="card-header">Categories</div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                      <li>
-                        <a href="#!">Web Design</a>
-                      </li>
-                      <li>
-                        <a href="#!">HTML</a>
-                      </li>
-                      <li>
-                        <a href="#!">Freebies</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                      <li>
-                        <a href="#!">JavaScript</a>
-                      </li>
-                      <li>
-                        <a href="#!">CSS</a>
-                      </li>
-                      <li>
-                        <a href="#!">Tutorials</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Side widget-->
-            <div class="card mb-4">
-              <div class="card-header">Side Widget</div>
-              <div class="card-body">
-                You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!
-              </div>
+          <div class="flex flex-col flex-wrap mb-8 space-y-4 md:flex-row md:items-end md:space-x-5 mt-3">
+            <div sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
+              <button class="btn btn-success flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white" type="submit">
+                <span>수정 등록</span>
+              </button>
             </div>
 
             <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
             <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
-            <div class="flex flex-col flex-wrap mb-8 space-y-4 md:flex-row md:items-end md:space-x-5 mt-3">
-              <div sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
-                <button class="btn btn-success flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white" type="submit">
-                  <span>수정 등록</span>
-                </button>
-              </div>
+            <div class="mx-2" sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
+              <button type="button" th:value="${storeDto.storeId}" class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white" data-bs-target="#storeModal" data-bs-toggle="modal">
+                삭제
+              </button>
+            </div>
 
-              <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
-              <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
-              <div class="mx-2" sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
-                <button type="button" th:value="${storeDto.storeId}" class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white" data-bs-target="#storeModal" data-bs-toggle="modal">
-                  삭제
+            <div class="mx-2">
+              <a th:href="@{/shop/list(page=1,type=${requestDto.type},keyword=${requestDto.keyword})}">
+                <button type="button" class="btn btn-info flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white">
+                  목록
                 </button>
-              </div>
-
-              <div class="mx-2">
-                <a th:href="@{/shop/list(page=1,type=${requestDto.type},keyword=${requestDto.keyword})}">
-                  <button type="button" class="btn btn-info flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white">
-                    목록
-                  </button>
-                </a>
-              </div>
+              </a>
             </div>
           </div>
+          <!-- Side widgets-->
+
         </div>
       </div>
 
@@ -229,7 +174,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Check the store info before DELETING</h1>
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">시장 상세정보</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -239,8 +184,8 @@
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">Understood</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">확인</button>
             </div>
           </div>
         </div>
@@ -251,7 +196,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Products will be DELETED</h1>
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">상품이 삭제됩니다</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -279,8 +224,8 @@
               </ul>
             </nav>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#finalModal">Understood</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#finalModal">확인</button>
             </div>
           </div>
         </div>
@@ -290,15 +235,13 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Are you sure to DELETE the store? This cannot be undone.</h5>
+              <h5 class="modal-title">삭제하시겠습니까? 이 과정은 되돌릴 수 없습니다.</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-              <p>Related Datas will be deleted including store images, products, product images, reviews.</p>
-            </div>
+            <div class="modal-body"></div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-danger" id="deleteBtn">DELETE</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-danger" id="deleteBtn">삭제</button>
             </div>
           </div>
         </div>

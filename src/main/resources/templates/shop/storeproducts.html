@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
   <th:block layout:fragment="css">
-    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <!-- <link th:href="@{/css/detail.css}" rel="stylesheet" /> -->
     <style>
       .list-group {
-        width: 300px; /* 너비 설정 */
-        height: 300px; /* 높이 설정 */
-        overflow-y: auto; /* 수직 스크롤바 추가 */
-        overflow-x: hidden; /* 수평 스크롤바 숨기기 */
-        border: 1px solid #ccc; /* 테두리 추가 */
+        width: 300px;
+        /* 너비 설정 */
+        height: 300px;
+        /* 높이 설정 */
+        overflow-y: auto;
+        /* 수직 스크롤바 추가 */
+        overflow-x: hidden;
+        /* 수평 스크롤바 숨기기 */
+        border: 1px solid #ccc;
+        /* 테두리 추가 */
         padding: 0;
         margin: 0;
-        list-style-type: none; /* 기본 list-style 없애기 */
+        list-style-type: none;
+        /* 기본 list-style 없애기 */
       }
 
       .list-group-item {
@@ -24,6 +30,32 @@
       /* 마지막 아이템 아래에 불필요한 테두리를 없애기 위해 추가 */
       .list-group-item:last-child {
         border-bottom: none;
+        .product-item {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+        }
+    
+        .carousel-item {
+          height: 200px; /* 필요에 따라 높이 조정 */
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+    
+        .img-fluid {
+          max-height: 100%;
+          max-width: 100%;
+        }
+    
+        .product-body {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          flex-grow: 1;
+        }
       }
     </style>
   </th:block>
@@ -33,56 +65,34 @@
       <div class="row px-xl-5">
         <!-- Featured blog post-->
         <div class="card col-lg-3 col-md-4 mb-30 h-100 mt-6">
-          <img class="card-img-top" src="https://dummyimage.com/1200x550/dee2e6/6c757d.jpg" alt="..." title="" />
+          <img class="card-img-top" src="https://dummyimage.com/1200x550/dee2e6/6c757d.jpg" alt="..." title=""/>
           <div class="card-body bg-light p-4 mb-30">
-            <div class="small text-muted">January 1, 2023</div>
-            <h2 class="card-title">전통시장 이름....</h2>
-            <a
-              class="btn btn-primary"
-              th:href="@{/shop/read(storeId=${storeId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}"
-              >시장 정보 →</a
-            >
+            <h2 class="card-title" th:text="${storeDto.storeName}"></h2>
+            <a class="btn btn-primary" th:href="@{/shop/read(storeId=${storeId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}">시장 정보 →</a>
           </div>
         </div>
         <!-- Nested row for non-featured blog posts-->
         <div class="container-fluid pt-5 pb-3 col-lg-9 col-md-8">
-          <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">... 시장 상품 목록</span></h2>
+          <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">시장 상품 목록</span></h2>
           <form th:action="@{/pModify}" method="post" id="pActionForm">
             <div class="row px-xl-5" id="pList">
               <div class="col-lg-3 col-md-4 col-sm-6 pb-1" th:each="products : ${result.dtoList}">
                 <div class="product-item bg-light mb-4">
-                  <!-- img 보여주는 부분 -->
-                  <!-- <div class="product-img position-relative overflow-hidden">
-                    <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
-                    <div class="product-action">
-                      <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                      <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                      <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                      <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                    </div>
-                  </div> -->
+                  
                   <div id="carouselExampleIndicators" class="carousel slide">
                     <div class="carousel-indicators"></div>
                     <div class="carousel-inner">
                       <div class="carousel-item active" th:each="image : ${products.productImgDtos}">
                         <figure class="mb-4">
-                          <img
-                            class="img-fluid rounded"
-                            th:if="${image.path != null}"
-                            th:src="|/upload/display?fileName=${image.getImageURL()}|"
-                            alt="..."
-                          />
+                          <img class="img-fluid rounded" th:if="${image.path != null}" th:src="|/upload/display?fileName=${image.getImageURL()}|" alt="..."/>
                         </figure>
                       </div>
                     </div>
                   </div>
                   <!-- 여기까지 -->
                   <div class="text-center py-4">
-                    <a
-                      class="h6 text-decoration-none text-truncate"
-                      th:href="@{buyitem(storeId=${storeId},productId=${products.productId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}"
-                      th:text="${products.pName}"
-                    ></a>
+                    <a class="h6 text-decoration-none text-truncate" th:href="@{buyitem(storeId=${storeId},productId=${products.productId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword},orderItemCount=${orderItemCount})}" th:text="${products.pName}"></a>
                     <div class="d-flex align-items-center justify-content-center mt-2">
                       <h5 th:text="${products.price}"></h5>
                       <h5>원</h5>
@@ -102,13 +112,8 @@
                     <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
                     <div class="d-flex justify-content-center mt-3" th:if="${#authentication.principal.memberDto.storeId} == ${storeId}">
                       <div class="mx-2" sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
-                        <a
-                          th:href="@{/shop/pModify(storeId=${storeId},productId=${products.productId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}"
-                        >
-                          <button
-                            class="btn btn-success flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white"
-                            type="button"
-                          >
+                        <a th:href="@{/shop/pModify(storeId=${storeId},productId=${products.productId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}">
+                          <button class="btn btn-success flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white" type="button">
                             <span>수정</span>
                           </button>
                         </a>
@@ -117,14 +122,7 @@
                       <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
                       <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
                       <div class="mx-2" sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
-                        <button
-                          type="button"
-                          class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white"
-                          data-bs-target="#productModal"
-                          data-bs-toggle="modal"
-                          th:attr="data-product-id=${products.productId}"
-                          id="removeBtn"
-                        >
+                        <button type="button" class="btn btn-danger flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white" data-bs-target="#productModal" data-bs-toggle="modal" th:attr="data-product-id=${products.productId}" id="removeBtn">
                           삭제
                         </button>
                       </div>
@@ -138,7 +136,7 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Check the product info before DELETING</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">삭제 전 상품정보를 확인하세요</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
@@ -159,18 +157,16 @@
 
           <form method="post" id="pActionForm2" th:action="@{pRemove}">
             <!-- 수정 / 삭제를 위한 필요 정보 -->
-            <input type="hidden" name="productId" id="productIdInsert" />
-            <input type="hidden" name="storeId" th:value="${storeId}" />
+            <input type="hidden" name="productId" id="productIdInsert"/>
+            <input type="hidden" name="storeId" th:value="${storeId}"/>
             <!-- 페이지 나누기에 필요 정보-->
-            <input type="hidden" name="page" th:value="${requestDto.page}" />
-            <input type="hidden" name="type" th:value="${requestDto.type}" />
-            <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
+            <input type="hidden" name="page" th:value="${requestDto.page}"/>
+            <input type="hidden" name="type" th:value="${requestDto.type}"/>
+            <input type="hidden" name="keyword" th:value="${requestDto.keyword}"/>
           </form>
 
           <!-- 페이지 나누기 영역 -->
-          <div
-            class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
-          >
+          <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
             <span class="flex items-center col-span-3"></span>
             <span class="col-span-2"></span>
             <!-- Pagination -->
@@ -178,39 +174,19 @@
               <nav aria-label="Table navigation">
                 <ul class="inline-flex items-center">
                   <li th:if="${result.prev}">
-                    <a
-                      class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
-                      aria-label="Previous"
-                      th:href="@{storeproducts(storeId=${storeId},page=${result.start-1}, type=${requestDto.type}, keyword=${requestDto.keyword})}"
-                    >
-                      <svg aria-hidden="true" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                        <path
-                          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                          clip-rule="evenodd"
-                          fill-rule="evenodd"
-                        ></path>
+                    <a class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous" th:href="@{storeproducts(storeId=${storeId},page=${result.start-1}, type=${requestDto.type}, keyword=${requestDto.keyword})}">
+                      <svg aria-hidden="true" class="w-4 h-4 fill-current" viewbox="0 0 20 20">
+                        <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
                       </svg>
                     </a>
                   </li>
                   <li th:each="page : ${result.pageList}">
-                    <a
-                      class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
-                      th:href="@{storeproducts(storeId=${storeId},page=${page}, type=${requestDto.type}, keyword=${requestDto.keyword},)}"
-                      th:text="${page}"
-                    ></a>
+                    <a class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple" th:href="@{storeproducts(storeId=${storeId},page=${page}, type=${requestDto.type}, keyword=${requestDto.keyword},)}" th:text="${page}"></a>
                   </li>
                   <li th:if="${result.next}">
-                    <a
-                      class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
-                      aria-label="Next"
-                      th:href="@{storeproducts(storeId=${storeId},page=${result.end+1}, type=${requestDto.type}, keyword=${requestDto.keyword})}"
-                    >
-                      <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
-                        <path
-                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                          clip-rule="evenodd"
-                          fill-rule="evenodd"
-                        ></path>
+                    <a class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple" aria-label="Next" th:href="@{storeproducts(storeId=${storeId},page=${result.end+1}, type=${requestDto.type}, keyword=${requestDto.keyword})}">
+                      <svg class="w-4 h-4 fill-current" aria-hidden="true" viewbox="0 0 20 20">
+                        <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
                       </svg>
                     </a>
                   </li>
@@ -220,6 +196,9 @@
           </div>
         </div>
       </div>
+{% comment %}  {% endcomment %}
+
+{% comment %}  {% endcomment %}
       <script>
         const pMsg = "[[${pMsg}]]";
 
@@ -240,7 +219,9 @@
         }
         const shopping_cart_amount = "[[${orderItemCount}]]";
         if (shopping_cart_amount) {
-          document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
+          document
+            .querySelector("#orderItemCount")
+            .innerHTML = shopping_cart_amount;
         }
       </script>
     </div>
