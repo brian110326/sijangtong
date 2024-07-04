@@ -6,14 +6,20 @@
     <!-- <link th:href="@{/css/detail.css}" rel="stylesheet" /> -->
     <style>
       .list-group {
-        width: 300px; /* 너비 설정 */
-        height: 300px; /* 높이 설정 */
-        overflow-y: auto; /* 수직 스크롤바 추가 */
-        overflow-x: hidden; /* 수평 스크롤바 숨기기 */
-        border: 1px solid #ccc; /* 테두리 추가 */
+        width: 300px;
+        /* 너비 설정 */
+        height: 300px;
+        /* 높이 설정 */
+        overflow-y: auto;
+        /* 수직 스크롤바 추가 */
+        overflow-x: hidden;
+        /* 수평 스크롤바 숨기기 */
+        border: 1px solid #ccc;
+        /* 테두리 추가 */
         padding: 0;
         margin: 0;
-        list-style-type: none; /* 기본 list-style 없애기 */
+        list-style-type: none;
+        /* 기본 list-style 없애기 */
       }
 
       .list-group-item {
@@ -24,6 +30,12 @@
       /* 마지막 아이템 아래에 불필요한 테두리를 없애기 위해 추가 */
       .list-group-item:last-child {
         border-bottom: none;
+        .product-item {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+        }
       }
     </style>
   </th:block>
@@ -35,8 +47,7 @@
         <div class="card col-lg-3 col-md-4 mb-30 h-100 mt-6">
           <img class="card-img-top" src="https://dummyimage.com/1200x550/dee2e6/6c757d.jpg" alt="..." title="" />
           <div class="card-body bg-light p-4 mb-30">
-            <div class="small text-muted">January 1, 2023</div>
-            <h2 class="card-title">전통시장 이름....</h2>
+            <h2 class="card-title" th:text="${storeDto.storeName}"></h2>
             <a
               class="btn btn-primary"
               th:href="@{/shop/read(storeId=${storeId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}"
@@ -46,21 +57,13 @@
         </div>
         <!-- Nested row for non-featured blog posts-->
         <div class="container-fluid pt-5 pb-3 col-lg-9 col-md-8">
-          <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">... 시장 상품 목록</span></h2>
+          <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">시장 상품 목록</span>
+          </h2>
           <form th:action="@{/pModify}" method="post" id="pActionForm">
             <div class="row px-xl-5" id="pList">
               <div class="col-lg-3 col-md-4 col-sm-6 pb-1" th:each="products : ${result.dtoList}">
                 <div class="product-item bg-light mb-4">
-                  <!-- img 보여주는 부분 -->
-                  <!-- <div class="product-img position-relative overflow-hidden">
-                    <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
-                    <div class="product-action">
-                      <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                      <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                      <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                      <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                    </div>
-                  </div> -->
                   <div id="carouselExampleIndicators" class="carousel slide">
                     <div class="carousel-indicators"></div>
                     <div class="carousel-inner">
@@ -68,6 +71,7 @@
                         <figure class="mb-4">
                           <img
                             class="img-fluid rounded"
+                            style="width: 300px; height: 200px"
                             th:if="${image.path != null}"
                             th:src="|/upload/display?fileName=${image.getImageURL()}|"
                             alt="..."
@@ -88,19 +92,10 @@
                       <h5>원</h5>
                       <!-- <h6 class="text-muted ml-2"><del>$123.00</del></h6> -->
                     </div>
-                    <div class="d-flex align-items-center justify-content-center mb-1">
-                      <!-- 리뷰 표현 쪽 수정 예정 -->
-                      <small class="fa fa-star text-primary mr-1"></small>
-                      <small class="fa fa-star text-primary mr-1"></small>
-                      <small class="fa fa-star text-primary mr-1"></small>
-                      <small class="fa fa-star text-primary mr-1"></small>
-                      <small class="fa fa-star text-primary mr-1"></small>
-                      <small></small>
-                    </div>
 
                     <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
                     <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
-                    <div class="d-flex justify-content-center mt-3">
+                    <div class="d-flex justify-content-center mt-3" th:if="${#authentication.principal.memberDto.storeId} == ${storeId}">
                       <div class="mx-2" sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
                         <a
                           th:href="@{/shop/pModify(storeId=${storeId},productId=${products.productId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}"
@@ -138,7 +133,7 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Check the product info before DELETING</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">삭제 전 상품정보를 확인하세요</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
@@ -183,7 +178,7 @@
                       aria-label="Previous"
                       th:href="@{storeproducts(storeId=${storeId},page=${result.start-1}, type=${requestDto.type}, keyword=${requestDto.keyword})}"
                     >
-                      <svg aria-hidden="true" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                      <svg aria-hidden="true" class="w-4 h-4 fill-current" viewbox="0 0 20 20">
                         <path
                           d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
                           clip-rule="evenodd"
@@ -205,7 +200,7 @@
                       aria-label="Next"
                       th:href="@{storeproducts(storeId=${storeId},page=${result.end+1}, type=${requestDto.type}, keyword=${requestDto.keyword})}"
                     >
-                      <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
+                      <svg class="w-4 h-4 fill-current" aria-hidden="true" viewbox="0 0 20 20">
                         <path
                           d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                           clip-rule="evenodd"
@@ -220,6 +215,7 @@
           </div>
         </div>
       </div>
+      {% comment %} {% endcomment %} {% comment %} {% endcomment %}
       <script>
         const pMsg = "[[${pMsg}]]";
 

@@ -3,7 +3,6 @@
   <!-- 본문 내용 들어가야 하는 태그 -->
   <div layout:fragment="content" class="container px-6 mx-auto grid">
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">상품 등록</h2>
-    <h3 th:text="${productDto.storeId}"></h3>
 
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
       <form method="post" id="register-form" th:action="@{pInsert}" th:object="${productDto}">
@@ -76,7 +75,6 @@
       </script>
     </div>
     <th:block layout:fragment="script">
-      <script th:src="@{/js/pInsert.js}"></script>
       <script th:src="@{/js/pUpload.js}"></script>
       <script th:src="@{/js/delete.js}"></script>
     </th:block>
