@@ -138,7 +138,7 @@ public class StoreRepositoryTest {
   @Test
   public void insertStoreTest() {
     LongStream
-      .rangeClosed(64, 127)
+      .rangeClosed(1, 200)
       .forEach(i -> {
         Store store = storeRepository.findById(i).get();
 

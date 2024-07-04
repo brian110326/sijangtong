@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
   <th:block layout:fragment="css">
-    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
 
     <!-- Core theme CSS (includes Bootstrap)-->
     <!-- <link th:href="@{/css/styles.css}" rel="stylesheet" /> -->
@@ -30,25 +30,13 @@
             <div id="carouselExampleIndicators" class="carousel slide">
               <div class="carousel-indicators">
                 <th:block th:each="image, iterStat : ${storeDto.storeImgDtos}">
-                  <button
-                    type="button"
-                    data-bs-target="#carouselExampleIndicators"
-                    th:data-bs-slide-to="${iterStat.index}"
-                    th:classappend="${iterStat.first ? 'active' : ''}"
-                    th:aria-current="${iterStat.first ? 'true' : 'false'}"
-                    th:aria-label="'Slide ' + (${iterStat.index + 1})"
-                  ></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="${iterStat.index}" th:classappend="${iterStat.first ? 'active' : ''}" th:aria-current="${iterStat.first ? 'true' : 'false'}" th:aria-label="'Slide ' + (${iterStat.index + 1})"></button>
                 </th:block>
               </div>
               <div class="carousel-inner">
                 <div th:class="'carousel-item '+${imgCnt.index==0?'active':''}" th:each="image,imgCnt : ${storeDto.storeImgDtos}">
                   <figure class="mb-4">
-                    <img
-                      class="img-fluid rounded"
-                      th:if="${image.stPath != null}"
-                      th:src="|/upload/display?fileName=${image.getImageURL()}|"
-                      alt="..."
-                    />
+                    <img class="img-fluid rounded" th:if="${image.stPath != null}" th:src="|/upload/display?fileName=${image.getImageURL()}|" alt="..."/>
                   </figure>
                 </div>
               </div>
@@ -74,23 +62,7 @@
                 <li class="list-group-item" th:text="'Operation Time :' + ' ' + ${storeDto.openTime} + ' ~ ' + ${storeDto.closeTime}"></li>
               </ul>
               <p class="fs-5 mb-4" th:text="${storeDto.storeDetail}"></p>
-              <!-- <p class="fs-5 mb-4">
-                The universe is large and old, and the ingredients for life as we know it are everywhere, so there's no reason to think that Earth
-                would be unique in that regard. Whether of not the life became intelligent is a different question, and we'll see if we find that.
-              </p>
-              <p class="fs-5 mb-4">
-                If you get asteroids about a kilometer in size, those are large enough and carry enough energy into our system to disrupt
-                transportation, communication, the food chains, and that can be a really bad day on Earth.
-              </p>
-              <h2 class="fw-bolder mb-4 mt-5">I have odd cosmic thoughts every day</h2>
-              <p class="fs-5 mb-4">
-                For me, the most fascinating interface is Twitter. I have odd cosmic thoughts every day and I realized I could hold them to myself or
-                share them with people who might be interested.
-              </p>
-              <p class="fs-5 mb-4">
-                Venus has a runaway greenhouse effect. I kind of want to know what happened there because we're twirling knobs here on Earth without
-                knowing the consequences of it. Mars once had running water. It's bone dry today. Something bad happened there as well.
-              </p> -->
+              <!-- <p class="fs-5 mb-4"> The universe is large and old, and the ingredients for life as we know it are everywhere, so there's no reason to think that Earth would be unique in that regard. Whether of not the life became intelligent is a different question, and we'll see if we find that. </p> <p class="fs-5 mb-4"> If you get asteroids about a kilometer in size, those are large enough and carry enough energy into our system to disrupt transportation, communication, the food chains, and that can be a really bad day on Earth. </p> <h2 class="fw-bolder mb-4 mt-5">I have odd cosmic thoughts every day</h2> <p class="fs-5 mb-4"> For me, the most fascinating interface is Twitter. I have odd cosmic thoughts every day and I realized I could hold them to myself or share them with people who might be interested. </p> <p class="fs-5 mb-4"> Venus has a runaway greenhouse effect. I kind of want to know what happened there because we're twirling knobs here on Earth without knowing the consequences of it. Mars once had running water. It's bone dry today. Something bad happened there as well. </p> -->
             </section>
           </article>
         </div>
@@ -101,13 +73,7 @@
             <div class="card-header">Search</div>
             <div class="card-body">
               <div class="input-group">
-                <input
-                  class="form-control"
-                  type="text"
-                  placeholder="Enter search term..."
-                  aria-label="Enter search term..."
-                  aria-describedby="button-search"
-                />
+                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search"/>
                 <button class="btn btn-primary" id="button-search" type="button">Go!</button>
               </div>
             </div>
@@ -119,16 +85,28 @@
               <div class="row">
                 <div class="col-sm-6">
                   <ul class="list-unstyled mb-0">
-                    <li><a href="#!">Web Design</a></li>
-                    <li><a href="#!">HTML</a></li>
-                    <li><a href="#!">Freebies</a></li>
+                    <li>
+                      <a href="#!">Web Design</a>
+                    </li>
+                    <li>
+                      <a href="#!">HTML</a>
+                    </li>
+                    <li>
+                      <a href="#!">Freebies</a>
+                    </li>
                   </ul>
                 </div>
                 <div class="col-sm-6">
                   <ul class="list-unstyled mb-0">
-                    <li><a href="#!">JavaScript</a></li>
-                    <li><a href="#!">CSS</a></li>
-                    <li><a href="#!">Tutorials</a></li>
+                    <li>
+                      <a href="#!">JavaScript</a>
+                    </li>
+                    <li>
+                      <a href="#!">CSS</a>
+                    </li>
+                    <li>
+                      <a href="#!">Tutorials</a>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -145,7 +123,7 @@
           <!-- ADMIN 권한 이용자만 수정 button 활성화 -->
           <!-- div 안에 sec:authorize="hasRole('ADMIN')" -->
           <div class="flex flex-col flex-wrap mb-8 space-y-4 md:flex-row md:items-end md:space-x-5 mt-3">
-            <div sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
+            <div sec:authorize="hasAnyRole('ADMIN', 'OWNER')" th:if="${#authentication.principal.memberDto.storeId == storeDto.storeId}">
               <a th:href="@{/shop/modify(storeId=${storeDto.storeId},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}">
                 <button class="btn btn-success flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white" type="button">
                   <span>수정</span>
@@ -178,4 +156,5 @@
       }
     </script>
   </th:block>
+
 </html>

@@ -9,23 +9,31 @@
       .banner {
         position: relative;
         width: 100%;
-        height: 700px;
+        height: 500px;
         margin: 0 auto;
         padding: 0;
         overflow: hidden;
       }
+
       .banner ul {
         position: absolute;
         margin: 0;
         padding: 0;
         list-style: none;
+        display: flex; /* Flexbox를 사용하여 자식 요소들을 수평으로 배치 */
+        transition: transform 3s ease; /* 부드러운 전환 효과 추가 */
       }
+
       .banner ul li {
-        float: left;
         width: 100%;
-        height: 700px;
+        height: 500px;
         margin: 0;
         padding: 0;
+      }
+
+      .banner ul li img {
+        width: 100%;
+        height: 100%;
       }
     </style>
   </th:block>
@@ -42,19 +50,16 @@
                 <div class="banner">
                   <ul>
                     <li>
-                      <a th:href="@{/shop/read}"><img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg" /></a>
+                      <img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg" />
                     </li>
                     <li>
-                      <a th:href="@{/shop/read}"><img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg" /></a>
+                      <img src="https://dummyimage.com/800x500/dee2e6/6c757d.jpg" />
                     </li>
                     <li>
-                      <a th:href="@{/shop/read}"><img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg" /></a>
+                      <img src="https://dummyimage.com/900x500/dee2e6/6c757d.jpg" />
                     </li>
                     <li>
-                      <a th:href="@{/shop/read}"><img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg" /></a>
-                    </li>
-                    <li>
-                      <a th:href="@{/shop/read}"><img src="https://dummyimage.com/1000x500/dee2e6/6c757d.jpg" /></a>
+                      <img src="https://dummyimage.com/500x500/dee2e6/6c757d.jpg" />
                     </li>
                   </ul>
                 </div>
@@ -227,7 +232,9 @@
       </header>
       <!-- 카테고리 상품-->
       <div class="container-fluid pt-5">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+          <span class="bg-secondary pr-3">카테고리</span>
+        </h2>
         <div class="row px-xl-5 pb-3">
           <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" th:href="@{list(page=${requestDto.page},type='ct', keyword='SEAFOOD')}">
@@ -237,7 +244,6 @@
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>해산물</h6>
-                  <small class="text-body">100 Products</small>
                 </div>
               </div>
             </a>
@@ -250,7 +256,6 @@
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>농산물</h6>
-                  <small class="text-body">100 Products</small>
                 </div>
               </div>
             </a>
@@ -263,7 +268,6 @@
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>축산물</h6>
-                  <small class="text-body">100 Products</small>
                 </div>
               </div>
             </a>
@@ -276,7 +280,6 @@
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>의류</h6>
-                  <small class="text-body">100 Products</small>
                 </div>
               </div>
             </a>
@@ -289,7 +292,6 @@
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>반찬류</h6>
-                  <small class="text-body">100 Products</small>
                 </div>
               </div>
             </a>
@@ -302,7 +304,6 @@
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>식사류</h6>
-                  <small class="text-body">100 Products</small>
                 </div>
               </div>
             </a>
@@ -311,45 +312,13 @@
       </div>
       <!-- 카테고리 상품 폼 끝-->
       <!-- 추천 상품 (랜덤 적으로 상품 목록 출력 특정 store)-->
-      <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">추천 상품</span></h2>
-        <div class="row px-xl-5">
-          <div class="col-lg-3 col-md-4 col-sm-6 pb-1" th:each="products : ${result.dtoList}">
-            <div class="product-item bg-light mb-4">
-              <div class="product-img position-relative overflow-hidden">
-                <img class="img-fluid w-100" src="https://via.placeholder.com/100" alt="" />
-                <div class="product-action">
-                  <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                  <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                  <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                  <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                </div>
-              </div>
-              <div class="text-center py-4">
-                <a
-                  class="h6 text-decoration-none text-truncate"
-                  th:href="@{buyitem(productId=${products.productId},page=${requestDto.page},type=${requestDto.type}, keyword=${requestDto.keyword})}"
-                  th:text="${products.pName}"
-                ></a>
-                <div class="d-flex align-items-center justify-content-center mt-2">
-                  <h5 th:text="${products.price}"></h5>
-                  <h5>원</h5>
-                </div>
-                <div class="d-flex align-items-center justify-content-center mb-1">
-                  <!-- 리뷰 표현 쪽 수정 예정 -->
-                  <div th:text="'평점 : '+${products.avg}"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <script>
-          const shopping_cart_amount = "[[${orderItemCount}]]";
-          if (shopping_cart_amount) {
-            document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
-          }
-        </script>
-      </div>
+
+      <script>
+        const shopping_cart_amount = "[[${orderItemCount}]]";
+        if (shopping_cart_amount) {
+          document.querySelector("#orderItemCount").innerHTML = shopping_cart_amount;
+        }
+      </script>
     </div>
   </div>
 
@@ -362,49 +331,42 @@
 
     <script>
       $(document).ready(function () {
-        //사용할 배너
-        var $banner = $(".banner").find("ul");
-
-        var $bannerWidth = $banner.children().outerWidth(); //배너 이미지의 폭
-        var $bannerHeight = $banner.children().outerHeight(); // 높이
-        var $bannerLength = $banner.children().length; //배너 이미지의 갯수
+        var $banner = $(".banner ul");
+        var $bannerWidth = $(".banner").width();
+        var $bannerHeight = $(".banner").height();
+        var $bannerLength = $banner.children().length;
+        var interval = 6000; // 롤링 애니메이션 주기 (대기 시간 포함)
+        var animationTime = 3000; // 애니메이션 시간
         var rollingId;
 
-        //정해진 초마다 함수 실행
-        rollingId = setInterval(function () {
-          rollingStart();
-        }, 5000); //다음 이미지로 롤링 애니메이션 할 시간차
+        $banner.css("width", $bannerWidth * $bannerLength + "px");
 
-        //마우스 오버시 롤링을 멈춘다.
+        function startRolling() {
+          rollingId = setTimeout(function () {
+            rollingStart();
+          }, interval); // 애니메이션 시간만큼 뺀 대기 시간
+        }
+
+        // 마우스 오버시 롤링을 멈춘다.
         $banner.mouseover(function () {
-          //중지
-          clearInterval(rollingId);
+          clearTimeout(rollingId);
           $(this).css("cursor", "pointer");
         });
-        //마우스 아웃되면 다시 시작
+
+        // 마우스 아웃되면 다시 시작
         $banner.mouseout(function () {
-          rollingId = setInterval(function () {
-            rollingStart();
-          }, 5000);
+          startRolling();
           $(this).css("cursor", "default");
         });
 
         function rollingStart() {
-          $banner.css("width", $bannerWidth * $bannerLength + "px");
-          $banner.css("height", $bannerHeight + "px");
-          //alert(bannerHeight);
-          //배너의 좌측 위치를 옮겨 준다.
-          $banner.animate({ left: -$bannerWidth + "px" }, 2000, function () {
-            //숫자는 롤링 진행되는 시간이다.
-            //첫번째 이미지를 마지막 끝에 복사(이동이 아니라 복사)해서 추가한다.
-            $(this).append("<li>" + $(this).find("li:first").html() + "</li>");
-            //뒤로 복사된 첫번재 이미지는 필요 없으니 삭제한다.
-            $(this).find("li:first").remove();
-            //다음 움직임을 위해서 배너 좌측의 위치값을 초기화 한다.
-            $(this).css("left", 0);
-            //이 과정을 반복하면서 계속 롤링하는 배너를 만들 수 있다.
+          $banner.animate({ left: -$bannerWidth + "px" }, interval, function () {
+            $(this).append($(this).find("li:first")).css("left", 0);
+            startRolling(); // 애니메이션이 완료된 후 다음 애니메이션을 예약
           });
         }
+
+        startRolling(); // 롤링 애니메이션 시작
       });
     </script>
   </th:block>

@@ -28,9 +28,7 @@ public class HomeController {
 
         log.info("기본 화면 요청");
 
-        rttr.addAttribute("page", requestDto.getPage());
-        rttr.addAttribute("type", requestDto.getType());
-        rttr.addAttribute("keyword", requestDto.getKeyword());
+
         return "redirect:/shop/home";
     }
 

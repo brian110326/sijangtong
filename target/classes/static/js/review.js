@@ -32,7 +32,7 @@ const reviewLoad = () => {
         result += `<div class="review-row" data-rno="${review.reviewId}">
           <h4 class="mb-4">${review.memberEmail}</h4>
           <div class="media mb-4">
-            <img src="" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px" />
+           
             <div class="media-body">
               <h6>
                 ${review.memberNickname}<small> - <i>${formatDate(review.createdDate)}</i></small>
@@ -119,7 +119,7 @@ reviewForm.addEventListener("submit", (e) => {
         reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
 
         if (data) alert(data + " 번 리뷰수정 완료.");
-        reviewForm.querySelector("button").innerHTML = "Leave Your Review";
+        reviewForm.querySelector("button").innerHTML = "리뷰등록";
 
         reviewLoad();
       });
@@ -161,7 +161,7 @@ reviewList.addEventListener("click", (e) => {
         reviewForm.querySelector("#text").value = data["text"];
 
         reviewForm.querySelector(".starrr a:nth-child(" + data["grade"] + ")").click();
-        reviewForm.querySelector("button").innerHTML = "Update Your Review";
+        reviewForm.querySelector("button").innerHTML = "리뷰수정";
       });
   }
 });
