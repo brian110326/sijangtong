@@ -52,7 +52,7 @@ window.onload = function () {
     const pActionForm2 = document.querySelector("#pActionForm2");
 
     if (target.classList.contains("btn-danger")) {
-      if (!confirm("Are you sure to remove this product?")) {
+      if (!confirm("정말 상품을 삭제하시겠습니까?")) {
         return;
       } else {
         pActionForm2.submit();
