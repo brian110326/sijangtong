@@ -12,6 +12,17 @@
 - 관리자 상품 관리 (등록, 수정, 삭제)  
 - 상품 검색 및 필터링
 
+  ## 🔧 기술 스택
+
+- Java  
+- Spring Boot  
+- Spring Security  
+- Spring Data JPA  
+- QueryDSL  
+- Thymeleaf  
+- MySQL    
+- Maven
+
 ## 👤 담당 역할
 
 본 프로젝트는 팀 단위로 진행되었으며,  
